@@ -1,2 +1,5 @@
-package it.unicam.cs.ids.DOIT;public interface IDesigner {
+package it.unicam.cs.ids.DOIT;
+
+public interface IDesigner {
+    void partecipationRequest();
 }

@@ -1,2 +1,5 @@
-package it.unicam.cs.ids.DOIT;public interface IProjectManager {
+package it.unicam.cs.ids.DOIT;
+
+public interface IProjectManager {
+    void upgradeProjectState();
 }

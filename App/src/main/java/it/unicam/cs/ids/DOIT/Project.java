@@ -1,2 +1,4 @@
-package it.unicam.cs.ids.DOIT;public class Project {
+package it.unicam.cs.ids.DOIT;
+
+public class Project {
 }

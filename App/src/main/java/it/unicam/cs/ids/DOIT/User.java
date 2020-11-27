@@ -5,6 +5,7 @@ public class User {
     private int id;
     private String name;
     private String surname;
+    private Category category;
     private List<String> generalities;
     private GestoreRuoli gestoreRuoli;
 
@@ -34,5 +35,9 @@ public class User {
 
     public GestoreRuoli getGestoreRuoli() {
         return gestoreRuoli;
+    }
+
+    public Category getCategory() {
+        return category;
     }
 }

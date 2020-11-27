@@ -5,15 +5,15 @@ public class GestoreRuoli {
     private ProjectProposer projectProposer;
     private ProgramManager programManager;
 
-    public Designer getDesigner() {
+    public Designer getDesigner() throws NullPointerException {
         return designer;
     }
 
-    public ProjectProposer getProjectProposer() {
+    public ProjectProposer getProjectProposer() throws NullPointerException {
         return projectProposer;
     }
 
-    public ProgramManager getProgramManager() {
+    public ProgramManager getProgramManager() throws NullPointerException {
         return programManager;
     }
 

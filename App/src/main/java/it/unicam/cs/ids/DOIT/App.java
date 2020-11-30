@@ -17,7 +17,7 @@ public class App {
         project.setProjectManager(user2);
         DB.TOTAL_USERS.add(user1);
         UserSearch.getIstance()
-                .SearchUser(u -> u.getGestoreRuoli().getProgramManager() != null, new Category())
+                .SearchUser(u -> u.getGestoreRuoli().getProgramManager(), new Category())
                 .forEach(u -> System.out.println(u.getName()));
     }
 }

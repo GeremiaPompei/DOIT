@@ -6,6 +6,7 @@ public class Project {
     private String name;
     private String description;
     private User projectManager;
+    private Team team;
 
     public Project(int id, String name, String description) {
         this.id = id;
@@ -25,16 +26,17 @@ public class Project {
         return description;
     }
 
-    public boolean setProjectManager(User projectManager) {
-        if(projectManager.getGestoreRuoli().getDesigner()==null) {
-            return false;
-        }else {
-            this.projectManager = projectManager;
-            return true;
-        }
+    public void initTeam(User user) {
+        this.team = new Team(user);
+        user.getGestoreRuoli().getProgramManager().getTeams().add(this.team);
     }
 
     public User getProjectManager() {
         return projectManager;
+    }
+
+    public void setProjectManager(User projectManager) {
+        if(this.team.getDesigners().contains(projectManager))
+            this.projectManager = projectManager;
     }
 }

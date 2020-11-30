@@ -1,5 +1,8 @@
 package it.unicam.cs.ids.DOIT;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class User {
     private int id;
@@ -14,7 +17,7 @@ public class User {
         this.name = name;
         this.surname = surname;
         this.generalities = generalities;
-        this.gestoreRuoli = new GestoreRuoli();
+        this.gestoreRuoli = new GestoreRuoli(this);
     }
 
     public int getId() {
@@ -39,5 +42,13 @@ public class User {
 
     public Category getCategory() {
         return category;
+    }
+
+    public List<Project> getProjects() {
+        List<Project> projects = new ArrayList<>();
+        this.getGestoreRuoli().getRoles().stream()
+                .map(list -> projects.addAll(list.getProjects()))
+                .collect(Collectors.toList());
+        return projects;
     }
 }

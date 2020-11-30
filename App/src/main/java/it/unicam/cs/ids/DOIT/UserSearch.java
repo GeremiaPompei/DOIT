@@ -1,7 +1,7 @@
 package it.unicam.cs.ids.DOIT;
 
 import java.util.List;
-import java.util.function.Predicate;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class UserSearch {
@@ -17,10 +17,10 @@ public class UserSearch {
         return userSearch;
     }
 
-    public List<User> SearchUser(Predicate<User> predicateRole, Category category) {
+    public List<User> SearchUser(Function<User, IRole> func, Category category) {
         return DB.TOTAL_USERS.stream()
                 .filter(u -> u.getCategory() == category)
-                .filter(predicateRole)
+                .filter(u -> func.apply(u) != null)
                 .collect(Collectors.toList());
     }
 }

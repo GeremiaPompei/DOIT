@@ -7,6 +7,18 @@ public class Project {
     private String description;
     private User projectManager;
     private Team team;
+    private ProjectState projectState;
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setProjectState(ProjectState projectState, User pm) throws Exception {
+        if(pm.equals(this.projectManager))
+            this.projectState = projectState;
+        else
+            throw new Exception("Non sei Project Manager!!!");
+    }
 
     public Project(int id, String name, String description) {
         this.id = id;
@@ -27,7 +39,7 @@ public class Project {
     }
 
     public void initTeam(User user) {
-        this.team = new Team(user);
+        this.team = new Team(user, this);
         user.getGestoreRuoli().getProgramManager().getTeams().add(this.team);
     }
 

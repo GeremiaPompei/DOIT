@@ -7,10 +7,10 @@ public class App {
 
     public static void main(String [] args) {
         User user1 = new User(0,"Nome1","Cognome1",new ArrayList<String>());
-        user1.getGestoreRuoli().setProjectProposer(new ProjectProposer());
+        user1.getGestoreRuoli().initProjectProposer();
 
         User user2 = new User(0,"Nome2","Cognome2",new ArrayList<String>());
-        user2.getGestoreRuoli().setDesigner(new Designer(List.of("Notizia1", "Notizia2")));
+        user2.getGestoreRuoli().initDesigner(List.of("Notizia1", "Notizia2"));
 
         Project project = user1.getGestoreRuoli().getProjectProposer()
                 .createProject(0,"Nome","Description");
@@ -19,5 +19,14 @@ public class App {
         UserSearch.getIstance()
                 .SearchUser(u -> u.getGestoreRuoli().getProgramManager(), new Category())
                 .forEach(u -> System.out.println(u.getName()));
+        project.setProjectManager(user1);
+        try {
+            user1.getGestoreRuoli().getProjectManager().changeProjectState(project, ProjectState.INITIAL);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        List<PartecipationRequest> prl =
+                user1.getGestoreRuoli().getProgramManager().getPartecipationRequest(project.getTeam());
+        user1.getGestoreRuoli().getProgramManager().remove(prl.get(0),"Perche no");
     }
 }

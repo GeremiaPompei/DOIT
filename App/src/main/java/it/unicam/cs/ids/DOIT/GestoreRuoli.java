@@ -7,12 +7,12 @@ public class GestoreRuoli {
     private Designer designer;
     private ProjectProposer projectProposer;
     private ProgramManager programManager;
+    private ProjectManager projectManager;
+    private List<IRole> roles;
 
     public List<IRole> getRoles() {
         return roles;
     }
-
-    private List<IRole> roles;
 
     public GestoreRuoli(User user) {
         this.user = user;
@@ -30,21 +30,27 @@ public class GestoreRuoli {
         return programManager;
     }
 
-    public void setDesigner(Designer designer) {
-        this.designer = designer;
-        this.designer.setUser(this.user);
-        this.roles.add(this.designer);
+    public ProjectManager getProjectManager() {
+        return projectManager;
     }
 
-    public void setProjectProposer(ProjectProposer projectProposer) {
-        this.projectProposer = projectProposer;
-        this.projectProposer.setUser(this.user);
-        this.roles.add(this.projectProposer);
+    public void initDesigner(List<String> cv) {
+        this.designer = new Designer(cv);
+        initRole(this.designer);
     }
 
-    public void setProgramManager(ProgramManager programManager) {
-        this.programManager = programManager;
-        this.programManager.setUser(this.user);
-        this.roles.add(this.programManager);
+    public void initProjectProposer() {
+        this.projectProposer = new ProjectProposer();
+        initRole(this.projectProposer);
+    }
+
+    public void initProgramManager() {
+        this.programManager = new ProgramManager();
+        initRole(this.programManager);
+    }
+
+    private void initRole(IRole var) {
+        var.setUser(this.user);
+        this.roles.add(var);
     }
 }

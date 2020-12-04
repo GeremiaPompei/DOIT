@@ -6,6 +6,15 @@ public class PartecipationRequest {
     private LocalDateTime dateTime;
     private User user;
     private Team team;
+    private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public PartecipationRequest(User user, Team team) {
         if(user.getGestoreRuoli().getDesigner() == null)
@@ -14,6 +23,7 @@ public class PartecipationRequest {
         this.user = user;
         this.team = team;
         this.team.getPartecipationRequestList().add(this);
+        this.description = "In progress...";
     }
 
     public Team getTeam() {

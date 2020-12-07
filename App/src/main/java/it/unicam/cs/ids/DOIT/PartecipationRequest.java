@@ -8,15 +8,7 @@ public class PartecipationRequest {
     private Team team;
     private String description;
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public PartecipationRequest(User user, Team team) {
+    public PartecipationRequest(User user, Team team) throws RoleException {
         if(user.getGestoreRuoli().getDesigner() == null)
             throw new IllegalArgumentException();
         this.dateTime = LocalDateTime.now();
@@ -24,6 +16,14 @@ public class PartecipationRequest {
         this.team = team;
         this.team.getPartecipationRequestList().add(this);
         this.description = "In progress...";
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Team getTeam() {

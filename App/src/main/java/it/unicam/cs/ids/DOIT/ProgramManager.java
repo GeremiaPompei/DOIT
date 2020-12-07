@@ -34,6 +34,11 @@ public class ProgramManager implements IRole {
         }
     }
 
+    public void iniTeam(Project project) throws RoleException {
+        this.teams.add(project.getTeam());
+        project.setTeam(new Team(user, project));
+    }
+
     public void setProjectManager(Project project, User projectManager) {
         Team team = searchTeam(t -> t.getProject().equals(project));
         if(team != null) {

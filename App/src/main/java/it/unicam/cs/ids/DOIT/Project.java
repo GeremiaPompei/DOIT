@@ -38,9 +38,8 @@ public class Project {
         return description;
     }
 
-    public void initTeam(User user) {
-        this.team = new Team(user, this);
-        user.getGestoreRuoli().getProgramManager().getTeams().add(this.team);
+    public void setTeam(Team team) throws RoleException {
+        this.team = team;
     }
 
     public User getProjectManager() {

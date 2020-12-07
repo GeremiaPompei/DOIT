@@ -18,19 +18,19 @@ public class GestoreRuoli {
         this.user = user;
     }
 
-    public Designer getDesigner() throws NullPointerException {
+    public Designer getDesigner() throws RoleException {
         return designer;
     }
 
-    public ProjectProposer getProjectProposer() throws NullPointerException {
+    public ProjectProposer getProjectProposer() throws RoleException {
         return projectProposer;
     }
 
-    public ProgramManager getProgramManager() throws NullPointerException {
+    public ProgramManager getProgramManager() throws RoleException {
         return programManager;
     }
 
-    public ProjectManager getProjectManager() {
+    public ProjectManager getProjectManager() throws RoleException {
         return projectManager;
     }
 

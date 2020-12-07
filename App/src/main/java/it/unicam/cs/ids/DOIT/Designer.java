@@ -13,7 +13,7 @@ public class Designer implements IRole{
         this.partecipationRequests = new ArrayList<>();
     }
 
-    public void createPartecipationRequest(Team team) {
+    public void createPartecipationRequest(Team team) throws RoleException {
         PartecipationRequest pr = new PartecipationRequest(user, team);
         this.partecipationRequests.add(pr);
         DB.TOTAL_PAERTECIPATIONREQUEST.add(pr);

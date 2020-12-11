@@ -1,4 +1,4 @@
-package com.mycompany.app.DOIT;
+package it.unicam.cs.ids.DOIT;
 
 import static org.junit.Assert.assertTrue;
 

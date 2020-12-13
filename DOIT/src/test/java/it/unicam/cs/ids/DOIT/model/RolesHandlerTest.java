@@ -32,4 +32,38 @@ class RolesHandlerTest {
         this.user.getRolesHandler().initProgramManager();
         assertDoesNotThrow(() -> this.user.getRolesHandler().getProgramManager());
     }
+
+    @Test
+    void getProjectManager() {
+        this.user.getRolesHandler().initProjectManager();
+        try {
+            assertTrue(this.user.getRolesHandler().getProjectManager() instanceof ProjectManager);
+        } catch (RoleException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    void initProjectManager() {
+        assertThrows(RoleException.class, () -> this.user.getRolesHandler().getProjectManager());
+        this.user.getRolesHandler().initProjectManager();
+        assertDoesNotThrow(() -> this.user.getRolesHandler().getProjectManager());
+    }
+
+    @Test
+    void getProjectProposer() {
+        this.user.getRolesHandler().initProjectProposer();
+        try {
+            assertTrue(this.user.getRolesHandler().getProjectProposer() instanceof ProjectProposer);
+        } catch (RoleException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    void initProjectProposer() {
+        assertThrows(RoleException.class, () -> this.user.getRolesHandler().getProjectProposer());
+        this.user.getRolesHandler().initProjectProposer();
+        assertDoesNotThrow(() -> this.user.getRolesHandler().getProjectProposer());
+    }
 }

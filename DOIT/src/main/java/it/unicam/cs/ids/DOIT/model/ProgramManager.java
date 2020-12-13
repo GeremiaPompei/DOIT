@@ -19,11 +19,11 @@ public class ProgramManager extends Role {
         throw new UnsupportedOperationException();
     }
 
-    public void setProjectManager(User user, Project project) {
-        throw new UnsupportedOperationException();
+    public void setProjectManager(User user, Project project) throws RoleException {
+        project.setProjectManager(user);
     }
 
-    public void initTeam(int id, Project project, User programManager) {
+    public void initTeam(int id, Project project) {
         Team team = new Team(id, project, super.getUser());
         this.teams.add(team);
         project.setTeam(team);

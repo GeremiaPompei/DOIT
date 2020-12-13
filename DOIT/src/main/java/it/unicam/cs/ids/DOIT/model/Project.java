@@ -4,16 +4,17 @@ public class Project {
 	private int id;
 	private String name;
 	private String description;
-	private ProjectProposer projectProposer;
+	private User projectProposer;
 	private Category category;
+	private User projectManager;
 	private ProjectState projectState;
 	private Team team;
 
 	public void setProjectManager(User projectManager) {
-		throw new UnsupportedOperationException();
+		this.projectManager = projectManager;
 	}
 
-	public Project(int id, String name, String description, ProjectProposer projectProposer, Category category) {
+	public Project(int id, String name, String description, User projectProposer, Category category) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -33,4 +34,33 @@ public class Project {
 	public Team getTeam() {
 		return team;
 	}
+
+	public User getProjectManager() {
+		return projectManager;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public User getProjectProposer() {
+		return projectProposer;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public ProjectState getProjectState() {
+		return projectState;
+	}
+
 }

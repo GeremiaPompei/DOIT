@@ -7,6 +7,10 @@ public class ProgramManager extends Role {
 	public RolesHandler rolesHandler;
 	public List<Team> teams = new ArrayList<>();
 
+	public ProgramManager(User user) {
+		super(user);
+	}
+
 	public boolean addDesigner() {
 		throw new UnsupportedOperationException();
 	}
@@ -19,8 +23,10 @@ public class ProgramManager extends Role {
 		throw new UnsupportedOperationException();
 	}
 
-	public void initTeam(User user) {
-		throw new UnsupportedOperationException();
+	public void initTeam(Project project) {
+		Team team = new Team(super.getUser());
+		this.teams.add(team);
+		project.setTeam(team);
 	}
 
 	public void removePartecipationRequest(PartecipationRequest partecipationRequest) {

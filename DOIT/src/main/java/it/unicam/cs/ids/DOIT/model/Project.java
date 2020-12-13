@@ -4,9 +4,10 @@ public class Project {
 	private int id;
 	private String name;
 	private String description;
-	public ProjectProposer projectProposer;
-	public Category category;
-	public ProjectState projectState;
+	private ProjectProposer projectProposer;
+	private Category category;
+	private ProjectState projectState;
+	private Team team;
 
 	public void setProjectManager(User projectManager) {
 		throw new UnsupportedOperationException();

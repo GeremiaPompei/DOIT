@@ -1,12 +1,15 @@
 package it.unicam.cs.ids.DOIT.model;
 
 public class Designer extends Role {
-	public PartecipationRequest partecipationRequest;
-	public RolesHandler rolesHandler;
-	public Category category;
+	private PartecipationRequest partecipationRequest;
+	private RolesHandler rolesHandler;
+	private Category category;
+	private CurriculumVitae curriculumVitae;
 
-	public Designer(User user) {
+
+	public Designer(User user, CurriculumVitae curriculumVitae) {
 		super(user);
+		this.curriculumVitae = curriculumVitae;
 	}
 
 	public boolean createPartecipationRequest(Team team) {

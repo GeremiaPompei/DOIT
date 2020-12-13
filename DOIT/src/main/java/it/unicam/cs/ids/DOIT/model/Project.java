@@ -13,15 +13,24 @@ public class Project {
 		throw new UnsupportedOperationException();
 	}
 
-	public Project(int id, String name, String description) {
-		throw new UnsupportedOperationException();
+	public Project(int id, String name, String description, ProjectProposer projectProposer, Category category) {
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.projectProposer = projectProposer;
+		this.category = category;
+		//this.projectState = INITIAL;
 	}
 
 	public void setTeam(Team team) {
-		throw new UnsupportedOperationException();
+		this.team = team;
 	}
 
 	public boolean checkProjectManager(User projectManager) {
 		throw new UnsupportedOperationException();
+	}
+
+	public Team getTeam() {
+		return team;
 	}
 }

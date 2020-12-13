@@ -4,13 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Team {
-	private boolean state;
+	private boolean state = false;
 	private int id;
 	private Project project;
 	private User programManager;
 	private List<Designer> designers = new ArrayList<>();
 
-	public Team(User programManager) {
+	public Team(int id, Project project, User programManager) {
+		this.id = id;
+		this.project = project;
 		this.programManager = programManager;
 	}
 

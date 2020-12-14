@@ -3,11 +3,11 @@ package it.unicam.cs.ids.DOIT.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProgramManager extends Role {
-    public RolesHandler rolesHandler;
+public class ProgramManagerRole extends Role {
+
     public List<Team> teams = new ArrayList<>();
 
-    public ProgramManager(User user) {
+    public ProgramManagerRole(User user) {
         super(user);
     }
 

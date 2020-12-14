@@ -6,5 +6,5 @@ import java.util.List;
 public class Category {
 	private String name;
 	private String description;
-	private List<Designer> possiede = new ArrayList<>();
+	private List<DesignerRole> possiede = new ArrayList<>();
 }

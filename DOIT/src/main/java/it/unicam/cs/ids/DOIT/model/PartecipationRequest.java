@@ -10,7 +10,7 @@ public class PartecipationRequest {
 	private LocalDate date;
 	private User user;
 	public Team team;
-	public List<Designer> _invia = new ArrayList<>();
+	public List<DesignerRole> _invia = new ArrayList<>();
 
 	public void addPartecipationRequest(PartecipationRequest partecipationRequest) {
 		throw new UnsupportedOperationException();

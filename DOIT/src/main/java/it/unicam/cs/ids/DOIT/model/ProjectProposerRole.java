@@ -3,11 +3,10 @@ package it.unicam.cs.ids.DOIT.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectProposer extends Role {
-	public RolesHandler rolesHandler;
+public class ProjectProposerRole extends Role {
 	//public List<Project> crea = new ArrayList<>();
 
-	public ProjectProposer(User user) {
+	public ProjectProposerRole(User user) {
 		super(user);
 	}
 

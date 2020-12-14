@@ -8,7 +8,7 @@ public class Team {
 	private int id;
 	private Project project;
 	private User programManager;
-	private List<Designer> designers = new ArrayList<>();
+	private List<DesignerRole> designerRoles = new ArrayList<>();
 
 	public Team(int id, Project project, User programManager) {
 		this.id = id;
@@ -32,7 +32,7 @@ public class Team {
 		return programManager;
 	}
 
-	public List<Designer> getDesigners() {
-		return designers;
+	public List<DesignerRole> getDesigners() {
+		return designerRoles;
 	}
 }

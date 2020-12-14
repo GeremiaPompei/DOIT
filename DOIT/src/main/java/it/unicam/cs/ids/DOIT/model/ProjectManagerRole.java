@@ -1,10 +1,9 @@
 package it.unicam.cs.ids.DOIT.model;
 
-public class ProjectManager extends Role {
+public class ProjectManagerRole extends Role {
 	public ProjectState projectState;
-	public RolesHandler rolesHandler;
 
-	public ProjectManager(User user) {
+	public ProjectManagerRole(User user) {
 		super(user);
 	}
 

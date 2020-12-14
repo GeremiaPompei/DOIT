@@ -9,14 +9,14 @@ public class User extends Searcher {
     private String name;
     private String surname;
     private List<String> generalities;
-    private RolesHandler rolesHandler;
+    private Set<Role> roles;
 
     public User(int id, String name, String surname, List<String> generalities) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.generalities = generalities;
-        this.rolesHandler = new RolesHandler();
+        this.roles = new HashSet<>();
     }
 
     public int getId() {
@@ -35,24 +35,27 @@ public class User extends Searcher {
         return generalities;
     }
 
-    public RolesHandler getRolesHandler() {
-        return rolesHandler;
-    }
 
-    //TODO
 
-    private Set<Role> roles = new HashSet<>();
-
-    public <T extends Role> void addRole(Class<T> clas, Object[] params, Class<?>... classes)
+    public <T extends Role> boolean addRole(Class<T> clazz, Object[] params, Class<?>... classes)
             throws ReflectiveOperationException {
-        this.roles.add(clas.getConstructor(classes).newInstance(params));
+        return this.roles.add(clazz.getConstructor(classes).newInstance(params));
     }
 
-    public <T extends Role> T getRole(Class<T> clas) throws RoleException {
-        return clas.cast(this.roles
+    public <T extends Role> T getRole(Class<T> clazz) throws RoleException {
+        return clazz.cast(this.roles
+                .stream()
+                .filter(clazz::isInstance)
+                .findAny()
+                .orElseThrow(RoleException::new));
+    }
+
+    public <T extends Role> boolean removeRole(Class<T> clas) {
+        return this.roles.remove(this.roles
                 .stream()
                 .filter(clas::isInstance)
                 .findAny()
-                .orElseThrow(RoleException::new));
+                .orElse(null));
+
     }
 }

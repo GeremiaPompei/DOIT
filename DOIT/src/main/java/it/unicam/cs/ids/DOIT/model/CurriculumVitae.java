@@ -1,6 +1,6 @@
 package it.unicam.cs.ids.DOIT.model;
 
 public class CurriculumVitae {
-	public Designer designer;
+	public DesignerRole designerRole;
 	public ProjectState projectState;
 }

@@ -8,5 +8,5 @@ public class ProjectState {
 	private String description;
 	public List<Project> projects = new ArrayList<>();
 	public List<CurriculumVitae> cv = new ArrayList<>();
-	public ProjectManager projectManager;
+	public ProjectManagerRole projectManagerRole;
 }

@@ -13,20 +13,21 @@ class ProjectTest {
 
     @BeforeEach
     void init() {
-        this.user = new User(7, "Nome", "Cognome", new ArrayList<>());
-        this.user.getRolesHandler().initProjectManager();
+        try {
+            this.user = new User(7, "Nome", "Cognome", new ArrayList<>());
+            Object[] params = {user};
+            this.user.addRole(ProjectManagerRole.class, params, User.class);
+        } catch (ReflectiveOperationException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     void setProjectManager() {
-        try {
-            Project project = new Project(8, "Nome", "Descrizione", new ProjectProposer(user).getUser(), new Category());
-            project.setProjectManager(this.user);
-            assertEquals(project.getProjectManager(), this.user);
-            assertEquals(this.user, project.getProjectManager());
-        } catch (RoleException e) {
-            e.printStackTrace();
-        }
+        Project project = new Project(8, "Nome", "Descrizione", new ProjectProposerRole(user).getUser(), new Category());
+        project.setProjectManager(this.user);
+        assertEquals(project.getProjectManager(), this.user);
+        assertEquals(this.user, project.getProjectManager());
     }
 
     @Test

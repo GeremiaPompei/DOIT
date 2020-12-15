@@ -1,6 +1,13 @@
 package it.unicam.cs.ids.DOIT.model;
 
+import java.util.List;
+
 public abstract class Searcher {
-	private Project searchProject;
-	private User searchUser;
+
+	public List<Project> searchProject(Category category) {
+		return null;
+	}
+	public <T extends Role> List<User> searchUser(Class<T> clazz, Category category) {
+		return null;
+	}
 }

@@ -36,7 +36,6 @@ public class User extends Searcher {
     }
 
 
-
     public <T extends Role> boolean addRole(Class<T> clazz, Object[] params, Class<?>... classes)
             throws ReflectiveOperationException {
         return this.roles.add(clazz.getConstructor(classes).newInstance(params));
@@ -50,10 +49,10 @@ public class User extends Searcher {
                 .orElseThrow(RoleException::new));
     }
 
-    public <T extends Role> boolean removeRole(Class<T> clas) {
+    public <T extends Role> boolean removeRole(Class<T> clazz) {
         return this.roles.remove(this.roles
                 .stream()
-                .filter(clas::isInstance)
+                .filter(clazz::isInstance)
                 .findAny()
                 .orElse(null));
 

@@ -27,6 +27,7 @@ public class ProgramManagerRole extends Role {
         Team team = new Team(id, project, super.getUser());
         this.teams.add(team);
         project.setTeam(team);
+        this.getProject().add(project);
     }
 
     public void removePartecipationRequest(PartecipationRequest partecipationRequest) {

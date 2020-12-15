@@ -25,7 +25,7 @@ class ProjectProposerRoleTest {
     @Test
     void createProject() {
         try {
-            this.user.getRole(ProjectProposerRole.class).createProject(8, "Nome", "Descrizione",  new Category());
+            this.user.getRole(ProjectProposerRole.class).createProject(8, "Nome", "Descrizione", new Category());
             assertEquals(this.user.getRole(ProjectProposerRole.class).getProject().get(0).getId(), 8);
             assertEquals(this.user.getRole(ProjectProposerRole.class).getProject().get(0).getName(), "Nome");
             assertEquals(this.user.getRole(ProjectProposerRole.class).getProject().get(0).getDescription(), "Descrizione");
@@ -34,5 +34,17 @@ class ProjectProposerRoleTest {
         }
     }
 
-
+    @Test
+    void becomeProgramManager() {
+        try {
+            this.user.addRole(ProjectProposerRole.class, new Object[]{this.user}, User.class);
+            assertThrows(RoleException.class, () -> this.user.getRole(ProgramManagerRole.class));
+            this.user.getRole(ProjectProposerRole.class).becomeProgramManager();
+            assertDoesNotThrow(() -> this.user.getRole(ProgramManagerRole.class));
+        } catch (ReflectiveOperationException e) {
+            e.printStackTrace();
+        } catch (RoleException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -1,8 +1,10 @@
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/model/Searcher.java
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/model/CurriculumVitae.java
+/Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/controller/ControllerChooseProgramManager.java
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/model/Role.java
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/model/ProjectProposerRole.java
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/model/PartecipationRequest.java
+/Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/controller/ControllerChooseTeamMembers.java
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/model/ProgramManagerRole.java
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/model/User.java
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/App.java

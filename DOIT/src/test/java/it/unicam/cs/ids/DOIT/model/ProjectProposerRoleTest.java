@@ -26,9 +26,9 @@ class ProjectProposerRoleTest {
     void createProject() {
         try {
             this.user.getRole(ProjectProposerRole.class).createProject(8, "Nome", "Descrizione", new Category());
-            assertEquals(this.user.getRole(ProjectProposerRole.class).getProject().get(0).getId(), 8);
-            assertEquals(this.user.getRole(ProjectProposerRole.class).getProject().get(0).getName(), "Nome");
-            assertEquals(this.user.getRole(ProjectProposerRole.class).getProject().get(0).getDescription(), "Descrizione");
+            assertEquals(this.user.getRole(ProjectProposerRole.class).getProjects().get(0).getId(), 8);
+            assertEquals(this.user.getRole(ProjectProposerRole.class).getProjects().get(0).getName(), "Nome");
+            assertEquals(this.user.getRole(ProjectProposerRole.class).getProjects().get(0).getDescription(), "Descrizione");
         } catch (RoleException e) {
             e.printStackTrace();
         }

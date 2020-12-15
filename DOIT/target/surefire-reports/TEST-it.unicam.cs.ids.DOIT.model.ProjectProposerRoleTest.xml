@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="it.unicam.cs.ids.DOIT.model.ProjectProposerRoleTest" time="0.027" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="it.unicam.cs.ids.DOIT.model.ProjectProposerRoleTest" time="0" tests="2" errors="0" skipped="0" failures="0">
   <properties>
     <property name="gopherProxySet" value="false"/>
     <property name="awt.toolkit" value="sun.lwawt.macosx.LWCToolkit"/>
@@ -16,7 +16,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="IT"/>
     <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/adoptopenjdk-11.jdk/Contents/Home/lib"/>
-    <property name="sun.java.command" value="/Users/geremiapompei/Desktop/DOIT/DOIT/target/surefire/surefirebooter10288265341040218956.jar /Users/geremiapompei/Desktop/DOIT/DOIT/target/surefire 2020-12-14T17-56-18_777-jvmRun1 surefire14079154931477384762tmp surefire_0548308301074370001tmp"/>
+    <property name="sun.java.command" value="/Users/geremiapompei/Desktop/DOIT/DOIT/target/surefire/surefirebooter3830326140619670800.jar /Users/geremiapompei/Desktop/DOIT/DOIT/target/surefire 2020-12-15T11-46-15_694-jvmRun1 surefire5735907094320804305tmp surefire_017933509116791518168tmp"/>
     <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/Users/geremiapompei/Desktop/DOIT/DOIT/target/test-classes:/Users/geremiapompei/Desktop/DOIT/DOIT/target/classes:/Users/geremiapompei/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.4.0/junit-jupiter-engine-5.4.0.jar:/Users/geremiapompei/.m2/repository/org/apiguardian/apiguardian-api/1.0.0/apiguardian-api-1.0.0.jar:/Users/geremiapompei/.m2/repository/org/junit/platform/junit-platform-engine/1.4.0/junit-platform-engine-1.4.0.jar:/Users/geremiapompei/.m2/repository/org/opentest4j/opentest4j/1.1.1/opentest4j-1.1.1.jar:/Users/geremiapompei/.m2/repository/org/junit/platform/junit-platform-commons/1.4.0/junit-platform-commons-1.4.0.jar:/Users/geremiapompei/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.4.0/junit-jupiter-api-5.4.0.jar:"/>
@@ -33,7 +33,7 @@
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.awt.graphicsenv" value="sun.awt.CGraphicsEnvironment"/>
-    <property name="surefire.real.class.path" value="/Users/geremiapompei/Desktop/DOIT/DOIT/target/surefire/surefirebooter10288265341040218956.jar"/>
+    <property name="surefire.real.class.path" value="/Users/geremiapompei/Desktop/DOIT/DOIT/target/surefire/surefirebooter3830326140619670800.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.runtime.version" value="11.0.6+10"/>
@@ -62,5 +62,6 @@
     <property name="java.class.version" value="55.0"/>
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
   </properties>
-  <testcase name="createProject" classname="it.unicam.cs.ids.DOIT.model.ProjectProposerRoleTest" time="0.022"/>
+  <testcase name="becomeProgramManager" classname="it.unicam.cs.ids.DOIT.model.ProjectProposerRoleTest" time="0"/>
+  <testcase name="createProject" classname="it.unicam.cs.ids.DOIT.model.ProjectProposerRoleTest" time="0"/>
 </testsuite>

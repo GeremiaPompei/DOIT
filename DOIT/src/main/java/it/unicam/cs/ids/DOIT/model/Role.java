@@ -17,7 +17,7 @@ public abstract class Role {
 		return user;
 	}
 
-	public List<Project> getProject() {
+	public List<Project> getProjects() {
 		return project;
 	}
 }

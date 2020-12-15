@@ -2,9 +2,11 @@ it/unicam/cs/ids/DOIT/model/ProjectProposerRole.class
 it/unicam/cs/ids/DOIT/model/Team.class
 it/unicam/cs/ids/DOIT/model/User.class
 it/unicam/cs/ids/DOIT/App.class
+it/unicam/cs/ids/DOIT/controller/ControllerChooseProgramManager.class
 it/unicam/cs/ids/DOIT/model/Role.class
 it/unicam/cs/ids/DOIT/model/ProjectState.class
 it/unicam/cs/ids/DOIT/model/CurriculumVitae.class
+it/unicam/cs/ids/DOIT/controller/ControllerChooseTeamMembers.class
 it/unicam/cs/ids/DOIT/model/Searcher.class
 it/unicam/cs/ids/DOIT/model/PartecipationRequest.class
 it/unicam/cs/ids/DOIT/model/DesignerRole.class

@@ -29,9 +29,9 @@ class ControllerChooseProgramManagerTest {
 
     @Test
     void iAmProgramManager() {
-        assertDoesNotThrow(() -> this.controller.iAmProgramManager(3, this.project));
+        assertDoesNotThrow(() -> this.controller.becomeProgramManager(3, this.project));
         this.controller.getUser().removeRole(ProjectProposerRole.class);
-        assertThrows(RoleException.class, () -> this.controller.iAmProgramManager(4, this.project));
+        assertThrows(RoleException.class, () -> this.controller.becomeProgramManager(4, this.project));
     }
 
     @Test

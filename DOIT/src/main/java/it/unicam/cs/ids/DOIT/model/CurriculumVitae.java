@@ -7,28 +7,38 @@ import java.util.List;
 import java.util.Map;
 
 public class CurriculumVitae {
-    Map<Integer, List<String>> projects = new HashMap<>();
+    Map<Integer, List<CVUnit>> projects = new HashMap<>();
 
-    public Map<Integer, List<String>> getProjects() {
+    public Map<Integer, List<CVUnit>> getProjects() {
         return projects;
     }
 
     public boolean enterProject(int idProject) {
         if (projects.isEmpty()) {
-            List<String> list = new ArrayList<>();
-            list.add(LocalDateTime.now() + "ENTER");
+            List<CVUnit> list = new ArrayList<>();
+            list.add(new CVUnit(true));
             projects.put(idProject, list);
             return true;
-        } else if(!projects.get(idProject).get(projects.size() - 1).contains("ENTER")) {
-            projects.get(idProject).add(LocalDateTime.now() + "ENTER");
+        } else if(!projects.get(idProject).get(projects.size() - 1).in) {
+            projects.get(idProject).add(new CVUnit(true));
             return true;
         }
         return false;
     }
 
     public boolean exitProject(int idProject) {
-        if (!projects.isEmpty() && !projects.get(idProject).get(projects.size() - 1).contains("EXIT"))
-            return projects.get(idProject).add(LocalDateTime.now() + "EXIT");
+        if (!projects.isEmpty() && projects.get(idProject).get(projects.size() - 1).in)
+            return projects.get(idProject).add(new CVUnit(false));
         return false;
+    }
+
+    private class CVUnit {
+        private LocalDateTime dateTime;
+        private boolean in;
+
+        CVUnit(boolean in) {
+            this.dateTime = LocalDateTime.now();
+            this.in = in;
+        }
     }
 }

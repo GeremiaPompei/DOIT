@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,17 +17,19 @@ class ProgramManagerRoleTest {
         try {
             this.user = new User(6, "Nome", "Cognome", new ArrayList<>());
             this.user2 = new User(7, "Nome", "Cognome", new ArrayList<>());
-            Object[] params = {user};
-            Object[] params2 = {user};
-            this.user.addRole(ProgramManagerRole.class, params, User.class);
-            this.user2.addRole(ProgramManagerRole.class, params2, User.class);
-            this.user.addRole(ProjectProposerRole.class, new Object[]{this.user}, User.class);
+            Category category = new Category("Sport", "Desc");
+            Object[] params = {user, category};
+            Object[] params2 = {user, category};
+            this.user.addRole(ProgramManagerRole.class, params, User.class, Category.class);
+            this.user2.addRole(ProgramManagerRole.class, params2, User.class, Category.class);
+            this.user.addRole(ProjectProposerRole.class, new Object[]{this.user, category}, User.class, Category.class);
             this.user.getRole(ProjectProposerRole.class).createProject(8, "Name", "Description",
-                    new Category());
+                    new Category("Sport", "Desc"));
             this.user.getRole(ProgramManagerRole.class).initTeam(8, this.user.getRole(ProjectProposerRole.class)
                     .getProjects().get(0));
-            this.user.addRole(DesignerRole.class, new Object[]{this.user, new CurriculumVitae()}, User.class,
-                    CurriculumVitae.class);
+            this.user.addRole(DesignerRole.class, new Object[]{this.user, category, new CurriculumVitae(new HashMap<>())},
+                    User.class,
+                    Category.class, CurriculumVitae.class);
             this.user.getRole(DesignerRole.class).createPartecipationRequest(this.user.getRole(ProjectProposerRole.class)
                     .getProjects().get(0).getTeam());
         } catch (Exception e) {
@@ -37,7 +40,9 @@ class ProgramManagerRoleTest {
     @Test
     void setProjectManager() {
         try {
-            Project project = new Project(8, "Nome", "Descrizione", new ProjectProposerRole(user).getUser(), new Category());
+            Category category = new Category("Sport", "Desc");
+            Project project = new Project(8, "Nome", "Descrizione", new ProjectProposerRole(user,
+                    category).getUser(), category);
             this.user.getRole(ProgramManagerRole.class).setProjectManager(user2, project);
             assertEquals(project.getProjectManager(), this.user2);
             assertEquals(this.user2, project.getProjectManager());
@@ -49,7 +54,9 @@ class ProgramManagerRoleTest {
     @Test
     void initTeam() {
         try {
-            Project project = new Project(8, "Nome", "Descrizione", new ProjectProposerRole(user).getUser(), new Category());
+            Category category = new Category("Sport", "Desc");
+            Project project = new Project(8, "Nome", "Descrizione", new ProjectProposerRole(user,
+                    category).getUser(), category);
             this.user.getRole(ProgramManagerRole.class).initTeam(5, project);
             Team team = this.user.getRole(ProgramManagerRole.class).getTeam(5);
             assertTrue(this.user.getRole(ProgramManagerRole.class).getTeams().contains(team));

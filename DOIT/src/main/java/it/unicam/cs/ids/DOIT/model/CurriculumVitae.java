@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.DOIT.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,10 +8,12 @@ import java.util.List;
 import java.util.Map;
 
 public class CurriculumVitae {
-    Map<Integer, List<CVUnit>> projects = new HashMap<>();
+    Map<LocalDate, String> history;
+    Map<Integer, List<CVUnit>> projects;
 
-    public Map<Integer, List<CVUnit>> getProjects() {
-        return projects;
+    public CurriculumVitae(Map<LocalDate, String> history) {
+        this.history = history;
+        this.projects = new HashMap<>();
     }
 
     public boolean enterProject(int idProject) {
@@ -19,7 +22,7 @@ public class CurriculumVitae {
             list.add(new CVUnit(true));
             projects.put(idProject, list);
             return true;
-        } else if(!projects.get(idProject).get(projects.size() - 1).in) {
+        } else if (!projects.get(idProject).get(projects.size() - 1).in) {
             projects.get(idProject).add(new CVUnit(true));
             return true;
         }
@@ -40,5 +43,13 @@ public class CurriculumVitae {
             this.dateTime = LocalDateTime.now();
             this.in = in;
         }
+    }
+
+    public Map<Integer, List<CVUnit>> getProjects() {
+        return projects;
+    }
+
+    public Map<LocalDate, String> getHistory() {
+        return history;
     }
 }

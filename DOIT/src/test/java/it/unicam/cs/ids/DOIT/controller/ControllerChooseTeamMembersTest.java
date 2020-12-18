@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,15 +20,17 @@ class ControllerChooseTeamMembersTest {
             this.user = new User(6, "Nome", "Cognome", new ArrayList<>());
             this.controller = new ControllerChooseTeamMembers();
             this.controller.setUser(this.user);
-            Object[] params = {user};
-            this.user.addRole(ProgramManagerRole.class, params, User.class);
-            this.user.addRole(ProjectProposerRole.class, new Object[]{this.user}, User.class);
+            Category category = new Category("Sport", "Desc");
+            Object[] params = {user, category};
+            this.user.addRole(ProgramManagerRole.class, params, User.class, Category.class);
+            this.user.addRole(ProjectProposerRole.class, new Object[]{this.user, category}, User.class, Category.class);
             this.user.getRole(ProjectProposerRole.class).createProject(8, "Name", "Description",
-                    new Category());
+                    new Category("Sport", "Desc"));
             this.user.getRole(ProgramManagerRole.class).initTeam(8, this.user.getRole(ProjectProposerRole.class)
                     .getProjects().get(0));
-            this.user.addRole(DesignerRole.class, new Object[]{this.user, new CurriculumVitae()}, User.class,
-                    CurriculumVitae.class);
+            this.user.addRole(DesignerRole.class, new Object[]{this.user, category, new CurriculumVitae(new HashMap<>())},
+                    User.class,
+                    Category.class, CurriculumVitae.class);
             this.user.getRole(DesignerRole.class).createPartecipationRequest(this.user.getRole(ProjectProposerRole.class)
                     .getProjects().get(0).getTeam());
         } catch (Exception e) {

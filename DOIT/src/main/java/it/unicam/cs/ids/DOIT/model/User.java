@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class User extends Searcher {
+public class User {
     private int id;
     private String name;
     private String surname;
@@ -55,6 +55,9 @@ public class User extends Searcher {
                 .filter(clazz::isInstance)
                 .findAny()
                 .orElse(null));
+    }
 
+    public Set<Role> getRoles() {
+        return roles;
     }
 }

@@ -10,8 +10,8 @@ public class DesignerRole extends Role {
 	private CurriculumVitae curriculumVitae;
 
 
-	public DesignerRole(User user, CurriculumVitae curriculumVitae) {
-		super(user);
+	public DesignerRole(User user, Category category, CurriculumVitae curriculumVitae) {
+		super(user, category);
 		this.curriculumVitae = curriculumVitae;
 	}
 

@@ -20,7 +20,7 @@ public class Project {
 		this.description = description;
 		this.projectProposer = projectProposer;
 		this.category = category;
-		//this.projectState = INITIAL;
+		this.projectState = ProjectState.INITIALIZATION;
 	}
 
 	public void setTeam(Team team) {
@@ -63,4 +63,7 @@ public class Project {
 		return projectState;
 	}
 
+	public void setProjectState(ProjectState projectState) {
+		this.projectState = projectState;
+	}
 }

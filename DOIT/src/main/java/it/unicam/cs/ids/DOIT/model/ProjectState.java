@@ -1,12 +1,17 @@
 package it.unicam.cs.ids.DOIT.model;
 
-import java.util.ArrayList;
-import java.util.List;
+public enum ProjectState {
+	INITIALIZATION(0),
+	INPROGRESS(1),
+	FINISHED(2);
 
-public class ProjectState {
-	private String name;
-	private String description;
-	public List<Project> projects = new ArrayList<>();
-	public List<CurriculumVitae> cv = new ArrayList<>();
-	public ProjectManagerRole projectManagerRole;
+	private int num;
+
+	ProjectState(int num) {
+		this.num = num;
+	}
+
+	public int getNum() {
+		return num;
+	}
 }

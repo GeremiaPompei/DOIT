@@ -7,8 +7,8 @@ public class ProgramManagerRole extends Role {
 
     public List<Team> teams = new ArrayList<>();
 
-    public ProgramManagerRole(User user) {
-        super(user);
+    public ProgramManagerRole(User user, Category category) {
+        super(user, category);
     }
 
     public boolean removePartecipationRequest(PartecipationRequest partecipationRequest, String description) {

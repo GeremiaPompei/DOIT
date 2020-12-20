@@ -15,8 +15,7 @@ class ProjectProposerRoleTest {
     void init() {
         try {
             this.user = new User(7, "Nome", "Cognome", new ArrayList<>());
-            Object[] params = {user, new Category("Sport", "Desc")};
-            this.user.addRole(ProjectProposerRole.class, params, User.class, Category.class);
+            this.user.addRole(ProjectProposerRole.class, new Category("Sport", "Desc"));
         } catch (ReflectiveOperationException e) {
             e.printStackTrace();
         }
@@ -38,7 +37,7 @@ class ProjectProposerRoleTest {
     void becomeProgramManager() {
         try {
             Category category = new Category("Sport", "Desc");
-            this.user.addRole(ProjectProposerRole.class, new Object[]{this.user, category}, User.class, Category.class);
+            this.user.addRole(ProjectProposerRole.class, category);
             assertThrows(RoleException.class, () -> this.user.getRole(ProgramManagerRole.class));
             this.user.getRole(ProjectProposerRole.class).becomeProgramManager(category);
             assertDoesNotThrow(() -> this.user.getRole(ProgramManagerRole.class));

@@ -6,13 +6,14 @@ public class ProjectProposerRole extends Role {
         super(user, category);
     }
 
-    public void createProject(int id, String name, String description, Category category) {
-        super.getProjects().add(new Project(id, name, description, this.getUser(), category));
+    public Project createProject(int id, String name, String description, Category category) {
+        Project project = new Project(id, name, description, this.getUser(), category);
+        super.getProjects().add(project);
+        return project;
     }
 
     public void becomeProgramManager(Category category) throws ReflectiveOperationException {
-        this.getUser().addRole(ProgramManagerRole.class, new Object[]{this.getUser(), category},
-                User.class, Category.class);
+        this.getUser().addRole(ProgramManagerRole.class, category);
     }
 
 

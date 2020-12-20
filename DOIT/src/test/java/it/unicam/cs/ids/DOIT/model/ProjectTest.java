@@ -15,8 +15,7 @@ class ProjectTest {
     void init() {
         try {
             this.user = new User(7, "Nome", "Cognome", new ArrayList<>());
-            Object[] params = {user, new Category("Sport", "Desc")};
-            this.user.addRole(ProjectManagerRole.class, params, User.class, Category.class);
+            this.user.addRole(ProjectManagerRole.class, new Category("Sport", "Desc"));
         } catch (ReflectiveOperationException e) {
             e.printStackTrace();
         }

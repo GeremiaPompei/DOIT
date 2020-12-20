@@ -11,8 +11,8 @@ public class CurriculumVitae {
     Map<LocalDate, String> history;
     Map<Integer, List<CVUnit>> projects;
 
-    public CurriculumVitae(Map<LocalDate, String> history) {
-        this.history = history;
+    public CurriculumVitae() {
+        this.history = new HashMap<>();
         this.projects = new HashMap<>();
     }
 

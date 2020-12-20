@@ -36,9 +36,10 @@ public class User {
     }
 
 
-    public <T extends Role> boolean addRole(Class<T> clazz, Object[] params, Class<?>... classes)
+    public <T extends Role> boolean addRole(Class<T> clazz, Category category)
             throws ReflectiveOperationException {
-        return this.roles.add(clazz.getConstructor(classes).newInstance(params));
+        return this.roles.add(clazz.getConstructor(new Class<?>[]{User.class, Category.class}).newInstance(
+                new Object[]{this, category}));
     }
 
     public <T extends Role> T getRole(Class<T> clazz) throws RoleException {
@@ -59,5 +60,16 @@ public class User {
 
     public Set<Role> getRoles() {
         return roles;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", generalities=" + generalities +
+                ", roles=" + roles +
+                '}';
     }
 }

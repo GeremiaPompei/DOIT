@@ -26,7 +26,7 @@ public class ProgramManagerRole extends Role {
         if (this.teams.contains(team)) {
             partecipationRequest.displayed("Congratulations! You are accepted.");
             boolean b = team.getPartecipationRequests().remove(partecipationRequest);
-            return team.addDesigner(partecipationRequest.getUser()) && b;
+            return team.addDesigner(partecipationRequest.getDesigner()) && b;
         }
         return false;
     }

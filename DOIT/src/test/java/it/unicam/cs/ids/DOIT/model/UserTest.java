@@ -20,24 +20,15 @@ class UserTest {
     void addRole() {
         assertDoesNotThrow(() ->
                 this.user.addRole(
-                        ProjectProposerRole.class,
-                        new Object[]{user, new Category("Sport", "Desc")},
-                        User.class,
-                        Category.class));
+                        ProjectProposerRole.class, new Category("Sport", "Desc")));
         assertDoesNotThrow(() ->
                 this.user.addRole(
                         DesignerRole.class,
-                        new Object[]{user, new Category("Sport", "Desc"), new CurriculumVitae(
-                                new HashMap<>())},
-                        User.class,
-                        Category.class,
-                        CurriculumVitae.class));
+                        new Category("Sport", "Desc")));
         assertDoesNotThrow(() ->
                 this.user.addRole(
                         ProgramManagerRole.class,
-                        new Object[]{user, new Category("Sport", "Desc")},
-                        User.class,
-                        Category.class));
+                        new Category("Sport", "Desc")));
     }
 
     @Test
@@ -46,9 +37,7 @@ class UserTest {
         assertDoesNotThrow(() ->
                 this.user.addRole(
                         ProjectProposerRole.class,
-                        new Object[]{user, new Category("Sport", "Desc")},
-                        User.class,
-                        Category.class));
+                        new Category("Sport", "Desc")));
         assertDoesNotThrow(() -> this.user.getRole(ProjectProposerRole.class));
     }
 
@@ -57,9 +46,7 @@ class UserTest {
         assertDoesNotThrow(() ->
                 this.user.addRole(
                         ProjectProposerRole.class,
-                        new Object[]{user, new Category("Sport", "Desc")},
-                        User.class,
-                        Category.class));
+                        new Category("Sport", "Desc")));
         assertDoesNotThrow(() -> this.user.getRole(ProjectProposerRole.class));
         this.user.removeRole(ProjectProposerRole.class);
         assertThrows(RoleException.class, () -> this.user.getRole(ProjectProposerRole.class));

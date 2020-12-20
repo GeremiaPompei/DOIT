@@ -2,6 +2,7 @@ package it.unicam.cs.ids.DOIT.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Team {
     private boolean state = false;
@@ -51,5 +52,17 @@ public class Team {
 
     public List<PartecipationRequest> getPartecipationRequests() {
         return partecipationRequests;
+    }
+
+    @Override
+    public String toString() {
+        return "Team{" +
+                "state=" + state +
+                ", id=" + id +
+                ", project=" + project.getId() +
+                ", programManager=" + programManager.getId() +
+                ", designer=" + designer.stream().map(d -> d.getId()).collect(Collectors.toSet()) +
+                ", partecipationRequests=" + partecipationRequests +
+                '}';
     }
 }

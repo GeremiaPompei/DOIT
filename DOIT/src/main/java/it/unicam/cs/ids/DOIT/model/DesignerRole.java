@@ -5,14 +5,15 @@ import java.util.List;
 
 public class DesignerRole extends Role {
 
-	private List<PartecipationRequest> partecipationRequests = new ArrayList<>();
+	private List<PartecipationRequest> partecipationRequests;
 	private Category category;
 	private CurriculumVitae curriculumVitae;
 
 
-	public DesignerRole(User user, Category category, CurriculumVitae curriculumVitae) {
+	public DesignerRole(User user, Category category) {
 		super(user, category);
-		this.curriculumVitae = curriculumVitae;
+		this.partecipationRequests = new ArrayList<>();
+		this.curriculumVitae = new CurriculumVitae();
 	}
 
 	public boolean createPartecipationRequest(Team team) {
@@ -28,4 +29,5 @@ public class DesignerRole extends Role {
 	public CurriculumVitae getCurriculumVitae() {
 		return curriculumVitae;
 	}
+
 }

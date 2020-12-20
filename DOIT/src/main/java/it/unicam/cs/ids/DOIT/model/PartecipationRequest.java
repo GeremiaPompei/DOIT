@@ -1,26 +1,24 @@
 package it.unicam.cs.ids.DOIT.model;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 public class PartecipationRequest {
 	private boolean state;
 	private String description;
 	private LocalDate date;
-	private User user;
+	private User designer;
 	private Team team;
 
-	public PartecipationRequest(User user, Team team) {
-		this.user = user;
+	public PartecipationRequest(User designer, Team team) {
+		this.designer = designer;
 		this.team = team;
 		this.description = "Partecipation request sended...";
 		this.state = false;
 		this.date = LocalDate.now();
 	}
 
-	public User getUser() {
-		return user;
+	public User getDesigner() {
+		return designer;
 	}
 
 	public void displayed(String description) {
@@ -38,5 +36,16 @@ public class PartecipationRequest {
 
 	public boolean getState() {
 		return state;
+	}
+
+	@Override
+	public String toString() {
+		return "PartecipationRequest{" +
+				"state=" + state +
+				", description='" + description + '\'' +
+				", date=" + date +
+				", designer=" + designer.getId() +
+				", team=" + team.getId() +
+				'}';
 	}
 }

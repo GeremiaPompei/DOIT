@@ -19,8 +19,7 @@ class ControllerChooseProgramManagerTest {
         User user = new User(7, "Nome", "Cognome", new ArrayList<>());
         this.controller.setUser(user);
         try {
-            user.addRole(ProjectProposerRole.class, new Object[]{user, new Category("Sport", "Desc")},
-                    User.class, Category.class);
+            user.addRole(ProjectProposerRole.class, new Category("Sport", "Desc"));
         } catch (ReflectiveOperationException e) {
             e.printStackTrace();
         }
@@ -44,8 +43,7 @@ class ControllerChooseProgramManagerTest {
     void itIsProgramManager() {
         User user2 = new User(9, "Nome2", "Cognome2", new ArrayList<>());
         assertThrows(RoleException.class, () -> this.controller.itIsProgramManager(user2, 2, this.project));
-        assertDoesNotThrow(() -> user2.addRole(ProgramManagerRole.class, new Object[]{user2, new Category("Sport",
-                "Desc")}, User.class, Category.class));
+        assertDoesNotThrow(() -> user2.addRole(ProgramManagerRole.class, new Category("Sport", "Desc")));
         assertDoesNotThrow(() -> this.controller.itIsProgramManager(user2, 89, this.project));
     }
 }

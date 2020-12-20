@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,18 +17,14 @@ class ProgramManagerRoleTest {
             this.user = new User(6, "Nome", "Cognome", new ArrayList<>());
             this.user2 = new User(7, "Nome", "Cognome", new ArrayList<>());
             Category category = new Category("Sport", "Desc");
-            Object[] params = {user, category};
-            Object[] params2 = {user, category};
-            this.user.addRole(ProgramManagerRole.class, params, User.class, Category.class);
-            this.user2.addRole(ProgramManagerRole.class, params2, User.class, Category.class);
-            this.user.addRole(ProjectProposerRole.class, new Object[]{this.user, category}, User.class, Category.class);
+            this.user.addRole(ProgramManagerRole.class, category);
+            this.user2.addRole(ProgramManagerRole.class, category);
+            this.user.addRole(ProjectProposerRole.class, category);
             this.user.getRole(ProjectProposerRole.class).createProject(8, "Name", "Description",
                     new Category("Sport", "Desc"));
             this.user.getRole(ProgramManagerRole.class).initTeam(8, this.user.getRole(ProjectProposerRole.class)
                     .getProjects().get(0));
-            this.user.addRole(DesignerRole.class, new Object[]{this.user, category, new CurriculumVitae(new HashMap<>())},
-                    User.class,
-                    Category.class, CurriculumVitae.class);
+            this.user.addRole(DesignerRole.class, category);
             this.user.getRole(DesignerRole.class).createPartecipationRequest(this.user.getRole(ProjectProposerRole.class)
                     .getProjects().get(0).getTeam());
         } catch (Exception e) {
@@ -88,10 +83,10 @@ class ProgramManagerRoleTest {
         try {
             PartecipationRequest pr = this.user.getRole(DesignerRole.class).getPartecipationRequests().get(0);
             assertTrue(this.user.getRole(ProgramManagerRole.class).addDesigner(pr));
-            assertTrue(this.user.getRole(ProgramManagerRole.class).getTeams().get(0).getDesigners().contains(pr.getUser()));
+            assertTrue(this.user.getRole(ProgramManagerRole.class).getTeams().get(0).getDesigners().contains(pr.getDesigner()));
             assertTrue(pr.getState());
             assertTrue(this.user.getRole(ProgramManagerRole.class).removeDesigner(this.user, pr.getTeam()));
-            assertFalse(this.user.getRole(ProgramManagerRole.class).getTeams().get(0).getDesigners().contains(pr.getUser()));
+            assertFalse(this.user.getRole(ProgramManagerRole.class).getTeams().get(0).getDesigners().contains(pr.getDesigner()));
         } catch (RoleException e) {
             e.printStackTrace();
         }

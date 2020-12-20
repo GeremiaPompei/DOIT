@@ -21,16 +21,13 @@ class ControllerChooseTeamMembersTest {
             this.controller = new ControllerChooseTeamMembers();
             this.controller.setUser(this.user);
             Category category = new Category("Sport", "Desc");
-            Object[] params = {user, category};
-            this.user.addRole(ProgramManagerRole.class, params, User.class, Category.class);
-            this.user.addRole(ProjectProposerRole.class, new Object[]{this.user, category}, User.class, Category.class);
+            this.user.addRole(ProgramManagerRole.class, category);
+            this.user.addRole(ProjectProposerRole.class, category);
             this.user.getRole(ProjectProposerRole.class).createProject(8, "Name", "Description",
                     new Category("Sport", "Desc"));
             this.user.getRole(ProgramManagerRole.class).initTeam(8, this.user.getRole(ProjectProposerRole.class)
                     .getProjects().get(0));
-            this.user.addRole(DesignerRole.class, new Object[]{this.user, category, new CurriculumVitae(new HashMap<>())},
-                    User.class,
-                    Category.class, CurriculumVitae.class);
+            this.user.addRole(DesignerRole.class, category);
             this.user.getRole(DesignerRole.class).createPartecipationRequest(this.user.getRole(ProjectProposerRole.class)
                     .getProjects().get(0).getTeam());
         } catch (Exception e) {

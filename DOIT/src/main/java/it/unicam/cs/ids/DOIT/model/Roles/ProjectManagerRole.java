@@ -1,4 +1,6 @@
-package it.unicam.cs.ids.DOIT.model;
+package it.unicam.cs.ids.DOIT.model.Roles;
+
+import it.unicam.cs.ids.DOIT.model.*;
 
 import java.util.Arrays;
 
@@ -6,10 +8,6 @@ public class ProjectManagerRole extends Role {
 
     public ProjectManagerRole(User user, Category category) {
         super(user, category);
-    }
-
-    public boolean changeState(ProjectState state) {
-        throw new UnsupportedOperationException();
     }
 
     public void upgradeState(Project project) throws Exception {

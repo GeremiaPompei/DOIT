@@ -1,4 +1,6 @@
-package it.unicam.cs.ids.DOIT.model;
+package it.unicam.cs.ids.DOIT.model.Roles;
+
+import it.unicam.cs.ids.DOIT.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,18 +18,18 @@ public class DesignerRole extends Role {
 		this.curriculumVitae = new CurriculumVitae();
 	}
 
-	public boolean createPartecipationRequest(Team team) {
-		PartecipationRequest pr = new PartecipationRequest(this.getUser(), team);
-		boolean b = this.partecipationRequests.add(pr);
-		return team.getPartecipationRequests().add(pr) && b;
-	}
-
 	public List<PartecipationRequest> getPartecipationRequests() {
 		return partecipationRequests;
 	}
 
 	public CurriculumVitae getCurriculumVitae() {
 		return curriculumVitae;
+	}
+
+	public boolean createPartecipationRequest(Team team) {
+		PartecipationRequest partecipationRequest = new PartecipationRequest(this.getUser(), team);
+		this.partecipationRequests.add(partecipationRequest);
+		return team.getPartecipationRequests().add(partecipationRequest);
 	}
 
 }

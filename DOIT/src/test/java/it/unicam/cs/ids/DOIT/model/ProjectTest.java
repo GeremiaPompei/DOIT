@@ -1,5 +1,7 @@
 package it.unicam.cs.ids.DOIT.model;
 
+import it.unicam.cs.ids.DOIT.model.Roles.ProjectManagerRole;
+import it.unicam.cs.ids.DOIT.model.Roles.ProjectProposerRole;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

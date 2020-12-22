@@ -1,4 +1,6 @@
-package it.unicam.cs.ids.DOIT.model;
+package it.unicam.cs.ids.DOIT.model.Roles;
+
+import it.unicam.cs.ids.DOIT.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +20,6 @@ public class ProgramManagerRole extends Role {
             return team.getPartecipationRequests().remove(partecipationRequest);
         }
         return false;
-
     }
 
     public boolean addDesigner(PartecipationRequest partecipationRequest) throws RoleException {

@@ -1,5 +1,7 @@
 package it.unicam.cs.ids.DOIT.model;
 
+import it.unicam.cs.ids.DOIT.model.Roles.DesignerRole;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;

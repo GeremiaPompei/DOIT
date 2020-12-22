@@ -24,7 +24,7 @@ public class MainView {
             command1 = this.scanner.nextLine();
             if (this.commands.keySet().contains(command1)) {
                 while (!command2.equalsIgnoreCase("back")) {
-                    System.out.println("    Write \"back\" to come back.");
+                    System.out.println("    Write \"back\" to come back!");
                     System.out.println("    Options: " + this.commands.get(command1).keySet());
                     System.out.print("   > ");
                     command2 = this.scanner.nextLine();
@@ -36,6 +36,8 @@ public class MainView {
                     }
                 }
                 command2 = "";
+            } else {
+                System.out.println("\n Command not found!\n");
             }
         }
         System.out.println("Goodbye...");

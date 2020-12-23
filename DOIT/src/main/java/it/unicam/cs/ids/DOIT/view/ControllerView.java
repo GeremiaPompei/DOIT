@@ -1,9 +1,6 @@
 package it.unicam.cs.ids.DOIT.view;
 
-import it.unicam.cs.ids.DOIT.controller.ControllerAddPR;
-import it.unicam.cs.ids.DOIT.controller.ControllerChooseProgramManager;
-import it.unicam.cs.ids.DOIT.controller.ControllerChooseTeamMembers;
-import it.unicam.cs.ids.DOIT.controller.ControllerInsertProposal;
+import it.unicam.cs.ids.DOIT.controller.*;
 import it.unicam.cs.ids.DOIT.model.*;
 import it.unicam.cs.ids.DOIT.model.Roles.DesignerRole;
 import it.unicam.cs.ids.DOIT.model.Roles.ProgramManagerRole;
@@ -36,21 +33,26 @@ public class ControllerView {
         Map<String, Function<String[], String>> map = new HashMap<>();
         map.put("create", (s) -> consumerException(() ->
         {
-            if (gestoreRisorse.searchOne(User.class, u -> u.getId() == Integer.parseInt(s[1])) != null)
+            int id = Integer.parseInt(s[1]);
+            User usr = gestoreRisorse.searchOne(User.class, u -> u.getId() == id);
+            if (usr != null)
                 throw new Exception("Esiste gia un user con stesso id!");
             gestoreRisorse.getRisorse().get(User.class)
-                    .add(new User(Integer.parseInt(s[1]), s[2], s[3], List.of(s).subList(4, s.length)));
+                    .add(new User(id, s[2], s[3], List.of(s).subList(4, s.length)));
         }));
         map.put("add-role", (s) -> consumerException(() -> {
+            Category cat = gestoreRisorse.searchOne(Category.class, c -> c.getName().equalsIgnoreCase(s[2]));
+            if (cat == null)
+                throw new Exception("Categoria inesistente!");
             user.addRole((Class<? extends Role>) Class.forName(
-                    gestoreRisorse.searchOne(Class.class, r -> r.getSimpleName().equalsIgnoreCase(s[1])).getName()),
-                    gestoreRisorse.searchOne(Category.class, c -> c.getName().equalsIgnoreCase(s[2])));
+                    gestoreRisorse.searchOne(Class.class, r -> r.getSimpleName().equalsIgnoreCase(s[1])).getName()), cat);
             loadCommands();
         }));
         map.put("login", (s) -> consumerException(() -> {
-            user = gestoreRisorse.searchOne(User.class, u -> u.getId() == Integer.parseInt(s[1]));
-            if (user == null)
+            User usr = gestoreRisorse.searchOne(User.class, u -> u.getId() == Integer.parseInt(s[1]));
+            if (usr == null)
                 throw new Exception("L'utente non esiste!");
+            this.user = usr;
             loadCommands();
         }));
         map.put("help", (s) -> " > create idUser nameUser surnameUser [generality1, generality2...]"
@@ -70,13 +72,38 @@ public class ControllerView {
     private Map<String, Function<String[], String>> projectProposerMap() {
         Map<String, Function<String[], String>> map = new HashMap<>();
         ControllerInsertProposal c1 = new ControllerInsertProposal();
+        ControllerChooseProgramManager c2 = new ControllerChooseProgramManager();
         c1.setUser(this.user);
-        map.put("create-project", s -> consumerException(() -> {
-            Project p = c1.createProject(Integer.parseInt(s[1]), s[2], s[3],
-                    gestoreRisorse.searchOne(Category.class, c -> c.getName().equalsIgnoreCase(s[4])));
-            gestoreRisorse.getRisorse().get(Project.class).add(p);
+        map.put("create", s -> consumerException(() -> {
+            int id = Integer.parseInt(s[1]);
+            Project p = gestoreRisorse.searchOne(Project.class, pj -> pj.getId() == id);
+            if (p != null)
+                throw new Exception("Esiste gia un progetto con stesso id!");
+            Category cat = gestoreRisorse.searchOne(Category.class, c -> c.getName().equalsIgnoreCase(s[4]));
+            if (cat == null)
+                throw new Exception("Categoria inesistente!");
+            gestoreRisorse.getRisorse().get(Project.class).add(c1.createProject(id, s[2], s[3], cat));
         }));
-        map.put("help", (s) -> " > create idProject nameProject descriptionProject categoryProject");
+        map.put("choose-pgm", s -> consumerException(() -> {
+            Project p = gestoreRisorse.searchOne(Project.class, c -> c.getId() == Integer.parseInt(s[2]));
+            if (p.getTeam() != null)
+                throw new Exception("Team gia inizializzato!");
+            int id = Integer.parseInt(s[1]);
+            User usr = gestoreRisorse.searchOne(User.class, u -> u.getId() == id);
+            if (usr == null)
+                throw new Exception("Non esiste l'utente con id: [" + id + "]");
+            c2.initTeam(usr, p);
+        }));
+        map.put("list-pgm", s -> gestoreRisorse.search(User.class, (u) -> {
+            try {
+                return c2.findProgramManagerList(gestoreRisorse.searchOne(Category.class, c -> c.getName()
+                        .equalsIgnoreCase(s[1]))).apply(u);
+            } catch (Exception e) {
+                return false;
+            }
+        }).toString());
+        map.put("help", (s) -> " > create idProject nameProject descriptionProject categoryProject\n > choose-pgm " +
+                "idUser idProject\n > list-pgm nameCategory");
         return map;
     }
 
@@ -85,9 +112,24 @@ public class ControllerView {
         ControllerAddPR c1 = new ControllerAddPR();
         c1.setUser(this.user);
         map.put("send-pr", s -> consumerException(() -> {
+            int id = Integer.parseInt(s[1]);
             c1.addPartecipationRequest(
-                    gestoreRisorse.searchOne(Project.class, c -> c.getId() == Integer.parseInt(s[1])));
+                    gestoreRisorse.searchOne(Project.class, (p) -> {
+                        try {
+                            return c1.getProject(id).apply(p);
+                        } catch (Exception e) {
+                            return false;
+                        }
+                    }));
         }));
+        map.put("list-pr", s -> gestoreRisorse.search(Project.class, p -> {
+            try {
+                return c1.getProjects(gestoreRisorse.searchOne(Category.class, c -> c.getName()
+                        .equalsIgnoreCase(s[1]))).apply(p);
+            } catch (Exception e) {
+                return false;
+            }
+        }).toString());
         map.put("help", (s) -> " > send-pr idProject");
         return map;
     }
@@ -96,20 +138,29 @@ public class ControllerView {
         Map<String, Function<String[], String>> map = new HashMap<>();
         ControllerChooseProgramManager c1 = new ControllerChooseProgramManager();
         ControllerChooseTeamMembers c2 = new ControllerChooseTeamMembers();
+        ControllerChooseProjectManager c3 = new ControllerChooseProjectManager();
         c1.setUser(this.user);
         c2.setUser(this.user);
-        map.put("init-team", s -> consumerException(() -> {
-            c1.initTeam(gestoreRisorse.searchOne(Project.class, c -> c.getId() == Integer.parseInt(s[1])));
-        }));
+        c3.setUser(this.user);
         map.put("remove-pr", s -> consumerException(() -> {
-            c1.removePartecipationRequest(searchPR(Integer.parseInt(s[1])),
-                    List.of(s).subList(2, s.length).stream().reduce((x, y) -> x + y).get());
+            PartecipationRequest pr = searchPR(Integer.parseInt(s[1]));
+            if (pr == null)
+                throw new Exception("Partecipation request non esistente!");
+            c2.removePartecipationRequest(pr, List.of(s).subList(2, s.length).stream().reduce((x, y) -> x + y).get());
         }));
         map.put("add-designer", s -> consumerException(() -> {
-            c2.addDesigner(searchPR(Integer.parseInt(s[1])));
+            PartecipationRequest pr = searchPR(Integer.parseInt(s[1]));
+            if (pr == null)
+                throw new Exception("Partecipation request non esistente!");
+            c2.addDesigner(pr);
         }));
-        map.put("help", (s) -> " > init-team idProject"
-                + "\n > add-designer idDesigner \n > remove-pr idDesigner reason");
+        map.put("choose-pjm", s -> consumerException(() -> {
+            int idU = Integer.parseInt(s[1]);
+            int idP = Integer.parseInt(s[2]);
+            c3.becomeProjectManager(gestoreRisorse.searchOne(User.class, u -> u.getId() == idU),
+                    gestoreRisorse.searchOne(Project.class, u -> u.getId() == idP));
+        }));
+        map.put("help", (s) -> " > add-designer idDesigner \n > remove-pr idDesigner reason \n choose-pjm idDesigner idProject");
         return map;
     }
 

@@ -1,10 +1,5 @@
 package it.unicam.cs.ids.DOIT.model;
 
-import it.unicam.cs.ids.DOIT.model.Roles.DesignerRole;
-import it.unicam.cs.ids.DOIT.model.Roles.ProgramManagerRole;
-import it.unicam.cs.ids.DOIT.model.Roles.ProjectManagerRole;
-import it.unicam.cs.ids.DOIT.model.Roles.ProjectProposerRole;
-
 import java.io.File;
 import java.util.*;
 import java.util.function.Predicate;

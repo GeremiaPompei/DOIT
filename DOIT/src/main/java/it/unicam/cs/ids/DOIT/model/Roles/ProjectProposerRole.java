@@ -11,14 +11,13 @@ public class ProjectProposerRole extends Role {
         super(user, category);
     }
 
-    public Project createProject(int id, String name, String description, Category category) {
+    public Project createProject(int id, String name, String description, Category category)
+            throws IllegalArgumentException {
+        if (!this.getCategories().contains(category))
+            throw new IllegalArgumentException("L'utente non presenta la categoria: [" + category.getName() + "]");
         Project project = new Project(id, name, description, this.getUser(), category);
         super.getProjects().add(project);
         return project;
-    }
-
-    public void becomeProgramManager(Category category) throws ReflectiveOperationException {
-        this.getUser().addRole(ProgramManagerRole.class, category);
     }
 
 }

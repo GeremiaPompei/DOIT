@@ -39,6 +39,9 @@ public class ProgramManagerRole extends Role {
     }
 
     public void setProjectManager(User user, Project project) throws RoleException {
+        checkProject(project);
+        if (!project.getTeam().getDesigners().contains(user))
+            throw new IllegalArgumentException("L'utente non è presente nel team del progetto!");
         project.setProjectManager(user);
     }
 
@@ -55,5 +58,10 @@ public class ProgramManagerRole extends Role {
 
     public List<Team> getTeams() {
         return teams;
+    }
+
+    private void checkProject(Project project) {
+        if (!this.getProjects().contains(project))
+            throw new IllegalArgumentException("L'utente non possiede il progetto con id:[" + project.getId() + "]");
     }
 }

@@ -27,7 +27,7 @@ class ControllerChooseTeamMembersTest {
             this.user.addRole(ProjectProposerRole.class, category);
             this.user.getRole(ProjectProposerRole.class).createProject(8, "Name", "Description",
                     new Category("Sport", "Desc"));
-            this.user.getRole(ProgramManagerRole.class).initTeam(8, this.user.getRole(ProjectProposerRole.class)
+            this.user.getRole(ProgramManagerRole.class).initTeam(this.user.getRole(ProjectProposerRole.class)
                     .getProjects().get(0));
             this.user.addRole(DesignerRole.class, category);
             this.user.getRole(DesignerRole.class).createPartecipationRequest(this.user.getRole(ProjectProposerRole.class)

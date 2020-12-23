@@ -25,7 +25,7 @@ class ProgramManagerRoleTest {
             this.user.addRole(ProjectProposerRole.class, category);
             this.user.getRole(ProjectProposerRole.class).createProject(8, "Name", "Description",
                     new Category("Sport", "Desc"));
-            this.user.getRole(ProgramManagerRole.class).initTeam(8, this.user.getRole(ProjectProposerRole.class)
+            this.user.getRole(ProgramManagerRole.class).initTeam(this.user.getRole(ProjectProposerRole.class)
                     .getProjects().get(0));
             this.user.addRole(DesignerRole.class, category);
             this.user.getRole(DesignerRole.class).createPartecipationRequest(this.user.getRole(ProjectProposerRole.class)
@@ -53,10 +53,10 @@ class ProgramManagerRoleTest {
     void initTeam() {
         try {
             Category category = new Category("Sport", "Desc");
-            Project project = new Project(8, "Nome", "Descrizione", new ProjectProposerRole(user,
+            Project project = new Project(7, "Nome", "Descrizione", new ProjectProposerRole(user,
                     category).getUser(), category);
-            this.user.getRole(ProgramManagerRole.class).initTeam(5, project);
-            Team team = this.user.getRole(ProgramManagerRole.class).getTeam(5);
+            this.user.getRole(ProgramManagerRole.class).initTeam(project);
+            Team team = this.user.getRole(ProgramManagerRole.class).getTeam(project.getId());
             assertTrue(this.user.getRole(ProgramManagerRole.class).getTeams().contains(team));
             assertEquals(project.getTeam(), team);
             assertEquals(project, team.getProject());

@@ -8,14 +8,12 @@ import java.util.stream.Collectors;
 
 public class Team {
     private boolean state = false;
-    private int id;
     private Project project;
     private User programManager;
     private List<User> designer;
     private List<PartecipationRequest> partecipationRequests;
 
-    public Team(int id, Project project, User programManager) {
-        this.id = id;
+    public Team(Project project, User programManager) {
         this.project = project;
         this.programManager = programManager;
         this.designer = new ArrayList<>();
@@ -24,10 +22,6 @@ public class Team {
 
     public boolean getState() {
         return state;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public Project getProject() {
@@ -60,7 +54,6 @@ public class Team {
     public String toString() {
         return "Team{" +
                 "state=" + state +
-                ", id=" + id +
                 ", project=" + project.getId() +
                 ", programManager=" + programManager.getId() +
                 ", designer=" + designer.stream().map(d -> d.getId()).collect(Collectors.toSet()) +

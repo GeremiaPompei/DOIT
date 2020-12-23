@@ -42,15 +42,15 @@ public class ProgramManagerRole extends Role {
         project.setProjectManager(user);
     }
 
-    public void initTeam(int id, Project project) {
-        Team team = new Team(id, project, super.getUser());
+    public void initTeam(Project project) {
+        Team team = new Team(project, super.getUser());
         this.teams.add(team);
         project.setTeam(team);
         this.getProjects().add(project);
     }
 
     public Team getTeam(int id) {
-        return teams.stream().filter(t -> t.getId() == id).findAny().orElse(null);
+        return teams.stream().filter(t -> t.getProject().getId() == id).findAny().orElse(null);
     }
 
     public List<Team> getTeams() {

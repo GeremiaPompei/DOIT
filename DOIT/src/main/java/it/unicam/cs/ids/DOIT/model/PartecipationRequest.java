@@ -45,7 +45,6 @@ public class PartecipationRequest {
 				", description='" + description + '\'' +
 				", date=" + date +
 				", designer=" + designer.getId() +
-				", team=" + team.getId() +
 				'}';
 	}
 }

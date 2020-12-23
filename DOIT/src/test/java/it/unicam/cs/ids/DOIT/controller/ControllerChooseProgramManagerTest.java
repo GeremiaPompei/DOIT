@@ -31,9 +31,9 @@ class ControllerChooseProgramManagerTest {
 
     @Test
     void iAmProgramManager() {
-        assertDoesNotThrow(() -> this.controller.becomeProgramManager(3, this.project));
+        assertDoesNotThrow(() -> this.controller.becomeProgramManager(this.project));
         this.controller.getUser().removeRole(ProjectProposerRole.class);
-        assertThrows(RoleException.class, () -> this.controller.becomeProgramManager(4, this.project));
+        assertThrows(RoleException.class, () -> this.controller.becomeProgramManager(this.project));
     }
 
     @Test
@@ -42,10 +42,11 @@ class ControllerChooseProgramManagerTest {
     }
 
     @Test
-    void itIsProgramManager() {
+    void initTeam() {
         User user2 = new User(9, "Nome2", "Cognome2", new ArrayList<>());
-        assertThrows(RoleException.class, () -> this.controller.itIsProgramManager(user2, 2, this.project));
+        assertThrows(RoleException.class, () -> this.controller.initTeam(this.project));
         assertDoesNotThrow(() -> user2.addRole(ProgramManagerRole.class, new Category("Sport", "Desc")));
-        assertDoesNotThrow(() -> this.controller.itIsProgramManager(user2, 89, this.project));
+        this.controller.setUser(user2);
+        assertDoesNotThrow(() -> this.controller.initTeam(this.project));
     }
 }

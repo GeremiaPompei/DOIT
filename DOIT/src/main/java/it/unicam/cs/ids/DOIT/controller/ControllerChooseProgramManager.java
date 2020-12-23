@@ -8,17 +8,21 @@ import it.unicam.cs.ids.DOIT.view.PredicateException;
 public class ControllerChooseProgramManager {
     private User user;
 
-    public void becomeProgramManager(int idTeam, Project project) throws RoleException, ReflectiveOperationException {
+    public void becomeProgramManager(Project project) throws RoleException, ReflectiveOperationException {
         this.user.getRole(ProjectProposerRole.class).becomeProgramManager(project.getCategory());
-        this.user.getRole(ProgramManagerRole.class).initTeam(idTeam, project);
+        this.user.getRole(ProgramManagerRole.class).initTeam(project);
     }
 
     public PredicateException<User> findProgramManagerList(Category category) {
         return u-> u.getRole(ProgramManagerRole.class).getCategories().contains(category);
     }
 
-    public void itIsProgramManager(User user, int idTeam, Project project) throws RoleException {
-        user.getRole(ProgramManagerRole.class).initTeam(idTeam, project);
+    public void initTeam(Project project) throws RoleException {
+        this.user.getRole(ProgramManagerRole.class).initTeam(project);
+    }
+
+    public void removePartecipationRequest(PartecipationRequest partecipationRequest, String description) throws RoleException {
+        this.user.getRole(ProgramManagerRole.class).removePartecipationRequest(partecipationRequest, description);
     }
 
     public User getUser() {

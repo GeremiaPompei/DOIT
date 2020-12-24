@@ -1,14 +1,21 @@
 package it.unicam.cs.ids.DOIT.controller;
 
 import it.unicam.cs.ids.DOIT.model.*;
-import it.unicam.cs.ids.DOIT.model.Roles.ProgramManagerRole;
-import it.unicam.cs.ids.DOIT.view.PredicateException;
+import it.unicam.cs.ids.DOIT.model.roles.ProgramManagerRole;
+
+import java.util.function.Predicate;
 
 public class ControllerChooseProgramManager {
     private User user;
 
-    public PredicateException<User> findProgramManagerList(Category category) {
-        return u-> u.getRole(ProgramManagerRole.class).getCategories().contains(category);
+    public Predicate<User> findProgramManagerList(Category category) {
+        return u -> {
+            try {
+                return u.getRole(ProgramManagerRole.class).getCategories().contains(category);
+            } catch (RoleException e) {
+                return false;
+            }
+        };
     }
 
     public void initTeam(User user, Project project) throws RoleException {

@@ -1,13 +1,13 @@
-package it.unicam.cs.ids.DOIT.model.Roles;
+package it.unicam.cs.ids.DOIT.model.roles;
 
 import it.unicam.cs.ids.DOIT.model.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ProgramManagerRole extends Role {
 
-    public List<Team> teams = new ArrayList<>();
+    public Set<Team> teams = new HashSet<>();
 
     public ProgramManagerRole(User user, Category category) {
         super(user, category);
@@ -56,7 +56,7 @@ public class ProgramManagerRole extends Role {
         return teams.stream().filter(t -> t.getProject().getId() == id).findAny().orElse(null);
     }
 
-    public List<Team> getTeams() {
+    public Set<Team> getTeams() {
         return teams;
     }
 

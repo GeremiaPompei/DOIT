@@ -33,12 +33,12 @@ public class MainView {
                         String result =
                                 this.commands.get(command1).get(params[0]).apply(params);
                         System.out.println("\n" + result + "\n");
-                    }
+                    } else if (!command2.equalsIgnoreCase("back"))
+                        System.out.println("\n Command not found!\n");
                 }
                 command2 = "";
-            } else {
+            } else if (!command1.equalsIgnoreCase("exit"))
                 System.out.println("\n Command not found!\n");
-            }
         }
         System.out.println("Goodbye...");
     }

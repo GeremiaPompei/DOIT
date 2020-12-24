@@ -2,7 +2,7 @@ package it.unicam.cs.ids.DOIT.controller;
 
 import it.unicam.cs.ids.DOIT.model.Category;
 import it.unicam.cs.ids.DOIT.model.Project;
-import it.unicam.cs.ids.DOIT.model.Roles.ProjectProposerRole;
+import it.unicam.cs.ids.DOIT.model.roles.ProjectProposerRole;
 import it.unicam.cs.ids.DOIT.model.RoleException;
 import it.unicam.cs.ids.DOIT.model.User;
 

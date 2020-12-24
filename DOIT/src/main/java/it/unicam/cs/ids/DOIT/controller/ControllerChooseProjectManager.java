@@ -1,11 +1,11 @@
 package it.unicam.cs.ids.DOIT.controller;
 
-import it.unicam.cs.ids.DOIT.model.Roles.ProgramManagerRole;
+import it.unicam.cs.ids.DOIT.model.roles.ProgramManagerRole;
 import it.unicam.cs.ids.DOIT.model.Project;
 import it.unicam.cs.ids.DOIT.model.RoleException;
 import it.unicam.cs.ids.DOIT.model.User;
 
-import java.util.List;
+import java.util.Set;
 
 public class ControllerChooseProjectManager {
 
@@ -15,7 +15,7 @@ public class ControllerChooseProjectManager {
         this.user.getRole(ProgramManagerRole.class).setProjectManager(designer, project);
     }
 
-    public List<User> findDesigner(Project project) {
+    public Set<User> getDesigners(Project project) {
         return project.getTeam().getDesigners();
     }
 

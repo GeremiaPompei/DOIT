@@ -1,21 +1,22 @@
 package it.unicam.cs.ids.DOIT.model;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class User {
     private int id;
     private String name;
     private String surname;
-    private List<String> generalities;
+    private int birthYear;
+    private String gender;
     private Set<Role> roles;
 
-    public User(int id, String name, String surname, List<String> generalities) {
+    public User(int id, String name, String surname, int birthYear, String gender) {
         this.id = id;
         this.name = name;
         this.surname = surname;
-        this.generalities = generalities;
+        this.birthYear = birthYear;
+        this.gender = gender;
         this.roles = new HashSet<>();
     }
 
@@ -31,10 +32,13 @@ public class User {
         return surname;
     }
 
-    public List<String> getGeneralities() {
-        return generalities;
+    public int getBirthYear() {
+        return birthYear;
     }
 
+    public String getGender() {
+        return gender;
+    }
 
     public <T extends Role> boolean addRole(Class<T> clazz, Category category)
             throws ReflectiveOperationException {
@@ -68,7 +72,8 @@ public class User {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
-                ", generalities=" + generalities +
+                ", birthYear=" + birthYear +
+                ", gender='" + gender + '\'' +
                 ", roles=" + roles +
                 '}';
     }

@@ -1,4 +1,4 @@
-package it.unicam.cs.ids.DOIT.model.Roles;
+package it.unicam.cs.ids.DOIT.model.roles;
 
 import it.unicam.cs.ids.DOIT.model.*;
 

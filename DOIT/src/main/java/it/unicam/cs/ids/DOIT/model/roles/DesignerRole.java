@@ -1,23 +1,24 @@
-package it.unicam.cs.ids.DOIT.model.Roles;
+package it.unicam.cs.ids.DOIT.model.roles;
 
 import it.unicam.cs.ids.DOIT.model.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class DesignerRole extends Role {
 
-    private List<PartecipationRequest> partecipationRequests;
+    private Set<PartecipationRequest> partecipationRequests;
     private CurriculumVitae curriculumVitae;
 
 
     public DesignerRole(User user, Category category) {
         super(user, category);
-        this.partecipationRequests = new ArrayList<>();
+        this.partecipationRequests = new HashSet<>();
         this.curriculumVitae = new CurriculumVitae();
     }
 
-    public List<PartecipationRequest> getPartecipationRequests() {
+    public Set<PartecipationRequest> getPartecipationRequests() {
         return partecipationRequests;
     }
 
@@ -26,6 +27,11 @@ public class DesignerRole extends Role {
     }
 
     public boolean createPartecipationRequest(Team team) {
+        if (team.getPartecipationRequests().stream().map(p -> p.getDesigner()).collect(Collectors.toSet())
+                .contains(this.getUser()))
+            throw new IllegalArgumentException("Partecipation request gia presente nel team!");
+        if (team.getDesigners().contains(this.getUser()))
+            throw new IllegalArgumentException("Designer gia presente nel team!");
         if (!this.getCategories().contains(team.getProject().getCategory()))
             throw new IllegalArgumentException("L'utente non presenta la categoria: [" +
                     team.getProject().getCategory() + "]");

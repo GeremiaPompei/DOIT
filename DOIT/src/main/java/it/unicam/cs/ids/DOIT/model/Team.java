@@ -1,23 +1,23 @@
 package it.unicam.cs.ids.DOIT.model;
 
-import it.unicam.cs.ids.DOIT.model.Roles.DesignerRole;
+import it.unicam.cs.ids.DOIT.model.roles.DesignerRole;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Team {
     private boolean state = false;
     private Project project;
     private User programManager;
-    private List<User> designer;
-    private List<PartecipationRequest> partecipationRequests;
+    private Set<User> designer;
+    private Set<PartecipationRequest> partecipationRequests;
 
     public Team(Project project, User programManager) {
         this.project = project;
         this.programManager = programManager;
-        this.designer = new ArrayList<>();
-        this.partecipationRequests = new ArrayList<>();
+        this.designer = new HashSet<>();
+        this.partecipationRequests = new HashSet<>();
     }
 
     public boolean getState() {
@@ -42,11 +42,11 @@ public class Team {
         return this.designer.remove(designer) && b;
     }
 
-    public List<User> getDesigners() {
+    public Set<User> getDesigners() {
         return designer;
     }
 
-    public List<PartecipationRequest> getPartecipationRequests() {
+    public Set<PartecipationRequest> getPartecipationRequests() {
         return partecipationRequests;
     }
 

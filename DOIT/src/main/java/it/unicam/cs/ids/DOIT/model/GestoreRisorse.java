@@ -12,14 +12,9 @@ public class GestoreRisorse {
         risorse.put(User.class, new HashSet<>());
         risorse.put(Project.class, new HashSet<>());
         risorse.put(Category.class, new HashSet<>());
-        risorse.put(Class.class, new HashSet<>());
-        Arrays.stream(new File("src/main/java/it/unicam/cs/ids/DOIT/model/Roles").list())
-                .forEach(s -> {
-                    try {
-                        risorse.get(Class.class).add(Class.forName("it.unicam.cs.ids.DOIT.model.Roles." +
-                                s.replace(".java", "")));
-                    } catch (ClassNotFoundException e) {}
-                });
+        risorse.put(String.class, new HashSet<>());
+        Arrays.stream(new File("src/main/java/it/unicam/cs/ids/DOIT/model/roles").list())
+                .forEach(s -> risorse.get(String.class).add(s.replace(".java", "")));
         risorse.get(Category.class).add(new Category("Sport", "La mia CT."));
         risorse.get(Category.class).add(new Category("Informatica", "Indiani."));
         risorse.get(Category.class).add(new Category("Domotica", "In casa."));

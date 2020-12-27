@@ -14,33 +14,39 @@ public class ProgramManagerRole extends Role {
         super(user, category);
     }
 
-    public boolean removePartecipationRequest(PartecipationRequest partecipationRequest, String description) {
+    public void removePartecipationRequest(PartecipationRequest partecipationRequest, String description) {
         Team team = partecipationRequest.getTeam();
-        if (this.teams.contains(team) && description != null && !description.equals("")) {
-            partecipationRequest.displayed(description);
-            return team.getPartecipationRequests().remove(partecipationRequest);
-        }
-        return false;
+        if (!this.teams.contains(team))
+            throw new IllegalArgumentException("Il Program Manager non possiede il team: [" + team.getProject().getId()
+                    + "]");
+        if (description == null || description.equals(""))
+            throw new IllegalArgumentException("La descrizione non può essere vuota!");
+        partecipationRequest.displayed(description);
+        team.getPartecipationRequests().remove(partecipationRequest);
     }
 
-    public boolean addDesigner(PartecipationRequest partecipationRequest) throws RoleException {
+    public void addDesigner(PartecipationRequest partecipationRequest) throws RoleException {
         Team team = partecipationRequest.getTeam();
-        if (this.teams.contains(team)) {
-            partecipationRequest.displayed("Congratulations! You are accepted.");
-            boolean b = team.getPartecipationRequests().remove(partecipationRequest);
-            return team.addDesigner(partecipationRequest.getDesigner()) && b;
-        }
-        return false;
+        if (!this.teams.contains(team))
+            throw new IllegalArgumentException("Il Program Manager non possiede il team: [" + team.getProject().getId()
+                    + "]");
+        partecipationRequest.displayed("Congratulations! You are accepted.");
+        team.getPartecipationRequests().remove(partecipationRequest);
+        team.addDesigner(partecipationRequest.getDesigner());
     }
 
     public Set<User> getDesigners(Project project) {
         return this.getTeam(project.getId()).getDesigners();
     }
 
-    public boolean removeDesigner(User designer, Team team) throws RoleException {
-        if (this.teams.contains(team) && team.getDesigners().contains(designer))
-            return team.removeDesigner(designer);
-        return false;
+    public void removeDesigner(User designer, Team team) throws RoleException {
+        if (!this.teams.contains(team))
+            throw new IllegalArgumentException("Il Program Manager non possiede il team: [" + team.getProject().getId()
+                    + "]");
+        if (!team.getDesigners().contains(designer))
+            throw new IllegalArgumentException("Il Program Manager non è interno al team: [" + team.getProject().getId()
+                    + "]");
+        team.removeDesigner(designer);
     }
 
     public void setProjectManager(User user, Project project) throws RoleException {
@@ -58,8 +64,8 @@ public class ProgramManagerRole extends Role {
     }
 
     public Set<PartecipationRequest> getPartecipationRequests(Team team) {
-        if(!teams.contains(team))
-            throw new IllegalArgumentException("Team non posseduto: ["+team.getProject().getId()+"]");
+        if (!teams.contains(team))
+            throw new IllegalArgumentException("Team non posseduto: [" + team.getProject().getId() + "]");
         return team.getPartecipationRequests();
     }
 

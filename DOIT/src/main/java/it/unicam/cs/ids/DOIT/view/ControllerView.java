@@ -1,6 +1,6 @@
 package it.unicam.cs.ids.DOIT.view;
 
-import it.unicam.cs.ids.DOIT.controller.*;
+import it.unicam.cs.ids.DOIT.controller.Controller;
 import it.unicam.cs.ids.DOIT.model.*;
 import it.unicam.cs.ids.DOIT.model.roles.DesignerRole;
 import it.unicam.cs.ids.DOIT.model.roles.ProgramManagerRole;
@@ -15,10 +15,11 @@ import java.util.stream.Collectors;
 
 public class ControllerView {
 
-    private User user;
+    private Controller controller;
     private Map<String, Map<String, Function<String[], String>>> commands;
 
     public ControllerView() {
+        controller = new Controller();
         commands = new HashMap<>();
         loadCommands();
     }
@@ -39,32 +40,21 @@ public class ControllerView {
 
     private String createUser(String[] s) {
         return manageFunc(() ->
-        {
-            int id = Integer.parseInt(s[1]);
-            if (searchUser(id) != null)
-                throw new Exception("Esiste gia un user con stesso id!");
-            GestoreRisorse.getInstance().getRisorse().get(User.class)
-                    .add(new User(id, s[2], s[3], Integer.parseInt(s[4]), s[5]));
-        });
+                this.controller.createUser(Integer.parseInt(s[1]), s[2], s[3], Integer.parseInt(s[4]), s[5]));
     }
 
     private String addRole(String[] s) {
         return manageFunc(() -> {
-            Category cat = searchCategory(s[2]);
-            if (cat == null)
-                throw new Exception("Categoria inesistente!");
-            user.addRole((Class<? extends Role>) Class.forName("it.unicam.cs.ids.DOIT.model.roles." +
-                    GestoreRisorse.getInstance().searchOne(String.class, r -> r.equalsIgnoreCase(s[1]))), cat);
+            Class<? extends Role> role = (Class<? extends Role>) Class.forName("it.unicam.cs.ids.DOIT.model.roles." +
+                    GestoreRisorse.getInstance().searchOne(String.class, r -> r.equalsIgnoreCase(s[1])));
+            this.controller.addRole(role, s[2]);
             loadCommands();
         });
     }
 
     private String login(String[] s) {
         return manageFunc(() -> {
-            User user = searchUser(Integer.parseInt(s[1]));
-            if (user == null)
-                throw new Exception("L'utente non esiste!");
-            this.user = user;
+            this.controller.login(Integer.parseInt(s[1]));
             loadCommands();
         });
     }
@@ -89,36 +79,17 @@ public class ControllerView {
     }
 
     private String createProject(String[] s) {
-        return manageFunc(() -> {
-            int id = Integer.parseInt(s[1]);
-            if (searchProject(id) != null)
-                throw new Exception("Esiste gia un progetto con stesso id!");
-            Category cat = searchCategory(s[4]);
-            if (cat == null)
-                throw new Exception("Categoria inesistente!");
-            GestoreRisorse.getInstance().getRisorse().get(Project.class).add(this.user.getRole(ProjectProposerRole.class)
-                    .createProject(id, s[2], s[3], cat));
-        });
+        return manageFunc(() -> this.controller.createProject(Integer.parseInt(s[1]), s[2], s[3], s[4]));
     }
 
     private String choosePgm(String[] s) {
-        return manageFunc(() -> {
-            Project p = searchProject(Integer.parseInt(s[2]));
-            if (p.getTeam() != null)
-                throw new Exception("Team gia inizializzato!");
-            int id = Integer.parseInt(s[1]);
-            User usr = searchUser(id);
-            if (usr == null)
-                throw new Exception("Non esiste l'utente con id: [" + id + "]");
-            this.user.getRole(ProjectProposerRole.class).initTeam(usr, p);
-        });
+        return manageFunc(() -> this.controller.choosePgm(Integer.parseInt(s[1]), Integer.parseInt(s[2])));
     }
 
     private String listPgm(String[] s) {
         if (s.length == 1)
             return "Aggiungere una categoria!";
-        return manageException(() -> this.user.getRole(ProjectProposerRole.class)
-                .findProgramManagerList(searchCategory(s[1])).toString());
+        return manageException(() -> this.controller.listPgm(s[1]).toString());
     }
 
     private Map<String, Function<String[], String>> designerMap() {
@@ -130,18 +101,13 @@ public class ControllerView {
     }
 
     private String sendPr(String[] s) {
-        return manageFunc(() -> {
-            int id = Integer.parseInt(s[1]);
-            this.user.getRole(DesignerRole.class).createPartecipationRequest(GestoreRisorse.getInstance()
-                    .searchOne(Project.class, cAddPR.getProject(id)));
-        });
+        return manageFunc(() -> this.controller.sendPr(Integer.parseInt(s[1])));
     }
 
     private String listProjects(String[] s) {
         if (s.length == 1)
             return "Aggiungere una categoria!";
-        return manageException(() ->
-                GestoreRisorse.getInstance().search(Project.class, cAddPR.getProjects(searchCategory(s[1]))).toString());
+        return manageException(() -> this.controller.listProjects(s[1]).toString());
     }
 
     private Map<String, Function<String[], String>> programManagerMap() {
@@ -161,14 +127,8 @@ public class ControllerView {
         return manageFunc(() -> {
             int idD = Integer.parseInt(s[1]);
             int idP = Integer.parseInt(s[2]);
-            PartecipationRequest pr = this.user.getRole(ProgramManagerRole.class).getPartecipationRequests(
-                    searchProject(idP).getTeam()).stream()
-                    .filter(p -> p.getDesigner().getId() == idD).findAny().orElse(null);
-            if (pr == null)
-                throw new Exception("Partecipation request non esistente!");
-            this.user.getRole(ProgramManagerRole.class).removePartecipationRequest(pr, List.of(s).subList(2, s.length)
-                    .stream()
-                    .reduce((x, y) -> x + y).get());
+            String reason = List.of(s).subList(2, s.length).stream().reduce((x, y) -> x + y).get();
+            this.controller.removePr(idD, idP, reason);
         });
     }
 
@@ -176,12 +136,7 @@ public class ControllerView {
         return manageFunc(() -> {
             int idD = Integer.parseInt(s[1]);
             int idP = Integer.parseInt(s[2]);
-            PartecipationRequest pr = this.user.getRole(ProgramManagerRole.class).getPartecipationRequests(
-                    searchProject(idP).getTeam()).stream().filter(p -> p.getDesigner().getId() == idD)
-                    .findAny().orElse(null);
-            if (pr == null)
-                throw new Exception("Partecipation request non esistente!");
-            this.user.getRole(ProgramManagerRole.class).addDesigner(pr);
+            this.controller.addDesigner(idD, idP);
         });
     }
 
@@ -189,48 +144,33 @@ public class ControllerView {
         return manageFunc(() -> {
             int idU = Integer.parseInt(s[1]);
             int idP = Integer.parseInt(s[2]);
-            this.user.getRole(ProgramManagerRole.class).setProjectManager(searchUser(idU), searchProject(idP));
+            this.controller.choosePjm(idU, idP);
         });
     }
 
     private String listTeams(String[] s) {
-        return manageException(() -> this.user.getRole(ProgramManagerRole.class).getTeams().toString());
+        return manageException(() -> this.controller.listTeams().toString());
     }
 
     private String listPR(String[] s) {
-        return manageException(() -> {
-            Project p = searchProject(Integer.parseInt(s[1]));
-            if (p == null)
-                return "Progetto inesistente!";
-            return this.user.getRole(ProgramManagerRole.class).getPartecipationRequests(p.getTeam()).toString();
-        });
+        if (s.length == 1)
+            return "Aggiungere l'id di un progetto!";
+        return manageException(() -> this.controller.listPR(Integer.parseInt(s[1])).toString());
     }
 
     private String listDesigner(String[] s) {
         if (s.length == 1)
             return "Aggiungere l'id di un progetto!";
-        return manageException(() ->
-                this.user.getRole(ProgramManagerRole.class).getDesigners(searchProject(Integer.parseInt(s[1]))).toString());
-    }
-
-    private User searchUser(int id) {
-        return GestoreRisorse.getInstance().searchOne(User.class, u -> u.getId() == id);
-    }
-
-    private Project searchProject(int id) {
-        return GestoreRisorse.getInstance().searchOne(Project.class, p -> p.getId() == id);
-    }
-
-    private Category searchCategory(String id) {
-        return GestoreRisorse.getInstance().searchOne(Category.class, c -> c.getName().equalsIgnoreCase(id));
+        return manageException(() -> this.controller.listDesigner(Integer.parseInt(s[1])).toString());
     }
 
     private void loadCommands() {
         commands.clear();
         commands.put("user", userMap());
         commands.put("list", listMap());
-        if (user != null) {
-            Set<Class<? extends Role>> set = user.getRoles().stream().map(r -> r.getClass()).collect(Collectors.toSet());
+        if (controller.getUser() != null) {
+            Set<Class<? extends Role>> set = controller.getUser().getRoles().stream().map(r -> r.getClass())
+                    .collect(Collectors.toSet());
             if (set.contains(ProjectProposerRole.class))
                 commands.put("project-proposer", projectProposerMap());
             if (set.contains(DesignerRole.class))

@@ -26,7 +26,7 @@ public class DesignerRole extends Role {
         return curriculumVitae;
     }
 
-    public boolean createPartecipationRequest(Team team) {
+    public PartecipationRequest createPartecipationRequest(Team team) {
         if (team.getPartecipationRequests().stream().map(p -> p.getDesigner()).collect(Collectors.toSet())
                 .contains(this.getUser()))
             throw new IllegalArgumentException("Partecipation request gia presente nel team!");
@@ -37,7 +37,12 @@ public class DesignerRole extends Role {
                     team.getProject().getCategory() + "]");
         PartecipationRequest partecipationRequest = new PartecipationRequest(this.getUser(), team);
         this.partecipationRequests.add(partecipationRequest);
-        return team.getPartecipationRequests().add(partecipationRequest);
+        team.getPartecipationRequests().add(partecipationRequest);
+        return partecipationRequest;
+    }
+
+    public Set<Project> getProjects(Category category) {
+        return GestoreRisorse.getInstance().search(Project.class, p -> p.getCategory().equals(category));
     }
 
     @Override

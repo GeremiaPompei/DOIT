@@ -7,6 +7,7 @@ public class Category {
 	public Category(String name, String description) {
 		this.name = name.toUpperCase();
 		this.description = description;
+		GestoreRisorse.getInstance().getRisorse().get(Category.class).add(this);
 	}
 
 	public String getName() {

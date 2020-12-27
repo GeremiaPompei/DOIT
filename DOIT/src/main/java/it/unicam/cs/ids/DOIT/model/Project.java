@@ -21,6 +21,7 @@ public class Project {
         this.projectProposer = projectProposer;
         this.category = category;
         this.projectState = ProjectState.INITIALIZATION;
+        GestoreRisorse.getInstance().getRisorse().get(Project.class).add(this);
     }
 
     public void setTeam(Team team) {

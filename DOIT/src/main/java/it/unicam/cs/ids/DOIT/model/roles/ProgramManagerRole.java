@@ -33,6 +33,10 @@ public class ProgramManagerRole extends Role {
         return false;
     }
 
+    public Set<User> getDesigners(Project project) {
+        return this.getTeam(project.getId()).getDesigners();
+    }
+
     public boolean removeDesigner(User designer, Team team) throws RoleException {
         if (this.teams.contains(team) && team.getDesigners().contains(designer))
             return team.removeDesigner(designer);
@@ -51,6 +55,12 @@ public class ProgramManagerRole extends Role {
         this.teams.add(team);
         project.setTeam(team);
         this.getProjects().add(project);
+    }
+
+    public Set<PartecipationRequest> getPartecipationRequests(Team team) {
+        if(!teams.contains(team))
+            throw new IllegalArgumentException("Team non posseduto: ["+team.getProject().getId()+"]");
+        return team.getPartecipationRequests();
     }
 
     public Team getTeam(int id) {

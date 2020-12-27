@@ -17,24 +17,10 @@ public class ControllerView {
 
     private User user;
     private Map<String, Map<String, Function<String[], String>>> commands;
-    private GestoreRisorse gestoreRisorse;
-    private ControllerChooseTeamMembers cChooseTeamMembers;
-    private ControllerAddPR cAddPR;
-    private ControllerChooseProjectManager cChooseProjectManager;
 
     public ControllerView() {
         commands = new HashMap<>();
         loadCommands();
-        this.cAddPR = new ControllerAddPR();
-        this.cChooseProjectManager = new ControllerChooseProjectManager();
-        this.cChooseTeamMembers = new ControllerChooseTeamMembers();
-        setControllersUser();
-    }
-
-    private void setControllersUser() {
-        this.cAddPR.setUser(user);
-        this.cChooseProjectManager.setUser(user);
-        this.cChooseTeamMembers.setUser(user);
     }
 
     public Map<String, Map<String, Function<String[], String>>> getCommands() {
@@ -57,7 +43,7 @@ public class ControllerView {
             int id = Integer.parseInt(s[1]);
             if (searchUser(id) != null)
                 throw new Exception("Esiste gia un user con stesso id!");
-            gestoreRisorse.getRisorse().get(User.class)
+            GestoreRisorse.getInstance().getRisorse().get(User.class)
                     .add(new User(id, s[2], s[3], Integer.parseInt(s[4]), s[5]));
         });
     }
@@ -68,7 +54,7 @@ public class ControllerView {
             if (cat == null)
                 throw new Exception("Categoria inesistente!");
             user.addRole((Class<? extends Role>) Class.forName("it.unicam.cs.ids.DOIT.model.roles." +
-                    gestoreRisorse.searchOne(String.class, r -> r.equalsIgnoreCase(s[1]))), cat);
+                    GestoreRisorse.getInstance().searchOne(String.class, r -> r.equalsIgnoreCase(s[1]))), cat);
             loadCommands();
         });
     }
@@ -79,17 +65,16 @@ public class ControllerView {
             if (user == null)
                 throw new Exception("L'utente non esiste!");
             this.user = user;
-            setControllersUser();
             loadCommands();
         });
     }
 
     private Map<String, Function<String[], String>> listMap() {
         Map<String, Function<String[], String>> map = new HashMap<>();
-        map.put("users", (s) -> gestoreRisorse.getRisorse().get(User.class) + "");
-        map.put("projects", (s) -> gestoreRisorse.getRisorse().get(Project.class) + "");
-        map.put("categories", (s) -> gestoreRisorse.getRisorse().get(Category.class) + "");
-        map.put("roles", (s) -> gestoreRisorse.getRisorse().get(String.class) + "");
+        map.put("users", (s) -> GestoreRisorse.getInstance().getRisorse().get(User.class) + "");
+        map.put("projects", (s) -> GestoreRisorse.getInstance().getRisorse().get(Project.class) + "");
+        map.put("categories", (s) -> GestoreRisorse.getInstance().getRisorse().get(Category.class) + "");
+        map.put("roles", (s) -> GestoreRisorse.getInstance().getRisorse().get(String.class) + "");
         return map;
     }
 
@@ -147,7 +132,8 @@ public class ControllerView {
     private String sendPr(String[] s) {
         return manageFunc(() -> {
             int id = Integer.parseInt(s[1]);
-            cAddPR.addPartecipationRequest(gestoreRisorse.searchOne(Project.class, cAddPR.getProject(id)));
+            this.user.getRole(DesignerRole.class).createPartecipationRequest(GestoreRisorse.getInstance()
+                    .searchOne(Project.class, cAddPR.getProject(id)));
         });
     }
 
@@ -155,7 +141,7 @@ public class ControllerView {
         if (s.length == 1)
             return "Aggiungere una categoria!";
         return manageException(() ->
-                gestoreRisorse.search(Project.class, cAddPR.getProjects(searchCategory(s[1]))).toString());
+                GestoreRisorse.getInstance().search(Project.class, cAddPR.getProjects(searchCategory(s[1]))).toString());
     }
 
     private Map<String, Function<String[], String>> programManagerMap() {
@@ -166,27 +152,36 @@ public class ControllerView {
         map.put("list-teams", this::listTeams);
         map.put("list-pr", this::listPR);
         map.put("list-d", this::listDesigner);
-        map.put("help", (s) -> " > add-designer idDesigner \n > remove-pr idDesigner reason \n > choose-pjm idDesigner "
+        map.put("help", (s) -> " > add-designer idDesigner idTeam \n > remove-pr idDesigner idTeam reason \n > choose-pjm idDesigner "
                 + "idProject \n > list-d idProject \n > list-teams \n > list-pr idProject");
         return map;
     }
 
     private String removePr(String[] s) {
         return manageFunc(() -> {
-            PartecipationRequest pr = searchPR(Integer.parseInt(s[1]));
+            int idD = Integer.parseInt(s[1]);
+            int idP = Integer.parseInt(s[2]);
+            PartecipationRequest pr = this.user.getRole(ProgramManagerRole.class).getPartecipationRequests(
+                    searchProject(idP).getTeam()).stream()
+                    .filter(p -> p.getDesigner().getId() == idD).findAny().orElse(null);
             if (pr == null)
                 throw new Exception("Partecipation request non esistente!");
-            cChooseTeamMembers.removePartecipationRequest(pr, List.of(s).subList(2, s.length).stream()
+            this.user.getRole(ProgramManagerRole.class).removePartecipationRequest(pr, List.of(s).subList(2, s.length)
+                    .stream()
                     .reduce((x, y) -> x + y).get());
         });
     }
 
     private String addDesigner(String[] s) {
         return manageFunc(() -> {
-            PartecipationRequest pr = searchPR(Integer.parseInt(s[1]));
+            int idD = Integer.parseInt(s[1]);
+            int idP = Integer.parseInt(s[2]);
+            PartecipationRequest pr = this.user.getRole(ProgramManagerRole.class).getPartecipationRequests(
+                    searchProject(idP).getTeam()).stream().filter(p -> p.getDesigner().getId() == idD)
+                    .findAny().orElse(null);
             if (pr == null)
                 throw new Exception("Partecipation request non esistente!");
-            cChooseTeamMembers.addDesigner(pr);
+            this.user.getRole(ProgramManagerRole.class).addDesigner(pr);
         });
     }
 
@@ -194,12 +189,12 @@ public class ControllerView {
         return manageFunc(() -> {
             int idU = Integer.parseInt(s[1]);
             int idP = Integer.parseInt(s[2]);
-            cChooseProjectManager.becomeProjectManager(searchUser(idU), searchProject(idP));
+            this.user.getRole(ProgramManagerRole.class).setProjectManager(searchUser(idU), searchProject(idP));
         });
     }
 
     private String listTeams(String[] s) {
-        return manageException(() -> cChooseTeamMembers.getTeams().toString());
+        return manageException(() -> this.user.getRole(ProgramManagerRole.class).getTeams().toString());
     }
 
     private String listPR(String[] s) {
@@ -207,7 +202,7 @@ public class ControllerView {
             Project p = searchProject(Integer.parseInt(s[1]));
             if (p == null)
                 return "Progetto inesistente!";
-            return cChooseTeamMembers.getPartecipationRequests(p.getTeam()).toString();
+            return this.user.getRole(ProgramManagerRole.class).getPartecipationRequests(p.getTeam()).toString();
         });
     }
 
@@ -215,27 +210,19 @@ public class ControllerView {
         if (s.length == 1)
             return "Aggiungere l'id di un progetto!";
         return manageException(() ->
-                cChooseProjectManager.getDesigners(searchProject(Integer.parseInt(s[1]))).toString());
+                this.user.getRole(ProgramManagerRole.class).getDesigners(searchProject(Integer.parseInt(s[1]))).toString());
     }
 
     private User searchUser(int id) {
-        return gestoreRisorse.searchOne(User.class, u -> u.getId() == id);
+        return GestoreRisorse.getInstance().searchOne(User.class, u -> u.getId() == id);
     }
 
     private Project searchProject(int id) {
-        return gestoreRisorse.searchOne(Project.class, p -> p.getId() == id);
+        return GestoreRisorse.getInstance().searchOne(Project.class, p -> p.getId() == id);
     }
 
     private Category searchCategory(String id) {
-        return gestoreRisorse.searchOne(Category.class, c -> c.getName().equalsIgnoreCase(id));
-    }
-
-    private PartecipationRequest searchPR(int id) {
-        return ((Set<Project>) gestoreRisorse.getRisorse().get(Project.class)).stream()
-                .map(p -> p.getTeam().getPartecipationRequests()).reduce((x, y) -> {
-                    x.addAll(y);
-                    return x;
-                }).get().stream().filter(x -> x.getDesigner().getId() == id).findAny().get();
+        return GestoreRisorse.getInstance().searchOne(Category.class, c -> c.getName().equalsIgnoreCase(id));
     }
 
     private void loadCommands() {

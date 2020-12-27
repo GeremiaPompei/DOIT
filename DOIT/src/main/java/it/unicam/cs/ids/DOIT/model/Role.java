@@ -33,7 +33,7 @@ public abstract class Role {
 
     @Override
     public String toString() {
-        return this.getClass().getSimpleName() + "{" +
+        return "Role{" +
                 "project=" + project.stream().map(p -> p.getId()).collect(Collectors.toSet()) +
                 ", categories=" + categories.stream().map(p -> p.getName()).collect(Collectors.toSet()) +
                 '}';

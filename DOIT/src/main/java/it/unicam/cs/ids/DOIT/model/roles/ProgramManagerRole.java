@@ -4,6 +4,7 @@ import it.unicam.cs.ids.DOIT.model.*;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ProgramManagerRole extends Role {
 
@@ -63,5 +64,13 @@ public class ProgramManagerRole extends Role {
     private void checkProject(Project project) {
         if (!this.getProjects().contains(project))
             throw new IllegalArgumentException("L'utente non possiede il progetto con id:[" + project.getId() + "]");
+    }
+
+    @Override
+    public String toString() {
+        return "ProgramManagerRole{" +
+                "role=" + super.toString() +
+                ", teams=" + teams.stream().map(t -> t.getProject().getId()).collect(Collectors.toSet()) +
+                '}';
     }
 }

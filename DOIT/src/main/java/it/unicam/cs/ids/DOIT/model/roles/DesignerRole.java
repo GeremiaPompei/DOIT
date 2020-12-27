@@ -40,4 +40,12 @@ public class DesignerRole extends Role {
         return team.getPartecipationRequests().add(partecipationRequest);
     }
 
+    @Override
+    public String toString() {
+        return "DesignerRole{" +
+                "role=" + super.toString() +
+                ", partecipationRequests=" + partecipationRequests +
+                ", curriculumVitae=" + curriculumVitae +
+                '}';
+    }
 }

@@ -35,6 +35,22 @@ public class CurriculumVitae {
         return false;
     }
 
+    public Map<Integer, List<CVUnit>> getProjects() {
+        return projects;
+    }
+
+    public Map<LocalDate, String> getHistory() {
+        return history;
+    }
+
+    @Override
+    public String toString() {
+        return "CurriculumVitae{" +
+                "history=" + history +
+                ", projects=" + projects +
+                '}';
+    }
+
     private class CVUnit {
         private LocalDateTime dateTime;
         private boolean in;
@@ -43,13 +59,10 @@ public class CurriculumVitae {
             this.dateTime = LocalDateTime.now();
             this.in = in;
         }
-    }
 
-    public Map<Integer, List<CVUnit>> getProjects() {
-        return projects;
-    }
-
-    public Map<LocalDate, String> getHistory() {
-        return history;
+        @Override
+        public String toString() {
+            return dateTime + " , " + in;
+        }
     }
 }

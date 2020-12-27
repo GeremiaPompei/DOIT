@@ -1,9 +1,8 @@
 package it.unicam.cs.ids.DOIT.model.roles;
 
-import it.unicam.cs.ids.DOIT.model.Category;
-import it.unicam.cs.ids.DOIT.model.Project;
-import it.unicam.cs.ids.DOIT.model.Role;
-import it.unicam.cs.ids.DOIT.model.User;
+import it.unicam.cs.ids.DOIT.model.*;
+
+import java.util.Set;
 
 public class ProjectProposerRole extends Role {
 
@@ -20,4 +19,22 @@ public class ProjectProposerRole extends Role {
         return project;
     }
 
+    public Set<User> findProgramManagerList(Category category) {
+        return GestoreRisorse.getInstance().search(User.class, u -> {
+            try {
+                return u.getRole(ProgramManagerRole.class).getCategories().contains(category);
+            } catch (RoleException e) {
+                return false;
+            }
+        });
+    }
+
+    public void initTeam(User user, Project project) throws RoleException {
+        user.getRole(ProgramManagerRole.class).initTeam(project);
+    }
+
+    @Override
+    public String toString() {
+        return "ProjectProposerRole{role=" + super.toString() + "}";
+    }
 }

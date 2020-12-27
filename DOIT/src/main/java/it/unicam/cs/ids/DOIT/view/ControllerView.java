@@ -20,27 +20,20 @@ public class ControllerView {
     private GestoreRisorse gestoreRisorse;
     private ControllerChooseTeamMembers cChooseTeamMembers;
     private ControllerAddPR cAddPR;
-    private ControllerInsertProposal cInsertProposal;
     private ControllerChooseProjectManager cChooseProjectManager;
-    private ControllerChooseProgramManager cChooseProgramManager;
 
     public ControllerView() {
-        gestoreRisorse = new GestoreRisorse();
         commands = new HashMap<>();
         loadCommands();
         this.cAddPR = new ControllerAddPR();
-        this.cChooseProgramManager = new ControllerChooseProgramManager();
         this.cChooseProjectManager = new ControllerChooseProjectManager();
-        this.cInsertProposal = new ControllerInsertProposal();
         this.cChooseTeamMembers = new ControllerChooseTeamMembers();
         setControllersUser();
     }
 
     private void setControllersUser() {
         this.cAddPR.setUser(user);
-        this.cChooseProgramManager.setUser(user);
         this.cChooseProjectManager.setUser(user);
-        this.cInsertProposal.setUser(user);
         this.cChooseTeamMembers.setUser(user);
     }
 
@@ -53,7 +46,7 @@ public class ControllerView {
         map.put("create", this::createUser);
         map.put("add-role", this::addRole);
         map.put("login", this::login);
-        map.put("help", (s) -> " > create idUser nameUser surnameUser [generality1, generality2...]"
+        map.put("help", (s) -> " > create idUser nameUser surnameUser birthYearUeser genderUser"
                 + "\n > add-role nameRole categoryName \n > login idUser");
         return map;
     }
@@ -118,7 +111,8 @@ public class ControllerView {
             Category cat = searchCategory(s[4]);
             if (cat == null)
                 throw new Exception("Categoria inesistente!");
-            gestoreRisorse.getRisorse().get(Project.class).add(cInsertProposal.createProject(id, s[2], s[3], cat));
+            GestoreRisorse.getInstance().getRisorse().get(Project.class).add(this.user.getRole(ProjectProposerRole.class)
+                    .createProject(id, s[2], s[3], cat));
         });
     }
 
@@ -131,14 +125,15 @@ public class ControllerView {
             User usr = searchUser(id);
             if (usr == null)
                 throw new Exception("Non esiste l'utente con id: [" + id + "]");
-            cChooseProgramManager.initTeam(usr, p);
+            this.user.getRole(ProjectProposerRole.class).initTeam(usr, p);
         });
     }
 
     private String listPgm(String[] s) {
-        return manageException(() ->
-                gestoreRisorse.search(User.class, cChooseProgramManager.findProgramManagerList(searchCategory(s[1])))
-                        .toString());
+        if (s.length == 1)
+            return "Aggiungere una categoria!";
+        return manageException(() -> this.user.getRole(ProjectProposerRole.class)
+                .findProgramManagerList(searchCategory(s[1])).toString());
     }
 
     private Map<String, Function<String[], String>> designerMap() {
@@ -157,6 +152,8 @@ public class ControllerView {
     }
 
     private String listProjects(String[] s) {
+        if (s.length == 1)
+            return "Aggiungere una categoria!";
         return manageException(() ->
                 gestoreRisorse.search(Project.class, cAddPR.getProjects(searchCategory(s[1]))).toString());
     }
@@ -215,6 +212,8 @@ public class ControllerView {
     }
 
     private String listDesigner(String[] s) {
+        if (s.length == 1)
+            return "Aggiungere l'id di un progetto!";
         return manageException(() ->
                 cChooseProjectManager.getDesigners(searchProject(Integer.parseInt(s[1]))).toString());
     }

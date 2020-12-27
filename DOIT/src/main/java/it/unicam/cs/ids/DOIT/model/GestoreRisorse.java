@@ -6,9 +6,17 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class GestoreRisorse {
+    private static GestoreRisorse instance;
+
+    public static GestoreRisorse getInstance() {
+        if (instance == null)
+            instance = new GestoreRisorse();
+        return instance;
+    }
+
     private final Map<Class, Set> risorse = new HashMap<>();
 
-    public GestoreRisorse() {
+    private GestoreRisorse() {
         risorse.put(User.class, new HashSet<>());
         risorse.put(Project.class, new HashSet<>());
         risorse.put(Category.class, new HashSet<>());

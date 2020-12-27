@@ -10,13 +10,13 @@ public class Team {
     private boolean state = false;
     private Project project;
     private User programManager;
-    private Set<User> designer;
+    private Set<User> designers;
     private Set<PartecipationRequest> partecipationRequests;
 
     public Team(Project project, User programManager) {
         this.project = project;
         this.programManager = programManager;
-        this.designer = new HashSet<>();
+        this.designers = new HashSet<>();
         this.partecipationRequests = new HashSet<>();
     }
 
@@ -34,16 +34,18 @@ public class Team {
 
     public boolean addDesigner(User designer) throws RoleException {
         boolean b = designer.getRole(DesignerRole.class).getCurriculumVitae().enterProject(this.project.getId());
-        return this.designer.add(designer) && b;
+        designer.getRole(DesignerRole.class).getProjects().add(this.project);
+        return this.designers.add(designer) && b;
     }
 
     public boolean removeDesigner(User designer) throws RoleException {
         boolean b = designer.getRole(DesignerRole.class).getCurriculumVitae().exitProject(this.project.getId());
-        return this.designer.remove(designer) && b;
+        designer.getRole(DesignerRole.class).getProjects().remove(this.project);
+        return this.designers.remove(designer) && b;
     }
 
     public Set<User> getDesigners() {
-        return designer;
+        return designers;
     }
 
     public Set<PartecipationRequest> getPartecipationRequests() {
@@ -56,7 +58,7 @@ public class Team {
                 "state=" + state +
                 ", project=" + project.getId() +
                 ", programManager=" + programManager.getId() +
-                ", designer=" + designer.stream().map(d -> d.getId()).collect(Collectors.toSet()) +
+                ", designer=" + designers.stream().map(d -> d.getId()).collect(Collectors.toSet()) +
                 ", partecipationRequests=" + partecipationRequests +
                 '}';
     }

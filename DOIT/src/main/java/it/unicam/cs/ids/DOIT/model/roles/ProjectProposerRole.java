@@ -29,8 +29,11 @@ public class ProjectProposerRole extends Role {
         });
     }
 
-    public void initTeam(User user, Project project) throws RoleException {
-        user.getRole(ProgramManagerRole.class).initTeam(project);
+    public Team createTeam(User user, Project project) throws RoleException {
+        if (!user.getRole(ProgramManagerRole.class).getCategories().contains(project.getCategory()))
+            throw new IllegalArgumentException("Il Proponente Progetto non possiede la categoria del progetto:[" +
+                    project.getCategory().getName() + "]!");
+        return user.getRole(ProgramManagerRole.class).createTeam(project);
     }
 
     @Override

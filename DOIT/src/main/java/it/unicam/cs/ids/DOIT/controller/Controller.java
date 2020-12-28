@@ -52,7 +52,7 @@ public class Controller {
         User usr = searchUser(idPgM);
         if (usr == null)
             throw new Exception("Non esiste l'utente con id: [" + idPgM + "]");
-        this.user.getRole(ProjectProposerRole.class).initTeam(usr, p);
+        this.user.getRole(ProjectProposerRole.class).createTeam(usr, p);
     }
 
     public Set<User> listPgm(String idCategory) throws Exception {
@@ -101,7 +101,7 @@ public class Controller {
     }
 
     public Set<User> listDesigner(int idDesigner) throws Exception {
-        return this.user.getRole(ProgramManagerRole.class).getDesigners(searchProject(idDesigner));
+        return this.user.getRole(ProgramManagerRole.class).getDesigners(searchProject(idDesigner).getTeam());
     }
 
     private User searchUser(int id) {

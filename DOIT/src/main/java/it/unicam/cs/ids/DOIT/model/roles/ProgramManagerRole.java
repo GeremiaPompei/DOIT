@@ -35,8 +35,10 @@ public class ProgramManagerRole extends Role {
         team.addDesigner(partecipationRequest.getDesigner());
     }
 
-    public Set<User> getDesigners(Project project) {
-        return this.getTeam(project.getId()).getDesigners();
+    public Set<User> getDesigners(Team team) {
+        if (!teams.contains(team))
+            throw new IllegalArgumentException("Team non presente: [" + team.getProject().getId() + "]");
+        return team.getDesigners();
     }
 
     public void removeDesigner(User designer, Team team) throws RoleException {
@@ -49,18 +51,20 @@ public class ProgramManagerRole extends Role {
         team.removeDesigner(designer);
     }
 
-    public void setProjectManager(User user, Project project) throws RoleException {
-        checkProject(project);
-        if (!project.getTeam().getDesigners().contains(user))
+    public void setProjectManager(User designer, Project project) {
+        if (!this.getProjects().contains(project))
+            throw new IllegalArgumentException("L'utente non possiede il progetto con id:[" + project.getId() + "]");
+        if (!project.getTeam().getDesigners().contains(designer))
             throw new IllegalArgumentException("L'utente non è presente nel team del progetto!");
-        project.setProjectManager(user);
+        project.setProjectManager(designer);
     }
 
-    public void initTeam(Project project) {
+    public Team createTeam(Project project) {
         Team team = new Team(project, super.getUser());
         this.teams.add(team);
         project.setTeam(team);
         this.getProjects().add(project);
+        return team;
     }
 
     public Set<PartecipationRequest> getPartecipationRequests(Team team) {
@@ -69,17 +73,8 @@ public class ProgramManagerRole extends Role {
         return team.getPartecipationRequests();
     }
 
-    public Team getTeam(int id) {
-        return teams.stream().filter(t -> t.getProject().getId() == id).findAny().orElse(null);
-    }
-
     public Set<Team> getTeams() {
         return teams;
-    }
-
-    private void checkProject(Project project) {
-        if (!this.getProjects().contains(project))
-            throw new IllegalArgumentException("L'utente non possiede il progetto con id:[" + project.getId() + "]");
     }
 
     @Override

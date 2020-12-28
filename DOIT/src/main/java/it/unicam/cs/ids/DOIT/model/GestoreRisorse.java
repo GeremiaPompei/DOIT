@@ -14,6 +14,10 @@ public class GestoreRisorse {
         return instance;
     }
 
+    public void clear() {
+        instance = null;
+    }
+
     private final Map<Class, Set> risorse = new HashMap<>();
 
     private GestoreRisorse() {

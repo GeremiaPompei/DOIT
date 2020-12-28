@@ -39,12 +39,12 @@ public class ControllerView {
     }
 
     private String createUser(String[] s) {
-        return manageFunc(() ->
+        return manageRunnable(() ->
                 this.controller.createUser(Integer.parseInt(s[1]), s[2], s[3], Integer.parseInt(s[4]), s[5]));
     }
 
     private String addRole(String[] s) {
-        return manageFunc(() -> {
+        return manageRunnable(() -> {
             Class<? extends Role> role = (Class<? extends Role>) Class.forName("it.unicam.cs.ids.DOIT.model.roles." +
                     GestoreRisorse.getInstance().searchOne(String.class, r -> r.equalsIgnoreCase(s[1])));
             this.controller.addRole(role, s[2]);
@@ -53,7 +53,7 @@ public class ControllerView {
     }
 
     private String login(String[] s) {
-        return manageFunc(() -> {
+        return manageRunnable(() -> {
             this.controller.login(Integer.parseInt(s[1]));
             loadCommands();
         });
@@ -79,11 +79,11 @@ public class ControllerView {
     }
 
     private String createProject(String[] s) {
-        return manageFunc(() -> this.controller.createProject(Integer.parseInt(s[1]), s[2], s[3], s[4]));
+        return manageRunnable(() -> this.controller.createProject(Integer.parseInt(s[1]), s[2], s[3], s[4]));
     }
 
     private String choosePgm(String[] s) {
-        return manageFunc(() -> this.controller.choosePgm(Integer.parseInt(s[1]), Integer.parseInt(s[2])));
+        return manageRunnable(() -> this.controller.choosePgm(Integer.parseInt(s[1]), Integer.parseInt(s[2])));
     }
 
     private String listPgm(String[] s) {
@@ -101,7 +101,7 @@ public class ControllerView {
     }
 
     private String sendPr(String[] s) {
-        return manageFunc(() -> this.controller.sendPr(Integer.parseInt(s[1])));
+        return manageRunnable(() -> this.controller.sendPr(Integer.parseInt(s[1])));
     }
 
     private String listProjects(String[] s) {
@@ -124,7 +124,7 @@ public class ControllerView {
     }
 
     private String removePr(String[] s) {
-        return manageFunc(() -> {
+        return manageRunnable(() -> {
             int idD = Integer.parseInt(s[1]);
             int idP = Integer.parseInt(s[2]);
             String reason = List.of(s).subList(2, s.length).stream().reduce((x, y) -> x + y).get();
@@ -133,7 +133,7 @@ public class ControllerView {
     }
 
     private String addDesigner(String[] s) {
-        return manageFunc(() -> {
+        return manageRunnable(() -> {
             int idD = Integer.parseInt(s[1]);
             int idP = Integer.parseInt(s[2]);
             this.controller.addDesigner(idD, idP);
@@ -141,7 +141,7 @@ public class ControllerView {
     }
 
     private String choosePjm(String[] s) {
-        return manageFunc(() -> {
+        return manageRunnable(() -> {
             int idU = Integer.parseInt(s[1]);
             int idP = Integer.parseInt(s[2]);
             this.controller.choosePjm(idU, idP);
@@ -188,15 +188,15 @@ public class ControllerView {
         }
     }
 
-    private String manageFunc(ConsumerException ce) {
+    private String manageRunnable(RunnableException re) {
         return manageException(() -> {
-            ce.accept();
+            re.accept();
             return "Success!";
         });
     }
 
     @FunctionalInterface
-    public interface ConsumerException {
+    public interface RunnableException {
         void accept() throws Exception;
     }
 

@@ -5,8 +5,8 @@ public class Project {
     private String name;
     private String description;
     private User projectProposer;
-    private Category category;
     private User projectManager;
+    private Category category;
     private ProjectState projectState;
     private Team team;
 
@@ -26,10 +26,6 @@ public class Project {
 
     public void setTeam(Team team) {
         this.team = team;
-    }
-
-    public boolean checkProjectManager(User projectManager) {
-        throw new UnsupportedOperationException();
     }
 
     public Team getTeam() {

@@ -32,16 +32,16 @@ public class Team {
         return programManager;
     }
 
-    public boolean addDesigner(User designer) throws RoleException {
-        boolean b = designer.getRole(DesignerRole.class).getCurriculumVitae().enterProject(this.project.getId());
+    public void addDesigner(User designer) throws RoleException {
+        designer.getRole(DesignerRole.class).getCurriculumVitae().enterProject(this.project);
         designer.getRole(DesignerRole.class).getProjects().add(this.project);
-        return this.designers.add(designer) && b;
+        this.designers.add(designer);
     }
 
-    public boolean removeDesigner(User designer) throws RoleException {
-        boolean b = designer.getRole(DesignerRole.class).getCurriculumVitae().exitProject(this.project.getId());
+    public void removeDesigner(User designer) throws RoleException {
+        designer.getRole(DesignerRole.class).getCurriculumVitae().exitProject(this.project);
         designer.getRole(DesignerRole.class).getProjects().remove(this.project);
-        return this.designers.remove(designer) && b;
+        this.designers.remove(designer);
     }
 
     public Set<User> getDesigners() {

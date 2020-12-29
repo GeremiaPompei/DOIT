@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="it.unicam.cs.ids.DOIT.model.roles.ProgramManagerRoleTest" time="0.093" tests="8" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="it.unicam.cs.ids.DOIT.model.roles.ProgramManagerRoleTest" time="0.064" tests="8" errors="0" skipped="0" failures="0">
   <properties>
-    <property name="java.specification.version" value="15"/>
+    <property name="gopherProxySet" value="false"/>
+    <property name="awt.toolkit" value="sun.lwawt.macosx.LWCToolkit"/>
+    <property name="java.specification.version" value="11"/>
+    <property name="sun.cpu.isalist" value=""/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
     <property name="java.class.path" value="/Users/geremiapompei/Desktop/DOIT/DOIT/target/test-classes:/Users/geremiapompei/Desktop/DOIT/DOIT/target/classes:/Users/geremiapompei/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.4.0/junit-jupiter-engine-5.4.0.jar:/Users/geremiapompei/.m2/repository/org/apiguardian/apiguardian-api/1.0.0/apiguardian-api-1.0.0.jar:/Users/geremiapompei/.m2/repository/org/junit/platform/junit-platform-engine/1.4.0/junit-platform-engine-1.4.0.jar:/Users/geremiapompei/.m2/repository/org/opentest4j/opentest4j/1.1.1/opentest4j-1.1.1.jar:/Users/geremiapompei/.m2/repository/org/junit/platform/junit-platform-commons/1.4.0/junit-platform-commons-1.4.0.jar:/Users/geremiapompei/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.4.0/junit-jupiter-api-5.4.0.jar:"/>
-    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="java.vm.vendor" value="AdoptOpenJDK"/>
     <property name="sun.arch.data.model" value="64"/>
-    <property name="java.vendor.url" value="https://openjdk.java.net/"/>
+    <property name="java.vendor.url" value="https://adoptopenjdk.net/"/>
+    <property name="user.timezone" value=""/>
+    <property name="java.vm.specification.version" value="11"/>
     <property name="os.name" value="Mac OS X"/>
-    <property name="java.vm.specification.version" value="15"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="IT"/>
-    <property name="sun.boot.library.path" value="/usr/local/Cellar/openjdk/15.0.1/libexec/openjdk.jdk/Contents/Home/lib"/>
-    <property name="sun.java.command" value="/Users/geremiapompei/Desktop/DOIT/DOIT/target/surefire/surefirebooter13863307848454723010.jar /Users/geremiapompei/Desktop/DOIT/DOIT/target/surefire 2020-12-28T12-36-19_165-jvmRun1 surefire4870596420105692707tmp surefire_08678049658693930645tmp"/>
+    <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/adoptopenjdk-11.jdk/Contents/Home/lib"/>
+    <property name="sun.java.command" value="/Users/geremiapompei/Desktop/DOIT/DOIT/target/surefire/surefirebooter12558365360482428504.jar /Users/geremiapompei/Desktop/DOIT/DOIT/target/surefire 2020-12-29T12-14-10_309-jvmRun1 surefire10526938729452768013tmp surefire_015967471272176558566tmp"/>
     <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/Users/geremiapompei/Desktop/DOIT/DOIT/target/test-classes:/Users/geremiapompei/Desktop/DOIT/DOIT/target/classes:/Users/geremiapompei/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.4.0/junit-jupiter-engine-5.4.0.jar:/Users/geremiapompei/.m2/repository/org/apiguardian/apiguardian-api/1.0.0/apiguardian-api-1.0.0.jar:/Users/geremiapompei/.m2/repository/org/junit/platform/junit-platform-engine/1.4.0/junit-platform-engine-1.4.0.jar:/Users/geremiapompei/.m2/repository/org/opentest4j/opentest4j/1.1.1/opentest4j-1.1.1.jar:/Users/geremiapompei/.m2/repository/org/junit/platform/junit-platform-commons/1.4.0/junit-platform-commons-1.4.0.jar:/Users/geremiapompei/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.4.0/junit-jupiter-api-5.4.0.jar:"/>
@@ -20,45 +24,50 @@
     <property name="user.home" value="/Users/geremiapompei"/>
     <property name="user.language" value="it"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
-    <property name="java.version.date" value="2020-10-20"/>
-    <property name="java.home" value="/usr/local/Cellar/openjdk/15.0.1/libexec/openjdk.jdk/Contents/Home"/>
+    <property name="java.version.date" value="2020-01-14"/>
+    <property name="java.home" value="/Library/Java/JavaVirtualMachines/adoptopenjdk-11.jdk/Contents/Home"/>
     <property name="file.separator" value="/"/>
     <property name="basedir" value="/Users/geremiapompei/Desktop/DOIT/DOIT"/>
     <property name="java.vm.compressedOopsMode" value="Zero based"/>
     <property name="line.separator" value="&#10;"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
-    <property name="surefire.real.class.path" value="/Users/geremiapompei/Desktop/DOIT/DOIT/target/surefire/surefirebooter13863307848454723010.jar"/>
+    <property name="java.awt.graphicsenv" value="sun.awt.CGraphicsEnvironment"/>
+    <property name="surefire.real.class.path" value="/Users/geremiapompei/Desktop/DOIT/DOIT/target/surefire/surefirebooter12558365360482428504.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
-    <property name="java.runtime.version" value="15.0.1+9"/>
+    <property name="java.runtime.version" value="11.0.6+10"/>
     <property name="user.name" value="geremiapompei"/>
     <property name="path.separator" value=":"/>
     <property name="os.version" value="10.15.7"/>
     <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
     <property name="file.encoding" value="UTF-8"/>
     <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="java.vendor.version" value="AdoptOpenJDK"/>
     <property name="localRepository" value="/Users/geremiapompei/.m2/repository"/>
-    <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
+    <property name="java.vendor.url.bug" value="https://github.com/AdoptOpenJDK/openjdk-support/issues"/>
     <property name="java.io.tmpdir" value="/var/folders/b7/777vhmks1mzfr3g1_mm_h_fr0000gn/T/"/>
-    <property name="java.version" value="15.0.1"/>
+    <property name="idea.version" value="2020.3"/>
+    <property name="java.version" value="11.0.6"/>
     <property name="user.dir" value="/Users/geremiapompei/Desktop/DOIT/DOIT"/>
     <property name="os.arch" value="x86_64"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="java.awt.printerjob" value="sun.lwawt.macosx.CPrinterJob"/>
+    <property name="sun.os.patch.level" value="unknown"/>
     <property name="java.library.path" value="/Users/geremiapompei/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
-    <property name="java.vm.info" value="mixed mode, sharing"/>
-    <property name="java.vendor" value="N/A"/>
-    <property name="java.vm.version" value="15.0.1+9"/>
+    <property name="java.vendor" value="AdoptOpenJDK"/>
+    <property name="java.vm.info" value="mixed mode"/>
+    <property name="java.vm.version" value="11.0.6+10"/>
     <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
+    <property name="java.class.version" value="55.0"/>
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
-    <property name="java.class.version" value="59.0"/>
   </properties>
-  <testcase name="testRemoveDesigner" classname="it.unicam.cs.ids.DOIT.model.roles.ProgramManagerRoleTest" time="0.026"/>
-  <testcase name="testGetDesigners" classname="it.unicam.cs.ids.DOIT.model.roles.ProgramManagerRoleTest" time="0.008"/>
+  <testcase name="testRemoveDesigner" classname="it.unicam.cs.ids.DOIT.model.roles.ProgramManagerRoleTest" time="0.013"/>
+  <testcase name="testGetDesigners" classname="it.unicam.cs.ids.DOIT.model.roles.ProgramManagerRoleTest" time="0.001"/>
   <testcase name="testAddDesigner" classname="it.unicam.cs.ids.DOIT.model.roles.ProgramManagerRoleTest" time="0.004"/>
-  <testcase name="testGetTeam" classname="it.unicam.cs.ids.DOIT.model.roles.ProgramManagerRoleTest" time="0.01"/>
-  <testcase name="setProjectManager" classname="it.unicam.cs.ids.DOIT.model.roles.ProgramManagerRoleTest" time="0.011"/>
-  <testcase name="testGetPartecipationRequests" classname="it.unicam.cs.ids.DOIT.model.roles.ProgramManagerRoleTest" time="0.005"/>
-  <testcase name="testRemovePartecipationRequest" classname="it.unicam.cs.ids.DOIT.model.roles.ProgramManagerRoleTest" time="0.009"/>
+  <testcase name="testGetTeam" classname="it.unicam.cs.ids.DOIT.model.roles.ProgramManagerRoleTest" time="0.005"/>
+  <testcase name="setProjectManager" classname="it.unicam.cs.ids.DOIT.model.roles.ProgramManagerRoleTest" time="0.006"/>
+  <testcase name="testGetPartecipationRequests" classname="it.unicam.cs.ids.DOIT.model.roles.ProgramManagerRoleTest" time="0.003"/>
+  <testcase name="testRemovePartecipationRequest" classname="it.unicam.cs.ids.DOIT.model.roles.ProgramManagerRoleTest" time="0.007"/>
   <testcase name="createTeam" classname="it.unicam.cs.ids.DOIT.model.roles.ProgramManagerRoleTest" time="0.001"/>
 </testsuite>

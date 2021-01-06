@@ -27,6 +27,11 @@ public abstract class Role {
         return project;
     }
 
+    public void addProject(Project project) {
+        this.project.add(project);
+        //TODO Aggiornamento history
+    }
+
     public Set<Category> getCategories() {
         return categories;
     }

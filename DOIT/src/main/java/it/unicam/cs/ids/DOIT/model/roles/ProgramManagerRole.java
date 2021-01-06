@@ -63,7 +63,7 @@ public class ProgramManagerRole extends Role {
         Team team = new Team(project, super.getUser());
         this.teams.add(team);
         project.setTeam(team);
-        this.getProjects().add(project);
+        this.addProject(project);
         return team;
     }
 

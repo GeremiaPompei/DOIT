@@ -34,7 +34,7 @@ public class Team {
 
     public void addDesigner(User designer) throws RoleException {
         designer.getRole(DesignerRole.class).getCurriculumVitae().enterProject(this.project);
-        designer.getRole(DesignerRole.class).getProjects().add(this.project);
+        designer.getRole(DesignerRole.class).addProject(this.project);
         this.designers.add(designer);
     }
 

@@ -15,7 +15,7 @@ public class ProjectProposerRole extends Role {
         if (!this.getCategories().contains(category))
             throw new IllegalArgumentException("L'utente non presenta la categoria: [" + category.getName() + "]");
         Project project = new Project(id, name, description, this.getUser(), category);
-        super.getProjects().add(project);
+        super.addProject(project);
         return project;
     }
 

@@ -1,10 +1,13 @@
 package it.unicam.cs.ids.DOIT.view;
 
 import it.unicam.cs.ids.DOIT.controller.Controller;
-import it.unicam.cs.ids.DOIT.model.*;
-import it.unicam.cs.ids.DOIT.model.roles.DesignerRole;
-import it.unicam.cs.ids.DOIT.model.roles.ProgramManagerRole;
-import it.unicam.cs.ids.DOIT.model.roles.ProjectProposerRole;
+import it.unicam.cs.ids.DOIT.model.Category;
+import it.unicam.cs.ids.DOIT.model.Project;
+import it.unicam.cs.ids.DOIT.model.Role;
+import it.unicam.cs.ids.DOIT.model.User;
+import it.unicam.cs.ids.DOIT.model.roles.initial.DesignerRole;
+import it.unicam.cs.ids.DOIT.model.roles.initial.ProgramManagerRole;
+import it.unicam.cs.ids.DOIT.model.roles.initial.ProjectProposerRole;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +35,7 @@ public class ControllerView {
         Map<String, Function<String[], String>> map = new HashMap<>();
         map.put("create", this::createUser);
         map.put("add-role", this::addRole);
+        map.put("remove-role", this::removeRole);
         map.put("login", this::login);
         map.put("help", (s) -> " > create idUser nameUser surnameUser birthYearUeser genderUser"
                 + "\n > add-role nameRole categoryName \n > login idUser");
@@ -45,9 +49,14 @@ public class ControllerView {
 
     private String addRole(String[] s) {
         return manageRunnable(() -> {
-            Class<? extends Role> role = (Class<? extends Role>) Class.forName("it.unicam.cs.ids.DOIT.model.roles." +
-                    GestoreRisorse.getInstance().searchOne(String.class, r -> r.equalsIgnoreCase(s[1])));
-            this.controller.addRole(role, s[2]);
+            this.controller.addRole(s[1], s[2]);
+            loadCommands();
+        });
+    }
+
+    private String removeRole(String[] s) {
+        return manageRunnable(() -> {
+            this.controller.removeRole(s[1]);
             loadCommands();
         });
     }
@@ -61,10 +70,10 @@ public class ControllerView {
 
     private Map<String, Function<String[], String>> listMap() {
         Map<String, Function<String[], String>> map = new HashMap<>();
-        map.put("users", (s) -> GestoreRisorse.getInstance().getRisorse().get(User.class) + "");
-        map.put("projects", (s) -> GestoreRisorse.getInstance().getRisorse().get(Project.class) + "");
-        map.put("categories", (s) -> GestoreRisorse.getInstance().getRisorse().get(Category.class) + "");
-        map.put("roles", (s) -> GestoreRisorse.getInstance().getRisorse().get(String.class) + "");
+        map.put("users", (s) -> controller.getRisorse(User.class) + "");
+        map.put("projects", (s) -> controller.getRisorse(Project.class) + "");
+        map.put("categories", (s) -> controller.getRisorse(Category.class) + "");
+        map.put("roles", (s) -> controller.getRoles() + "");
         return map;
     }
 

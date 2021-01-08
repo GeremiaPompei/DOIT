@@ -5,7 +5,7 @@ it/unicam/cs/ids/DOIT/model/CurriculumVitae$CVUnit.class
 it/unicam/cs/ids/DOIT/view/ControllerView$ToString.class
 it/unicam/cs/ids/DOIT/App.class
 it/unicam/cs/ids/DOIT/view/ControllerView$RunnableException.class
-it/unicam/cs/ids/DOIT/model/roles/DesignerRole.class
+it/unicam/cs/ids/DOIT/model/roles/initial/ProgramManagerRole.class
 it/unicam/cs/ids/DOIT/model/Role.class
 it/unicam/cs/ids/DOIT/model/ProjectState.class
 it/unicam/cs/ids/DOIT/model/CurriculumVitae.class
@@ -13,9 +13,9 @@ it/unicam/cs/ids/DOIT/model/PartecipationRequest.class
 it/unicam/cs/ids/DOIT/model/RoleException.class
 it/unicam/cs/ids/DOIT/view/MainView.class
 it/unicam/cs/ids/DOIT/model/Project.class
+it/unicam/cs/ids/DOIT/model/roles/initial/DesignerRole.class
 it/unicam/cs/ids/DOIT/model/roles/ProjectManagerRole.class
 it/unicam/cs/ids/DOIT/controller/Controller.class
-it/unicam/cs/ids/DOIT/model/roles/ProjectProposerRole.class
-it/unicam/cs/ids/DOIT/model/roles/ProgramManagerRole.class
+it/unicam/cs/ids/DOIT/model/roles/initial/ProjectProposerRole.class
 it/unicam/cs/ids/DOIT/model/Category.class
 it/unicam/cs/ids/DOIT/view/ControllerView.class

@@ -1,10 +1,10 @@
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/controller/Controller.java
+/Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/model/roles/initial/ProgramManagerRole.java
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/model/CurriculumVitae.java
-/Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/model/roles/ProjectProposerRole.java
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/model/Role.java
-/Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/model/roles/ProgramManagerRole.java
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/model/PartecipationRequest.java
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/view/MainView.java
+/Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/model/roles/initial/DesignerRole.java
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/view/ControllerView.java
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/model/User.java
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/model/roles/ProjectManagerRole.java
@@ -13,6 +13,6 @@
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/model/Project.java
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/model/Category.java
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/model/RoleException.java
+/Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/model/roles/initial/ProjectProposerRole.java
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/model/GestoreRisorse.java
-/Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/model/roles/DesignerRole.java
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/model/Team.java

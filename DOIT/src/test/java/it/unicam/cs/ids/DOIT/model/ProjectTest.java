@@ -1,6 +1,6 @@
 package it.unicam.cs.ids.DOIT.model;
 
-import it.unicam.cs.ids.DOIT.model.roles.ProjectProposerRole;
+import it.unicam.cs.ids.DOIT.model.roles.initial.ProjectProposerRole;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

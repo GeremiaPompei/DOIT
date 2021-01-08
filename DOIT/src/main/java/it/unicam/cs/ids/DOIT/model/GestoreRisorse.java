@@ -19,14 +19,15 @@ public class GestoreRisorse {
     }
 
     private final Map<Class, Set> risorse = new HashMap<>();
+    private Set<String> roles;
 
     private GestoreRisorse() {
         risorse.put(User.class, new HashSet<>());
         risorse.put(Project.class, new HashSet<>());
         risorse.put(Category.class, new HashSet<>());
-        risorse.put(String.class, new HashSet<>());
-        Arrays.stream(new File("src/main/java/it/unicam/cs/ids/DOIT/model/roles").list())
-                .forEach(s -> risorse.get(String.class).add(s.replace(".java", "")));
+        roles = new HashSet<>();
+        Arrays.stream(new File("src/main/java/it/unicam/cs/ids/DOIT/model/roles/initial").list())
+                .forEach(s -> roles.add(s.replace(".java", "")));
     }
 
     public <T> T searchOne(Class<T> clazz, Predicate<T> p) {
@@ -39,5 +40,9 @@ public class GestoreRisorse {
 
     public Map<Class, Set> getRisorse() {
         return risorse;
+    }
+
+    public Set<String> getRoles() {
+        return roles;
     }
 }

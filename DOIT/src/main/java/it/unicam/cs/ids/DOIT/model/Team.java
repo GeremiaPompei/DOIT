@@ -1,6 +1,6 @@
 package it.unicam.cs.ids.DOIT.model;
 
-import it.unicam.cs.ids.DOIT.model.roles.DesignerRole;
+import it.unicam.cs.ids.DOIT.model.roles.initial.DesignerRole;
 
 import java.util.HashSet;
 import java.util.Set;

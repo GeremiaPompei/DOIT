@@ -1,9 +1,9 @@
 package it.unicam.cs.ids.DOIT.controller;
 
 import it.unicam.cs.ids.DOIT.model.*;
-import it.unicam.cs.ids.DOIT.model.roles.DesignerRole;
-import it.unicam.cs.ids.DOIT.model.roles.ProgramManagerRole;
-import it.unicam.cs.ids.DOIT.model.roles.ProjectProposerRole;
+import it.unicam.cs.ids.DOIT.model.roles.initial.DesignerRole;
+import it.unicam.cs.ids.DOIT.model.roles.initial.ProgramManagerRole;
+import it.unicam.cs.ids.DOIT.model.roles.initial.ProjectProposerRole;
 
 import java.util.Set;
 
@@ -22,11 +22,19 @@ public class Controller {
         new User(id, name, surname, birthdDay, gender);
     }
 
-    public void addRole(Class<? extends Role> role, String idCategory) throws Exception {
+    public void addRole(String roleName, String idCategory) throws Exception {
+        Class<? extends Role> role = (Class<? extends Role>) Class.forName(
+                "it.unicam.cs.ids.DOIT.model.roles.initial." + roleName);
         Category category = searchCategory(idCategory);
         if (category == null)
             throw new Exception("Categoria inesistente!");
         user.addRole(role, category);
+    }
+
+    public void removeRole(String roleName) throws Exception {
+        Class<? extends Role> role = (Class<? extends Role>) Class.forName(
+                "it.unicam.cs.ids.DOIT.model.roles.initial." + roleName);
+        user.removeRole(role);
     }
 
     public void login(int id) throws Exception {
@@ -104,6 +112,10 @@ public class Controller {
         return this.user.getRole(ProgramManagerRole.class).getDesigners(searchProject(idDesigner).getTeam());
     }
 
+    public Set<String> getRoles() {
+        return GestoreRisorse.getInstance().getRoles();
+    }
+
     private User searchUser(int id) {
         return GestoreRisorse.getInstance().searchOne(User.class, u -> u.getId() == id);
     }
@@ -114,6 +126,10 @@ public class Controller {
 
     private Category searchCategory(String id) {
         return GestoreRisorse.getInstance().searchOne(Category.class, c -> c.getName().equalsIgnoreCase(id));
+    }
+
+    public <T> Set<T> getRisorse(Class<T> t) {
+        return GestoreRisorse.getInstance().getRisorse().get(t);
     }
 
     public User getUser() {

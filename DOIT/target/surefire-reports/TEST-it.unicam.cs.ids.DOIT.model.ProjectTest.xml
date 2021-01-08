@@ -12,7 +12,8 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="IT"/>
     <property name="sun.boot.library.path" value="/usr/local/Cellar/openjdk/15.0.1/libexec/openjdk.jdk/Contents/Home/lib"/>
-    <property name="sun.java.command" value="/Users/geremiapompei/Desktop/DOIT/DOIT/target/surefire/surefirebooter6032222305344084128.jar /Users/geremiapompei/Desktop/DOIT/DOIT/target/surefire 2021-01-08T01-24-10_948-jvmRun1 surefire4366528259295799952tmp surefire_05355612922229238947tmp"/>
+    <property name="sun.java.command" value="/Users/geremiapompei/Desktop/DOIT/DOIT/target/surefire/surefirebooter3342570877577321590.jar /Users/geremiapompei/Desktop/DOIT/DOIT/target/surefire 2021-01-08T18-34-31_336-jvmRun1 surefire5393678923769629243tmp surefire_014787393880938809276tmp"/>
+    <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/Users/geremiapompei/Desktop/DOIT/DOIT/target/test-classes:/Users/geremiapompei/Desktop/DOIT/DOIT/target/classes:/Users/geremiapompei/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.4.0/junit-jupiter-engine-5.4.0.jar:/Users/geremiapompei/.m2/repository/org/apiguardian/apiguardian-api/1.0.0/apiguardian-api-1.0.0.jar:/Users/geremiapompei/.m2/repository/org/junit/platform/junit-platform-engine/1.4.0/junit-platform-engine-1.4.0.jar:/Users/geremiapompei/.m2/repository/org/opentest4j/opentest4j/1.1.1/opentest4j-1.1.1.jar:/Users/geremiapompei/.m2/repository/org/junit/platform/junit-platform-commons/1.4.0/junit-platform-commons-1.4.0.jar:/Users/geremiapompei/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.4.0/junit-jupiter-api-5.4.0.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -25,10 +26,11 @@
     <property name="basedir" value="/Users/geremiapompei/Desktop/DOIT/DOIT"/>
     <property name="java.vm.compressedOopsMode" value="Zero based"/>
     <property name="line.separator" value="&#10;"/>
-    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="/Users/geremiapompei/Desktop/DOIT/DOIT/target/surefire/surefirebooter6032222305344084128.jar"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="surefire.real.class.path" value="/Users/geremiapompei/Desktop/DOIT/DOIT/target/surefire/surefirebooter3342570877577321590.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.runtime.version" value="15.0.1+9"/>
     <property name="user.name" value="geremiapompei"/>
     <property name="path.separator" value=":"/>
@@ -48,6 +50,7 @@
     <property name="java.vendor" value="N/A"/>
     <property name="java.vm.version" value="15.0.1+9"/>
     <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
+    <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.class.version" value="59.0"/>
   </properties>
   <testcase name="testCreateProject" classname="it.unicam.cs.ids.DOIT.model.ProjectTest" time="0.002"/>

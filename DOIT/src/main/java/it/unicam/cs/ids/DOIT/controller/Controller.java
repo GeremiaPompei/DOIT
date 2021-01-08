@@ -23,18 +23,22 @@ public class Controller {
     }
 
     public void addRole(String roleName, String idCategory) throws Exception {
-        Class<? extends Role> role = (Class<? extends Role>) Class.forName(
-                "it.unicam.cs.ids.DOIT.model.roles.initial." + roleName);
         Category category = searchCategory(idCategory);
         if (category == null)
             throw new Exception("Categoria inesistente!");
-        user.addRole(role, category);
+        user.addRole(getRole(roleName), category);
     }
 
     public void removeRole(String roleName) throws Exception {
-        Class<? extends Role> role = (Class<? extends Role>) Class.forName(
-                "it.unicam.cs.ids.DOIT.model.roles.initial." + roleName);
-        user.removeRole(role);
+        user.removeRole(getRole(roleName));
+    }
+
+    public void addCategory(String roleName, String categoryName) throws Exception {
+        user.getRole(getRole(roleName)).getCategories().add(searchCategory(categoryName));
+    }
+
+    public void removeCategory(String roleName, String categoryName) throws Exception {
+        user.getRole(getRole(roleName)).getCategories().remove(searchCategory(categoryName));
     }
 
     public void login(int id) throws Exception {
@@ -126,6 +130,11 @@ public class Controller {
 
     private Category searchCategory(String id) {
         return GestoreRisorse.getInstance().searchOne(Category.class, c -> c.getName().equalsIgnoreCase(id));
+    }
+
+    private Class<? extends Role> getRole(String roleName) throws Exception {
+        return (Class<? extends Role>) Class.forName(
+                "it.unicam.cs.ids.DOIT.model.roles.initial." + roleName);
     }
 
     public <T> Set<T> getRisorse(Class<T> t) {

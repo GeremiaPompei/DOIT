@@ -82,6 +82,7 @@ public class ControllerView {
         map.put("create", this::createProject);
         map.put("choose-pgm", this::choosePgm);
         map.put("list-pgm", this::listPgm);
+        map.putAll(roleActions());
         map.put("help", (s) -> " > create idProject nameProject descriptionProject categoryProject\n > choose-pgm " +
                 "idUser idProject\n > list-pgm nameCategory");
         return map;
@@ -105,6 +106,7 @@ public class ControllerView {
         Map<String, Function<String[], String>> map = new HashMap<>();
         map.put("send-pr", this::sendPr);
         map.put("list-projects", this::listProjects);
+        map.putAll(roleActions());
         map.put("help", (s) -> " > send-pr idProject \n > list-projects nameCategory");
         return map;
     }
@@ -127,6 +129,7 @@ public class ControllerView {
         map.put("list-teams", this::listTeams);
         map.put("list-pr", this::listPR);
         map.put("list-d", this::listDesigner);
+        map.putAll(roleActions());
         map.put("help", (s) -> " > add-designer idDesigner idTeam \n > remove-pr idDesigner idTeam reason \n > choose-pjm idDesigner "
                 + "idProject \n > list-d idProject \n > list-teams \n > list-pr idProject");
         return map;
@@ -154,6 +157,25 @@ public class ControllerView {
             int idU = Integer.parseInt(s[1]);
             int idP = Integer.parseInt(s[2]);
             this.controller.choosePjm(idU, idP);
+        });
+    }
+
+    private Map<String, Function<String[], String>> roleActions() {
+        Map<String, Function<String[], String>> map = new HashMap<>();
+        map.put("add-category", this::addCategory);
+        map.put("remove-category", this::removeCategory);
+        return map;
+    }
+
+    private String addCategory(String[] s) {
+        return manageRunnable(() -> {
+            this.controller.addCategory(s[1], s[2]);
+        });
+    }
+
+    private String removeCategory(String[] s) {
+        return manageRunnable(() -> {
+            this.controller.addCategory(s[1], s[2]);
         });
     }
 

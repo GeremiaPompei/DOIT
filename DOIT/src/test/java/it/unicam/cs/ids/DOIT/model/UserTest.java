@@ -12,14 +12,17 @@ import static org.junit.jupiter.api.Assertions.*;
 class UserTest {
     private User user1;
     private User user2;
-    private  Category category;
+    private Category category;
+    private UtilityFactory factory;
+    private IResourceHandler resourceHandler;
 
     @BeforeEach
     private void init() {
-        GestoreRisorse.getInstance().clear();
-        category = new Category("Sport", "descrizione");
-        this.user1 = new User(1, "Saverio", "Tommasi", 1998, "Male");
-        this.user2 = new User(2, "Mario", "Fartade", 2000, "Male");
+        resourceHandler = new ResourceHandler();
+        factory = new UtilityFactory(resourceHandler);
+        category = factory.createCategory("Sport", "descrizione");
+        this.user1 = factory.createUser(1, "Saverio", "Tommasi", 1998, "Male");
+        this.user2 = factory.createUser(2, "Mario", "Fartade", 2000, "Male");
     }
 
     @Test

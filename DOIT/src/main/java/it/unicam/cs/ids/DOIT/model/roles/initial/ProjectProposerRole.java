@@ -2,7 +2,7 @@ package it.unicam.cs.ids.DOIT.model.roles.initial;
 
 import it.unicam.cs.ids.DOIT.model.*;
 
-import java.util.Set;
+import java.util.function.Predicate;
 
 public class ProjectProposerRole extends Role {
 
@@ -10,23 +10,23 @@ public class ProjectProposerRole extends Role {
         super(user, category);
     }
 
-    public Project createProject(int id, String name, String description, Category category)
+    public Project createProject(int id, String name, String description, Category category, UtilityFactory factory)
             throws IllegalArgumentException {
         if (!this.getCategories().contains(category))
             throw new IllegalArgumentException("L'utente non presenta la categoria: [" + category.getName() + "]");
-        Project project = new Project(id, name, description, this.getUser(), category);
+        Project project = factory.createProject(id, name, description, this.getUser(), category);
         super.addProject(project);
         return project;
     }
 
-    public Set<User> findProgramManagerList(Category category) {
-        return GestoreRisorse.getInstance().search(User.class, u -> {
+    public Predicate<User> findProgramManagerList(Category category) {
+        return u -> {
             try {
                 return u.getRole(ProgramManagerRole.class).getCategories().contains(category);
             } catch (RoleException e) {
                 return false;
             }
-        });
+        };
     }
 
     public Team createTeam(User user, Project project) throws RoleException {

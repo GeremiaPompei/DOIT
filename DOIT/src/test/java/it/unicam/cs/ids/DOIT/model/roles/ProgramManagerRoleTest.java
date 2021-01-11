@@ -18,24 +18,27 @@ class ProgramManagerRoleTest {
     private Project project2;
     private Category category1;
     private Category category2;
+    private UtilityFactory factory;
+    private IResourceHandler resourceHandler;
 
     @BeforeEach
     void init() {
         try {
-            GestoreRisorse.getInstance().clear();
-            new Category("Sport", "Descrizione.");
-            new Category("Informatica", "Descrizione.");
-            new Category("Domotica", "Descrizione.");
-            user1 = new User(1, "Daniele", "Baiocco", 1930, "Male");
-            user2 = new User(2, "Giacomo", "Simonetti", 1999, "Male");
-            user3 = new User(3, "Franca", "Suria", 1994, "Female");
-            user4 = new User(4, "Sara", "Giampitelli", 2000, "Female");
-            category1 = GestoreRisorse.getInstance().searchOne(Category.class, x -> x.getName().equals("SPORT"));
-            category2 = GestoreRisorse.getInstance().searchOne(Category.class, x -> x.getName().equals("INFORMATICA"));
+            resourceHandler = new ResourceHandler();
+            factory = new UtilityFactory(resourceHandler);
+            factory.createCategory("Sport", "Descrizione.");
+            factory.createCategory("Informatica", "Descrizione.");
+            factory.createCategory("Domotica", "Descrizione.");
+            user1 = factory.createUser(1, "Daniele", "Baiocco", 1930, "Male");
+            user2 = factory.createUser(2, "Giacomo", "Simonetti", 1999, "Male");
+            user3 = factory.createUser(3, "Franca", "Suria", 1994, "Female");
+            user4 = factory.createUser(4, "Sara", "Giampitelli", 2000, "Female");
+            category1 = resourceHandler.searchOne(Category.class, x -> x.getName().equals("SPORT"));
+            category2 = resourceHandler.searchOne(Category.class, x -> x.getName().equals("INFORMATICA"));
             user2.addRole(ProjectProposerRole.class, category1);
             user2.getRole(ProjectProposerRole.class).getCategories().add(category2);
-            project1 = user2.getRole(ProjectProposerRole.class).createProject(1, "Campo da calcio", "calcio a 5", category1);
-            project2 = user2.getRole(ProjectProposerRole.class).createProject(2, "SO", "sistema operativo", category2);
+            project1 = user2.getRole(ProjectProposerRole.class).createProject(1, "Campo da calcio", "calcio a 5", category1, factory);
+            project2 = user2.getRole(ProjectProposerRole.class).createProject(2, "SO", "sistema operativo", category2, factory);
             user2.addRole(ProgramManagerRole.class, category1);
             user2.getRole(ProjectProposerRole.class).createTeam(user2, project1);
             user4.addRole(ProgramManagerRole.class, category2);

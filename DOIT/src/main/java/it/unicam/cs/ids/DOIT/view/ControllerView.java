@@ -175,7 +175,7 @@ public class ControllerView {
 
     private String removeCategory(String[] s) {
         return manageRunnable(() -> {
-            this.controller.addCategory(s[1], s[2]);
+            this.controller.removeCategory(s[1], s[2]);
         });
     }
 

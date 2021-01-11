@@ -4,6 +4,7 @@ import it.unicam.cs.ids.DOIT.model.*;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class DesignerRole extends Role {
@@ -41,8 +42,8 @@ public class DesignerRole extends Role {
         return partecipationRequest;
     }
 
-    public Set<Project> getProjects(Category category) {
-        return GestoreRisorse.getInstance().search(Project.class, p -> p.getCategory().equals(category));
+    public Predicate<Project> getProjects(Category category) {
+        return p -> p.getCategory().equals(category);
     }
 
     @Override

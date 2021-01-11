@@ -11,6 +11,7 @@ it/unicam/cs/ids/DOIT/model/ProjectState.class
 it/unicam/cs/ids/DOIT/model/CurriculumVitae.class
 it/unicam/cs/ids/DOIT/model/PartecipationRequest.class
 it/unicam/cs/ids/DOIT/model/RoleException.class
+it/unicam/cs/ids/DOIT/model/IResourceHandler.class
 it/unicam/cs/ids/DOIT/view/MainView.class
 it/unicam/cs/ids/DOIT/model/Project.class
 it/unicam/cs/ids/DOIT/model/roles/initial/DesignerRole.class
@@ -19,3 +20,4 @@ it/unicam/cs/ids/DOIT/controller/Controller.class
 it/unicam/cs/ids/DOIT/model/roles/initial/ProjectProposerRole.class
 it/unicam/cs/ids/DOIT/model/Category.class
 it/unicam/cs/ids/DOIT/view/ControllerView.class
+it/unicam/cs/ids/DOIT/model/UtilityFactory.class

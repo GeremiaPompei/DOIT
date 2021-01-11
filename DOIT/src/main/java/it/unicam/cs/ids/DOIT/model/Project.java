@@ -10,14 +10,13 @@ public class Project {
     private ProjectState projectState;
     private Team team;
 
-    public Project(int id, String name, String description, User projectProposer, Category category) {
+    public Project(int id, String name, String description, User projectProposer, Category category, ProjectState projectState) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.projectProposer = projectProposer;
         this.category = category;
-        this.projectState = ProjectState.INITIALIZATION;
-        GestoreRisorse.getInstance().getRisorse().get(Project.class).add(this);
+        this.projectState = projectState;
     }
 
     public void setProjectManager(User projectManager) {

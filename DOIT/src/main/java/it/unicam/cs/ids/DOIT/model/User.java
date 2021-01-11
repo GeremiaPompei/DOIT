@@ -18,7 +18,6 @@ public class User {
         this.birthYear = birthYear;
         this.gender = gender;
         this.roles = new HashSet<>();
-        GestoreRisorse.getInstance().getRisorse().get(User.class).add(this);
     }
 
     public int getId() {

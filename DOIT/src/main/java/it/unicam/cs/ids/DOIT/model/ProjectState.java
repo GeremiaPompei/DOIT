@@ -1,17 +1,35 @@
 package it.unicam.cs.ids.DOIT.model;
 
-public enum ProjectState {
-	INITIALIZATION(0),
-	INPROGRESS(1),
-	FINISHED(2);
+public class ProjectState {
 
-	private int num;
+	private int id;
+	private String name;
+	private String description;
 
-	ProjectState(int num) {
-		this.num = num;
+	public ProjectState(int id, String name, String description) {
+		this.id = id;
+		this.name = name;
+		this.description = description;
 	}
 
-	public int getNum() {
-		return num;
+	public int getId() {
+		return id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	@Override
+	public String toString() {
+		return "ProjectState{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", description='" + description + '\'' +
+				'}';
 	}
 }

@@ -8,9 +8,10 @@ class CategoryTest {
 
     @Test
     void testCreateCategory(){
-        GestoreRisorse.getInstance().clear();
-        Category category= new Category("FISICA","descrizione");
-        assertTrue(GestoreRisorse.getInstance().getRisorse().get(Category.class).contains(category));
+        IResourceHandler resourceHandler = new ResourceHandler();
+        UtilityFactory factory = new UtilityFactory(resourceHandler);
+        Category category= factory.createCategory("FISICA","descrizione");
+        assertTrue(resourceHandler.getRisorse().get(Category.class).contains(category));
     }
 
 }

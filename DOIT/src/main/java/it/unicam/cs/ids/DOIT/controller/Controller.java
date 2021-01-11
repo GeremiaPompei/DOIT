@@ -1,25 +1,34 @@
 package it.unicam.cs.ids.DOIT.controller;
 
 import it.unicam.cs.ids.DOIT.model.*;
+import it.unicam.cs.ids.DOIT.model.roles.ProjectManagerRole;
 import it.unicam.cs.ids.DOIT.model.roles.initial.DesignerRole;
 import it.unicam.cs.ids.DOIT.model.roles.initial.ProgramManagerRole;
 import it.unicam.cs.ids.DOIT.model.roles.initial.ProjectProposerRole;
 
 import java.util.Set;
+import java.util.function.Function;
 
 public class Controller {
     private User user;
+    private UtilityFactory factory;
+    private IResourceHandler resourceHandler;
 
     public Controller() {
-        new Category("Sport", "Descrizione.");
-        new Category("Informatica", "Descrizione.");
-        new Category("Domotica", "Descrizione.");
+        resourceHandler = new ResourceHandler();
+        factory = new UtilityFactory(resourceHandler);
+        factory.createCategory("Sport", "Descrizione.");
+        factory.createCategory("Informatica", "Descrizione.");
+        factory.createCategory("Domotica", "Descrizione.");
+        factory.createProjectState(0, "INIZIALIZZAZIONE", "Stato iniziale.");
+        factory.createProjectState(1, "SVILUPPO", "Stato di sviluppo.");
+        factory.createProjectState(2, "TERMINALE", "Stato terminale.");
     }
 
     public void createUser(int id, String name, String surname, int birthdDay, String gender) throws Exception {
         if (searchUser(id) != null)
             throw new Exception("Esiste gia un user con stesso id!");
-        new User(id, name, surname, birthdDay, gender);
+        factory.createUser(id, name, surname, birthdDay, gender);
     }
 
     public void addRole(String roleName, String idCategory) throws Exception {
@@ -54,7 +63,7 @@ public class Controller {
         Category cat = searchCategory(idCategory);
         if (cat == null)
             throw new Exception("Categoria inesistente!");
-        this.user.getRole(ProjectProposerRole.class).createProject(id, name, description, cat);
+        this.user.getRole(ProjectProposerRole.class).createProject(id, name, description, cat, factory);
     }
 
     public void choosePgm(int idPgM, int idProject) throws Exception {
@@ -68,7 +77,8 @@ public class Controller {
     }
 
     public Set<User> listPgm(String idCategory) throws Exception {
-        return this.user.getRole(ProjectProposerRole.class).findProgramManagerList(searchCategory(idCategory));
+        return this.resourceHandler.search(User.class, this.user.getRole(ProjectProposerRole.class)
+                .findProgramManagerList(searchCategory(idCategory)));
     }
 
     public void sendPr(int idDesigner) throws Exception {
@@ -76,7 +86,8 @@ public class Controller {
     }
 
     public Set<Project> listProjects(String idCategory) throws Exception {
-        return this.user.getRole(DesignerRole.class).getProjects(searchCategory(idCategory));
+        return this.resourceHandler.search(Project.class,
+                this.user.getRole(DesignerRole.class).getProjects(searchCategory(idCategory)));
     }
 
     public void removePr(int idD, int idP, String reason) throws Exception {
@@ -116,20 +127,27 @@ public class Controller {
         return this.user.getRole(ProgramManagerRole.class).getDesigners(searchProject(idDesigner).getTeam());
     }
 
+    public void upgradeState(int idProject) throws Exception {
+        Project project = searchProject(idProject);
+        Function<Set<ProjectState>, ProjectState> func = user.getRole(ProjectManagerRole.class).upgradeState(project);
+        ProjectState ps = func.apply(resourceHandler.getRisorse().get(ProjectState.class));
+        project.setProjectState(ps);
+    }
+
     public Set<String> getRoles() {
-        return GestoreRisorse.getInstance().getRoles();
+        return resourceHandler.getRoles();
     }
 
     private User searchUser(int id) {
-        return GestoreRisorse.getInstance().searchOne(User.class, u -> u.getId() == id);
+        return resourceHandler.searchOne(User.class, u -> u.getId() == id);
     }
 
     private Project searchProject(int id) {
-        return GestoreRisorse.getInstance().searchOne(Project.class, p -> p.getId() == id);
+        return resourceHandler.searchOne(Project.class, p -> p.getId() == id);
     }
 
     private Category searchCategory(String id) {
-        return GestoreRisorse.getInstance().searchOne(Category.class, c -> c.getName().equalsIgnoreCase(id));
+        return resourceHandler.searchOne(Category.class, c -> c.getName().equalsIgnoreCase(id));
     }
 
     private Class<? extends Role> getRole(String roleName) throws Exception {
@@ -138,7 +156,7 @@ public class Controller {
     }
 
     public <T> Set<T> getRisorse(Class<T> t) {
-        return GestoreRisorse.getInstance().getRisorse().get(t);
+        return resourceHandler.getRisorse().get(t);
     }
 
     public User getUser() {

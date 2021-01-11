@@ -15,16 +15,20 @@ class TeamTest {
     private Project project1;
     private Category category1;
     private PartecipationRequest partecipationRequest;
+    private IResourceHandler resourceHandler;
+    private UtilityFactory factory;
+
     @BeforeEach
     void init() {
         try {
-            GestoreRisorse.getInstance().clear();
-            category1 = new Category("Sport", "Descrizione.");
-            user1 = new User(1, "Daniele", "Baiocco", 1930, "Male");
-            user2 = new User(2, "Giacomo", "Simonetti", 1999, "Male");
-            user3 = new User(3, "Sio", "Sandrio", 2000, "Male");
+            resourceHandler = new ResourceHandler();
+            factory = new UtilityFactory(resourceHandler);
+            category1 = factory.createCategory("Sport", "Descrizione.");
+            user1 = factory.createUser(1, "Daniele", "Baiocco", 1930, "Male");
+            user2 = factory.createUser(2, "Giacomo", "Simonetti", 1999, "Male");
+            user3 = factory.createUser(3, "Sio", "Sandrio", 2000, "Male");
             user1.addRole(ProjectProposerRole.class, category1);
-            project1 =user1.getRole(ProjectProposerRole.class).createProject(1, "Progetto1","Campo da Beach",category1 );
+            project1 =user1.getRole(ProjectProposerRole.class).createProject(1, "Progetto1","Campo da Beach",category1, factory);
             user2.addRole(ProgramManagerRole.class, category1);
             user2.getRole(ProgramManagerRole.class).createTeam(project1);
             user3.addRole(DesignerRole.class, category1);

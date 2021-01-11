@@ -9,10 +9,12 @@
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/model/User.java
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/model/roles/ProjectManagerRole.java
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/App.java
+/Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/model/UtilityFactory.java
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/model/ProjectState.java
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/model/Project.java
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/model/Category.java
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/model/RoleException.java
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/model/roles/initial/ProjectProposerRole.java
+/Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/model/IResourceHandler.java
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/model/GestoreRisorse.java
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/model/Team.java

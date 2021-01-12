@@ -40,7 +40,7 @@ public class User implements IUser {
         return sex;
     }
 
-    public <T extends IRole> boolean addRole(Class<T> clazz, ICategory category, IFactory factory)
+    public <T extends IRole> boolean addRole(Class<T> clazz, ICategory category, IFactoryModel factory)
             throws ReflectiveOperationException {
         return this.roles.add(factory.createRole(clazz, this, category));
     }

@@ -79,7 +79,7 @@ public class ControllerView {
         map.put("create", this::createProject);
         map.put("choose-pgm", this::choosePgm);
         map.put("list-pgm", this::listPgm);
-        map.putAll(roleActions());
+        map.putAll(roleActions("ProjectProposerRole"));
         map.put("help", (s) -> " > create idProject nameProject descriptionProject categoryProject\n > choose-pgm " +
                 "idUser idProject\n > list-pgm nameCategory");
         return map;
@@ -103,7 +103,7 @@ public class ControllerView {
         Map<String, Function<String[], String>> map = new HashMap<>();
         map.put("send-pr", this::sendPr);
         map.put("list-projects", this::listProjects);
-        map.putAll(roleActions());
+        map.putAll(roleActions("DesignerRole"));
         map.put("help", (s) -> " > send-pr idProject \n > list-projects nameCategory");
         return map;
     }
@@ -126,7 +126,7 @@ public class ControllerView {
         map.put("list-teams", this::listTeams);
         map.put("list-pr", this::listPR);
         map.put("list-d", this::listDesigner);
-        map.putAll(roleActions());
+        map.putAll(roleActions("ProgramManagerRole"));
         map.put("help", (s) -> " > add-designer idDesigner idTeam \n > remove-pr idDesigner idTeam reason \n > choose-pjm idDesigner "
                 + "idProject \n > list-d idProject \n > list-teams \n > list-pr idProject");
         return map;
@@ -157,22 +157,22 @@ public class ControllerView {
         });
     }
 
-    private Map<String, Function<String[], String>> roleActions() {
+    private Map<String, Function<String[], String>> roleActions(String role) {
         Map<String, Function<String[], String>> map = new HashMap<>();
-        map.put("add-category", this::addCategory);
-        map.put("remove-category", this::removeCategory);
+        map.put("add-category", s->addCategory(s, role));
+        map.put("remove-category", s->removeCategory(s, role));
         return map;
     }
 
-    private String addCategory(String[] s) {
+    private String addCategory(String[] s, String role) {
         return manageRunnable(() -> {
-            this.controller.addCategory(s[1], s[2]);
+            this.controller.addCategory(role, s[1]);
         });
     }
 
-    private String removeCategory(String[] s) {
+    private String removeCategory(String[] s, String role) {
         return manageRunnable(() -> {
-            this.controller.removeCategory(s[1], s[2]);
+            this.controller.removeCategory(role, s[1]);
         });
     }
 

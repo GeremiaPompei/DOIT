@@ -5,6 +5,8 @@ import it.unicam.cs.ids.DOIT.model.roles.IProjectProposerRole;
 import it.unicam.cs.ids.DOIT.model.roles.initial.DesignerRole;
 import it.unicam.cs.ids.DOIT.model.roles.initial.ProgramManagerRole;
 import it.unicam.cs.ids.DOIT.model.roles.initial.ProjectProposerRole;
+import it.unicam.cs.ids.DOIT.storage.FactoryStorage;
+import it.unicam.cs.ids.DOIT.storage.IResourceHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,13 +16,14 @@ class UserTest {
     private IUser user1;
     private IUser user2;
     private ICategory category;
-    private IFactory factory;
+    private IFactoryModel factory;
     private IResourceHandler resourceHandler;
 
     @BeforeEach
     private void init() {
-        resourceHandler = new ResourceHandler();
-        factory = new Factory(resourceHandler);
+        resourceHandler = FactoryStorage.getResouceHandler();
+        resourceHandler.search(Object.class, t->true).forEach(t->resourceHandler.remove(t));
+        factory = new FactoryModel();
         category = factory.createCategory("Sport", "descrizione");
         this.user1 = factory.createUser(1, "Saverio", "Tommasi", 1998, "Male");
         this.user2 = factory.createUser(2, "Mario", "Fartade", 2000, "Male");

@@ -8,6 +8,6 @@ import java.util.function.Predicate;
 public interface IDesignerRole extends IRole {
 
     Set<IPartecipationRequest> getPartecipationRequests();
-    IPartecipationRequest createPartecipationRequest(ITeam team, IFactory factory);
+    IPartecipationRequest createPartecipationRequest(ITeam team, IFactoryModel factory);
     Predicate<IProject> getProjects(ICategory category);
 }

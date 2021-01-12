@@ -1,6 +1,5 @@
-package it.unicam.cs.ids.DOIT.model;
+package it.unicam.cs.ids.DOIT.storage;
 
-import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -9,7 +8,5 @@ public interface IResourceHandler {
     <T>void remove(T t);
     <T> T searchOne(Class<T> clazz, Predicate<T> p);
     <T> Set<T> search(Class<T> clazz, Predicate<T> p);
-    Set<Object> getRisorse();
-    Set<String> getRoles();
 
 }

@@ -1,4 +1,4 @@
-package it.unicam.cs.ids.DOIT.model;
+package it.unicam.cs.ids.DOIT.storage;
 
 import java.io.File;
 import java.util.*;
@@ -8,13 +8,9 @@ import java.util.stream.Collectors;
 public class ResourceHandler implements IResourceHandler {
 
     private final Set<Object> risorse;
-    private Set<String> roles;
 
-    public ResourceHandler() {
+    ResourceHandler() {
         risorse = new HashSet<>();
-        roles = new HashSet<>();
-        Arrays.stream(new File("src/main/java/it/unicam/cs/ids/DOIT/model/roles/initial").list())
-                .forEach(s -> roles.add(s.replace(".java", "")));
     }
 
     @Override
@@ -27,16 +23,6 @@ public class ResourceHandler implements IResourceHandler {
     public <T> Set<T> search(Class<T> clazz, Predicate<T> p) {
         return risorse.stream().filter(clazz::isInstance).map(clazz::cast)
                 .filter(p).collect(Collectors.toSet());
-    }
-
-    @Override
-    public Set<Object> getRisorse() {
-        return risorse;
-    }
-
-    @Override
-    public Set<String> getRoles() {
-        return roles;
     }
 
     @Override

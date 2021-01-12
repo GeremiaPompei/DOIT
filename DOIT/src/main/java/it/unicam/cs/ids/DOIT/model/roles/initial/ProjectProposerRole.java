@@ -11,7 +11,7 @@ public class ProjectProposerRole extends Role implements IProjectProposerRole {
         super(user, category);
     }
 
-    public IProject createProject(int id, String name, String description, ICategory category, IFactory factory)
+    public IProject createProject(int id, String name, String description, ICategory category, IFactoryModel factory)
             throws IllegalArgumentException {
         if (!this.getCategories().contains(category))
             throw new IllegalArgumentException("L'utente non presenta la categoria: [" + category.getName() + "]");
@@ -30,7 +30,7 @@ public class ProjectProposerRole extends Role implements IProjectProposerRole {
         };
     }
 
-    public ITeam createTeam(IUser user, IProject project, IFactory factory) throws RoleException {
+    public ITeam createTeam(IUser user, IProject project, IFactoryModel factory) throws RoleException {
         if (!user.getRole(ProgramManagerRole.class).getCategories().contains(project.getCategory()))
             throw new IllegalArgumentException("Il Proponente Progetto non possiede la categoria del progetto:[" +
                     project.getCategory().getName() + "]!");

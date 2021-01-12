@@ -13,7 +13,7 @@ public interface IUser {
 
     String getSex();
 
-    <T extends IRole> boolean addRole(Class<T> clazz, ICategory category, IFactory factory)
+    <T extends IRole> boolean addRole(Class<T> clazz, ICategory category, IFactoryModel factory)
             throws ReflectiveOperationException;
 
     <T extends IRole> T getRole(Class<T> clazz) throws RoleException;

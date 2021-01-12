@@ -3,7 +3,7 @@ package it.unicam.cs.ids.DOIT.model.roles.initial;
 import it.unicam.cs.ids.DOIT.model.*;
 import it.unicam.cs.ids.DOIT.model.roles.IDesignerRole;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -14,7 +14,9 @@ import java.util.stream.Collectors;
 public class DesignerRole extends Role implements IDesignerRole {
 
     private Set<IPartecipationRequest> partecipationRequests;
-    private Map<LocalDateTime, String> curriculumVitae;
+    //TODO aggiungere informazioni del designer su esperienze pregresse.
+    private Map<LocalDate, String> curriculumVitae;
+    private Map<Project, Integer> evaluations;
 
 
     public DesignerRole(IUser user, ICategory category) {
@@ -27,7 +29,7 @@ public class DesignerRole extends Role implements IDesignerRole {
         return partecipationRequests;
     }
 
-    public IPartecipationRequest createPartecipationRequest(ITeam team, IFactory factory) {
+    public IPartecipationRequest createPartecipationRequest(ITeam team, IFactoryModel factory) {
         if (team.getPartecipationRequests().stream().map(p -> p.getDesigner()).collect(Collectors.toSet())
                 .contains(this.getUser()))
             throw new IllegalArgumentException("Partecipation request gia presente nel team!");

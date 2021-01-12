@@ -2,20 +2,23 @@ package it.unicam.cs.ids.DOIT.model;
 
 import it.unicam.cs.ids.DOIT.model.roles.IProjectProposerRole;
 import it.unicam.cs.ids.DOIT.model.roles.initial.ProjectProposerRole;
+import it.unicam.cs.ids.DOIT.storage.FactoryStorage;
+import it.unicam.cs.ids.DOIT.storage.IResourceHandler;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProjectTest {
     private IUser user1;
-    private IFactory factory;
+    private IFactoryModel factory;
     private IResourceHandler resourceHandler;
 
     @Test
     void testCreateProject(){
         try{
-            resourceHandler = new ResourceHandler();
-            factory = new Factory(resourceHandler);
+            resourceHandler = FactoryStorage.getResouceHandler();
+            resourceHandler.search(Object.class, t->true).forEach(t->resourceHandler.remove(t));
+            factory = new FactoryModel();
             factory.createProjectState(0, "INIZIALIZZAZIONE", "Stato iniziale.");
             factory.createProjectState(1, "SVILUPPO", "Stato di sviluppo.");
             factory.createProjectState(2, "TERMINALE", "Stato terminale.");

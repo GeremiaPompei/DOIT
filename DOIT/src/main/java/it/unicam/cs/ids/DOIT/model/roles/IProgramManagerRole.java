@@ -10,7 +10,7 @@ public interface IProgramManagerRole extends IRole {
     Set<IUser> getDesigners(ITeam team);
     void removeDesigner(IUser designer, ITeam team) throws RoleException;
     void setProjectManager(IUser designer, IProject project);
-    ITeam createTeam(IProject project, IFactory factory);
+    ITeam createTeam(IProject project, IFactoryModel factory);
     Set<IPartecipationRequest> getPartecipationRequests(ITeam team);
     Set<ITeam> getTeams();
 }

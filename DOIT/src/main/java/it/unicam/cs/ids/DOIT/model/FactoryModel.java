@@ -1,11 +1,14 @@
 package it.unicam.cs.ids.DOIT.model;
 
-public class Factory implements IFactory {
+import it.unicam.cs.ids.DOIT.storage.FactoryStorage;
+import it.unicam.cs.ids.DOIT.storage.IResourceHandler;
+
+public class FactoryModel implements IFactoryModel {
 
     IResourceHandler resourceHandler;
 
-    public Factory(IResourceHandler resourceHandler) {
-        this.resourceHandler = resourceHandler;
+    public FactoryModel() {
+        this.resourceHandler = FactoryStorage.getResouceHandler();
     }
 
     public IProject createProject(int id, String name, String description, IUser projectProposer, ICategory category) {

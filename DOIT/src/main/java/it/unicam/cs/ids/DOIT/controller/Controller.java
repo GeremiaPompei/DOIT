@@ -3,18 +3,27 @@ package it.unicam.cs.ids.DOIT.controller;
 import it.unicam.cs.ids.DOIT.model.*;
 import it.unicam.cs.ids.DOIT.model.roles.*;
 import it.unicam.cs.ids.DOIT.model.roles.initial.ProgramManagerRole;
+import it.unicam.cs.ids.DOIT.storage.FactoryStorage;
+import it.unicam.cs.ids.DOIT.storage.IResourceHandler;
 
+import java.io.File;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Function;
 
 public class Controller implements IController {
     private IUser user;
-    private IFactory factory;
+    private IFactoryModel factory;
     private IResourceHandler resourceHandler;
+    private Set<String> roles;
 
-    public Controller(IFactory factory, IResourceHandler resourceHandler) {
-        this.resourceHandler = resourceHandler;
+    public Controller(IFactoryModel factory) {
+        this.resourceHandler = FactoryStorage.getResouceHandler();
         this.factory = factory;
+        roles = new HashSet<>();
+        Arrays.stream(new File("src/main/java/it/unicam/cs/ids/DOIT/model/roles/initial").list())
+                .forEach(s -> roles.add(s.replace(".java", "")));
         factory.createCategory("Sport", "Descrizione.");
         factory.createCategory("Informatica", "Descrizione.");
         factory.createCategory("Domotica", "Descrizione.");
@@ -133,7 +142,7 @@ public class Controller implements IController {
     }
 
     public Set<String> getRoles() {
-        return resourceHandler.getRoles();
+        return roles;
     }
 
     private IUser searchUser(int id) {

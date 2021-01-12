@@ -1,6 +1,6 @@
 package it.unicam.cs.ids.DOIT.model;
 
-public interface IFactory {
+public interface IFactoryModel {
     IProject createProject(int id, String name, String description, IUser projectProposer, ICategory category);
     ICategory createCategory(String name, String description);
     IProjectState createProjectState(int id, String name, String description);

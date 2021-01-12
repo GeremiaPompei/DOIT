@@ -60,7 +60,7 @@ public class ProgramManagerRole extends Role implements IProgramManagerRole {
         project.setProjectManager(designer);
     }
 
-    public ITeam createTeam(IProject project, IFactory factory) {
+    public ITeam createTeam(IProject project, IFactoryModel factory) {
         ITeam team = factory.createTeam(project, super.getUser());
         this.teams.add(team);
         project.setTeam(team);

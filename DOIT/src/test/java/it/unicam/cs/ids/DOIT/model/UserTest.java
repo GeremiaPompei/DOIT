@@ -1,8 +1,9 @@
 package it.unicam.cs.ids.DOIT.model;
 
+import it.unicam.cs.ids.DOIT.model.roles.IProjectManagerRole;
+import it.unicam.cs.ids.DOIT.model.roles.IProjectProposerRole;
 import it.unicam.cs.ids.DOIT.model.roles.initial.DesignerRole;
 import it.unicam.cs.ids.DOIT.model.roles.initial.ProgramManagerRole;
-import it.unicam.cs.ids.DOIT.model.roles.ProjectManagerRole;
 import it.unicam.cs.ids.DOIT.model.roles.initial.ProjectProposerRole;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,16 +11,16 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserTest {
-    private User user1;
-    private User user2;
-    private Category category;
-    private UtilityFactory factory;
+    private IUser user1;
+    private IUser user2;
+    private ICategory category;
+    private IFactory factory;
     private IResourceHandler resourceHandler;
 
     @BeforeEach
     private void init() {
         resourceHandler = new ResourceHandler();
-        factory = new UtilityFactory(resourceHandler);
+        factory = new Factory(resourceHandler);
         category = factory.createCategory("Sport", "descrizione");
         this.user1 = factory.createUser(1, "Saverio", "Tommasi", 1998, "Male");
         this.user2 = factory.createUser(2, "Mario", "Fartade", 2000, "Male");
@@ -29,26 +30,26 @@ class UserTest {
     void addRole() {
         assertDoesNotThrow(() ->
                 this.user1.addRole(
-                        ProjectProposerRole.class, category));
+                        ProjectProposerRole.class, category, factory));
         assertDoesNotThrow(() ->
                 this.user1.addRole(
                         DesignerRole.class,
-                        category));
+                        category, factory));
         assertDoesNotThrow(() ->
                 this.user1.addRole(
                         ProgramManagerRole.class,
-                        category));
+                        category, factory));
 
     }
 
     @Test
     void getRole() {
-        assertThrows(RoleException.class, () -> this.user1.getRole(ProjectProposerRole.class));
+        assertThrows(RoleException.class, () -> this.user1.getRole(IProjectProposerRole.class));
         assertDoesNotThrow(() ->
                 this.user1.addRole(
                         ProjectProposerRole.class,
-                        category));
-        assertDoesNotThrow(() -> this.user1.getRole(ProjectProposerRole.class));
+                        category, factory));
+        assertDoesNotThrow(() -> this.user1.getRole(IProjectProposerRole.class));
     }
 
     @Test
@@ -56,13 +57,13 @@ class UserTest {
         assertDoesNotThrow(() ->
                 this.user1.addRole(
                         ProjectProposerRole.class,
-                        category));
-        assertDoesNotThrow(() -> this.user1.getRole(ProjectProposerRole.class));
+                        category, factory));
+        assertDoesNotThrow(() -> this.user1.getRole(IProjectProposerRole.class));
         assertThrows(RoleException.class,
                 ()->{
-            user1.getRole(ProjectManagerRole.class);
+            user1.getRole(IProjectManagerRole.class);
         });
-        this.user1.removeRole(ProjectProposerRole.class);
-        assertThrows(RoleException.class, () -> this.user1.getRole(ProjectProposerRole.class));
+        this.user1.removeRole(IProjectProposerRole.class);
+        assertThrows(RoleException.class, () -> this.user1.getRole(IProjectProposerRole.class));
     }
 }

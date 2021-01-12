@@ -1,33 +1,33 @@
 package it.unicam.cs.ids.DOIT.model.roles.initial;
 
 import it.unicam.cs.ids.DOIT.model.*;
+import it.unicam.cs.ids.DOIT.model.roles.IDesignerRole;
 
+import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class DesignerRole extends Role {
+public class DesignerRole extends Role implements IDesignerRole {
 
-    private Set<PartecipationRequest> partecipationRequests;
-    private CurriculumVitae curriculumVitae;
+    private Set<IPartecipationRequest> partecipationRequests;
+    private Map<LocalDateTime, String> curriculumVitae;
 
 
-    public DesignerRole(User user, Category category) {
+    public DesignerRole(IUser user, ICategory category) {
         super(user, category);
         this.partecipationRequests = new HashSet<>();
-        this.curriculumVitae = new CurriculumVitae();
+        this.curriculumVitae = new HashMap<>();
     }
 
-    public Set<PartecipationRequest> getPartecipationRequests() {
+    public Set<IPartecipationRequest> getPartecipationRequests() {
         return partecipationRequests;
     }
 
-    public CurriculumVitae getCurriculumVitae() {
-        return curriculumVitae;
-    }
-
-    public PartecipationRequest createPartecipationRequest(Team team) {
+    public IPartecipationRequest createPartecipationRequest(ITeam team, IFactory factory) {
         if (team.getPartecipationRequests().stream().map(p -> p.getDesigner()).collect(Collectors.toSet())
                 .contains(this.getUser()))
             throw new IllegalArgumentException("Partecipation request gia presente nel team!");
@@ -36,13 +36,13 @@ public class DesignerRole extends Role {
         if (!this.getCategories().contains(team.getProject().getCategory()))
             throw new IllegalArgumentException("L'utente non presenta la categoria: [" +
                     team.getProject().getCategory() + "]");
-        PartecipationRequest partecipationRequest = new PartecipationRequest(this.getUser(), team);
+        IPartecipationRequest partecipationRequest = factory.createPartecipationRequest(this.getUser(), team);
         this.partecipationRequests.add(partecipationRequest);
         team.getPartecipationRequests().add(partecipationRequest);
         return partecipationRequest;
     }
 
-    public Predicate<Project> getProjects(Category category) {
+    public Predicate<IProject> getProjects(ICategory category) {
         return p -> p.getCategory().equals(category);
     }
 

@@ -6,14 +6,14 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class Team {
+public class Team implements  ITeam{
     private boolean state = false;
-    private Project project;
-    private User programManager;
-    private Set<User> designers;
-    private Set<PartecipationRequest> partecipationRequests;
+    private IProject project;
+    private IUser programManager;
+    private Set<IUser> designers;
+    private Set<IPartecipationRequest> partecipationRequests;
 
-    public Team(Project project, User programManager) {
+    public Team(IProject project, IUser programManager) {
         this.project = project;
         this.programManager = programManager;
         this.designers = new HashSet<>();
@@ -24,31 +24,29 @@ public class Team {
         return state;
     }
 
-    public Project getProject() {
+    public IProject getProject() {
         return project;
     }
 
-    public User getProgramManager() {
+    public IUser getProgramManager() {
         return programManager;
     }
 
-    public void addDesigner(User designer) throws RoleException {
-        designer.getRole(DesignerRole.class).getCurriculumVitae().enterProject(this.project);
+    public void addDesigner(IUser designer) throws RoleException {
         designer.getRole(DesignerRole.class).addProject(this.project);
         this.designers.add(designer);
     }
 
-    public void removeDesigner(User designer) throws RoleException {
-        designer.getRole(DesignerRole.class).getCurriculumVitae().exitProject(this.project);
+    public void removeDesigner(IUser designer) throws RoleException {
         designer.getRole(DesignerRole.class).getProjects().remove(this.project);
         this.designers.remove(designer);
     }
 
-    public Set<User> getDesigners() {
+    public Set<IUser> getDesigners() {
         return designers;
     }
 
-    public Set<PartecipationRequest> getPartecipationRequests() {
+    public Set<IPartecipationRequest> getPartecipationRequests() {
         return partecipationRequests;
     }
 

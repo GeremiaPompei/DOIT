@@ -2,14 +2,14 @@ package it.unicam.cs.ids.DOIT.model;
 
 import java.time.LocalDateTime;
 
-public class PartecipationRequest {
+public class PartecipationRequest implements IPartecipationRequest{
 	private boolean state;
 	private String description;
 	private LocalDateTime dateTime;
-	private User designer;
-	private Team team;
+	private IUser designer;
+	private ITeam team;
 
-	public PartecipationRequest(User designer, Team team) {
+	public PartecipationRequest(IUser designer, ITeam team) {
 		this.designer = designer;
 		this.team = team;
 		this.description = "Partecipation request sended...";
@@ -17,7 +17,7 @@ public class PartecipationRequest {
 		this.dateTime = LocalDateTime.now();
 	}
 
-	public User getDesigner() {
+	public IUser getDesigner() {
 		return designer;
 	}
 
@@ -26,7 +26,7 @@ public class PartecipationRequest {
 		this.description = description;
 	}
 
-	public Team getTeam() {
+	public ITeam getTeam() {
 		return team;
 	}
 

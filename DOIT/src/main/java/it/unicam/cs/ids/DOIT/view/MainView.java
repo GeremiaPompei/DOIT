@@ -1,16 +1,18 @@
 package it.unicam.cs.ids.DOIT.view;
 
+import it.unicam.cs.ids.DOIT.controller.IController;
+
 import java.util.Map;
 import java.util.Scanner;
 import java.util.function.Function;
 
-public class MainView {
+public class MainView implements IView{
     private Scanner scanner;
     private Map<String, Map<String, Function<String[], String>>> commands;
 
-    public MainView() {
+    public MainView(IController controller) {
         this.scanner = new Scanner(System.in);
-        this.commands = new ControllerView().getCommands();
+        this.commands = new ControllerView(controller).getCommands();
     }
 
     public void start() {

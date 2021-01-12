@@ -9,7 +9,7 @@ public interface IResourceHandler {
     <T>void remove(T t);
     <T> T searchOne(Class<T> clazz, Predicate<T> p);
     <T> Set<T> search(Class<T> clazz, Predicate<T> p);
-    Map<Class, Set> getRisorse();
+    Set<Object> getRisorse();
     Set<String> getRoles();
 
 }

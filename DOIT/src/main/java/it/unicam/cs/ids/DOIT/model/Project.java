@@ -1,16 +1,16 @@
 package it.unicam.cs.ids.DOIT.model;
 
-public class Project {
+public class Project implements IProject {
     private int id;
     private String name;
     private String description;
-    private User projectProposer;
-    private User projectManager;
-    private Category category;
-    private ProjectState projectState;
-    private Team team;
+    private IUser projectProposer;
+    private IUser projectManager;
+    private ICategory category;
+    private IProjectState projectState;
+    private ITeam team;
 
-    public Project(int id, String name, String description, User projectProposer, Category category, ProjectState projectState) {
+    public Project(int id, String name, String description, IUser projectProposer, ICategory category, IProjectState projectState) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -19,19 +19,19 @@ public class Project {
         this.projectState = projectState;
     }
 
-    public void setProjectManager(User projectManager) {
+    public void setProjectManager(IUser projectManager) {
         this.projectManager = projectManager;
     }
 
-    public void setTeam(Team team) {
+    public void setTeam(ITeam team) {
         this.team = team;
     }
 
-    public Team getTeam() {
+    public ITeam getTeam() {
         return team;
     }
 
-    public User getProjectManager() {
+    public IUser getProjectManager() {
         return projectManager;
     }
 
@@ -47,19 +47,19 @@ public class Project {
         return description;
     }
 
-    public User getProjectProposer() {
+    public IUser getProjectProposer() {
         return projectProposer;
     }
 
-    public Category getCategory() {
+    public ICategory getCategory() {
         return category;
     }
 
-    public ProjectState getProjectState() {
+    public IProjectState getProjectState() {
         return projectState;
     }
 
-    public void setProjectState(ProjectState projectState) {
+    public void setProjectState(IProjectState projectState) {
         this.projectState = projectState;
     }
 

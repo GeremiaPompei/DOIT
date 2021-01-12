@@ -7,11 +7,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class CategoryTest {
 
     @Test
-    void testCreateCategory(){
+    void testCreateCategory() {
         IResourceHandler resourceHandler = new ResourceHandler();
-        UtilityFactory factory = new UtilityFactory(resourceHandler);
-        Category category= factory.createCategory("FISICA","descrizione");
-        assertTrue(resourceHandler.getRisorse().get(Category.class).contains(category));
+        Factory factory = new Factory(resourceHandler);
+        ICategory category = factory.createCategory("FISICA", "descrizione");
+        assertTrue(resourceHandler.search(ICategory.class, s -> true).contains(category));
     }
 
 }

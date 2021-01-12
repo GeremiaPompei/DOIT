@@ -3,20 +3,20 @@ package it.unicam.cs.ids.DOIT.model;
 import java.util.HashSet;
 import java.util.Set;
 
-public class User {
+public class User implements IUser {
     private int id;
     private String name;
     private String surname;
     private int birthYear;
-    private String gender;
-    private Set<Role> roles;
+    private String sex;
+    private Set<IRole> roles;
 
-    public User(int id, String name, String surname, int birthYear, String gender) {
+    public User(int id, String name, String surname, int birthYear, String sex) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.birthYear = birthYear;
-        this.gender = gender;
+        this.sex = sex;
         this.roles = new HashSet<>();
     }
 
@@ -36,17 +36,16 @@ public class User {
         return birthYear;
     }
 
-    public String getGender() {
-        return gender;
+    public String getSex() {
+        return sex;
     }
 
-    public <T extends Role> boolean addRole(Class<T> clazz, Category category)
+    public <T extends IRole> boolean addRole(Class<T> clazz, ICategory category, IFactory factory)
             throws ReflectiveOperationException {
-        return this.roles.add(clazz.getConstructor(new Class<?>[]{User.class, Category.class}).newInstance(
-                new Object[]{this, category}));
+        return this.roles.add(factory.createRole(clazz, this, category));
     }
 
-    public <T extends Role> T getRole(Class<T> clazz) throws RoleException {
+    public <T extends IRole> T getRole(Class<T> clazz) throws RoleException {
         return clazz.cast(this.roles
                 .stream()
                 .filter(clazz::isInstance)
@@ -54,7 +53,7 @@ public class User {
                 .orElseThrow(RoleException::new));
     }
 
-    public <T extends Role> boolean removeRole(Class<T> clazz) {
+    public <T extends IRole> boolean removeRole(Class<T> clazz) {
         return this.roles.remove(this.roles
                 .stream()
                 .filter(clazz::isInstance)
@@ -62,7 +61,7 @@ public class User {
                 .orElse(null));
     }
 
-    public Set<Role> getRoles() {
+    public Set<IRole> getRoles() {
         return roles;
     }
 
@@ -73,7 +72,7 @@ public class User {
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", birthYear=" + birthYear +
-                ", gender='" + gender + '\'' +
+                ", gender='" + sex + '\'' +
                 ", roles=" + roles +
                 '}';
     }

@@ -1,21 +1,22 @@
 package it.unicam.cs.ids.DOIT.model.roles.initial;
 
 import it.unicam.cs.ids.DOIT.model.*;
+import it.unicam.cs.ids.DOIT.model.roles.IProgramManagerRole;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class ProgramManagerRole extends Role {
+public class ProgramManagerRole extends Role implements IProgramManagerRole {
 
-    public Set<Team> teams = new HashSet<>();
+    public Set<ITeam> teams = new HashSet<>();
 
-    public ProgramManagerRole(User user, Category category) {
+    public ProgramManagerRole(IUser user, ICategory category) {
         super(user, category);
     }
 
-    public void addDesigner(PartecipationRequest partecipationRequest) throws RoleException {
-        Team team = partecipationRequest.getTeam();
+    public void addDesigner(IPartecipationRequest partecipationRequest) throws RoleException {
+        ITeam team = partecipationRequest.getTeam();
         if (!this.teams.contains(team))
             throw new IllegalArgumentException("Il Program Manager non possiede il team: [" + team.getProject().getId()
                     + "]");
@@ -24,8 +25,8 @@ public class ProgramManagerRole extends Role {
         team.addDesigner(partecipationRequest.getDesigner());
     }
 
-    public void removePartecipationRequest(PartecipationRequest partecipationRequest, String description) {
-        Team team = partecipationRequest.getTeam();
+    public void removePartecipationRequest(IPartecipationRequest partecipationRequest, String description) {
+        ITeam team = partecipationRequest.getTeam();
         if (!this.teams.contains(team))
             throw new IllegalArgumentException("Il Program Manager non possiede il team: [" + team.getProject().getId()
                     + "]");
@@ -35,13 +36,13 @@ public class ProgramManagerRole extends Role {
         team.getPartecipationRequests().remove(partecipationRequest);
     }
 
-    public Set<User> getDesigners(Team team) {
+    public Set<IUser> getDesigners(ITeam team) {
         if (!teams.contains(team))
             throw new IllegalArgumentException("Team non presente: [" + team.getProject().getId() + "]");
         return team.getDesigners();
     }
 
-    public void removeDesigner(User designer, Team team) throws RoleException {
+    public void removeDesigner(IUser designer, ITeam team) throws RoleException {
         if (!this.teams.contains(team))
             throw new IllegalArgumentException("Il Program Manager non possiede il team: [" + team.getProject().getId()
                     + "]");
@@ -51,7 +52,7 @@ public class ProgramManagerRole extends Role {
         team.removeDesigner(designer);
     }
 
-    public void setProjectManager(User designer, Project project) {
+    public void setProjectManager(IUser designer, IProject project) {
         if (!this.getProjects().contains(project))
             throw new IllegalArgumentException("L'utente non possiede il progetto con id:[" + project.getId() + "]");
         if (!project.getTeam().getDesigners().contains(designer))
@@ -59,21 +60,21 @@ public class ProgramManagerRole extends Role {
         project.setProjectManager(designer);
     }
 
-    public Team createTeam(Project project) {
-        Team team = new Team(project, super.getUser());
+    public ITeam createTeam(IProject project, IFactory factory) {
+        ITeam team = factory.createTeam(project, super.getUser());
         this.teams.add(team);
         project.setTeam(team);
         this.addProject(project);
         return team;
     }
 
-    public Set<PartecipationRequest> getPartecipationRequests(Team team) {
+    public Set<IPartecipationRequest> getPartecipationRequests(ITeam team) {
         if (!teams.contains(team))
             throw new IllegalArgumentException("Team non posseduto: [" + team.getProject().getId() + "]");
         return team.getPartecipationRequests();
     }
 
-    public Set<Team> getTeams() {
+    public Set<ITeam> getTeams() {
         return teams;
     }
 

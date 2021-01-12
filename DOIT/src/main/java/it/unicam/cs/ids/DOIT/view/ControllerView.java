@@ -1,10 +1,7 @@
 package it.unicam.cs.ids.DOIT.view;
 
-import it.unicam.cs.ids.DOIT.controller.Controller;
-import it.unicam.cs.ids.DOIT.model.Category;
-import it.unicam.cs.ids.DOIT.model.Project;
-import it.unicam.cs.ids.DOIT.model.Role;
-import it.unicam.cs.ids.DOIT.model.User;
+import it.unicam.cs.ids.DOIT.controller.IController;
+import it.unicam.cs.ids.DOIT.model.*;
 import it.unicam.cs.ids.DOIT.model.roles.initial.DesignerRole;
 import it.unicam.cs.ids.DOIT.model.roles.initial.ProgramManagerRole;
 import it.unicam.cs.ids.DOIT.model.roles.initial.ProjectProposerRole;
@@ -18,11 +15,11 @@ import java.util.stream.Collectors;
 
 public class ControllerView {
 
-    private Controller controller;
+    private IController controller;
     private Map<String, Map<String, Function<String[], String>>> commands;
 
-    public ControllerView() {
-        controller = new Controller();
+    public ControllerView(IController controller) {
+        this.controller = controller;
         commands = new HashMap<>();
         loadCommands();
     }
@@ -200,7 +197,7 @@ public class ControllerView {
         commands.put("user", userMap());
         commands.put("list", listMap());
         if (controller.getUser() != null) {
-            Set<Class<? extends Role>> set = controller.getUser().getRoles().stream().map(r -> r.getClass())
+            Set<Class<? extends IRole>> set = controller.getUser().getRoles().stream().map(r -> r.getClass())
                     .collect(Collectors.toSet());
             if (set.contains(ProjectProposerRole.class))
                 commands.put("project-proposer", projectProposerMap());

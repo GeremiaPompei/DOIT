@@ -4,35 +4,35 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public abstract class Role {
+public abstract class Role implements IRole{
 
-    private User user;
+    private IUser user;
 
-    private Set<Project> project;
+    private Set<IProject> project;
 
-    private Set<Category> categories;
+    private Set<ICategory> categories;
 
-    public Role(User user, Category category) {
+    public Role(IUser user, ICategory category) {
         project = new HashSet<>();
         categories = new HashSet<>();
         this.user = user;
         this.categories.add(category);
     }
 
-    public User getUser() {
+    public IUser getUser() {
         return user;
     }
 
-    public Set<Project> getProjects() {
+    public Set<IProject> getProjects() {
         return project;
     }
 
-    public void addProject(Project project) {
+    public void addProject(IProject project) {
         this.project.add(project);
         //TODO Aggiornamento history
     }
 
-    public Set<Category> getCategories() {
+    public Set<ICategory> getCategories() {
         return categories;
     }
 

@@ -1,6 +1,6 @@
 package it.unicam.cs.ids.DOIT.model;
 
-public class Category {
+public class Category implements ICategory{
 	private String name;
 	private String description;
 

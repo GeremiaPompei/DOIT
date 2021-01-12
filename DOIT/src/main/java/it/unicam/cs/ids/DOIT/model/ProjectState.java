@@ -1,6 +1,6 @@
 package it.unicam.cs.ids.DOIT.model;
 
-public class ProjectState {
+public class ProjectState implements  IProjectState{
 
 	private int id;
 	private String name;

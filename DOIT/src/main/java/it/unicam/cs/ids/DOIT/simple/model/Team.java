@@ -1,7 +1,7 @@
 package it.unicam.cs.ids.DOIT.simple.model;
 
 import it.unicam.cs.ids.DOIT.domain.model.*;
-import it.unicam.cs.ids.DOIT.simple.model.roles.initial.DesignerRole;
+import it.unicam.cs.ids.DOIT.simple.model.roles.DesignerRole;
 
 import java.util.HashSet;
 import java.util.Set;

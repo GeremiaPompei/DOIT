@@ -1,9 +1,9 @@
 package it.unicam.cs.ids.DOIT.domain.model.roles;
 
 import it.unicam.cs.ids.DOIT.domain.model.*;
-import it.unicam.cs.ids.DOIT.simple.model.roles.initial.DesignerRole;
-import it.unicam.cs.ids.DOIT.simple.model.roles.initial.ProgramManagerRole;
-import it.unicam.cs.ids.DOIT.simple.model.roles.initial.ProjectProposerRole;
+import it.unicam.cs.ids.DOIT.simple.model.roles.DesignerRole;
+import it.unicam.cs.ids.DOIT.simple.model.roles.ProgramManagerRole;
+import it.unicam.cs.ids.DOIT.simple.model.roles.ProjectProposerRole;
 import it.unicam.cs.ids.DOIT.simple.model.Category;
 import it.unicam.cs.ids.DOIT.simple.model.FactoryModel;
 import it.unicam.cs.ids.DOIT.simple.storage.ResourceHandler;
@@ -65,13 +65,13 @@ class ProgramManagerRoleTest {
             user2.getRole(IProgramManagerRole.class).addDesigner(pr);
             assertThrows(IllegalArgumentException.class,
                     () -> {
-                        user2.getRole(IProgramManagerRole.class).setProjectManager(user1, project2);
+                        user2.getRole(IProgramManagerRole.class).setProjectManager(user1, project2, ProgramManagerRole.class);
                     }, "L'utente non possiede il progetto con id:[2]");
             assertThrows(IllegalArgumentException.class,
                     () -> {
-                        user2.getRole(IProgramManagerRole.class).setProjectManager(user3, project1);
+                        user2.getRole(IProgramManagerRole.class).setProjectManager(user3, project1, ProgramManagerRole.class);
                     }, "L'utente non è presente nel team del progetto!");
-            user2.getRole(IProgramManagerRole.class).setProjectManager(user1, project1);
+            user2.getRole(IProgramManagerRole.class).setProjectManager(user1, project1, ProgramManagerRole.class);
             assertEquals(user1, project1.getProjectManager());
         } catch (Exception e) {
             e.printStackTrace();

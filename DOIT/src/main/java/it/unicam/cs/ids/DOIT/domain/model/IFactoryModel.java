@@ -9,5 +9,5 @@ public interface IFactoryModel {
     ITeam createTeam(IProject project, IUser user);
     <T extends IRole> T createRole(Class<T> clazz, IUser user, ICategory category) throws ReflectiveOperationException;
     IHistory createHisory();
-     IHistoryUnit createHistoryUnit(boolean bool);
+    IHistoryUnit createHistoryUnit(boolean bool);
 }

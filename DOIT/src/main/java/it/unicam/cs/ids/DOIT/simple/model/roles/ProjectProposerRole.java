@@ -1,4 +1,4 @@
-package it.unicam.cs.ids.DOIT.simple.model.roles.initial;
+package it.unicam.cs.ids.DOIT.simple.model.roles;
 
 import it.unicam.cs.ids.DOIT.domain.model.*;
 import it.unicam.cs.ids.DOIT.domain.model.roles.IProjectProposerRole;

@@ -1,8 +1,9 @@
-package it.unicam.cs.ids.DOIT.simple.model.roles.initial;
+package it.unicam.cs.ids.DOIT.simple.model.roles;
 
 import it.unicam.cs.ids.DOIT.domain.model.*;
 import it.unicam.cs.ids.DOIT.domain.model.roles.IProgramManagerRole;
 import it.unicam.cs.ids.DOIT.simple.model.Role;
+import it.unicam.cs.ids.DOIT.simple.model.roles.ProjectManagerRole;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,10 +11,13 @@ import java.util.stream.Collectors;
 
 public class ProgramManagerRole extends Role implements IProgramManagerRole {
 
-    public Set<ITeam> teams = new HashSet<>();
+    private Set<ITeam> teams;
+    private IFactoryModel factoryModel;
 
     public ProgramManagerRole(IUser user, ICategory category, IFactoryModel factoryModel) {
         super(user, category, factoryModel);
+        teams = new HashSet<>();
+        this.factoryModel = factoryModel;
     }
 
     public void addDesigner(IPartecipationRequest partecipationRequest) throws RoleException {
@@ -53,12 +57,13 @@ public class ProgramManagerRole extends Role implements IProgramManagerRole {
         team.removeDesigner(designer);
     }
 
-    public void setProjectManager(IUser designer, IProject project) {
+    public void setProjectManager(IUser designer, IProject project, Class<? extends  IRole> clazz) throws ReflectiveOperationException {
         if (!this.getProjects().contains(project))
             throw new IllegalArgumentException("L'utente non possiede il progetto con id:[" + project.getId() + "]");
         if (!project.getTeam().getDesigners().contains(designer))
             throw new IllegalArgumentException("L'utente non è presente nel team del progetto!");
         project.setProjectManager(designer);
+        designer.addRole(clazz, project.getCategory(), factoryModel);
     }
 
     public ITeam createTeam(IProject project, IFactoryModel factory) {

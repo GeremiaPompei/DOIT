@@ -2,9 +2,10 @@ package it.unicam.cs.ids.DOIT.simple.view;
 
 import it.unicam.cs.ids.DOIT.domain.controller.IController;
 import it.unicam.cs.ids.DOIT.domain.model.*;
-import it.unicam.cs.ids.DOIT.simple.model.roles.initial.DesignerRole;
-import it.unicam.cs.ids.DOIT.simple.model.roles.initial.ProgramManagerRole;
-import it.unicam.cs.ids.DOIT.simple.model.roles.initial.ProjectProposerRole;
+import it.unicam.cs.ids.DOIT.simple.model.roles.ProjectManagerRole;
+import it.unicam.cs.ids.DOIT.simple.model.roles.DesignerRole;
+import it.unicam.cs.ids.DOIT.simple.model.roles.ProgramManagerRole;
+import it.unicam.cs.ids.DOIT.simple.model.roles.ProjectProposerRole;
 import it.unicam.cs.ids.DOIT.simple.model.Category;
 import it.unicam.cs.ids.DOIT.simple.model.Project;
 import it.unicam.cs.ids.DOIT.simple.model.User;
@@ -73,7 +74,7 @@ public class ControllerView {
         map.put("users", (s) -> controller.getRisorse(User.class) + "");
         map.put("projects", (s) -> controller.getRisorse(Project.class) + "");
         map.put("categories", (s) -> controller.getRisorse(Category.class) + "");
-        map.put("roles", (s) -> controller.getRoles() + "");
+        map.put("roles", (s) -> controller.getChoosableRoles().stream().map(c -> c.getSimpleName()).collect(Collectors.toSet()) + "");
         return map;
     }
 
@@ -83,8 +84,8 @@ public class ControllerView {
         map.put("choose-pgm", this::choosePgm);
         map.put("list-pgm", this::listPgm);
         map.putAll(roleActions("ProjectProposerRole"));
-        map.put("help", (s) -> " > create idProject nameProject descriptionProject categoryProject\n > choose-pgm " +
-                "idUser idProject\n > list-pgm nameCategory");
+        map.put("help", (s) -> " > create idProject nameProject descriptionProject categoryProject \n > choose-pgm " +
+                "idUser idProject \n > list-pgm nameCategory \n > add-category nameCategory \n > remove-category nameCategory");
         return map;
     }
 
@@ -107,7 +108,8 @@ public class ControllerView {
         map.put("send-pr", this::sendPr);
         map.put("list-projects", this::listProjects);
         map.putAll(roleActions("DesignerRole"));
-        map.put("help", (s) -> " > send-pr idProject \n > list-projects nameCategory");
+        map.put("help", (s) -> " > send-pr idProject \n > list-projects nameCategory \n > add-category nameCategory " +
+                "\n > remove-category nameCategory");
         return map;
     }
 
@@ -131,7 +133,8 @@ public class ControllerView {
         map.put("list-d", this::listDesigner);
         map.putAll(roleActions("ProgramManagerRole"));
         map.put("help", (s) -> " > add-designer idDesigner idTeam \n > remove-pr idDesigner idTeam reason \n > choose-pjm idDesigner "
-                + "idProject \n > list-d idProject \n > list-teams \n > list-pr idProject");
+                + "idProject \n > list-d idProject \n > list-teams \n > list-pr idProject \n > add-category nameCategory " +
+                "\n > remove-category nameCategory");
         return map;
     }
 
@@ -157,13 +160,14 @@ public class ControllerView {
             int idU = Integer.parseInt(s[1]);
             int idP = Integer.parseInt(s[2]);
             this.controller.choosePjm(idU, idP);
+            loadCommands();
         });
     }
 
     private Map<String, Function<String[], String>> roleActions(String role) {
         Map<String, Function<String[], String>> map = new HashMap<>();
-        map.put("add-category", s->addCategory(s, role));
-        map.put("remove-category", s->removeCategory(s, role));
+        map.put("add-category", s -> addCategory(s, role));
+        map.put("remove-category", s -> removeCategory(s, role));
         return map;
     }
 
@@ -195,6 +199,13 @@ public class ControllerView {
         return manageException(() -> this.controller.listDesigner(Integer.parseInt(s[1])).toString());
     }
 
+    private Map<String, Function<String[], String>> projectManagerMap() {
+        Map<String, Function<String[], String>> map = new HashMap<>();
+
+        map.put("help", (s) -> " > ");
+        return map;
+    }
+
     private void loadCommands() {
         commands.clear();
         commands.put("user", userMap());
@@ -208,6 +219,8 @@ public class ControllerView {
                 commands.put("designer", designerMap());
             if (set.contains(ProgramManagerRole.class))
                 commands.put("program-manager", programManagerMap());
+            if (set.contains(ProjectManagerRole.class))
+                commands.put("project-manager", projectManagerMap());
         }
     }
 

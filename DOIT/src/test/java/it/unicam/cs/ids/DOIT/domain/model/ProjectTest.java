@@ -1,7 +1,7 @@
 package it.unicam.cs.ids.DOIT.domain.model;
 
 import it.unicam.cs.ids.DOIT.domain.model.roles.IProjectProposerRole;
-import it.unicam.cs.ids.DOIT.simple.model.roles.initial.ProjectProposerRole;
+import it.unicam.cs.ids.DOIT.simple.model.roles.ProjectProposerRole;
 import it.unicam.cs.ids.DOIT.simple.model.FactoryModel;
 import it.unicam.cs.ids.DOIT.simple.storage.ResourceHandler;
 import it.unicam.cs.ids.DOIT.domain.storage.IResourceHandler;

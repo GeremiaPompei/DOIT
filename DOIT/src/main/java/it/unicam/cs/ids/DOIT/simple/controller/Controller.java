@@ -3,11 +3,12 @@ package it.unicam.cs.ids.DOIT.simple.controller;
 import it.unicam.cs.ids.DOIT.domain.controller.IController;
 import it.unicam.cs.ids.DOIT.domain.model.*;
 import it.unicam.cs.ids.DOIT.domain.model.roles.*;
-import it.unicam.cs.ids.DOIT.simple.model.roles.initial.ProgramManagerRole;
+import it.unicam.cs.ids.DOIT.simple.model.roles.ProjectManagerRole;
+import it.unicam.cs.ids.DOIT.simple.model.roles.DesignerRole;
+import it.unicam.cs.ids.DOIT.simple.model.roles.ProgramManagerRole;
 import it.unicam.cs.ids.DOIT.domain.storage.IResourceHandler;
+import it.unicam.cs.ids.DOIT.simple.model.roles.ProjectProposerRole;
 
-import java.io.File;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Function;
@@ -16,20 +17,34 @@ public class Controller implements IController {
     private IUser user;
     private IFactoryModel factory;
     private IResourceHandler resourceHandler;
-    private Set<String> roles;
+    private Set<Class<? extends IRole>> choosableRoles;
 
     public Controller(IFactoryModel factory, IResourceHandler resourceHandler) {
         this.resourceHandler = resourceHandler;
         this.factory = factory;
-        roles = new HashSet<>();
-        Arrays.stream(new File("src/main/java/it/unicam/cs/ids/DOIT/simple/model/roles/initial").list())
-                .forEach(s -> roles.add(s.replace(".java", "")));
+        choosableRoles = new HashSet<>();
+        choosableRoles.add(ProgramManagerRole.class);
+        choosableRoles.add(ProjectProposerRole.class);
+        choosableRoles.add(DesignerRole.class);
         factory.createCategory("Sport", "Descrizione.");
         factory.createCategory("Informatica", "Descrizione.");
         factory.createCategory("Domotica", "Descrizione.");
         factory.createProjectState(0, "INIZIALIZZAZIONE", "Stato iniziale.");
         factory.createProjectState(1, "SVILUPPO", "Stato di sviluppo.");
         factory.createProjectState(2, "TERMINALE", "Stato terminale.");
+
+        //TODO prova
+        /*try {
+            user = factory.createUser(1, "1", "1", 1, "1");
+            user.addRole(ProjectProposerRole.class, searchCategory("sport"), factory);
+            user.addRole(ProgramManagerRole.class, searchCategory("sport"), factory);
+            user.addRole(DesignerRole.class, searchCategory("sport"), factory);
+            user.getRole(ProjectProposerRole.class).createProject(9,"9","9", searchCategory("sport"), factory);
+            user.getRole(ProjectProposerRole.class).createTeam(searchUser(1), searchProject(9), factory);
+            user.getRole(ProgramManagerRole.class).addDesigner(user.getRole(DesignerRole.class)
+                    .createPartecipationRequest(searchProject(9).getTeam(), factory));
+            user.getRole(ProgramManagerRole.class).setProjectManager(searchUser(1), searchProject(9), ProjectManagerRole.class);
+        }catch (Exception e) {}*/
     }
 
     public void createUser(int id, String name, String surname, int birthdDay, String gender) throws Exception {
@@ -54,6 +69,8 @@ public class Controller implements IController {
     }
 
     public void removeCategory(String roleName, String categoryName) throws Exception {
+        if(user.getRole(getRole(roleName)).getCategories().size()==1)
+            throw new Exception("Non si possono eliminare le categorie quando ne rimane solo una!");
         user.getRole(getRole(roleName)).getCategories().remove(searchCategory(categoryName));
     }
 
@@ -116,7 +133,7 @@ public class Controller implements IController {
     }
 
     public void choosePjm(int idD, int idP) throws Exception {
-        this.user.getRole(IProgramManagerRole.class).setProjectManager(searchUser(idD), searchProject(idP));
+        this.user.getRole(IProgramManagerRole.class).setProjectManager(searchUser(idD), searchProject(idP), ProjectManagerRole.class);
     }
 
     public Set<ITeam> listTeams() throws Exception {
@@ -171,8 +188,8 @@ public class Controller implements IController {
         project.setProjectState(ps);
     }
 
-    public Set<String> getRoles() {
-        return roles;
+    public Set<Class<? extends IRole>> getChoosableRoles() {
+        return choosableRoles;
     }
 
     private IUser searchUser(int id) {
@@ -187,9 +204,8 @@ public class Controller implements IController {
         return resourceHandler.searchOne(ICategory.class, c -> c.getName().equalsIgnoreCase(id));
     }
 
-    private Class<? extends IRole> getRole(String roleName) throws Exception {
-        return (Class<? extends IRole>) Class.forName(
-                "it.unicam.cs.ids.DOIT.simple.model.roles.initial." + roleName);
+    private Class<? extends IRole> getRole(String roleName) {
+        return choosableRoles.stream().filter(c->c.getSimpleName().equalsIgnoreCase(roleName)).findAny().orElse(null);
     }
 
     public <T> Set<T> getRisorse(Class<T> t) {

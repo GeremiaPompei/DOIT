@@ -54,7 +54,8 @@ public class FactoryModel implements IFactoryModel {
 
     @Override
     public <T extends IRole> T createRole(Class<T> clazz, IUser user, ICategory category) throws ReflectiveOperationException {
-        return clazz.getConstructor(new Class<?>[]{IUser.class, ICategory.class, IFactoryModel.class}).newInstance(new Object[]{user, category, this});
+        return clazz.getConstructor(new Class<?>[]{IUser.class, ICategory.class, IFactoryModel.class})
+                .newInstance(new Object[]{user, category, this});
     }
 
     @Override

@@ -43,7 +43,7 @@ public interface IController {
 
     void downgradeState(int idProject) throws  Exception;
 
-    Set<String> getRoles();
+    Set<Class<? extends IRole>> getChoosableRoles();
 
     <T> Set<T> getRisorse(Class<T> t);
 

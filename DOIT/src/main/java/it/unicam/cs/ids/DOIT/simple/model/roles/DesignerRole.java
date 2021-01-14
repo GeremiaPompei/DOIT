@@ -24,6 +24,7 @@ public class DesignerRole extends Role implements IDesignerRole {
         super(user, category, factoryModel);
         this.partecipationRequests = new HashSet<>();
         this.curriculumVitae = new HashMap<>();
+        this.evaluations = new HashMap<>();
     }
 
     public Set<IPartecipationRequest> getPartecipationRequests() {
@@ -39,6 +40,8 @@ public class DesignerRole extends Role implements IDesignerRole {
         if (!this.getCategories().contains(team.getProject().getCategory()))
             throw new IllegalArgumentException("L'utente non presenta la categoria: [" +
                     team.getProject().getCategory() + "]");
+        if(!team.getState())
+            throw new IllegalArgumentException("Le registrazioni non sono aperte !");
         IPartecipationRequest partecipationRequest = factory.createPartecipationRequest(this.getUser(), team);
         this.partecipationRequests.add(partecipationRequest);
         team.getPartecipationRequests().add(partecipationRequest);
@@ -46,12 +49,17 @@ public class DesignerRole extends Role implements IDesignerRole {
     }
 
     public Predicate<IProject> getProjects(ICategory category) {
-        return p -> p.getCategory().equals(category);
+        return p -> p.getCategory().equals(category) && p.getTeam().getState();
     }
 
     @Override
     public void enterEvaluation(IProject project, int evaluation) {
         this.evaluations.put(project, evaluation);
+    }
+
+    @Override
+    public Map<IProject, Integer> getEvaluations() {
+        return evaluations;
     }
 
     @Override

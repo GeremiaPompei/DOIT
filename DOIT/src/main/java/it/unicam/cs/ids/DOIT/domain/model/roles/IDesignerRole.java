@@ -2,6 +2,7 @@ package it.unicam.cs.ids.DOIT.domain.model.roles;
 
 import it.unicam.cs.ids.DOIT.domain.model.*;
 
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -11,4 +12,5 @@ public interface IDesignerRole extends IRole {
     IPartecipationRequest createPartecipationRequest(ITeam team, IFactoryModel factory);
     Predicate<IProject> getProjects(ICategory category);
     void enterEvaluation(IProject project, int evaluation);
+    Map<IProject, Integer> getEvaluations();
 }

@@ -53,6 +53,16 @@ public class Team implements ITeam {
     }
 
     @Override
+    public void openRegistrations() {
+        this.state = true;
+    }
+
+    @Override
+    public void closeRegistrations() {
+        this.state = false;
+    }
+
+    @Override
     public String toString() {
         return "Team{" +
                 "state=" + state +

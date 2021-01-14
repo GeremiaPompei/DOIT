@@ -26,6 +26,7 @@ public class Controller implements IController {
         choosableRoles.add(ProgramManagerRole.class);
         choosableRoles.add(ProjectProposerRole.class);
         choosableRoles.add(DesignerRole.class);
+        choosableRoles.add(ProjectManagerRole.class);
         factory.createCategory("Sport", "Descrizione.");
         factory.createCategory("Informatica", "Descrizione.");
         factory.createCategory("Domotica", "Descrizione.");
@@ -34,17 +35,20 @@ public class Controller implements IController {
         factory.createProjectState(2, "TERMINALE", "Stato terminale.");
 
         //TODO prova
-        /*try {
+        try {
             user = factory.createUser(1, "1", "1", 1, "1");
             user.addRole(ProjectProposerRole.class, searchCategory("sport"), factory);
             user.addRole(ProgramManagerRole.class, searchCategory("sport"), factory);
             user.addRole(DesignerRole.class, searchCategory("sport"), factory);
-            user.getRole(ProjectProposerRole.class).createProject(9,"9","9", searchCategory("sport"), factory);
+            user.getRole(ProjectProposerRole.class).createProject(9, "9", "9", searchCategory("sport"), factory);
             user.getRole(ProjectProposerRole.class).createTeam(searchUser(1), searchProject(9), factory);
             user.getRole(ProgramManagerRole.class).addDesigner(user.getRole(DesignerRole.class)
                     .createPartecipationRequest(searchProject(9).getTeam(), factory));
             user.getRole(ProgramManagerRole.class).setProjectManager(searchUser(1), searchProject(9), ProjectManagerRole.class);
-        }catch (Exception e) {}*/
+            //user.getRole(IProjectManagerRole.class).insertEvaluation(searchUser(1), 3,searchProject(9));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void createUser(int id, String name, String surname, int birthdDay, String gender) throws Exception {
@@ -57,21 +61,21 @@ public class Controller implements IController {
         ICategory category = searchCategory(idCategory);
         if (category == null)
             throw new Exception("Categoria inesistente!");
+        if (roleName.equalsIgnoreCase("ProjectManagerRole"))
+            throw new Exception();
         user.addRole(getRole(roleName), category, factory);
     }
 
-    public void removeRole(String roleName) throws Exception {
+    public void removeRole(String roleName) {
         user.removeRole(getRole(roleName));
     }
 
     public void addCategory(String roleName, String categoryName) throws Exception {
-        user.getRole(getRole(roleName)).getCategories().add(searchCategory(categoryName));
+        user.getRole(getRole(roleName)).addCategory(searchCategory(categoryName));
     }
 
     public void removeCategory(String roleName, String categoryName) throws Exception {
-        if(user.getRole(getRole(roleName)).getCategories().size()==1)
-            throw new Exception("Non si possono eliminare le categorie quando ne rimane solo una!");
-        user.getRole(getRole(roleName)).getCategories().remove(searchCategory(categoryName));
+        user.getRole(getRole(roleName)).removeCategory(searchCategory(categoryName));
     }
 
     public void login(int id) throws Exception {
@@ -147,26 +151,33 @@ public class Controller implements IController {
         return this.user.getRole(IProgramManagerRole.class).getPartecipationRequests(p.getTeam());
     }
 
-    public Set<IUser> listDesigner(int idProject) throws Exception {
+    public Set<IUser> listDesignerForProgramManager(int idProject) throws Exception {
         return this.user.getRole(IProgramManagerRole.class).getDesigners(searchProject(idProject).getTeam());
     }
 
-    public void insertEvaluation(int idDesigner, int evaluation, int idProject) throws Exception {
+    @Override
+    public Set<IUser> listDesignerForPrjManager(int idDesigner) throws Exception {
+        return this.user.getRole(IProjectManagerRole.class).getDesigners(searchProject(idDesigner).getTeam());
+    }
+
+    public void insertEvaluation(int idDesigner, int idProject, int evaluation) throws Exception {
         IProject project = searchProject(idProject);
         IUser user = searchUser(idDesigner);
         Function<Set<IProjectState>, IProjectState> nextFunc = user.getRole(IProjectManagerRole.class).upgradeState(project);
         IProjectState ps = nextFunc.apply(resourceHandler.search(IProjectState.class, s -> true));
-        if(project.getProjectState()!=null && ps==null){
-            user.getRole(IProjectManagerRole.class).insertEvaluation(project,evaluation, user);
-            user.getRole(IProjectManagerRole.class).turnProjectOff(project, user.getRole(IDesignerRole.class));
-        }
+        if (!(project.getProjectState() != null && ps == null))
+            throw new Exception("Il progetto deve possedere lo stato terminale!");
+        this.user.getRole(IProjectManagerRole.class).insertEvaluation(user, evaluation, project);
+
     }
 
-    public void exitAll(int idProject) throws RoleException {
+    public void exitAll(int idProject) throws Exception {
         IProject project = searchProject(idProject);
-        project.getProjectProposer().getRole(IProjectProposerRole.class).exitProject(project);
-        project.getTeam().getProgramManager().getRole(IProgramManagerRole.class).exitProject(project);
-        project.getProjectManager().getRole(IProjectManagerRole.class).exitProject(project);
+        Function<Set<IProjectState>, IProjectState> nextFunc = user.getRole(IProjectManagerRole.class).upgradeState(project);
+        IProjectState ps = nextFunc.apply(resourceHandler.search(IProjectState.class, s -> true));
+        if (!(project.getProjectState() != null && ps == null))
+            throw new Exception("Il progetto deve possedere lo stato terminale!");
+        this.user.getRole(IProjectManagerRole.class).exitAll(project);
     }
 
     @Override
@@ -174,9 +185,8 @@ public class Controller implements IController {
         IProject project = searchProject(idProject);
         Function<Set<IProjectState>, IProjectState> nextFunc = user.getRole(IProjectManagerRole.class).upgradeState(project);
         IProjectState ps = nextFunc.apply(resourceHandler.search(IProjectState.class, s -> true));
-        if(project.getProjectState()!=null && ps==null){
-           throw  new IllegalArgumentException("Progetto è in uno stato terminale");
-        }
+        if (project.getProjectState() != null && ps == null)
+            throw new IllegalArgumentException("Lo stato dwl progetto è terminale!");
         project.setProjectState(ps);
     }
 
@@ -184,12 +194,58 @@ public class Controller implements IController {
     public void downgradeState(int idProject) throws Exception {
         IProject project = searchProject(idProject);
         Function<Set<IProjectState>, IProjectState> prevFunc = user.getRole(IProjectManagerRole.class).downgradeState(project);
-        IProjectState ps = prevFunc.apply(resourceHandler.search(IProjectState.class, s->true));
+        IProjectState ps = prevFunc.apply(resourceHandler.search(IProjectState.class, s -> true));
+        if (project.getProjectState() != null && ps == null)
+            throw new IllegalArgumentException("Lo stato dwl progetto è iniziale!");
         project.setProjectState(ps);
+    }
+
+    @Override
+    public String visualizeState(int idProject) {
+        IProject project = searchProject(idProject);
+        return project.getProjectState().toString();
+    }
+
+    public Set<IProject> listProjectsOwnedByPrjManager() throws Exception {
+        return user.getRole(IProjectManagerRole.class).getProjects();
     }
 
     public Set<Class<? extends IRole>> getChoosableRoles() {
         return choosableRoles;
+    }
+
+    @Override
+    public Integer getEvaluation(int idProject) throws RoleException {
+        IProject project = searchProject(idProject);
+        return user.getRole(IDesignerRole.class).getEvaluations().get(project);
+    }
+
+    public void removeDesigner(int idD, int idT) throws Exception {
+        ITeam team = this.user.getRole(ProgramManagerRole.class).getTeams().stream()
+                .filter(p -> p.getProject().getId() == idT).findAny().orElse(null);
+        IUser designer = this.user.getRole(ProgramManagerRole.class).getDesigners(team).stream()
+                .filter(p -> p.getId() == idD).findAny().orElse(null);
+        if (team == null)
+            throw new Exception("Team non esistente");
+        if (designer == null)
+            throw new Exception("Designer non esistente");
+        this.user.getRole(IProgramManagerRole.class).removeDesigner(designer, team);
+    }
+
+    public void openRegistrations(int idT) throws Exception {
+        ITeam team = this.user.getRole(ProgramManagerRole.class).getTeams()
+                .stream().filter(p -> p.getProject().getId() == idT).findAny().orElse(null);
+        if (team == null)
+            throw new Exception("Team non esistente");
+        this.user.getRole(IProgramManagerRole.class).openRegistrations(team);
+    }
+
+    public void closeRegistrations(int idT) throws Exception {
+        ITeam team = this.user.getRole(ProgramManagerRole.class).getTeams()
+                .stream().filter(p -> p.getProject().getId() == idT).findAny().orElse(null);
+        if (team == null)
+            throw new Exception("Team non esistente");
+        this.user.getRole(IProgramManagerRole.class).closeRegistrations(team);
     }
 
     private IUser searchUser(int id) {
@@ -205,7 +261,12 @@ public class Controller implements IController {
     }
 
     private Class<? extends IRole> getRole(String roleName) {
-        return choosableRoles.stream().filter(c->c.getSimpleName().equalsIgnoreCase(roleName)).findAny().orElse(null);
+        return choosableRoles.stream().filter(c -> c.getSimpleName().equalsIgnoreCase(roleName)).findAny().orElse(null);
+    }
+
+    @Override
+    public IHistory visualizeHistory(String role) throws RoleException {
+        return user.getRole(getRole(role)).getCronology();
     }
 
     public <T> Set<T> getRisorse(Class<T> t) {

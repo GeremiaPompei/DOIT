@@ -37,11 +37,15 @@ public interface IController {
 
     Set<IPartecipationRequest> listPR(int idProject) throws Exception;
 
-    Set<IUser> listDesigner(int idDesigner) throws Exception;
+    Set<IUser> listDesignerForProgramManager(int idDesigner) throws Exception;
+
+    Set<IUser> listDesignerForPrjManager(int idDesigner) throws Exception;
 
      void upgradeState(int idProject) throws Exception;
 
     void downgradeState(int idProject) throws  Exception;
+
+    String visualizeState(int idProject);
 
     Set<Class<? extends IRole>> getChoosableRoles();
 
@@ -49,7 +53,19 @@ public interface IController {
 
     IUser getUser();
 
-     void exitAll(int idProject) throws RoleException;
+     void exitAll(int idProject) throws Exception;
 
-    void insertEvaluation(int idDesigner, int evaluation, int idProject) throws Exception;
+    void insertEvaluation(int idDesigner, int idProject, int evaluation) throws Exception;
+
+    IHistory visualizeHistory(String role) throws RoleException;
+
+    Set<IProject> listProjectsOwnedByPrjManager() throws Exception;
+
+    Integer getEvaluation(int idProject) throws Exception;
+
+    void removeDesigner(int idD, int idT) throws Exception;
+
+    void openRegistrations(int idT) throws Exception;
+
+    void closeRegistrations(int idT) throws Exception;
 }

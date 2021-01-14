@@ -108,9 +108,14 @@ public class ControllerView {
         map.put("send-pr", this::sendPr);
         map.put("list-projects", this::listProjects);
         map.putAll(roleActions("DesignerRole"));
+        map.put("specific-evaluation", this::visualizeEvaluation);
         map.put("help", (s) -> " > send-pr idProject \n > list-projects nameCategory \n > add-category nameCategory " +
                 "\n > remove-category nameCategory");
         return map;
+    }
+
+    private String visualizeEvaluation(String[] s) {
+        return manageException(() -> controller.getEvaluation(Integer.parseInt(s[1])).toString());
     }
 
     private String sendPr(String[] s) {
@@ -127,15 +132,40 @@ public class ControllerView {
         Map<String, Function<String[], String>> map = new HashMap<>();
         map.put("remove-pr", this::removePr);
         map.put("add-designer", this::addDesigner);
+        map.put("remove-designer", this::removeDesigner);
         map.put("choose-pjm", this::choosePjm);
         map.put("list-teams", this::listTeams);
+        map.put("open-registrations", this::openRegistrations);
+        map.put("close-registrations", this::closeRegistrations);
         map.put("list-pr", this::listPR);
-        map.put("list-d", this::listDesigner);
+        map.put("list-d", this::listDesignerForProgramManager);
         map.putAll(roleActions("ProgramManagerRole"));
         map.put("help", (s) -> " > add-designer idDesigner idTeam \n > remove-pr idDesigner idTeam reason \n > choose-pjm idDesigner "
                 + "idProject \n > list-d idProject \n > list-teams \n > list-pr idProject \n > add-category nameCategory " +
                 "\n > remove-category nameCategory");
         return map;
+    }
+
+    private String removeDesigner(String[] s) {
+        return manageRunnable(() -> {
+            int idD = Integer.parseInt(s[1]);
+            int idT = Integer.parseInt(s[2]);
+            this.controller.removeDesigner(idD, idT);
+        });
+    }
+
+    private String openRegistrations(String[] s) {
+        return manageRunnable(() -> {
+            int idT = Integer.parseInt(s[1]);
+            this.controller.openRegistrations(idT);
+        });
+    }
+
+    private String closeRegistrations(String[] s) {
+        return manageRunnable(() -> {
+            int idT = Integer.parseInt(s[1]);
+            this.controller.closeRegistrations(idT);
+        });
     }
 
     private String removePr(String[] s) {
@@ -166,9 +196,17 @@ public class ControllerView {
 
     private Map<String, Function<String[], String>> roleActions(String role) {
         Map<String, Function<String[], String>> map = new HashMap<>();
-        map.put("add-category", s -> addCategory(s, role));
-        map.put("remove-category", s -> removeCategory(s, role));
+        if (!role.equalsIgnoreCase("ProjectManagerRole")) {
+            map.put("add-category", s -> addCategory(s, role));
+            map.put("remove-category", s -> removeCategory(s, role));
+        }
+        map.put("visualize-history", s -> visualizeHistory(role));
         return map;
+    }
+
+    private String visualizeHistory(String role) {
+        return manageException(() ->
+                this.controller.visualizeHistory(role).toString());
     }
 
     private String addCategory(String[] s, String role) {
@@ -193,17 +231,59 @@ public class ControllerView {
         return manageException(() -> this.controller.listPR(Integer.parseInt(s[1])).toString());
     }
 
-    private String listDesigner(String[] s) {
+    private String listDesignerForProgramManager(String[] s) {
         if (s.length == 1)
             return "Aggiungere l'id di un progetto!";
-        return manageException(() -> this.controller.listDesigner(Integer.parseInt(s[1])).toString());
+        return manageException(() -> this.controller.listDesignerForProgramManager(Integer.parseInt(s[1])).toString());
     }
 
     private Map<String, Function<String[], String>> projectManagerMap() {
         Map<String, Function<String[], String>> map = new HashMap<>();
-
-        map.put("help", (s) -> " > ");
+        map.put("list-projects", this::listProjectsOwned);
+        map.put("upgrade-state", this::upgradeState);
+        map.put("downgrade-state", this::downgradeState);
+        map.put("list-d", this::listDesignerForPrjManager);
+        map.put("evaluate-d", this::evaluateDesigner);
+        map.put("exitAll", this::exitAll);
+        map.putAll(roleActions("ProjectManagerRole"));
+        map.put("visualize-state", this::visualizeState);
+        map.put("help", (s) -> " > list-projects  \n > upgrade-state idProject \n > downgrade-state idProject \n " +
+                "> list-d idProject \n > evaluate-d idDesigner idProject evaluation(0-5)\n > exitAll idProject\n " +
+                "> visualize-state idProject");
         return map;
+    }
+
+    private String listProjectsOwned(String[] s) {
+        return manageException(() -> this.controller.listProjectsOwnedByPrjManager().toString());
+    }
+
+    private String visualizeState(String[] s) {
+        return manageException(() -> controller.visualizeState(Integer.parseInt(s[1])));
+    }
+
+    private String exitAll(String[] s) {
+        return manageRunnable(() -> controller.exitAll(Integer.parseInt(s[1])));
+    }
+
+    private String evaluateDesigner(String[] s) {
+        return manageRunnable(() -> {
+            int idD = Integer.parseInt(s[1]);
+            int idP = Integer.parseInt(s[2]);
+            int evaluation = Integer.parseInt(s[3]);
+            this.controller.insertEvaluation(idD, idP, evaluation);
+        });
+    }
+
+    private String listDesignerForPrjManager(String[] strings) {
+        return manageException(() -> controller.listDesignerForPrjManager(Integer.parseInt(strings[1])).toString());
+    }
+
+    private String downgradeState(String[] s) {
+        return manageRunnable(() -> this.controller.downgradeState(Integer.parseInt(s[1])));
+    }
+
+    private String upgradeState(String[] s) {
+        return manageRunnable(() -> this.controller.upgradeState(Integer.parseInt(s[1])));
     }
 
     private void loadCommands() {

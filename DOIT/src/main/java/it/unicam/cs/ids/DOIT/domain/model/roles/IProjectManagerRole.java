@@ -10,7 +10,9 @@ public interface IProjectManagerRole extends IRole {
 
     Function<Set<IProjectState>, IProjectState> downgradeState(IProject project) throws Exception;
 
-    void insertEvaluation(IProject project, int evaluation, IUser user) throws RoleException;
+    void insertEvaluation(IUser user,  int evaluation, IProject project) throws RoleException;
 
-    void turnProjectOff(IProject project, IRole role) throws RoleException;
+    Set<IUser> getDesigners(ITeam team);
+
+    void exitAll(IProject project) throws RoleException;
 }

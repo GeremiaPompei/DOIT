@@ -17,4 +17,8 @@ public interface ITeam {
 
     Set<IPartecipationRequest> getPartecipationRequests();
 
+    void openRegistrations();
+
+    void closeRegistrations();
+
 }

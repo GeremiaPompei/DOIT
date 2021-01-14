@@ -4,8 +4,18 @@ import java.util.Set;
 
 public interface IRole {
     IUser getUser();
+
     Set<IProject> getProjects();
+
     void enterProject(IProject project);
-    Set<ICategory> getCategories();
+
     void exitProject(IProject project);
+
+    Set<ICategory> getCategories();
+
+    void addCategory(ICategory category);
+
+    void removeCategory(ICategory category);
+
+    IHistory getCronology();
 }

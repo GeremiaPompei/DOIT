@@ -56,11 +56,14 @@ public class User implements IUser {
     }
 
     public <T extends IRole> boolean removeRole(Class<T> clazz) {
-        return this.roles.remove(this.roles
+        IRole role = this.roles
                 .stream()
                 .filter(clazz::isInstance)
                 .findAny()
-                .orElse(null));
+                .orElse(null);
+        if (!role.getProjects().isEmpty())
+            throw new IllegalArgumentException("Bisogna non possedere alcun progetto nel ruolo da eliminare!");
+        return this.roles.remove(role);
     }
 
     public Set<IRole> getRoles() {

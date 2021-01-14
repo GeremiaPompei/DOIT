@@ -2,6 +2,7 @@ package it.unicam.cs.ids.DOIT.simple.model.roles;
 
 import it.unicam.cs.ids.DOIT.domain.model.*;
 import it.unicam.cs.ids.DOIT.domain.model.roles.IProgramManagerRole;
+import it.unicam.cs.ids.DOIT.domain.model.roles.IProjectManagerRole;
 import it.unicam.cs.ids.DOIT.simple.model.Role;
 import it.unicam.cs.ids.DOIT.simple.model.roles.ProjectManagerRole;
 
@@ -57,13 +58,15 @@ public class ProgramManagerRole extends Role implements IProgramManagerRole {
         team.removeDesigner(designer);
     }
 
-    public void setProjectManager(IUser designer, IProject project, Class<? extends  IRole> clazz) throws ReflectiveOperationException {
+    public void setProjectManager(IUser designer, IProject project, Class<? extends IRole> clazz) throws ReflectiveOperationException, RoleException {
         if (!this.getProjects().contains(project))
             throw new IllegalArgumentException("L'utente non possiede il progetto con id:[" + project.getId() + "]");
         if (!project.getTeam().getDesigners().contains(designer))
             throw new IllegalArgumentException("L'utente non è presente nel team del progetto!");
         project.setProjectManager(designer);
         designer.addRole(clazz, project.getCategory(), factoryModel);
+        designer.getRole(IProjectManagerRole.class).addCategory(project.getCategory());
+        designer.getRole(IProjectManagerRole.class).enterProject(project);
     }
 
     public ITeam createTeam(IProject project, IFactoryModel factory) {
@@ -78,6 +81,14 @@ public class ProgramManagerRole extends Role implements IProgramManagerRole {
         if (!teams.contains(team))
             throw new IllegalArgumentException("Team non posseduto: [" + team.getProject().getId() + "]");
         return team.getPartecipationRequests();
+    }
+
+    public void openRegistrations(ITeam team) {
+        team.openRegistrations();
+    }
+
+    public void closeRegistrations(ITeam team) {
+        team.closeRegistrations();
     }
 
     public Set<ITeam> getTeams() {

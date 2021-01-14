@@ -1,13 +1,16 @@
 package it.unicam.cs.ids.DOIT.domain.model;
 
-import it.unicam.cs.ids.DOIT.domain.model.roles.*;
-import it.unicam.cs.ids.DOIT.simple.model.roles.ProjectManagerRole;
-import it.unicam.cs.ids.DOIT.simple.model.roles.DesignerRole;
-import it.unicam.cs.ids.DOIT.simple.model.roles.ProgramManagerRole;
-import it.unicam.cs.ids.DOIT.simple.model.roles.ProjectProposerRole;
-import it.unicam.cs.ids.DOIT.simple.model.FactoryModel;
-import it.unicam.cs.ids.DOIT.simple.storage.ResourceHandler;
-import it.unicam.cs.ids.DOIT.domain.storage.IResourceHandler;
+import it.unicam.cs.ids.DOIT.category.ICategory;
+import it.unicam.cs.ids.DOIT.project.IProject;
+import it.unicam.cs.ids.DOIT.role.*;
+import it.unicam.cs.ids.DOIT.role.ProjectManagerRole;
+import it.unicam.cs.ids.DOIT.role.DesignerRole;
+import it.unicam.cs.ids.DOIT.role.ProgramManagerRole;
+import it.unicam.cs.ids.DOIT.role.ProjectProposerRole;
+import it.unicam.cs.ids.DOIT.service.FactoryModel;
+import it.unicam.cs.ids.DOIT.service.IFactoryModel;
+import it.unicam.cs.ids.DOIT.service.ResourceHandler;
+import it.unicam.cs.ids.DOIT.service.IResourceHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

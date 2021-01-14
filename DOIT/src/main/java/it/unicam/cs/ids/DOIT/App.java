@@ -1,13 +1,10 @@
 package it.unicam.cs.ids.DOIT;
 
-import it.unicam.cs.ids.DOIT.simple.controller.Controller;
-import it.unicam.cs.ids.DOIT.domain.controller.IController;
-import it.unicam.cs.ids.DOIT.simple.model.FactoryModel;
-import it.unicam.cs.ids.DOIT.domain.model.IFactoryModel;
-import it.unicam.cs.ids.DOIT.simple.storage.ResourceHandler;
-import it.unicam.cs.ids.DOIT.domain.storage.IResourceHandler;
-import it.unicam.cs.ids.DOIT.domain.view.IView;
-import it.unicam.cs.ids.DOIT.simple.view.MainView;
+import it.unicam.cs.ids.DOIT.controller.Controller;
+import it.unicam.cs.ids.DOIT.controller.IController;
+import it.unicam.cs.ids.DOIT.service.*;
+import it.unicam.cs.ids.DOIT.view.IView;
+import it.unicam.cs.ids.DOIT.view.MainView;
 
 public class App {
 
@@ -29,9 +26,7 @@ public class App {
     }
 
     private static App createAppSimple() {
-        IResourceHandler resourceHandler = new ResourceHandler();
-        IFactoryModel factory = new FactoryModel(resourceHandler);
-        IController controller = new Controller(factory, resourceHandler);
+        IController controller = new Controller();
         IView view = new MainView();
         return new App(view, controller);
     }

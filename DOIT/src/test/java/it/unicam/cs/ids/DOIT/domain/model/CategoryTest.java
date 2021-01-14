@@ -1,8 +1,9 @@
 package it.unicam.cs.ids.DOIT.domain.model;
 
-import it.unicam.cs.ids.DOIT.simple.model.FactoryModel;
-import it.unicam.cs.ids.DOIT.simple.storage.ResourceHandler;
-import it.unicam.cs.ids.DOIT.domain.storage.IResourceHandler;
+import it.unicam.cs.ids.DOIT.service.FactoryModel;
+import it.unicam.cs.ids.DOIT.category.ICategory;
+import it.unicam.cs.ids.DOIT.service.ResourceHandler;
+import it.unicam.cs.ids.DOIT.service.IResourceHandler;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -22,7 +22,7 @@ public interface IResourceHandler {
 
     IUser getUser(int id);
 
-    Set<IUser> getAllUser();
+    Set<IUser> getAllUsers();
 
     Set<IUser> getUsersByCategoryAndRole(String idCategory, Class<? extends IRole> clazz);
 

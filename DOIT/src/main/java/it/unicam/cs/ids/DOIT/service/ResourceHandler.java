@@ -47,7 +47,7 @@ public class ResourceHandler implements IResourceHandler {
     }
 
     @Override
-    public Set<IUser> getAllUser() {
+    public Set<IUser> getAllUsers() {
         return search(IUser.class, t -> true);
     }
 

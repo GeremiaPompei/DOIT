@@ -8,7 +8,7 @@ import java.util.Set;
 
 public class ProjectProposerRole extends Role {
 
-    public ProjectProposerRole(int idUser, String idCategory) {
+    public ProjectProposerRole(Integer idUser, String idCategory) {
         super(idUser, idCategory);
     }
 
@@ -17,9 +17,7 @@ public class ProjectProposerRole extends Role {
         ICategory category = ServicesHandler.getInstance().getResourceHandler().getCategory(idCategory);
         if (!this.getCategories().contains(category))
             throw new IllegalArgumentException("L'utente non presenta la categoria: [" + category.getName() + "]");
-        int teamId = ServicesHandler.getInstance().getFactoryModel().createProject(name, description,
-                this, category).getId();
-        super.enterTeam(teamId);
+        ServicesHandler.getInstance().getFactoryModel().createProject(name, description, this, category);
     }
 
     public Set<IUser> findProgramManagerList(String idCategory) {
@@ -28,11 +26,13 @@ public class ProjectProposerRole extends Role {
 
     public void createTeam(int idUser, int idProject) throws RoleException {
         IUser user = ServicesHandler.getInstance().getResourceHandler().getUser(idUser);
-        ITeam team = ServicesHandler.getInstance().getResourceHandler().getProject(idProject).getTeam();
         if (!user.getRole(ProgramManagerRole.class).getCategories().contains(
                 ServicesHandler.getInstance().getResourceHandler().getProject(idProject).getCategory()))
             throw new IllegalArgumentException("Il Proponente Progetto non possiede la categoria del progetto!");
-        ServicesHandler.getInstance().getFactoryModel().createTeam(team.getProject(), this).setProgramManager(user.getRole(ProgramManagerRole.class));
+        ITeam team = ServicesHandler.getInstance().getFactoryModel()
+                .createTeam(ServicesHandler.getInstance().getResourceHandler().getProject(idProject), this);
+        team.setProgramManager(user.getRole(ProgramManagerRole.class));
+        super.enterTeam(team.getId());
     }
 
     @Override

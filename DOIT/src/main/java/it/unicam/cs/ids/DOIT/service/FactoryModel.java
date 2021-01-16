@@ -20,42 +20,38 @@ public class FactoryModel implements IFactoryModel {
 
     public IProject createProject(String name, String description, IRole projectProposer, ICategory category) {
         IProject project = new Project(idGenerator.getId(), name, description, category);
-        load(project);
+        resourceHandler.insert(project);
         return project;
     }
 
     public ICategory createCategory(String name, String description) {
         ICategory category = new Category(name, description);
-        load(category);
+        resourceHandler.insert(category);
         return category;
     }
 
     public ProjectState createProjectState(int id, String name, String description) {
         ProjectState projectState = new ProjectState(id, name, description);
-        load(projectState);
+        resourceHandler.insert(projectState);
         return projectState;
     }
 
     public IUser createUser(String name, String surname, String birthdDay, String sex) {
         IUser user = new User(idGenerator.getId(), name, surname, birthdDay, sex);
-        load(user);
+        resourceHandler.insert(user);
         return user;
     }
 
     @Override
     public IPartecipationRequest createPartecipationRequest(IPendingRole role, ITeam team) {
         IPartecipationRequest partecipationRequest = new PartecipationRequest(role, team);
-        load(partecipationRequest);
+        resourceHandler.insert(partecipationRequest);
         return partecipationRequest;
     }
 
     @Override
     public ITeam createTeam(IProject project, ProjectProposerRole projectProposer) {
         return new Team(project, projectProposer);
-    }
-
-    private <T>void load(T t) {
-        resourceHandler.insert(t);
     }
 
     @Override

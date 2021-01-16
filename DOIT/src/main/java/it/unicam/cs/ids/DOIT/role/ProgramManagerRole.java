@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class ProgramManagerRole extends Role implements PartecipationRequestHandler {
 
-    public ProgramManagerRole(int user, String category) {
+    public ProgramManagerRole(Integer user, String category) {
         super(user, category);
     }
 

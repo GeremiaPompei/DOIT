@@ -1,6 +1,6 @@
 package it.unicam.cs.ids.DOIT.view;
 
-import it.unicam.cs.ids.DOIT.controller.IControllerUser;
+import it.unicam.cs.ids.DOIT.user.IUserHandler;
 import it.unicam.cs.ids.DOIT.role.IRole;
 import it.unicam.cs.ids.DOIT.role.ProjectManagerRole;
 import it.unicam.cs.ids.DOIT.role.DesignerRole;
@@ -17,10 +17,10 @@ import java.util.stream.Collectors;
 
 public class ControllerView {
 
-    private IControllerUser controller;
+    private IUserHandler controller;
     private Map<String, Map<String, Function<String[], String>>> commands;
 
-    public ControllerView(IControllerUser controller) {
+    public ControllerView(IUserHandler controller) {
         this.controller = controller;
         commands = new HashMap<>();
         loadCommands();
@@ -38,10 +38,12 @@ public class ControllerView {
 
     private Map<String, Function<String[], String>> userMap() {
         Map<String, Function<String[], String>> map = new HashMap<>();
+        map.put("list", (s) -> ServicesHandler.getInstance().getResourceHandler().getAllUsers() + "");
         map.put("create", this::createUser);
         map.put("add-role", this::addRole);
         map.put("remove-role", this::removeRole);
         map.put("login", this::login);
+        map.put("logout", this::logout);
         map.put("help", (s) -> " > create idUser nameUser surnameUser birthYearUeser genderUser"
                 + "\n > add-role nameRole categoryName \n > login idUser");
         return map;
@@ -73,9 +75,16 @@ public class ControllerView {
         });
     }
 
+    private String logout(String[] s) {
+        return manageRunnable(() -> {
+            this.controller.logOut();
+            loadCommands();
+        });
+    }
+
     private Map<String, Function<String[], String>> listMap() {
         Map<String, Function<String[], String>> map = new HashMap<>();
-        map.put("users", (s) -> ServicesHandler.getInstance().getResourceHandler().getAllUser() + "");
+        map.put("users", (s) -> ServicesHandler.getInstance().getResourceHandler().getAllUsers() + "");
         map.put("projects", (s) -> ServicesHandler.getInstance().getResourceHandler().getAllProjects() + "");
         map.put("categories", (s) -> ServicesHandler.getInstance().getResourceHandler().getAllCategories() + "");
         map.put("roles", (s) -> controller.getChoosableRoles().stream().map(c -> c.getSimpleName()).collect(Collectors.toSet()) + "");

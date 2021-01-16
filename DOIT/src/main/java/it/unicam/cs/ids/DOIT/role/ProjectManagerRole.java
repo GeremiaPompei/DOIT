@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class ProjectManagerRole extends Role {
 
-    public ProjectManagerRole(int idUser, String idCategory) {
+    public ProjectManagerRole(Integer idUser, String idCategory) {
         super(idUser, idCategory);
     }
 

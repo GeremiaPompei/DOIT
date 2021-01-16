@@ -1,9 +1,9 @@
 package it.unicam.cs.ids.DOIT.view;
 
-import it.unicam.cs.ids.DOIT.controller.IControllerUser;
+import it.unicam.cs.ids.DOIT.user.IUserHandler;
 
 public interface IView {
-    void start(IControllerUser controller);
+    void start(IUserHandler controller);
 
     void stop();
 }

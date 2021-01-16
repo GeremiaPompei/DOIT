@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public abstract class Role implements IRole {
 
-    private  int id;
+    private int id;
 
     private Set<ITeam> teams;
 
@@ -18,7 +18,7 @@ public abstract class Role implements IRole {
 
     private Set<ICategory> categories;
 
-    public Role(int idUser, String idCategory) {
+    public Role(Integer idUser, String idCategory) {
         this.id = idUser;
         teams = new HashSet<>();
         categories = new HashSet<>();
@@ -41,8 +41,8 @@ public abstract class Role implements IRole {
     @Override
     public String toString() {
         return "Role{" +
-                "team=" + teams.stream().map(p -> p.getProject().getId()).collect(Collectors.toSet()) +
-                ", categories=" + categories.stream().map(p -> p.getName()).collect(Collectors.toSet()) +
+                "team=" + teams +
+                ", categories=" + categories +
                 '}';
     }
 

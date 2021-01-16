@@ -19,7 +19,7 @@ public class DesignerRole extends Role implements IPendingRole {
     private Map<ITeam, Integer> evaluations;
 
 
-    public DesignerRole(int idUser, String idCategory) {
+    public DesignerRole(Integer idUser, String idCategory) {
         super(idUser, idCategory);
         this.partecipationRequests = new HashSet<>();
         this.curriculumVitae = new HashMap<>();

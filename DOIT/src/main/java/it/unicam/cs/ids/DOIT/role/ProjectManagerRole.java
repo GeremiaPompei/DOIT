@@ -1,55 +1,63 @@
 package it.unicam.cs.ids.DOIT.role;
 
-import it.unicam.cs.ids.DOIT.category.ICategory;
-import it.unicam.cs.ids.DOIT.project.IProject;
-import it.unicam.cs.ids.DOIT.project.IProjectState;
-import it.unicam.cs.ids.DOIT.project.ITeam;
-import it.unicam.cs.ids.DOIT.service.IFactoryModel;
+import it.unicam.cs.ids.DOIT.project.ProjectState;
+import it.unicam.cs.ids.DOIT.service.ServicesHandler;
+import it.unicam.cs.ids.DOIT.user.IUser;
 
 import java.util.Set;
-import java.util.function.Function;
+import java.util.stream.Collectors;
 
-public class ProjectManagerRole extends Role implements IProjectManagerRole {
+public class ProjectManagerRole extends Role {
 
-    public ProjectManagerRole(IUser user, ICategory category, IFactoryModel factoryModel) {
-        super(user, category, factoryModel);
+    public ProjectManagerRole(int idUser, String idCategory) {
+        super(idUser, idCategory);
     }
 
-    public Function<Set<IProjectState>, IProjectState> upgradeState(IProject project) throws Exception {
-        if (!this.getProjects().contains(project))
-            throw new IllegalArgumentException("Il Project Manager non possiede il progetto [" + project.getId() + "]!");
-        return pr -> pr.stream().filter(p -> p.getId() == project.getProjectState().getId() + 1).findAny().orElse(null);
+    public void upgradeState(int idProject) {
+        ITeam team = ServicesHandler.getInstance().getResourceHandler().getProject(idProject).getTeam();
+        if (!this.getTeams().contains(team))
+            throw new IllegalArgumentException("Il Project Manager non possiede il progetto [" + team.getId() + "]!");
+        team.getProject().setProjectState(ServicesHandler.getInstance().getResourceHandler()
+                .getProjectState(team.getProject().getProjectState().getId() + 1));
     }
 
-    public Function<Set<IProjectState>, IProjectState> downgradeState(IProject project) throws Exception {
-        if (!this.getProjects().contains(project))
-            throw new IllegalArgumentException("Il Project Manager non possiede il progetto [" + project.getId() + "]!");
-        return pr -> pr.stream().filter(p -> p.getId() == project.getProjectState().getId() - 1).findAny().orElse(null);
+    public void downgradeState(int idProject) {
+        ITeam team = ServicesHandler.getInstance().getResourceHandler().getProject(idProject).getTeam();
+        if (!this.getTeams().contains(team))
+            throw new IllegalArgumentException("Il Project Manager non possiede il progetto [" + team.getId() + "]!");
+        team.getProject().setProjectState(ServicesHandler.getInstance().getResourceHandler()
+                .getProjectState(team.getProject().getProjectState().getId() - 1));
 
     }
 
-    @Override
-    public void insertEvaluation(IUser designer, int evaluation, IProject project) throws RoleException {
+    public void insertEvaluation(int idDesigner, int evaluation, int idProject) throws RoleException {
+        DesignerRole designer = ServicesHandler.getInstance().getResourceHandler().getUser(idDesigner).getRole(DesignerRole.class);
         if (evaluation < 0 || evaluation > 5)
             throw new IllegalArgumentException("La valutazione deve essere compresa tra 0 e 5!");
-        designer.getRole(IDesignerRole.class).enterEvaluation(project, evaluation);
-        designer.getRole(IDesignerRole.class).exitProject(project);
+        designer.enterEvaluation(idProject, evaluation);
+        designer.exitTeam(idProject);
     }
 
-    public Set<IUser> getDesigners(ITeam team) {
-        if (!getProjects().contains(team.getProject()))
+    public Set<IUser> getDesigners(int idProject) {
+        ITeam team = ServicesHandler.getInstance().getResourceHandler().getProject(idProject).getTeam();
+        if (!getTeams().contains(team.getProject()))
             throw new IllegalArgumentException("Team non presente: [" + team.getProject().getId() + "]");
-        return team.getDesigners();
+        return team.getDesigners().stream().map(t -> ServicesHandler.getInstance().getResourceHandler().getUser(t.getId()))
+                .collect(Collectors.toSet());
     }
 
-    @Override
-    public void exitAll(IProject project) throws RoleException {
-        for (IUser d : project.getTeam().getDesigners())
-            if (d.getRole(IDesignerRole.class).getProjects().contains(project))
+    public void exitAll(int idProject) throws RoleException {
+        ITeam team = ServicesHandler.getInstance().getResourceHandler().getProject(idProject).getTeam();
+        for (DesignerRole d : team.getDesigners())
+            if (d.getTeams().contains(team))
                 throw new IllegalArgumentException("Prima di chiudere il progetto finisci di valutare i designer!");
-        project.getProjectProposer().getRole(IProjectProposerRole.class).exitProject(project);
-        project.getTeam().getProgramManager().getRole(IProgramManagerRole.class).exitProject(project);
-        project.getProjectManager().getRole(IProjectManagerRole.class).exitProject(project);
+        team.getProjectProposer().exitTeam(team.getId());
+        team.getProgramManager().exitTeam(team.getId());
+        team.getProjectManager().exitTeam(team.getId());
+    }
+
+    public ProjectState getProjectState(int idProject) {
+        return this.getTeams().stream().filter(t -> t.getId() == idProject).findAny().orElse(null).getProject().getProjectState();
     }
 
     @Override

@@ -1,25 +1,24 @@
 package it.unicam.cs.ids.DOIT.role;
 
 import it.unicam.cs.ids.DOIT.category.ICategory;
-import it.unicam.cs.ids.DOIT.history.IHistory;
-import it.unicam.cs.ids.DOIT.project.IProject;
 
 import java.util.Set;
 
 public interface IRole {
-    IUser getUser();
 
-    Set<IProject> getProjects();
+    int getId();
 
-    void enterProject(IProject project);
+    Set<ITeam> getTeams();
 
-    void exitProject(IProject project);
+    void enterTeam(int idProject);
+
+    void exitTeam(int idProject);
 
     Set<ICategory> getCategories();
 
-    void addCategory(ICategory category);
+    void addCategory(String idCategory);
 
-    void removeCategory(ICategory category);
+    void removeCategory(String idCategory);
 
-    IHistory getCronology();
+    Set<ITeam> getHystory();
 }

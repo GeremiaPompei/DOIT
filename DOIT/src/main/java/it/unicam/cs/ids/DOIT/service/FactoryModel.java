@@ -2,56 +2,56 @@ package it.unicam.cs.ids.DOIT.service;
 
 import it.unicam.cs.ids.DOIT.category.Category;
 import it.unicam.cs.ids.DOIT.category.ICategory;
-import it.unicam.cs.ids.DOIT.history.History;
-import it.unicam.cs.ids.DOIT.history.HistoryUnit;
-import it.unicam.cs.ids.DOIT.history.IHistory;
-import it.unicam.cs.ids.DOIT.history.IHistoryUnit;
+import it.unicam.cs.ids.DOIT.partecipation_request.IPartecipationRequest;
+import it.unicam.cs.ids.DOIT.partecipation_request.PartecipationRequest;
 import it.unicam.cs.ids.DOIT.project.*;
 import it.unicam.cs.ids.DOIT.role.*;
+import it.unicam.cs.ids.DOIT.user.IUser;
+import it.unicam.cs.ids.DOIT.user.User;
 
 public class FactoryModel implements IFactoryModel {
 
-    IResourceHandler resourceHandler;
+    private IResourceHandler resourceHandler;
+    private IdGenerator idGenerator = new IdGenerator();
 
-    FactoryModel() {
-        this.resourceHandler = ServicesHandler.getResourceHandler();
+    FactoryModel(IResourceHandler resourceHandler) {
+        this.resourceHandler = resourceHandler;
     }
 
-    public IProject createProject(int id, String name, String description, IUser projectProposer, ICategory category) {
-        IProjectState projectState = resourceHandler.searchOne(IProjectState.class, (t) -> t.getId() == 0);
-        IProject project = new Project(id, name, description, projectProposer, category, projectState);
+    public IProject createProject(String name, String description, IRole projectProposer, ICategory category) {
+        IProject project = new Project(idGenerator.getId(), name, description, category);
         load(project);
         return project;
     }
 
     public ICategory createCategory(String name, String description) {
-        Category category = new Category(name, description);
+        ICategory category = new Category(name, description);
         load(category);
         return category;
     }
 
-    public IProjectState createProjectState(int id, String name, String description) {
-        IProjectState projectState = new ProjectState(id, name, description);
+    public ProjectState createProjectState(int id, String name, String description) {
+        ProjectState projectState = new ProjectState(id, name, description);
         load(projectState);
         return projectState;
     }
 
-    public IUser createUser(int id, String name, String surname, int birthdDay, String sex) {
-        IUser user = new User(id, name, surname, birthdDay, sex);
+    public IUser createUser(String name, String surname, String birthdDay, String sex) {
+        IUser user = new User(idGenerator.getId(), name, surname, birthdDay, sex);
         load(user);
         return user;
     }
 
     @Override
-    public IPartecipationRequest createPartecipationRequest(IUser user, ITeam team) {
-        IPartecipationRequest partecipationRequest = new PartecipationRequest(user, team);
+    public IPartecipationRequest createPartecipationRequest(IPendingRole role, ITeam team) {
+        IPartecipationRequest partecipationRequest = new PartecipationRequest(role, team);
         load(partecipationRequest);
         return partecipationRequest;
     }
 
     @Override
-    public ITeam createTeam(IProject project, IUser user) {
-        return new Team(project, user);
+    public ITeam createTeam(IProject project, ProjectProposerRole projectProposer) {
+        return new Team(project, projectProposer);
     }
 
     private <T>void load(T t) {
@@ -59,17 +59,7 @@ public class FactoryModel implements IFactoryModel {
     }
 
     @Override
-    public <T extends IRole> T createRole(Class<T> clazz, IUser user, ICategory category) throws ReflectiveOperationException {
-        return clazz.getConstructor(new Class<?>[]{IUser.class, ICategory.class, IFactoryModel.class})
-                .newInstance(new Object[]{user, category, this});
-    }
-
-    @Override
-    public IHistory createHisory() {
-        return new History(this);
-    }
-
-    public IHistoryUnit createHistoryUnit(boolean bool){
-        return new HistoryUnit(bool);
+    public <T extends IRole> T createRole(Class<T> clazz, int idUser, String idCategory) throws ReflectiveOperationException {
+        return clazz.getConstructor(new Class<?>[]{Integer.class, String.class}).newInstance(new Object[]{idUser, idCategory});
     }
 }

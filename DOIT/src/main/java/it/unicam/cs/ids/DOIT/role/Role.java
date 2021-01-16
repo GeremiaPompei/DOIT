@@ -1,9 +1,7 @@
 package it.unicam.cs.ids.DOIT.role;
 
 import it.unicam.cs.ids.DOIT.category.ICategory;
-import it.unicam.cs.ids.DOIT.history.IHistory;
-import it.unicam.cs.ids.DOIT.project.IProject;
-import it.unicam.cs.ids.DOIT.service.IFactoryModel;
+import it.unicam.cs.ids.DOIT.service.ServicesHandler;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -12,32 +10,28 @@ import java.util.stream.Collectors;
 
 public abstract class Role implements IRole {
 
-    private IUser user;
+    private  int id;
 
-    private Set<IProject> projects;
+    private Set<ITeam> teams;
+
+    private Set<ITeam> hystory;
 
     private Set<ICategory> categories;
 
-    private IHistory cronology;
-
-    public Role(IUser user, ICategory category, IFactoryModel factoryModel) {
-        projects = new HashSet<>();
+    public Role(int idUser, String idCategory) {
+        this.id = idUser;
+        teams = new HashSet<>();
         categories = new HashSet<>();
-        this.user = user;
-        this.categories.add(category);
-        cronology = factoryModel.createHisory();
+        hystory = new HashSet<>();
+        this.categories.add(ServicesHandler.getInstance().getResourceHandler().getCategory(idCategory));
     }
 
-    public IHistory getCronology() {
-        return cronology;
+    public int getId() {
+        return this.id;
     }
 
-    public IUser getUser() {
-        return user;
-    }
-
-    public Set<IProject> getProjects() {
-        return projects;
+    public Set<ITeam> getTeams() {
+        return teams;
     }
 
     public Set<ICategory> getCategories() {
@@ -47,33 +41,39 @@ public abstract class Role implements IRole {
     @Override
     public String toString() {
         return "Role{" +
-                "project=" + projects.stream().map(p -> p.getId()).collect(Collectors.toSet()) +
+                "team=" + teams.stream().map(p -> p.getProject().getId()).collect(Collectors.toSet()) +
                 ", categories=" + categories.stream().map(p -> p.getName()).collect(Collectors.toSet()) +
                 '}';
     }
 
     @Override
-    public void exitProject(IProject project) {
-        cronology.exitProject(project);
-        projects.remove(project);
+    public void exitTeam(int idProject) {
+        ITeam team = ServicesHandler.getInstance().getResourceHandler().getProject(idProject).getTeam();
+        hystory.add(team);
+        teams.remove(team);
     }
 
     @Override
-    public void enterProject(IProject project) {
-        cronology.enterProject(project);
-        projects.add(project);
+    public void enterTeam(int idProject) {
+        teams.add(ServicesHandler.getInstance().getResourceHandler().getProject(idProject).getTeam());
+    }
+
+    public Set<ITeam> getHystory() {
+        return hystory;
     }
 
     @Override
-    public void addCategory(ICategory category) {
+    public void addCategory(String idCategory) {
+        ICategory category = ServicesHandler.getInstance().getResourceHandler().getCategory(idCategory);
         this.categories.add(category);
     }
 
     @Override
-    public void removeCategory(ICategory category) {
+    public void removeCategory(String idCategory) {
+        ICategory category = ServicesHandler.getInstance().getResourceHandler().getCategory(idCategory);
         if (this.categories.size() == 1)
             throw new IllegalArgumentException("Non si puo eliminare una categoria quando ne rimane solo una!");
-        if (this.projects.stream().filter(p -> p.getCategory().equals(category)).findAny().orElse(null) != null)
+        if (this.teams.stream().filter(p -> p.getProject().getCategory().equals(category)).findAny().orElse(null) != null)
             throw new IllegalArgumentException("Non puo essere eliminata una categoria in uso su uno dei progetti appartenenti al ruolo!");
         this.categories.remove(category);
     }

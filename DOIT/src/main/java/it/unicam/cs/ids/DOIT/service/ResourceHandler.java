@@ -1,5 +1,13 @@
 package it.unicam.cs.ids.DOIT.service;
 
+import it.unicam.cs.ids.DOIT.project.IProject;
+import it.unicam.cs.ids.DOIT.project.ProjectState;
+import it.unicam.cs.ids.DOIT.category.ICategory;
+import it.unicam.cs.ids.DOIT.partecipation_request.IPartecipationRequest;
+import it.unicam.cs.ids.DOIT.role.IRole;
+import it.unicam.cs.ids.DOIT.role.RoleException;
+import it.unicam.cs.ids.DOIT.user.IUser;
+
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -12,16 +20,64 @@ public class ResourceHandler implements IResourceHandler {
         risorse = new HashSet<>();
     }
 
-    @Override
-    public <T> T searchOne(Class<T> clazz, Predicate<T> p) {
+    private <T> T searchOne(Class<T> clazz, Predicate<T> p) {
         return clazz.cast(risorse.stream().filter(clazz::isInstance).map(clazz::cast).filter(p)
                 .findAny().orElse(null));
     }
 
-    @Override
-    public <T> Set<T> search(Class<T> clazz, Predicate<T> p) {
+    private <T> Set<T> search(Class<T> clazz, Predicate<T> p) {
         return risorse.stream().filter(clazz::isInstance).map(clazz::cast)
                 .filter(p).collect(Collectors.toSet());
+    }
+
+    public IProject getProject(int id) {
+        return searchOne(IProject.class, p -> p.getId() == id);
+    }
+
+    public Set<IProject> getProjectsByCategory(String idCategory) {
+        return search(IProject.class, p -> p.getCategory().getName().equalsIgnoreCase(idCategory));
+    }
+
+    public ProjectState getProjectState(int id) {
+        return searchOne(ProjectState.class, p -> p.getId() == id);
+    }
+
+    public IUser getUser(int id) {
+        return searchOne(IUser.class, p -> p.getId() == id);
+    }
+
+    @Override
+    public Set<IUser> getAllUser() {
+        return search(IUser.class, t -> true);
+    }
+
+    public Set<IUser> getUsersByCategoryAndRole(String idCategory, Class<? extends IRole> clazz) {
+        return search(IUser.class, u -> {
+            try {
+                return u.getRole(clazz).getCategories().contains(getCategory(idCategory));
+            } catch (RoleException e) {
+                return false;
+            }
+        });
+    }
+
+    public ICategory getCategory(String id) {
+        return searchOne(ICategory.class, p -> p.getName().equalsIgnoreCase(id));
+    }
+
+    public IPartecipationRequest getPR(int idDesigner, int idProject) {
+        return searchOne(IPartecipationRequest.class,
+                p -> p.getPendingRole().getId() == idDesigner && p.getTeam().getId() == idProject);
+    }
+
+    @Override
+    public Set<IProject> getAllProjects() {
+        return search(IProject.class, t -> true);
+    }
+
+    @Override
+    public Set<ICategory> getAllCategories() {
+        return search(ICategory.class, t -> true);
     }
 
     @Override

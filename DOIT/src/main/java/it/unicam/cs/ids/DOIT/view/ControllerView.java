@@ -1,14 +1,12 @@
 package it.unicam.cs.ids.DOIT.view;
 
-import it.unicam.cs.ids.DOIT.controller.IController;
+import it.unicam.cs.ids.DOIT.controller.IControllerUser;
 import it.unicam.cs.ids.DOIT.role.IRole;
 import it.unicam.cs.ids.DOIT.role.ProjectManagerRole;
 import it.unicam.cs.ids.DOIT.role.DesignerRole;
 import it.unicam.cs.ids.DOIT.role.ProgramManagerRole;
 import it.unicam.cs.ids.DOIT.role.ProjectProposerRole;
-import it.unicam.cs.ids.DOIT.category.Category;
-import it.unicam.cs.ids.DOIT.project.Project;
-import it.unicam.cs.ids.DOIT.role.User;
+import it.unicam.cs.ids.DOIT.service.ServicesHandler;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,13 +17,19 @@ import java.util.stream.Collectors;
 
 public class ControllerView {
 
-    private IController controller;
+    private IControllerUser controller;
     private Map<String, Map<String, Function<String[], String>>> commands;
 
-    public ControllerView(IController controller) {
+    public ControllerView(IControllerUser controller) {
         this.controller = controller;
         commands = new HashMap<>();
         loadCommands();
+        ServicesHandler.getInstance().getFactoryModel().createCategory("SPORT","description...");
+        ServicesHandler.getInstance().getFactoryModel().createCategory("INFORMATICA","description...");
+        ServicesHandler.getInstance().getFactoryModel().createCategory("DOMOTICA","description...");
+        ServicesHandler.getInstance().getFactoryModel().createProjectState(0, "INITIALIZATION","description...");
+        ServicesHandler.getInstance().getFactoryModel().createProjectState(1, "IN PROGRESS","description...");
+        ServicesHandler.getInstance().getFactoryModel().createProjectState(2, "TERMINAL","description...");
     }
 
     public Map<String, Map<String, Function<String[], String>>> getCommands() {
@@ -45,7 +49,7 @@ public class ControllerView {
 
     private String createUser(String[] s) {
         return manageRunnable(() ->
-                this.controller.createUser(Integer.parseInt(s[1]), s[2], s[3], Integer.parseInt(s[4]), s[5]));
+                this.controller.signIn(s[1], s[2], s[3], s[4]));
     }
 
     private String addRole(String[] s) {
@@ -71,9 +75,9 @@ public class ControllerView {
 
     private Map<String, Function<String[], String>> listMap() {
         Map<String, Function<String[], String>> map = new HashMap<>();
-        map.put("users", (s) -> controller.getRisorse(User.class) + "");
-        map.put("projects", (s) -> controller.getRisorse(Project.class) + "");
-        map.put("categories", (s) -> controller.getRisorse(Category.class) + "");
+        map.put("users", (s) -> ServicesHandler.getInstance().getResourceHandler().getAllUser() + "");
+        map.put("projects", (s) -> ServicesHandler.getInstance().getResourceHandler().getAllProjects() + "");
+        map.put("categories", (s) -> ServicesHandler.getInstance().getResourceHandler().getAllCategories() + "");
         map.put("roles", (s) -> controller.getChoosableRoles().stream().map(c -> c.getSimpleName()).collect(Collectors.toSet()) + "");
         return map;
     }
@@ -90,17 +94,17 @@ public class ControllerView {
     }
 
     private String createProject(String[] s) {
-        return manageRunnable(() -> this.controller.createProject(Integer.parseInt(s[1]), s[2], s[3], s[4]));
+        return manageRunnable(() -> this.controller.getUser().getRole(ProjectProposerRole.class).createProject(s[1], s[2], s[3]));
     }
 
     private String choosePgm(String[] s) {
-        return manageRunnable(() -> this.controller.choosePgm(Integer.parseInt(s[1]), Integer.parseInt(s[2])));
+        return manageRunnable(() -> this.controller.getUser().getRole(ProjectProposerRole.class).createTeam(Integer.parseInt(s[1]), Integer.parseInt(s[2])));
     }
 
     private String listPgm(String[] s) {
         if (s.length == 1)
             return "Aggiungere una categoria!";
-        return manageException(() -> this.controller.listPgm(s[1]).toString());
+        return manageException(() -> this.controller.getUser().getRole(ProjectProposerRole.class).findProgramManagerList(s[1]).toString());
     }
 
     private Map<String, Function<String[], String>> designerMap() {
@@ -115,17 +119,17 @@ public class ControllerView {
     }
 
     private String visualizeEvaluation(String[] s) {
-        return manageException(() -> controller.getEvaluation(Integer.parseInt(s[1])).toString());
+        return manageException(() -> controller.getUser().getRole(DesignerRole.class).getEvaluations().toString());
     }
 
     private String sendPr(String[] s) {
-        return manageRunnable(() -> this.controller.sendPr(Integer.parseInt(s[1])));
+        return manageRunnable(() -> this.controller.getUser().getRole(DesignerRole.class).createPartecipationRequest(Integer.parseInt(s[1])));
     }
 
     private String listProjects(String[] s) {
         if (s.length == 1)
             return "Aggiungere una categoria!";
-        return manageException(() -> this.controller.listProjects(s[1]).toString());
+        return manageException(() -> this.controller.getUser().getRole(DesignerRole.class).getProjects(s[1]).toString());
     }
 
     private Map<String, Function<String[], String>> programManagerMap() {
@@ -150,21 +154,21 @@ public class ControllerView {
         return manageRunnable(() -> {
             int idD = Integer.parseInt(s[1]);
             int idT = Integer.parseInt(s[2]);
-            this.controller.removeDesigner(idD, idT);
+            this.controller.getUser().getRole(ProgramManagerRole.class).removeDesigner(idD, idT);
         });
     }
 
     private String openRegistrations(String[] s) {
         return manageRunnable(() -> {
             int idT = Integer.parseInt(s[1]);
-            this.controller.openRegistrations(idT);
+            this.controller.getUser().getRole(ProgramManagerRole.class).openRegistrations(idT);
         });
     }
 
     private String closeRegistrations(String[] s) {
         return manageRunnable(() -> {
             int idT = Integer.parseInt(s[1]);
-            this.controller.closeRegistrations(idT);
+            this.controller.getUser().getRole(ProgramManagerRole.class).closeRegistrations(idT);
         });
     }
 
@@ -173,7 +177,7 @@ public class ControllerView {
             int idD = Integer.parseInt(s[1]);
             int idP = Integer.parseInt(s[2]);
             String reason = List.of(s).subList(2, s.length).stream().reduce((x, y) -> x + y).get();
-            this.controller.removePr(idD, idP, reason);
+            this.controller.getUser().getRole(ProgramManagerRole.class).removePR(idD, idP, reason);
         });
     }
 
@@ -181,7 +185,7 @@ public class ControllerView {
         return manageRunnable(() -> {
             int idD = Integer.parseInt(s[1]);
             int idP = Integer.parseInt(s[2]);
-            this.controller.addDesigner(idD, idP);
+            this.controller.getUser().getRole(ProgramManagerRole.class).acceptPR(idD, idP);
         });
     }
 
@@ -189,7 +193,7 @@ public class ControllerView {
         return manageRunnable(() -> {
             int idU = Integer.parseInt(s[1]);
             int idP = Integer.parseInt(s[2]);
-            this.controller.choosePjm(idU, idP);
+            this.controller.getUser().getRole(ProgramManagerRole.class).setProjectManager(idU, idP);
             loadCommands();
         });
     }
@@ -206,35 +210,35 @@ public class ControllerView {
 
     private String visualizeHistory(String role) {
         return manageException(() ->
-                this.controller.visualizeHistory(role).toString());
+                this.controller.getUser().getRole(controller.getRole(role)).getHystory().toString());
     }
 
     private String addCategory(String[] s, String role) {
         return manageRunnable(() -> {
-            this.controller.addCategory(role, s[1]);
+            this.controller.getUser().getRole(controller.getRole(role)).addCategory(s[1]);
         });
     }
 
     private String removeCategory(String[] s, String role) {
         return manageRunnable(() -> {
-            this.controller.removeCategory(role, s[1]);
+            this.controller.getUser().getRole(controller.getRole(role)).removeCategory(s[1]);
         });
     }
 
     private String listTeams(String[] s) {
-        return manageException(() -> this.controller.listTeams().toString());
+        return manageException(() -> this.controller.getUser().getRole(ProgramManagerRole.class).getTeams().toString());
     }
 
     private String listPR(String[] s) {
         if (s.length == 1)
             return "Aggiungere l'id di un progetto!";
-        return manageException(() -> this.controller.listPR(Integer.parseInt(s[1])).toString());
+        return manageException(() -> this.controller.getUser().getRole(ProgramManagerRole.class).getPartecipationRequests(Integer.parseInt(s[1])).toString());
     }
 
     private String listDesignerForProgramManager(String[] s) {
         if (s.length == 1)
             return "Aggiungere l'id di un progetto!";
-        return manageException(() -> this.controller.listDesignerForProgramManager(Integer.parseInt(s[1])).toString());
+        return manageException(() -> this.controller.getUser().getRole(ProgramManagerRole.class).getDesigners(Integer.parseInt(s[1])).toString());
     }
 
     private Map<String, Function<String[], String>> projectManagerMap() {
@@ -254,15 +258,15 @@ public class ControllerView {
     }
 
     private String listProjectsOwned(String[] s) {
-        return manageException(() -> this.controller.listProjectsOwnedByPrjManager().toString());
+        return manageException(() -> this.controller.getUser().getRole(ProjectManagerRole.class).getTeams().stream().map(t -> t.getProject()).toString());
     }
 
     private String visualizeState(String[] s) {
-        return manageException(() -> controller.visualizeState(Integer.parseInt(s[1])));
+        return manageException(() -> controller.getUser().getRole(ProjectManagerRole.class).getProjectState(Integer.parseInt(s[1])).toString());
     }
 
     private String exitAll(String[] s) {
-        return manageRunnable(() -> controller.exitAll(Integer.parseInt(s[1])));
+        return manageRunnable(() -> controller.getUser().getRole(ProjectManagerRole.class).exitAll(Integer.parseInt(s[1])));
     }
 
     private String evaluateDesigner(String[] s) {
@@ -270,20 +274,20 @@ public class ControllerView {
             int idD = Integer.parseInt(s[1]);
             int idP = Integer.parseInt(s[2]);
             int evaluation = Integer.parseInt(s[3]);
-            this.controller.insertEvaluation(idD, idP, evaluation);
+            this.controller.getUser().getRole(ProjectManagerRole.class).insertEvaluation(idD, idP, evaluation);
         });
     }
 
     private String listDesignerForPrjManager(String[] strings) {
-        return manageException(() -> controller.listDesignerForPrjManager(Integer.parseInt(strings[1])).toString());
+        return manageException(() -> controller.getUser().getRole(ProjectManagerRole.class).getDesigners(Integer.parseInt(strings[1])).toString());
     }
 
     private String downgradeState(String[] s) {
-        return manageRunnable(() -> this.controller.downgradeState(Integer.parseInt(s[1])));
+        return manageRunnable(() -> this.controller.getUser().getRole(ProjectManagerRole.class).downgradeState(Integer.parseInt(s[1])));
     }
 
     private String upgradeState(String[] s) {
-        return manageRunnable(() -> this.controller.upgradeState(Integer.parseInt(s[1])));
+        return manageRunnable(() -> this.controller.getUser().getRole(ProjectManagerRole.class).upgradeState(Integer.parseInt(s[1])));
     }
 
     private void loadCommands() {

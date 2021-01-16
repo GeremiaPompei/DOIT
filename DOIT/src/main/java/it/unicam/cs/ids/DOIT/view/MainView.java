@@ -1,6 +1,6 @@
 package it.unicam.cs.ids.DOIT.view;
 
-import it.unicam.cs.ids.DOIT.controller.IController;
+import it.unicam.cs.ids.DOIT.controller.IControllerUser;
 
 import java.util.Map;
 import java.util.Scanner;
@@ -13,7 +13,7 @@ public class MainView implements IView {
         this.scanner = new Scanner(System.in);
     }
 
-    public void start(IController controller) {
+    public void start(IControllerUser controller) {
         Map<String, Map<String, Function<String[], String>>> commands;
         commands = new ControllerView(controller).getCommands();
         String command1 = "";

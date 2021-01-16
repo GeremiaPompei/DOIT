@@ -1,29 +1,31 @@
 package it.unicam.cs.ids.DOIT.project;
 
 import it.unicam.cs.ids.DOIT.category.ICategory;
-import it.unicam.cs.ids.DOIT.role.IUser;
+import it.unicam.cs.ids.DOIT.role.ITeam;
+import it.unicam.cs.ids.DOIT.service.ServicesHandler;
 
 public class Project implements IProject {
     private int id;
     private String name;
     private String description;
-    private IUser projectProposer;
-    private IUser projectManager;
-    private ICategory category;
-    private IProjectState projectState;
+    private ProjectState projectState;
     private ITeam team;
+    private ICategory category;
 
-    public Project(int id, String name, String description, IUser projectProposer, ICategory category, IProjectState projectState) {
+    public Project(int id, String name, String description, ICategory category) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.projectProposer = projectProposer;
         this.category = category;
-        this.projectState = projectState;
+        this.projectState = ServicesHandler.getInstance().getResourceHandler().getProjectState(0);
     }
 
-    public void setProjectManager(IUser projectManager) {
-        this.projectManager = projectManager;
+    public ProjectState getProjectState() {
+        return projectState;
+    }
+
+    public void setProjectState(ProjectState projectState) {
+        this.projectState = projectState;
     }
 
     public void setTeam(ITeam team) {
@@ -32,10 +34,6 @@ public class Project implements IProject {
 
     public ITeam getTeam() {
         return team;
-    }
-
-    public IUser getProjectManager() {
-        return projectManager;
     }
 
     public int getId() {
@@ -50,20 +48,8 @@ public class Project implements IProject {
         return description;
     }
 
-    public IUser getProjectProposer() {
-        return projectProposer;
-    }
-
     public ICategory getCategory() {
         return category;
-    }
-
-    public IProjectState getProjectState() {
-        return projectState;
-    }
-
-    public void setProjectState(IProjectState projectState) {
-        this.projectState = projectState;
     }
 
     @Override
@@ -72,9 +58,6 @@ public class Project implements IProject {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", projectProposer=" + projectProposer.getId() +
-                ", category=" + category +
-                ", projectManager=" + (projectManager == null ? "null" : projectManager.getId()) +
                 ", projectState=" + projectState +
                 ", team=" + team +
                 '}';

@@ -1,19 +1,28 @@
 package it.unicam.cs.ids.DOIT.service;
 
-public abstract class ServicesHandler {
-    private static IFactoryModel factoryModel;
-    private static IResourceHandler resourceHandler;
+public class ServicesHandler {
 
-    public static IFactoryModel getFactoryModel() {
-        if (factoryModel == null) {
-            factoryModel = new FactoryModel();
-        }
+    private static ServicesHandler servicesHandler;
+
+    public static ServicesHandler getInstance() {
+        if(servicesHandler == null)
+            servicesHandler = new ServicesHandler();
+        return servicesHandler;
+    }
+
+    private ServicesHandler() {
+        this.resourceHandler = new ResourceHandler();
+        this.factoryModel = new FactoryModel(resourceHandler);
+    }
+
+    private IFactoryModel factoryModel;
+    private IResourceHandler resourceHandler;
+
+    public IFactoryModel getFactoryModel() {
         return factoryModel;
     }
 
-    public static IResourceHandler getResourceHandler() {
-        if (resourceHandler == null)
-            resourceHandler = new ResourceHandler();
+    public IResourceHandler getResourceHandler() {
         return resourceHandler;
     }
 }

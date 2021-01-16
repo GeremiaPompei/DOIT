@@ -1,102 +1,90 @@
 package it.unicam.cs.ids.DOIT.role;
 
-import it.unicam.cs.ids.DOIT.category.ICategory;
-import it.unicam.cs.ids.DOIT.project.IProject;
-import it.unicam.cs.ids.DOIT.project.ITeam;
-import it.unicam.cs.ids.DOIT.service.IFactoryModel;
+import it.unicam.cs.ids.DOIT.partecipation_request.IPartecipationRequest;
+import it.unicam.cs.ids.DOIT.service.ServicesHandler;
+import it.unicam.cs.ids.DOIT.user.IUser;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class ProgramManagerRole extends Role implements IProgramManagerRole {
+public class ProgramManagerRole extends Role implements PartecipationRequestHandler {
 
-    private IFactoryModel factoryModel;
-
-    public ProgramManagerRole(IUser user, ICategory category, IFactoryModel factoryModel) {
-        super(user, category, factoryModel);
-        this.factoryModel = factoryModel;
+    public ProgramManagerRole(int user, String category) {
+        super(user, category);
     }
 
-    public void addDesigner(IPartecipationRequest partecipationRequest) throws RoleException {
-        ITeam team = partecipationRequest.getTeam();
-        if (!this.getTeams().contains(team))
-            throw new IllegalArgumentException("Il Program Manager non possiede il team: [" + team.getProject().getId()
-                    + "]");
-        partecipationRequest.displayed("Congratulations! You are accepted.");
-        team.getPartecipationRequests().remove(partecipationRequest);
-        team.addDesigner(partecipationRequest.getUser());
+    public void acceptPR(int idDesigner, int idProject) throws RoleException {
+        IPartecipationRequest pr = ServicesHandler.getInstance().getResourceHandler().getPR(idDesigner, idProject);
+        if (!this.getTeams().contains(pr.getTeam()))
+            throw new IllegalArgumentException("Il Program Manager non possiede il team");
+        pr.displayed("Congratulations! You are accepted.");
+        pr.getTeam().getDesignerRequest().remove(pr);
+        IUser user = ServicesHandler.getInstance().getResourceHandler().getUser(pr.getPendingRole().getId());
+        pr.getTeam().addDesigner(user.getRole(DesignerRole.class));
     }
 
-    public void removePartecipationRequest(IPartecipationRequest partecipationRequest, String description) {
-        ITeam team = partecipationRequest.getTeam();
-        if (!this.getTeams().contains(team))
-            throw new IllegalArgumentException("Il Program Manager non possiede il team: [" + team.getProject().getId()
-                    + "]");
+    public void removePR(int idDesigner, int idProject, String description) {
+        IPartecipationRequest pr = ServicesHandler.getInstance().getResourceHandler().getPR(idDesigner, idProject);
+        if (!this.getTeams().contains(pr.getTeam()))
+            throw new IllegalArgumentException("Il Program Manager non possiede il team]");
         if (description == null || description.equals(""))
             throw new IllegalArgumentException("La descrizione non può essere vuota!");
-        partecipationRequest.displayed(description);
-        team.getPartecipationRequests().remove(partecipationRequest);
+        pr.displayed(description);
+        pr.getTeam().getDesignerRequest().remove(pr);
     }
 
-    public Set<IUser> getDesigners(ITeam team) {
+    public Set<IUser> getDesigners(int idProject) {
+        ITeam team = ServicesHandler.getInstance().getResourceHandler().getProject(idProject).getTeam();
         if (!getTeams().contains(team))
-            throw new IllegalArgumentException("Team non presente: [" + team.getProject().getId() + "]");
-        return team.getDesigners();
+            throw new IllegalArgumentException("Team non presente: [" + team.getId() + "]");
+        return team.getDesigners().stream().map(r -> ServicesHandler.getInstance().getResourceHandler()
+                .getUser(r.getId())).collect(Collectors.toSet());
     }
 
-    public void removeDesigner(IUser designer, ITeam team) throws RoleException {
+    public void removeDesigner(int idDesigner, int idProject) throws RoleException {
+        DesignerRole designer = ServicesHandler.getInstance().getResourceHandler().getUser(idDesigner).getRole(DesignerRole.class);
+        ITeam team = ServicesHandler.getInstance().getResourceHandler().getProject(idProject).getTeam();
         if (!this.getTeams().contains(team))
-            throw new IllegalArgumentException("Il Program Manager non possiede il team: [" + team.getProject().getId()
+            throw new IllegalArgumentException("Il Program Manager non possiede il team: [" + team.getId()
                     + "]");
         if (!team.getDesigners().contains(designer))
-            throw new IllegalArgumentException("Il Program Manager non è interno al team: [" + team.getProject().getId()
+            throw new IllegalArgumentException("Il Program Manager non è interno al team: [" + team.getId()
                     + "]");
         team.removeDesigner(designer);
     }
 
-    public void setProjectManager(IUser designer, IProject project, Class<? extends IRole> clazz) throws ReflectiveOperationException, RoleException {
-        if (!this.getProjects().contains(project))
-            throw new IllegalArgumentException("L'utente non possiede il progetto con id:[" + project.getId() + "]");
-        if (!project.getTeam().getDesigners().contains(designer))
+    public void setProjectManager(int idDesigner, int idProject) throws ReflectiveOperationException, RoleException {
+        IUser designer = ServicesHandler.getInstance().getResourceHandler().getUser(idDesigner);
+        ITeam team = ServicesHandler.getInstance().getResourceHandler().getProject(idProject).getTeam();
+        if (!this.getTeams().contains(team))
+            throw new IllegalArgumentException("L'utente non possiede il progetto con id:[" + team.getId() + "]");
+        if (!team.getDesigners().contains(designer))
             throw new IllegalArgumentException("L'utente non è presente nel team del progetto!");
-        project.setProjectManager(designer);
-        designer.addRole(clazz, project.getCategory(), factoryModel);
-        designer.getRole(IProjectManagerRole.class).addCategory(project.getCategory());
-        designer.getRole(IProjectManagerRole.class).enterProject(project);
+        designer.addRole(ProjectManagerRole.class, team.getProject().getCategory().getName());
+        team.setProjectManager(designer.getRole(ProjectManagerRole.class));
+        designer.getRole(ProjectManagerRole.class).addCategory(team.getProject().getCategory().getName());
+        designer.getRole(ProjectManagerRole.class).enterTeam(team.getId());
     }
 
-    public ITeam createTeam(IProject project, IFactoryModel factory) {
-        ITeam team = factory.createTeam(project, super.getUser());
-        this.getTeams().add(team);
-        project.setTeam(team);
-        this.enterProject(project);
-        return team;
-    }
-
-    public Set<IPartecipationRequest> getPartecipationRequests(ITeam team) {
+    public Set<IPartecipationRequest> getPartecipationRequests(int idProject) {
+        ITeam team = ServicesHandler.getInstance().getResourceHandler().getProject(idProject).getTeam();
         if (!getTeams().contains(team))
-            throw new IllegalArgumentException("Team non posseduto: [" + team.getProject().getId() + "]");
-        return team.getPartecipationRequests();
+            throw new IllegalArgumentException("Team non posseduto: [" + team.getId() + "]");
+        return team.getDesignerRequest();
     }
 
-    public void openRegistrations(ITeam team) {
-        team.openRegistrations();
+    public void openRegistrations(int idProject) {
+        ServicesHandler.getInstance().getResourceHandler().getProject(idProject).getTeam().openRegistrations();
     }
 
-    public void closeRegistrations(ITeam team) {
-        team.closeRegistrations();
-    }
-
-    public Set<ITeam> getTeams() {
-        return this.getProjects().stream().map(p -> p.getTeam()).collect(Collectors.toSet());
+    public void closeRegistrations(int idProject) {
+        ServicesHandler.getInstance().getResourceHandler().getProject(idProject).getTeam().closeRegistrations();
     }
 
     @Override
     public String toString() {
         return "ProgramManagerRole{" +
                 "role=" + super.toString() +
-                ", teams=" + getTeams().stream().map(t -> t.getProject().getId()).collect(Collectors.toSet()) +
                 '}';
     }
-
 }

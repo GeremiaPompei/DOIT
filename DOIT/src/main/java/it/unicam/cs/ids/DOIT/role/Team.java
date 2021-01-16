@@ -1,6 +1,5 @@
 package it.unicam.cs.ids.DOIT.role;
 
-import it.unicam.cs.ids.DOIT.category.ICategory;
 import it.unicam.cs.ids.DOIT.partecipation_request.IPartecipationRequest;
 import it.unicam.cs.ids.DOIT.project.IProject;
 
@@ -20,6 +19,7 @@ public class Team implements ITeam {
     public Team(IProject project, ProjectProposerRole projectProposer) {
         this.state = false;
         this.project = project;
+        this.project.setTeam(this);
         this.projectProposer = projectProposer;
         this.designers = new HashSet<>();
         this.designerRequest = new HashSet<>();
@@ -58,6 +58,7 @@ public class Team implements ITeam {
 
     public void setProgramManager(ProgramManagerRole programManagerRole) {
         this.programManager = programManagerRole;
+        programManagerRole.enterTeam(this.getId());
     }
 
     public void setProjectManager(ProjectManagerRole projectManager) {
@@ -95,9 +96,11 @@ public class Team implements ITeam {
         return "Team{" +
                 "state=" + state +
                 ", project=" + project.getId() +
-                ", programManager=" + programManager.getId() +
-                ", designer=" + designers.stream().map(d -> d.getId()).collect(Collectors.toSet()) +
-                ", partecipationRequests=" + designerRequest +
+                ", projectProposer=" + projectProposer.getId() +
+                ", projectManager=" + projectManager==null?"null":projectManager.getId() +
+                ", programManager=" + programManager==null?"null":programManager.getId() +
+                ", designers=" + designers.stream().map(d -> d.getId()).collect(Collectors.toSet()) +
+                ", designerRequest=" + designerRequest +
                 '}';
     }
 }

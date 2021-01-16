@@ -18,7 +18,7 @@ public class FactoryModel implements IFactoryModel {
         this.resourceHandler = resourceHandler;
     }
 
-    public IProject createProject(String name, String description, IRole projectProposer, ICategory category) {
+    public IProject createProject(String name, String description, ICategory category) {
         IProject project = new Project(idGenerator.getId(), name, description, category);
         resourceHandler.insert(project);
         return project;

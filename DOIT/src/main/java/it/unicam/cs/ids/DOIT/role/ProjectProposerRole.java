@@ -17,10 +17,13 @@ public class ProjectProposerRole extends Role {
         ICategory category = ServicesHandler.getInstance().getResourceHandler().getCategory(idCategory);
         if (!this.getCategories().contains(category))
             throw new IllegalArgumentException("L'utente non presenta la categoria: [" + category.getName() + "]");
-        ServicesHandler.getInstance().getFactoryModel().createProject(name, description, this, category);
+        ServicesHandler.getInstance().getFactoryModel().createProject(name, description, category);
     }
 
     public Set<IUser> findProgramManagerList(String idCategory) {
+        ICategory category = ServicesHandler.getInstance().getResourceHandler().getCategory(idCategory);
+        if (!this.getCategories().contains(category))
+            throw new IllegalArgumentException("L'utente non presenta la categoria: [" + category.getName() + "]");
         return ServicesHandler.getInstance().getResourceHandler().getUsersByCategoryAndRole(idCategory, ProgramManagerRole.class);
     }
 

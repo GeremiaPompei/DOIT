@@ -59,6 +59,7 @@ public class Project implements IProject {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", projectState=" + projectState +
+                ", category=" + category +
                 ", team=" + team +
                 '}';
     }

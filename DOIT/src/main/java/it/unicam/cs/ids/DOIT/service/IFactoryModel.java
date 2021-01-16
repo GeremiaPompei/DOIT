@@ -9,7 +9,7 @@ import it.unicam.cs.ids.DOIT.role.*;
 import it.unicam.cs.ids.DOIT.user.IUser;
 
 public interface IFactoryModel {
-    IProject createProject(String name, String description, IRole projectProposer, ICategory category);
+    IProject createProject(String name, String description, ICategory category);
 
     ICategory createCategory(String name, String description);
 

@@ -14,16 +14,16 @@ public class ConsoleView implements IView {
     }
 
     public void start(IUserHandler controller) {
+        String command1 = "";
         Map<String, Map<String, Function<String[], String>>> commands;
         commands = new ControllerView(controller).getCommands();
-        String command1 = "";
-        String command2 = "";
         System.out.println("***DOIT***");
         while (!command1.equalsIgnoreCase("exit")) {
             System.out.println(" Write \"exit\" to leave app!");
             System.out.println(" Options: " + commands.keySet());
             System.out.print(" > ");
             command1 = this.scanner.nextLine();
+            String command2 = command1;
             if (commands.keySet().contains(command1)) {
                 while (!command2.equalsIgnoreCase("back")) {
                     System.out.println("    Write \"back\" to come back!");

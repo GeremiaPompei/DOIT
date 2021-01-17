@@ -4,6 +4,7 @@ import it.unicam.cs.ids.DOIT.role.IPendingRole;
 import it.unicam.cs.ids.DOIT.role.ITeam;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class PartecipationRequest implements IPartecipationRequest {
 	private boolean state;
@@ -39,6 +40,19 @@ public class PartecipationRequest implements IPartecipationRequest {
 
 	public boolean getState() {
 		return state;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		PartecipationRequest that = (PartecipationRequest) o;
+		return Objects.equals(role, that.role) && Objects.equals(team, that.team);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(role, team);
 	}
 
 	@Override

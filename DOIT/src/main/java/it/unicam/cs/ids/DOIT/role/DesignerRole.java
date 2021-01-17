@@ -48,7 +48,7 @@ public class DesignerRole extends Role implements IPendingRole {
 
     public Set<IProject> getProjects(String idCategory) {
         return ServicesHandler.getInstance().getResourceHandler().getProjectsByCategory(idCategory).stream()
-                .filter(p->p.getTeam().getState()).collect(Collectors.toSet());
+                .filter(p -> p.getTeam().getState()).collect(Collectors.toSet());
     }
 
     public void enterEvaluation(int idProject, int evaluation) {
@@ -66,6 +66,7 @@ public class DesignerRole extends Role implements IPendingRole {
                 ", curriculumVitae=" + curriculumVitae +
                 ", evaluations=" + evaluations.entrySet().stream().map(t -> t.getKey().getId() + "-" + t.getValue()).
                 reduce((x, y) -> x + ", " + y) +
+                ", role=" + super.toString() +
                 '}';
     }
 }

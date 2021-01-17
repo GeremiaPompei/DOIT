@@ -6,6 +6,7 @@ import it.unicam.cs.ids.DOIT.role.RoleException;
 import it.unicam.cs.ids.DOIT.service.ServicesHandler;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class User implements IUser {
@@ -71,6 +72,19 @@ public class User implements IUser {
 
     public Set<IRole> getRoles() {
         return roles;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override

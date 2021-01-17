@@ -1,6 +1,6 @@
 package it.unicam.cs.ids.DOIT.role;
 
-import it.unicam.cs.ids.DOIT.category.ICategory;
+import it.unicam.cs.ids.DOIT.project.IProject;
 import it.unicam.cs.ids.DOIT.service.ServicesHandler;
 import it.unicam.cs.ids.DOIT.user.IUser;
 
@@ -14,27 +14,21 @@ public class ProjectProposerRole extends Role {
 
     public void createProject(String name, String description, String idCategory)
             throws IllegalArgumentException {
-        ICategory category = ServicesHandler.getInstance().getResourceHandler().getCategory(idCategory);
-        if (!this.getCategories().contains(category))
-            throw new IllegalArgumentException("L'utente non presenta la categoria: [" + category.getName() + "]");
-        ServicesHandler.getInstance().getFactoryModel().createProject(name, description, category);
+        ServicesHandler.getInstance().getFactoryModel().createProject(name, description, getInnerCategory(idCategory));
     }
 
     public Set<IUser> findProgramManagerList(String idCategory) {
-        ICategory category = ServicesHandler.getInstance().getResourceHandler().getCategory(idCategory);
-        if (!this.getCategories().contains(category))
-            throw new IllegalArgumentException("L'utente non presenta la categoria: [" + category.getName() + "]");
-        return ServicesHandler.getInstance().getResourceHandler().getUsersByCategoryAndRole(idCategory, ProgramManagerRole.class);
+        return ServicesHandler.getInstance().getResourceHandler()
+                .getUsersByCategoryAndRole(getInnerCategory(idCategory).getName(), ProgramManagerRole.class);
     }
 
     public void createTeam(int idUser, int idProject) throws RoleException {
-        IUser user = ServicesHandler.getInstance().getResourceHandler().getUser(idUser);
-        if (!user.getRole(ProgramManagerRole.class).getCategories().contains(
-                ServicesHandler.getInstance().getResourceHandler().getProject(idProject).getCategory()))
+        ProgramManagerRole pm = ServicesHandler.getInstance().getResourceHandler().getUser(idUser).getRole(ProgramManagerRole.class);
+        IProject project = ServicesHandler.getInstance().getResourceHandler().getProject(idProject);
+        if (!pm.getCategories().contains(getInnerCategory(project.getCategory().getName())))
             throw new IllegalArgumentException("Il Proponente Progetto non possiede la categoria del progetto!");
-        ITeam team = ServicesHandler.getInstance().getFactoryModel()
-                .createTeam(ServicesHandler.getInstance().getResourceHandler().getProject(idProject), this);
-        team.setProgramManager(user.getRole(ProgramManagerRole.class));
+        ITeam team = ServicesHandler.getInstance().getFactoryModel().createTeam(project, this);
+        team.setProgramManager(pm);
         super.enterTeam(team.getId());
     }
 

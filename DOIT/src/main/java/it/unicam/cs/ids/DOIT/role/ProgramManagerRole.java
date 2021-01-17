@@ -14,17 +14,18 @@ public class ProgramManagerRole extends Role implements PartecipationRequestHand
     }
 
     public void acceptPR(int idDesigner, int idProject) throws RoleException {
-        IPartecipationRequest pr = ServicesHandler.getInstance().getResourceHandler().getPR(idDesigner, idProject);
+        IPartecipationRequest pr = getPR(idDesigner, idProject);
         if (!this.getTeams().contains(pr.getTeam()))
             throw new IllegalArgumentException("Il Program Manager non possiede il team");
         pr.displayed("Congratulations! You are accepted.");
         pr.getTeam().getDesignerRequest().remove(pr);
-        IUser user = ServicesHandler.getInstance().getResourceHandler().getUser(pr.getPendingRole().getId());
-        pr.getTeam().addDesigner(user.getRole(DesignerRole.class));
+        DesignerRole designer = ServicesHandler.getInstance().getResourceHandler().getUser(pr.getPendingRole().getId())
+                .getRole(DesignerRole.class);
+        pr.getTeam().addDesigner(designer);
     }
 
     public void removePR(int idDesigner, int idProject, String description) {
-        IPartecipationRequest pr = ServicesHandler.getInstance().getResourceHandler().getPR(idDesigner, idProject);
+        IPartecipationRequest pr = getPR(idDesigner, idProject);
         if (!this.getTeams().contains(pr.getTeam()))
             throw new IllegalArgumentException("Il Program Manager non possiede il team]");
         if (description == null || description.equals(""))
@@ -34,7 +35,7 @@ public class ProgramManagerRole extends Role implements PartecipationRequestHand
     }
 
     public Set<IUser> getDesigners(int idProject) {
-        ITeam team = ServicesHandler.getInstance().getResourceHandler().getProject(idProject).getTeam();
+        ITeam team = this.getTeams().stream().filter(t -> t.getId() == idProject).findAny().orElse(null);
         if (!getTeams().contains(team))
             throw new IllegalArgumentException("Team non presente: [" + team.getId() + "]");
         return team.getDesigners().stream().map(r -> ServicesHandler.getInstance().getResourceHandler()
@@ -58,7 +59,7 @@ public class ProgramManagerRole extends Role implements PartecipationRequestHand
         ITeam team = ServicesHandler.getInstance().getResourceHandler().getProject(idProject).getTeam();
         if (!this.getTeams().contains(team))
             throw new IllegalArgumentException("L'utente non possiede il progetto con id:[" + team.getId() + "]");
-        if (!team.getDesigners().contains(designer))
+        if (!team.getDesigners().stream().map(d -> d.getId()).collect(Collectors.toSet()).contains(designer.getId()))
             throw new IllegalArgumentException("L'utente non è presente nel team del progetto!");
         designer.addRole(ProjectManagerRole.class, team.getProject().getCategory().getName());
         team.setProjectManager(designer.getRole(ProjectManagerRole.class));
@@ -79,6 +80,17 @@ public class ProgramManagerRole extends Role implements PartecipationRequestHand
 
     public void closeRegistrations(int idProject) {
         ServicesHandler.getInstance().getResourceHandler().getProject(idProject).getTeam().closeRegistrations();
+    }
+
+    private IPartecipationRequest getPR(int idDesigner, int idProject) {
+        return this.getTeams().stream()
+                .filter(t -> t.getProject().getId() == idProject)
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("Non sei in possesso del team con id: [" + idProject + "]"))
+                .getDesignerRequest().stream()
+                .filter(t -> t.getPendingRole().getId() == idDesigner)
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("Non vi è una request fatta dal designer con id: [" + idDesigner + "]"));
     }
 
     @Override

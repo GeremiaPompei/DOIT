@@ -39,14 +39,6 @@ public abstract class Role implements IRole {
     }
 
     @Override
-    public String toString() {
-        return "Role{" +
-                "team=" + teams +
-                ", categories=" + categories +
-                '}';
-    }
-
-    @Override
     public void exitTeam(int idProject) {
         ITeam team = ServicesHandler.getInstance().getResourceHandler().getProject(idProject).getTeam();
         hystory.add(team);
@@ -88,5 +80,20 @@ public abstract class Role implements IRole {
     @Override
     public int hashCode() {
         return Objects.hash(this.getClass());
+    }
+
+    protected ICategory getInnerCategory(String idCategory) {
+        return this.getCategories().stream()
+                .filter(c -> c.getName().equalsIgnoreCase(idCategory))
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("L'utente non presenta la categoria!"));
+    }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "team=" + teams.stream().map(t -> t.getId()).collect(Collectors.toSet()) +
+                ", categories=" + categories +
+                '}';
     }
 }

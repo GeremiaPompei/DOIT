@@ -4,6 +4,8 @@ import it.unicam.cs.ids.DOIT.category.ICategory;
 import it.unicam.cs.ids.DOIT.role.ITeam;
 import it.unicam.cs.ids.DOIT.service.ServicesHandler;
 
+import java.util.Objects;
+
 public class Project implements IProject {
     private int id;
     private String name;
@@ -50,6 +52,19 @@ public class Project implements IProject {
 
     public ICategory getCategory() {
         return category;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Project project = (Project) o;
+        return id == project.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override

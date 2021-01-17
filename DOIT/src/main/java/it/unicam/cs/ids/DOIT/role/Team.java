@@ -4,6 +4,7 @@ import it.unicam.cs.ids.DOIT.partecipation_request.IPartecipationRequest;
 import it.unicam.cs.ids.DOIT.project.IProject;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -92,15 +93,27 @@ public class Team implements ITeam {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Team team = (Team) o;
+        return Objects.equals(project, team.project);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(project);
+    }
+
+    @Override
     public String toString() {
         return "Team{" +
                 "state=" + state +
-                ", project=" + project.getId() +
                 ", projectProposer=" + projectProposer.getId() +
-                ", projectManager=" + projectManager==null?"null":projectManager.getId() +
-                ", programManager=" + programManager==null?"null":programManager.getId() +
+                ", projectManager=" + (projectManager == null ? "null" : projectManager.getId()) +
+                ", programManager=" + (programManager == null ? "null" : programManager.getId()) +
                 ", designers=" + designers.stream().map(d -> d.getId()).collect(Collectors.toSet()) +
-                ", designerRequest=" + designerRequest +
+                ", designerRequest=" + designerRequest.stream().map(pr -> pr.getPendingRole().getId()).collect(Collectors.toSet()) +
                 '}';
     }
 }

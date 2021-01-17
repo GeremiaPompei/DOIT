@@ -1,5 +1,7 @@
 package it.unicam.cs.ids.DOIT.project;
 
+import java.util.Objects;
+
 public class ProjectState {
 
 	private int id;
@@ -22,6 +24,19 @@ public class ProjectState {
 
 	public String getDescription() {
 		return description;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		ProjectState that = (ProjectState) o;
+		return id == that.id;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
 	}
 
 	@Override

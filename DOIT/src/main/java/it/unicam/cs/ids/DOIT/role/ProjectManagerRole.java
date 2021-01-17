@@ -17,6 +17,9 @@ public class ProjectManagerRole extends Role {
         ITeam team = ServicesHandler.getInstance().getResourceHandler().getProject(idProject).getTeam();
         if (!this.getTeams().contains(team))
             throw new IllegalArgumentException("Il Project Manager non possiede il progetto [" + team.getId() + "]!");
+        if (ServicesHandler.getInstance().getResourceHandler()
+                .getProjectState(team.getProject().getProjectState().getId() + 1) == null)
+            throw new IllegalArgumentException("Stato progetto terminale, non si può procedere oltre!");
         team.getProject().setProjectState(ServicesHandler.getInstance().getResourceHandler()
                 .getProjectState(team.getProject().getProjectState().getId() + 1));
     }
@@ -25,12 +28,15 @@ public class ProjectManagerRole extends Role {
         ITeam team = ServicesHandler.getInstance().getResourceHandler().getProject(idProject).getTeam();
         if (!this.getTeams().contains(team))
             throw new IllegalArgumentException("Il Project Manager non possiede il progetto [" + team.getId() + "]!");
+        if (ServicesHandler.getInstance().getResourceHandler()
+                .getProjectState(team.getProject().getProjectState().getId() - 1) == null)
+            throw new IllegalArgumentException("Stato progetto iniziale, non si può procedere oltre!");
         team.getProject().setProjectState(ServicesHandler.getInstance().getResourceHandler()
                 .getProjectState(team.getProject().getProjectState().getId() - 1));
 
     }
 
-    public void insertEvaluation(int idDesigner, int evaluation, int idProject) throws RoleException {
+    public void insertEvaluation(int idDesigner, int idProject, int evaluation) throws RoleException {
         DesignerRole designer = ServicesHandler.getInstance().getResourceHandler().getUser(idDesigner).getRole(DesignerRole.class);
         if (evaluation < 0 || evaluation > 5)
             throw new IllegalArgumentException("La valutazione deve essere compresa tra 0 e 5!");
@@ -40,7 +46,7 @@ public class ProjectManagerRole extends Role {
 
     public Set<IUser> getDesigners(int idProject) {
         ITeam team = ServicesHandler.getInstance().getResourceHandler().getProject(idProject).getTeam();
-        if (!getTeams().contains(team.getProject()))
+        if (!getTeams().contains(team))
             throw new IllegalArgumentException("Team non presente: [" + team.getProject().getId() + "]");
         return team.getDesigners().stream().map(t -> ServicesHandler.getInstance().getResourceHandler().getUser(t.getId()))
                 .collect(Collectors.toSet());

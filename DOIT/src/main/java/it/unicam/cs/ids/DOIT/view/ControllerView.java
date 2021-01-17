@@ -24,12 +24,30 @@ public class ControllerView {
         this.controller = controller;
         commands = new HashMap<>();
         loadCommands();
-        ServicesHandler.getInstance().getFactoryModel().createCategory("SPORT","description...");
-        ServicesHandler.getInstance().getFactoryModel().createCategory("INFORMATICA","description...");
-        ServicesHandler.getInstance().getFactoryModel().createCategory("DOMOTICA","description...");
-        ServicesHandler.getInstance().getFactoryModel().createProjectState(0, "INITIALIZATION","description...");
-        ServicesHandler.getInstance().getFactoryModel().createProjectState(1, "IN PROGRESS","description...");
-        ServicesHandler.getInstance().getFactoryModel().createProjectState(2, "TERMINAL","description...");
+        ServicesHandler.getInstance().getFactoryModel().createCategory("SPORT", "description...");
+        ServicesHandler.getInstance().getFactoryModel().createCategory("INFORMATICA", "description...");
+        ServicesHandler.getInstance().getFactoryModel().createCategory("DOMOTICA", "description...");
+        ServicesHandler.getInstance().getFactoryModel().createProjectState(0, "INITIALIZATION", "description...");
+        ServicesHandler.getInstance().getFactoryModel().createProjectState(1, "IN PROGRESS", "description...");
+        ServicesHandler.getInstance().getFactoryModel().createProjectState(2, "TERMINAL", "description...");
+
+        createUser(new String[]{"", "1", "1", "1", "1"});
+        int idUser = ServicesHandler.getInstance().getResourceHandler().getAllUsers().stream().findAny().orElse(null).getId();
+        login(new String[]{"", idUser + ""});
+        addRole(new String[]{"", "ProjectProposerRole", "sport"});
+        addRole(new String[]{"", "ProgramManagerRole", "sport"});
+        addRole(new String[]{"", "DesignerRole", "sport"});
+        createProject(new String[]{"", "9", "9", "sport"});
+        int idProject = ServicesHandler.getInstance().getResourceHandler().getAllProjects().stream().findAny().orElse(null).getId();
+        choosePgm(new String[]{"", idUser + "", idProject + ""});
+        openRegistrations(new String[]{"", idProject + ""});
+        sendPr(new String[]{"", idProject + ""});
+        addDesigner(new String[]{"", idUser + "", idProject + ""});
+        choosePjm(new String[]{"", idUser + "", idProject + ""});
+        upgradeState(new String[]{"", idProject + ""});
+        upgradeState(new String[]{"", idProject + ""});
+        System.err.println("choose-pjm " + idUser + " " + idProject);
+
     }
 
     public Map<String, Map<String, Function<String[], String>>> getCommands() {
@@ -121,13 +139,13 @@ public class ControllerView {
         map.put("send-pr", this::sendPr);
         map.put("list-projects", this::listProjects);
         map.putAll(roleActions("DesignerRole"));
-        map.put("specific-evaluation", this::visualizeEvaluation);
+        map.put("evaluations", this::visualizeEvaluations);
         map.put("help", (s) -> " > send-pr idProject \n > list-projects nameCategory \n > add-category nameCategory " +
                 "\n > remove-category nameCategory");
         return map;
     }
 
-    private String visualizeEvaluation(String[] s) {
+    private String visualizeEvaluations(String[] s) {
         return manageException(() -> controller.getUser().getRole(DesignerRole.class).getEvaluations().toString());
     }
 
@@ -267,7 +285,7 @@ public class ControllerView {
     }
 
     private String listProjectsOwned(String[] s) {
-        return manageException(() -> this.controller.getUser().getRole(ProjectManagerRole.class).getTeams().stream().map(t -> t.getProject()).toString());
+        return manageException(() -> this.controller.getUser().getRole(ProjectManagerRole.class).getTeams().toString());
     }
 
     private String visualizeState(String[] s) {

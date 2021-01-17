@@ -23,7 +23,7 @@ public class UserHandler implements IUserHandler {
     @Override
     public void login(int id) {
         user = ServicesHandler.getInstance().getResourceHandler().getUser(id);
-        if(user==null)
+        if (user == null)
             throw new NullPointerException("Utente non trovato!");
     }
 
@@ -41,8 +41,11 @@ public class UserHandler implements IUserHandler {
         user.addRole(getRole(roleName), category.getName());
     }
 
-    public void removeRole(String roleName) {
-        user.removeRole(getRole(roleName));
+    public void removeRole(String roleName) throws RoleException {
+        Class<? extends IRole> clazz = getRole(roleName);
+        if (!user.getRole(clazz).getTeams().isEmpty())
+            throw new IllegalArgumentException("Impossibile eliminare un ruolo se contiene team in esecuzione!");
+        user.removeRole(clazz);
     }
 
 

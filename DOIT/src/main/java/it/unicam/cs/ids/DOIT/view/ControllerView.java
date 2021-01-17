@@ -32,7 +32,6 @@ public class ControllerView {
         ServicesHandler.getInstance().getFactoryModel().createProjectState(2, "TERMINAL", "description...");
 
         //TODO da rimuovere, viene creato un utente con tutti i ruoli, viene creato un progetto e viene portato a termine.
-        /*
         createUser(new String[]{"", "1", "1", "1", "1"});
         int idUser = ServicesHandler.getInstance().getResourceHandler().getAllUsers().stream().findAny().orElse(null).getId();
         login(new String[]{"", idUser + ""});
@@ -44,8 +43,10 @@ public class ControllerView {
         choosePgm(new String[]{"", idUser + "", idProject + ""});
         openRegistrations(new String[]{"", idProject + ""});
         sendPr(new String[]{"", idProject + ""});
+        removePr(new String[]{"", idUser + "", idProject + "", "Non", "vai", "bene!"});
+        sendPr(new String[]{"", idProject + ""});
         addDesigner(new String[]{"", idUser + "", idProject + ""});
-        choosePjm(new String[]{"", idUser + "", idProject + ""});
+        /*choosePjm(new String[]{"", idUser + "", idProject + ""});
         upgradeState(new String[]{"", idProject + ""});
         upgradeState(new String[]{"", idProject + ""});
         evaluateDesigner(new String[]{"", idUser + "", idProject + "", "3"});
@@ -65,7 +66,7 @@ public class ControllerView {
         map.put("login", this::login);
         map.put("logout", this::logout);
         map.put("help", (s) -> " > create idUser nameUser surnameUser birthYearUeser genderUser"
-                + "\n > add-role nameRole categoryName \n > remove-role nameRole \n > login idUser \n > logout \n > list");
+                + "\n > add-role nameRole categoryName \n > remove-role nameRole \n > login idUser");
         return map;
     }
 
@@ -163,18 +164,19 @@ public class ControllerView {
 
     private Map<String, Function<String[], String>> programManagerMap() {
         Map<String, Function<String[], String>> map = new HashMap<>();
-        map.put("remove-pr", this::removePr);
         map.put("add-designer", this::addDesigner);
-        map.put("remove-designer", this::removeDesigner);
+        map.put("remove-pr", this::removePr);
         map.put("choose-pjm", this::choosePjm);
-        map.put("open-registrations", this::openRegistrations);
-        map.put("close-registrations", this::closeRegistrations);
+        map.put("list-d", this::listDesignerForProgramManager);
         map.put("list-teams", this::listTeams);
         map.put("list-pr", this::listPR);
-        map.put("list-d", this::listDesignerForProgramManager);
+        map.put("remove-designer", this::removeDesigner);
+        map.put("open-registrations", this::openRegistrations);
+        map.put("close-registrations", this::closeRegistrations);
         map.putAll(roleActions("ProgramManagerRole"));
         map.put("help", (s) -> " > add-designer idDesigner idTeam \n > remove-pr idDesigner idTeam reason \n > choose-pjm idDesigner "
-                + "idProject \n > list-d idProject \n > list-teams \n > list-pr idProject \n > add-category nameCategory " +
+                + "idProject \n > list-d idProject \n > list-pr idProject \n > remove-designer idUser idProject " +
+                "\n > open-registrations idProject \n > close-registrations idProject \n > add-category nameCategory " +
                 "\n > remove-category nameCategory");
         return map;
     }
@@ -205,7 +207,7 @@ public class ControllerView {
         return manageRunnable(() -> {
             int idD = Integer.parseInt(s[1]);
             int idP = Integer.parseInt(s[2]);
-            String reason = List.of(s).subList(2, s.length).stream().reduce((x, y) -> x + y).get();
+            String reason = List.of(s).subList(3, s.length).stream().reduce((x, y) -> x + " " + y).get();
             this.controller.getUser().getRole(ProgramManagerRole.class).removePR(idD, idP, reason);
         });
     }
@@ -280,7 +282,7 @@ public class ControllerView {
         map.put("exit-all", this::exitAll);
         map.putAll(roleActions("ProjectManagerRole"));
         map.put("visualize-state", this::visualizeState);
-        map.put("help", (s) -> " > list-teams  \n > upgrade-state idProject \n > downgrade-state idProject \n " +
+        map.put("help", (s) -> " > upgrade-state idProject \n > downgrade-state idProject \n " +
                 "> list-d idProject \n > evaluate-d idDesigner idProject evaluation(0-5)\n > exit-all idProject\n " +
                 "> visualize-state idProject");
         return map;

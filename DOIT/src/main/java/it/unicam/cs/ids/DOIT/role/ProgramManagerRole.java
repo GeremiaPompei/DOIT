@@ -34,19 +34,17 @@ public class ProgramManagerRole extends Role implements PartecipationRequestHand
     }
 
     public Set<IUser> getDesigners(int idProject) {
-        ITeam team = getInnerTeam(idProject);
-        if (!getTeams().contains(team))
-            throw new IllegalArgumentException("Team non presente: [" + team.getId() + "]");
-        return team.getDesigners().stream().map(r -> r.getUser()).collect(Collectors.toSet());
+        return getInnerTeam(idProject).getDesigners().stream().map(r -> r.getUser()).collect(Collectors.toSet());
     }
 
     public void removeDesigner(int idDesigner, int idProject) {
         ITeam team = getInnerTeam(idProject);
-        DesignerRole designer = getInnerDesignerInTeam(idDesigner, idProject);
-        if (!this.getTeams().contains(team))
-            throw new IllegalArgumentException("Il Program Manager non possiede il team: [" + team.getId() + "]");
+        DesignerRole designer = team.getDesigners().stream().filter(d -> d.getUser().getId() == idDesigner).findAny().orElseThrow(() ->
+                new IllegalArgumentException("Il progetto: [" + idProject + "] non possiede il designer: [" + idDesigner + "]"));
         if (!team.getDesigners().contains(designer))
             throw new IllegalArgumentException("Il Program Manager non è interno al team: [" + team.getId() + "]");
+        if (team.getProjectManager() != null && designer.getUser().equals(team.getProjectManager().getUser()))
+            throw new IllegalArgumentException("Non può essere eliminato il designer che è project manager!");
         team.removeDesigner(designer);
     }
 

@@ -67,8 +67,8 @@ public abstract class Role implements IRole {
         ICategory category = ServicesHandler.getInstance().getResourceHandler().getCategory(idCategory);
         if (this.categories.size() == 1)
             throw new IllegalArgumentException("Non si puo eliminare una categoria quando ne rimane solo una!");
-        if (this.teams.stream().filter(p -> p.getProject().getCategory().equals(category)).findAny().orElse(null) != null)
-            throw new IllegalArgumentException("Non puo essere eliminata una categoria in uso su uno dei progetti appartenenti al ruolo!");
+        this.teams.stream().filter(p -> p.getProject().getCategory().equals(category)).findAny().orElseThrow(
+                () -> new IllegalArgumentException("Non puo essere eliminata una categoria in uso su uno dei progetti appartenenti al ruolo!"));
         this.categories.remove(category);
     }
 

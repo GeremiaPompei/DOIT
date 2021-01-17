@@ -28,5 +28,7 @@ public interface IResourceHandler {
 
     Set<IProject> getAllProjects();
 
+    Set<IProject> getProjectsByCategory(String idCategory);
+
     Set<ICategory> getAllCategories();
 }

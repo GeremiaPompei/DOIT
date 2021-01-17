@@ -44,13 +44,17 @@ public class DesignerRole extends Role implements IPendingRole {
         if (!team.getState())
             throw new IllegalArgumentException("Le registrazioni non sono aperte !");
         IPartecipationRequest pr = ServicesHandler.getInstance().getFactoryModel().createPartecipationRequest(this, team);
+        if (this.partecipationRequests.contains(pr))
+            this.partecipationRequests.remove(pr);
         this.partecipationRequests.add(pr);
+        if (team.getDesignerRequest().contains(pr))
+            team.getDesignerRequest().remove(pr);
         team.getDesignerRequest().add(pr);
     }
 
     public Set<IProject> getProjects(String idCategory) {
-        return getTeams().stream().filter(t -> t.getProject().getCategory().getName().equalsIgnoreCase(idCategory))
-                .filter(t -> t.getState()).map(t -> t.getProject()).collect(Collectors.toSet());
+        return ServicesHandler.getInstance().getResourceHandler().getProjectsByCategory(idCategory).stream()
+                .filter(p -> p.getTeam().getState()).collect(Collectors.toSet());
     }
 
     public void enterEvaluation(int idProject, int evaluation) {

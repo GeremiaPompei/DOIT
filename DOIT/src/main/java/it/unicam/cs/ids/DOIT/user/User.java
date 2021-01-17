@@ -13,7 +13,7 @@ public class User implements IUser {
     private int id;
     private String name;
     private String surname;
-    private String birthYear;
+    private String birthDate;
     private String sex;
     private Set<IRole> roles;
 
@@ -21,7 +21,7 @@ public class User implements IUser {
         this.id = id;
         this.name = name;
         this.surname = surname;
-        this.birthYear = birthYear;
+        this.birthDate = birthYear;
         this.sex = sex;
         this.roles = new HashSet<>();
     }
@@ -38,8 +38,8 @@ public class User implements IUser {
         return surname;
     }
 
-    public String getBirthYear() {
-        return birthYear;
+    public String getBirthDate() {
+        return birthDate;
     }
 
     public String getSex() {
@@ -94,8 +94,8 @@ public class User implements IUser {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
-                ", birthYear=" + birthYear +
-                ", gender='" + sex + '\'' +
+                ", birthDate=" + birthDate +
+                ", sex='" + sex + '\'' +
                 ", roles=" + roles +
                 '}';
     }

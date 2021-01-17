@@ -67,6 +67,11 @@ public class ResourceHandler implements IResourceHandler {
     }
 
     @Override
+    public Set<IProject> getProjectsByCategory(String idCategory) {
+        return search(IProject.class, p -> p.getCategory().getName().equalsIgnoreCase(idCategory));
+    }
+
+    @Override
     public Set<ICategory> getAllCategories() {
         return search(ICategory.class, t -> true);
     }

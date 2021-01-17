@@ -12,7 +12,7 @@ public interface IUser {
 
     String getSurname();
 
-    String getBirthYear();
+    String getBirthDate();
 
     String getSex();
 

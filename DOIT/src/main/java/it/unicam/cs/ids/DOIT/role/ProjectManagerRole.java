@@ -51,6 +51,9 @@ public class ProjectManagerRole extends Role {
         team.getProjectProposer().exitTeam(team.getId());
         team.getProgramManager().exitTeam(team.getId());
         team.getProjectManager().exitTeam(team.getId());
+        team.closeRegistrations();
+        if (this.getTeams().isEmpty())
+            this.getUser().removeRole(ProjectManagerRole.class);
     }
 
     public ProjectState getProjectState(int idProject) {

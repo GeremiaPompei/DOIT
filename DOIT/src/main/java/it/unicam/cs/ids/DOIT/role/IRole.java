@@ -21,5 +21,5 @@ public interface IRole {
 
     void removeCategory(String idCategory);
 
-    Set<ITeam> getHystory();
+    Set<ITeam> getHistory();
 }

@@ -1,6 +1,5 @@
 package it.unicam.cs.ids.DOIT.user;
 
-import it.unicam.cs.ids.DOIT.category.ICategory;
 import it.unicam.cs.ids.DOIT.role.IRole;
 import it.unicam.cs.ids.DOIT.role.RoleException;
 

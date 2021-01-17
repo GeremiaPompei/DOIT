@@ -108,7 +108,8 @@ public class Team implements ITeam {
     @Override
     public String toString() {
         return "Team{" +
-                "state=" + state +
+                "project=" + project.getId() +
+                ", state=" + state +
                 ", projectProposer=" + projectProposer.getUser().getId() +
                 ", projectManager=" + (projectManager == null ? "null" : projectManager.getUser().getId()) +
                 ", programManager=" + (programManager == null ? "null" : programManager.getUser().getId()) +

@@ -16,7 +16,7 @@ public class PartecipationRequest implements IPartecipationRequest {
 	public PartecipationRequest(IPendingRole role, ITeam team) {
 		this.role = role;
 		this.team = team;
-		this.description = "Partecipation request sended...";
+		this.description = "Partecipation request sent...";
 		this.state = false;
 		this.dateTime = LocalDateTime.now();
 	}

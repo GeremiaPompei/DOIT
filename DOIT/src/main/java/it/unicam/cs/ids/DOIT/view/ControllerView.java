@@ -31,6 +31,7 @@ public class ControllerView {
         ServicesHandler.getInstance().getFactoryModel().createProjectState(1, "IN PROGRESS", "description...");
         ServicesHandler.getInstance().getFactoryModel().createProjectState(2, "TERMINAL", "description...");
 
+        //TODO da rimuovere
         createUser(new String[]{"", "1", "1", "1", "1"});
         int idUser = ServicesHandler.getInstance().getResourceHandler().getAllUsers().stream().findAny().orElse(null).getId();
         login(new String[]{"", idUser + ""});
@@ -47,8 +48,6 @@ public class ControllerView {
         upgradeState(new String[]{"", idProject + ""});
         upgradeState(new String[]{"", idProject + ""});
 
-        System.err.println("----> " + idUser + " " + idProject);
-
     }
 
     public Map<String, Map<String, Function<String[], String>>> getCommands() {
@@ -64,7 +63,7 @@ public class ControllerView {
         map.put("login", this::login);
         map.put("logout", this::logout);
         map.put("help", (s) -> " > create idUser nameUser surnameUser birthYearUeser genderUser"
-                + "\n > add-role nameRole categoryName \n > login idUser");
+                + "\n > add-role nameRole categoryName \n > remove-role nameRole \n > login idUser \n > logout \n > list");
         return map;
     }
 
@@ -138,7 +137,7 @@ public class ControllerView {
     private Map<String, Function<String[], String>> designerMap() {
         Map<String, Function<String[], String>> map = new HashMap<>();
         map.put("send-pr", this::sendPr);
-        map.put("list-projects", this::listProjects);
+        map.put("list-projects", this::listProjectsDesigner);
         map.putAll(roleActions("DesignerRole"));
         map.put("evaluations", this::visualizeEvaluations);
         map.put("help", (s) -> " > send-pr idProject \n > list-projects nameCategory \n > add-category nameCategory " +
@@ -154,7 +153,7 @@ public class ControllerView {
         return manageRunnable(() -> this.controller.getUser().getRole(DesignerRole.class).createPartecipationRequest(Integer.parseInt(s[1])));
     }
 
-    private String listProjects(String[] s) {
+    private String listProjectsDesigner(String[] s) {
         if (s.length == 1)
             return "Aggiungere una categoria!";
         return manageException(() -> this.controller.getUser().getRole(DesignerRole.class).getProjects(s[1]).toString());
@@ -166,9 +165,9 @@ public class ControllerView {
         map.put("add-designer", this::addDesigner);
         map.put("remove-designer", this::removeDesigner);
         map.put("choose-pjm", this::choosePjm);
-        map.put("list-teams", this::listTeams);
         map.put("open-registrations", this::openRegistrations);
         map.put("close-registrations", this::closeRegistrations);
+        map.put("list-teams", this::listTeams);
         map.put("list-pr", this::listPR);
         map.put("list-d", this::listDesignerForProgramManager);
         map.putAll(roleActions("ProgramManagerRole"));
@@ -238,7 +237,7 @@ public class ControllerView {
 
     private String visualizeHistory(String role) {
         return manageException(() ->
-                this.controller.getUser().getRole(controller.getRole(role)).getHystory().toString());
+                this.controller.getUser().getRole(controller.getRole(role)).getHistory().toString());
     }
 
     private String addCategory(String[] s, String role) {
@@ -271,21 +270,21 @@ public class ControllerView {
 
     private Map<String, Function<String[], String>> projectManagerMap() {
         Map<String, Function<String[], String>> map = new HashMap<>();
-        map.put("list-projects", this::listProjectsOwned);
+        map.put("list-teams", this::listTeamsOwned);
         map.put("upgrade-state", this::upgradeState);
         map.put("downgrade-state", this::downgradeState);
         map.put("list-d", this::listDesignerForPrjManager);
         map.put("evaluate-d", this::evaluateDesigner);
-        map.put("exitAll", this::exitAll);
+        map.put("exit-all", this::exitAll);
         map.putAll(roleActions("ProjectManagerRole"));
         map.put("visualize-state", this::visualizeState);
-        map.put("help", (s) -> " > list-projects  \n > upgrade-state idProject \n > downgrade-state idProject \n " +
-                "> list-d idProject \n > evaluate-d idDesigner idProject evaluation(0-5)\n > exitAll idProject\n " +
+        map.put("help", (s) -> " > list-teams  \n > upgrade-state idProject \n > downgrade-state idProject \n " +
+                "> list-d idProject \n > evaluate-d idDesigner idProject evaluation(0-5)\n > exit-all idProject\n " +
                 "> visualize-state idProject");
         return map;
     }
 
-    private String listProjectsOwned(String[] s) {
+    private String listTeamsOwned(String[] s) {
         return manageException(() -> this.controller.getUser().getRole(ProjectManagerRole.class).getTeams().toString());
     }
 

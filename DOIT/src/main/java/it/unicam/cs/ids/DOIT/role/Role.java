@@ -16,7 +16,7 @@ public abstract class Role implements IRole {
 
     private Set<ITeam> teams;
 
-    private Set<ITeam> hystory;
+    private Set<ITeam> history;
 
     private Set<ICategory> categories;
 
@@ -24,7 +24,7 @@ public abstract class Role implements IRole {
         this.user = user;
         teams = new HashSet<>();
         categories = new HashSet<>();
-        hystory = new HashSet<>();
+        history = new HashSet<>();
         this.categories.add(category);
     }
 
@@ -43,7 +43,7 @@ public abstract class Role implements IRole {
     @Override
     public void exitTeam(int idProject) {
         ITeam team = ServicesHandler.getInstance().getResourceHandler().getProject(idProject).getTeam();
-        hystory.add(team);
+        history.add(team);
         teams.remove(team);
     }
 
@@ -52,8 +52,8 @@ public abstract class Role implements IRole {
         teams.add(ServicesHandler.getInstance().getResourceHandler().getProject(idProject).getTeam());
     }
 
-    public Set<ITeam> getHystory() {
-        return hystory;
+    public Set<ITeam> getHistory() {
+        return history;
     }
 
     @Override

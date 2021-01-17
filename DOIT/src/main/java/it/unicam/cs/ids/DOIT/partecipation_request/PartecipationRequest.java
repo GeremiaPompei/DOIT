@@ -61,7 +61,7 @@ public class PartecipationRequest implements IPartecipationRequest {
 				"state=" + state +
 				", description='" + description + '\'' +
 				", dateTime=" + dateTime +
-				", role=" + role.getId() +
+				", role=" + role.getUser().getId() +
 				", team=" + team.getProject().getId() +
 				'}';
 	}

@@ -1,7 +1,9 @@
 package it.unicam.cs.ids.DOIT.role;
 
 import it.unicam.cs.ids.DOIT.category.ICategory;
+import it.unicam.cs.ids.DOIT.partecipation_request.IPartecipationRequest;
 import it.unicam.cs.ids.DOIT.service.ServicesHandler;
+import it.unicam.cs.ids.DOIT.user.IUser;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -10,7 +12,7 @@ import java.util.stream.Collectors;
 
 public abstract class Role implements IRole {
 
-    private int id;
+    private IUser user;
 
     private Set<ITeam> teams;
 
@@ -18,16 +20,16 @@ public abstract class Role implements IRole {
 
     private Set<ICategory> categories;
 
-    public Role(Integer idUser, String idCategory) {
-        this.id = idUser;
+    public Role(IUser user, ICategory category) {
+        this.user = user;
         teams = new HashSet<>();
         categories = new HashSet<>();
         hystory = new HashSet<>();
-        this.categories.add(ServicesHandler.getInstance().getResourceHandler().getCategory(idCategory));
+        this.categories.add(category);
     }
 
-    public int getId() {
-        return this.id;
+    public IUser getUser() {
+        return this.user;
     }
 
     public Set<ITeam> getTeams() {
@@ -74,12 +76,13 @@ public abstract class Role implements IRole {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        return Objects.equals(this.getClass(), o.getClass());
+        Role role = (Role) o;
+        return Objects.equals(user, role.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.getClass());
+        return Objects.hash(user);
     }
 
     protected ICategory getInnerCategory(String idCategory) {
@@ -87,6 +90,31 @@ public abstract class Role implements IRole {
                 .filter(c -> c.getName().equalsIgnoreCase(idCategory))
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("L'utente non presenta la categoria!"));
+    }
+
+    protected IPartecipationRequest getInnerPR(int idDesigner, int idProject) {
+        IPartecipationRequest pr = this.getTeams().stream()
+                .filter(t -> t.getProject().getId() == idProject)
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("Non sei in possesso del team con id: [" + idProject + "]"))
+                .getDesignerRequest().stream()
+                .filter(t -> t.getPendingRole().getUser().getId() == idDesigner)
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("Non vi è una request fatta dal designer con id: [" + idDesigner + "]"));
+        getInnerCategory(pr.getTeam().getProject().getCategory().getName());
+        return pr;
+    }
+
+    protected ITeam getInnerTeam(int idProject) {
+        ITeam team = this.getTeams().stream().filter(t -> t.getId() == idProject).findAny().orElseThrow(() ->
+                new IllegalArgumentException("Il ruolo non ha il progetto con id: [" + idProject + "]"));
+        getInnerCategory(team.getProject().getCategory().getName());
+        return team;
+    }
+
+    protected DesignerRole getInnerDesignerInTeam(int idProject, int idDesigner) {
+        return getInnerTeam(idProject).getDesigners().stream().filter(d -> d.getUser().getId() == idDesigner).findAny().orElseThrow(() ->
+                new IllegalArgumentException("Il progetto: [" + idProject + "] non possiede il designer: [" + idDesigner + "]"));
     }
 
     @Override

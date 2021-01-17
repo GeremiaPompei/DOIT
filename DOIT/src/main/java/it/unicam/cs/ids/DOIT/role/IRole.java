@@ -1,12 +1,13 @@
 package it.unicam.cs.ids.DOIT.role;
 
 import it.unicam.cs.ids.DOIT.category.ICategory;
+import it.unicam.cs.ids.DOIT.user.IUser;
 
 import java.util.Set;
 
 public interface IRole {
 
-    int getId();
+    IUser getUser();
 
     Set<ITeam> getTeams();
 

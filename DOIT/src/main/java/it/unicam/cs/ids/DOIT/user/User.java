@@ -48,7 +48,8 @@ public class User implements IUser {
 
     public <T extends IRole> boolean addRole(Class<T> clazz, String idCategory)
             throws ReflectiveOperationException {
-        return this.roles.add(ServicesHandler.getInstance().getFactoryModel().createRole(clazz, this.getId(), idCategory));
+        ICategory category = ServicesHandler.getInstance().getResourceHandler().getCategory(idCategory);
+        return this.roles.add(ServicesHandler.getInstance().getFactoryModel().createRole(clazz, this, category));
     }
 
     public <T extends IRole> T getRole(Class<T> clazz) throws RoleException {

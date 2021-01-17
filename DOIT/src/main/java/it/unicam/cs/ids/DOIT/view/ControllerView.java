@@ -46,7 +46,8 @@ public class ControllerView {
         choosePjm(new String[]{"", idUser + "", idProject + ""});
         upgradeState(new String[]{"", idProject + ""});
         upgradeState(new String[]{"", idProject + ""});
-        System.err.println("choose-pjm " + idUser + " " + idProject);
+
+        System.err.println("----> " + idUser + " " + idProject);
 
     }
 

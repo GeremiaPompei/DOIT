@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.DOIT.role;
 
+import it.unicam.cs.ids.DOIT.category.ICategory;
 import it.unicam.cs.ids.DOIT.project.IProject;
 import it.unicam.cs.ids.DOIT.service.ServicesHandler;
 import it.unicam.cs.ids.DOIT.user.IUser;
@@ -8,8 +9,8 @@ import java.util.Set;
 
 public class ProjectProposerRole extends Role {
 
-    public ProjectProposerRole(Integer idUser, String idCategory) {
-        super(idUser, idCategory);
+    public ProjectProposerRole(IUser user, ICategory category) {
+        super(user, category);
     }
 
     public void createProject(String name, String description, String idCategory)

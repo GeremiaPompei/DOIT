@@ -109,11 +109,12 @@ public class Team implements ITeam {
     public String toString() {
         return "Team{" +
                 "state=" + state +
-                ", projectProposer=" + projectProposer.getId() +
-                ", projectManager=" + (projectManager == null ? "null" : projectManager.getId()) +
-                ", programManager=" + (programManager == null ? "null" : programManager.getId()) +
-                ", designers=" + designers.stream().map(d -> d.getId()).collect(Collectors.toSet()) +
-                ", designerRequest=" + designerRequest.stream().map(pr -> pr.getPendingRole().getId()).collect(Collectors.toSet()) +
+                ", projectProposer=" + projectProposer.getUser().getId() +
+                ", projectManager=" + (projectManager == null ? "null" : projectManager.getUser().getId()) +
+                ", programManager=" + (programManager == null ? "null" : programManager.getUser().getId()) +
+                ", designers=" + designers.stream().map(d -> d.getUser().getId()).collect(Collectors.toSet()) +
+                ", designerRequest=" + designerRequest.stream().map(pr -> pr.getPendingRole().getUser().getId())
+                .collect(Collectors.toSet()) +
                 '}';
     }
 }

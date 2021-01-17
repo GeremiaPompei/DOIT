@@ -21,5 +21,5 @@ public interface IFactoryModel {
 
     ITeam createTeam(IProject project, ProjectProposerRole projectProposer);
 
-    <T extends IRole> T createRole(Class<T> clazz, int idUser, String idCategory) throws ReflectiveOperationException;
+    <T extends IRole> T createRole(Class<T> clazz, IUser user, ICategory category) throws ReflectiveOperationException;
 }

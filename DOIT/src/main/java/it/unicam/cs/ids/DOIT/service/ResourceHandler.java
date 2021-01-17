@@ -67,7 +67,7 @@ public class ResourceHandler implements IResourceHandler {
 
     public IPartecipationRequest getPR(int idDesigner, int idProject) {
         return searchOne(IPartecipationRequest.class,
-                p -> p.getPendingRole().getId() == idDesigner && p.getTeam().getId() == idProject);
+                p -> p.getPendingRole().getUser().getId() == idDesigner && p.getTeam().getId() == idProject);
     }
 
     @Override

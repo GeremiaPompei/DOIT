@@ -34,10 +34,6 @@ public class ResourceHandler implements IResourceHandler {
         return searchOne(IProject.class, p -> p.getId() == id);
     }
 
-    public Set<IProject> getProjectsByCategory(String idCategory) {
-        return search(IProject.class, p -> p.getCategory().getName().equalsIgnoreCase(idCategory));
-    }
-
     public ProjectState getProjectState(int id) {
         return searchOne(ProjectState.class, p -> p.getId() == id);
     }
@@ -63,11 +59,6 @@ public class ResourceHandler implements IResourceHandler {
 
     public ICategory getCategory(String id) {
         return searchOne(ICategory.class, p -> p.getName().equalsIgnoreCase(id));
-    }
-
-    public IPartecipationRequest getPR(int idDesigner, int idProject) {
-        return searchOne(IPartecipationRequest.class,
-                p -> p.getPendingRole().getUser().getId() == idDesigner && p.getTeam().getId() == idProject);
     }
 
     @Override

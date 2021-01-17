@@ -16,19 +16,15 @@ public interface IResourceHandler {
 
     IProject getProject(int id);
 
-    Set<IProject> getProjectsByCategory(String idCategory);
+    IUser getUser(int id);
+
+    ICategory getCategory(String id);
 
     ProjectState getProjectState(int id);
-
-    IUser getUser(int id);
 
     Set<IUser> getAllUsers();
 
     Set<IUser> getUsersByCategoryAndRole(String idCategory, Class<? extends IRole> clazz);
-
-    ICategory getCategory(String id);
-
-    IPartecipationRequest getPR(int idDesigner, int idProject);
 
     Set<IProject> getAllProjects();
 

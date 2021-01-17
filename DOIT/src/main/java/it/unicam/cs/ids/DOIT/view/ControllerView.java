@@ -31,7 +31,8 @@ public class ControllerView {
         ServicesHandler.getInstance().getFactoryModel().createProjectState(1, "IN PROGRESS", "description...");
         ServicesHandler.getInstance().getFactoryModel().createProjectState(2, "TERMINAL", "description...");
 
-        //TODO da rimuovere
+        //TODO da rimuovere, viene creato un utente con tutti i ruoli, viene creato un progetto e viene portato a termine.
+        /*
         createUser(new String[]{"", "1", "1", "1", "1"});
         int idUser = ServicesHandler.getInstance().getResourceHandler().getAllUsers().stream().findAny().orElse(null).getId();
         login(new String[]{"", idUser + ""});
@@ -47,7 +48,8 @@ public class ControllerView {
         choosePjm(new String[]{"", idUser + "", idProject + ""});
         upgradeState(new String[]{"", idProject + ""});
         upgradeState(new String[]{"", idProject + ""});
-
+        evaluateDesigner(new String[]{"", idUser + "", idProject + "", "3"});
+        exitAll(new String[]{"", idProject + ""});*/
     }
 
     public Map<String, Map<String, Function<String[], String>>> getCommands() {

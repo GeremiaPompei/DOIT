@@ -16,9 +16,9 @@ import java.util.stream.Collectors;
 public class DesignerRole extends Role implements IPendingRole {
 
     private Set<IPartecipationRequest> partecipationRequests;
+    private Map<ITeam, Integer> evaluations;
     //TODO aggiungere informazioni del designer su esperienze pregresse.
     private Map<LocalDate, String> curriculumVitae;
-    private Map<ITeam, Integer> evaluations;
 
 
     public DesignerRole(IUser user, ICategory category) {

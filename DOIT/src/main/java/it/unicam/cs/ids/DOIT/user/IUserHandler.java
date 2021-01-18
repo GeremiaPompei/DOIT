@@ -2,12 +2,11 @@ package it.unicam.cs.ids.DOIT.user;
 
 import it.unicam.cs.ids.DOIT.role.IRole;
 import it.unicam.cs.ids.DOIT.role.RoleException;
-import it.unicam.cs.ids.DOIT.user.IUser;
 
 import java.util.Set;
 
 public interface IUserHandler {
-    void login(int id);
+    void logIn(int id);
 
     void signIn(String name, String surname, String birthDate, String sex);
 

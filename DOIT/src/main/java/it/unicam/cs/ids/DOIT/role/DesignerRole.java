@@ -41,7 +41,7 @@ public class DesignerRole extends Role implements IPendingRole {
             throw new IllegalArgumentException("Designer gia presente nel team!");
         if (!this.getCategories().contains(team.getProject().getCategory()))
             throw new IllegalArgumentException("L'utente non presenta la categoria: [" + team.getProject().getCategory() + "]");
-        if (!team.getState())
+        if (!team.isOpen())
             throw new IllegalArgumentException("Le registrazioni non sono aperte !");
         IPartecipationRequest pr = ServicesHandler.getInstance().getFactoryModel().createPartecipationRequest(this, team);
         if (this.partecipationRequests.contains(pr))
@@ -54,7 +54,7 @@ public class DesignerRole extends Role implements IPendingRole {
 
     public Set<IProject> getProjects(String idCategory) {
         return ServicesHandler.getInstance().getResourceHandler().getProjectsByCategory(idCategory).stream()
-                .filter(p -> p.getTeam().getState()).collect(Collectors.toSet());
+                .filter(p -> p.getTeam().isOpen()).collect(Collectors.toSet());
     }
 
     public void enterEvaluation(int idProject, int evaluation) {

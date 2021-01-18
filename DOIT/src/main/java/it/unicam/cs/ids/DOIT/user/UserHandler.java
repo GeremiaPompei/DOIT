@@ -21,7 +21,7 @@ public class UserHandler implements IUserHandler {
     }
 
     @Override
-    public void login(int id) {
+    public void logIn(int id) {
         user = ServicesHandler.getInstance().getResourceHandler().getUser(id);
         if (user == null)
             throw new NullPointerException("Utente non trovato!");

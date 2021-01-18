@@ -32,7 +32,7 @@ public class ControllerView {
         ServicesHandler.getInstance().getFactoryModel().createProjectState(2, "TERMINAL", "description...");
 
         //TODO da rimuovere, viene creato un utente con tutti i ruoli, viene creato un progetto e viene portato a termine.
-        createUser(new String[]{"", "1", "1", "1", "1"});
+        /*createUser(new String[]{"", "1", "1", "1", "1"});
         int idUser = ServicesHandler.getInstance().getResourceHandler().getAllUsers().stream().findAny().orElse(null).getId();
         login(new String[]{"", idUser + ""});
         addRole(new String[]{"", "ProjectProposerRole", "sport"});
@@ -46,7 +46,7 @@ public class ControllerView {
         removePr(new String[]{"", idUser + "", idProject + "", "Non", "vai", "bene!"});
         sendPr(new String[]{"", idProject + ""});
         addDesigner(new String[]{"", idUser + "", idProject + ""});
-        /*choosePjm(new String[]{"", idUser + "", idProject + ""});
+        choosePjm(new String[]{"", idUser + "", idProject + ""});
         upgradeState(new String[]{"", idProject + ""});
         upgradeState(new String[]{"", idProject + ""});
         evaluateDesigner(new String[]{"", idUser + "", idProject + "", "3"});
@@ -91,7 +91,7 @@ public class ControllerView {
 
     private String login(String[] s) {
         return manageRunnable(() -> {
-            this.controller.login(Integer.parseInt(s[1]));
+            this.controller.logIn(Integer.parseInt(s[1]));
             loadCommands();
         });
     }

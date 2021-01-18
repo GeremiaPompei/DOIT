@@ -37,7 +37,6 @@ public class ConsoleView implements IView {
                     } else if (!command2.equalsIgnoreCase("back"))
                         System.out.println("\n Command not found!\n");
                 }
-                command2 = "";
             } else if (!command1.equalsIgnoreCase("exit"))
                 System.out.println("\n Command not found!\n");
         }

@@ -8,9 +8,9 @@ import java.util.Set;
 public interface ITeam {
     int getId();
 
-    boolean getState();
+    boolean isOpen();
 
-    IRole getProjectProposer();
+    ProjectProposerRole getProjectProposer();
 
     ProgramManagerRole getProgramManager();
 
@@ -20,7 +20,7 @@ public interface ITeam {
 
     void removeDesigner(DesignerRole designer);
 
-    IRole getProjectManager();
+    ProjectManagerRole getProjectManager();
 
     void setProjectManager(ProjectManagerRole projectManager);
 
@@ -31,8 +31,6 @@ public interface ITeam {
     void openRegistrations();
 
     void closeRegistrations();
-
-    boolean isState();
 
     IProject getProject();
 

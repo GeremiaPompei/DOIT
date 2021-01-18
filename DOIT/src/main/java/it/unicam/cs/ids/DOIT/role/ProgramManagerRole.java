@@ -7,7 +7,7 @@ import it.unicam.cs.ids.DOIT.user.IUser;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class ProgramManagerRole extends Role implements PartecipationRequestHandler {
+public class ProgramManagerRole extends Role implements IPartecipationRequestHandler {
 
     public ProgramManagerRole(IUser user, ICategory category) {
         super(user, category);
@@ -39,8 +39,7 @@ public class ProgramManagerRole extends Role implements PartecipationRequestHand
 
     public void removeDesigner(int idDesigner, int idProject) {
         ITeam team = getInnerTeam(idProject);
-        DesignerRole designer = team.getDesigners().stream().filter(d -> d.getUser().getId() == idDesigner).findAny().orElseThrow(() ->
-                new IllegalArgumentException("Il progetto: [" + idProject + "] non possiede il designer: [" + idDesigner + "]"));
+        DesignerRole designer = getInnerDesignerInTeam(idDesigner, idProject);
         if (!team.getDesigners().contains(designer))
             throw new IllegalArgumentException("Il Program Manager non è interno al team: [" + team.getId() + "]");
         if (team.getProjectManager() != null && designer.getUser().equals(team.getProjectManager().getUser()))
@@ -50,9 +49,7 @@ public class ProgramManagerRole extends Role implements PartecipationRequestHand
 
     public void setProjectManager(int idDesigner, int idProject) throws ReflectiveOperationException, RoleException {
         ITeam team = getInnerTeam(idProject);
-        IUser user = team.getDesigners().stream().filter(d -> d.getUser().getId() == idDesigner).findAny().orElseThrow(() ->
-                new IllegalArgumentException("Il progetto: [" + idProject + "] non possiede il designer: [" + idDesigner + "]"))
-                .getUser();
+        IUser user = getInnerDesignerInTeam(idDesigner, idProject).getUser();
         if (!this.getTeams().contains(team))
             throw new IllegalArgumentException("L'utente non possiede il progetto con id:[" + team.getId() + "]");
         user.addRole(ProjectManagerRole.class, team.getProject().getCategory().getName());

@@ -9,7 +9,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Team implements ITeam {
-    private boolean state;
+    private boolean open;
     private IProject project;
     private ProjectProposerRole projectProposer;
     private ProjectManagerRole projectManager;
@@ -18,7 +18,7 @@ public class Team implements ITeam {
     private Set<IPartecipationRequest> designerRequest;
 
     public Team(IProject project, ProjectProposerRole projectProposer) {
-        this.state = false;
+        this.open = false;
         this.project = project;
         this.project.setTeam(this);
         this.projectProposer = projectProposer;
@@ -31,8 +31,8 @@ public class Team implements ITeam {
         return this.project.getId();
     }
 
-    public boolean getState() {
-        return state;
+    public boolean isOpen() {
+        return open;
     }
 
     public ProgramManagerRole getProgramManager() {
@@ -66,26 +66,22 @@ public class Team implements ITeam {
         this.projectManager = projectManager;
     }
 
-    public IRole getProjectProposer() {
+    public ProjectProposerRole getProjectProposer() {
         return projectProposer;
     }
 
-    public IRole getProjectManager() {
+    public ProjectManagerRole getProjectManager() {
         return projectManager;
     }
 
     @Override
     public void openRegistrations() {
-        this.state = true;
+        this.open = true;
     }
 
     @Override
     public void closeRegistrations() {
-        this.state = false;
-    }
-
-    public boolean isState() {
-        return state;
+        this.open = false;
     }
 
     public IProject getProject() {
@@ -109,7 +105,7 @@ public class Team implements ITeam {
     public String toString() {
         return "Team{" +
                 "project=" + project.getId() +
-                ", state=" + state +
+                ", state=" + open +
                 ", projectProposer=" + projectProposer.getUser().getId() +
                 ", projectManager=" + (projectManager == null ? "null" : projectManager.getUser().getId()) +
                 ", programManager=" + (programManager == null ? "null" : programManager.getUser().getId()) +

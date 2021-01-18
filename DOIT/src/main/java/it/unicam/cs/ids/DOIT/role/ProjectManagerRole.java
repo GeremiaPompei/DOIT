@@ -32,7 +32,7 @@ public class ProjectManagerRole extends Role {
     }
 
     public void insertEvaluation(int idDesigner, int idProject, int evaluation) throws RoleException {
-        DesignerRole designer = getInnerDesignerInTeam(idProject, idDesigner);
+        DesignerRole designer = getInnerDesignerInTeam(idDesigner, idProject);
         if (evaluation < 0 || evaluation > 5)
             throw new IllegalArgumentException("La valutazione deve essere compresa tra 0 e 5!");
         designer.enterEvaluation(idProject, evaluation);
@@ -52,8 +52,6 @@ public class ProjectManagerRole extends Role {
         team.getProgramManager().exitTeam(team.getId());
         team.getProjectManager().exitTeam(team.getId());
         team.closeRegistrations();
-        if (this.getTeams().isEmpty())
-            this.getUser().removeRole(ProjectManagerRole.class);
     }
 
     public ProjectState getProjectState(int idProject) {

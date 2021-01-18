@@ -5,14 +5,19 @@ import it.unicam.cs.ids.DOIT.view.ControllerView;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.Map;
 import java.util.function.Function;
 
 @RestController
 public class SpringBootController {
-
     @GetMapping(value = "/")
+    public RedirectView redirectToIndex() {
+        return new RedirectView("/index.html");
+    }
+
+    @GetMapping(value = "/api/")
     public String get(@RequestParam String args) {
         Map<String, Map<String, Function<String[], String>>> commands;
         commands = new ControllerView(UserHandler.getInstance()).getCommands();

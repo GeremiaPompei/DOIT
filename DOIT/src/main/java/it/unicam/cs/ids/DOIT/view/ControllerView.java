@@ -30,27 +30,6 @@ public class ControllerView {
         ServicesHandler.getInstance().getFactoryModel().createProjectState(0, "INITIALIZATION", "description...");
         ServicesHandler.getInstance().getFactoryModel().createProjectState(1, "IN PROGRESS", "description...");
         ServicesHandler.getInstance().getFactoryModel().createProjectState(2, "TERMINAL", "description...");
-
-        //TODO da rimuovere, viene creato un utente con tutti i ruoli, viene creato un progetto e viene portato a termine.
-        /*createUser(new String[]{"", "1", "1", "1", "1"});
-        int idUser = ServicesHandler.getInstance().getResourceHandler().getAllUsers().stream().findAny().orElse(null).getId();
-        login(new String[]{"", idUser + ""});
-        addRole(new String[]{"", "ProjectProposerRole", "sport"});
-        addRole(new String[]{"", "ProgramManagerRole", "sport"});
-        addRole(new String[]{"", "DesignerRole", "sport"});
-        createProject(new String[]{"", "9", "9", "sport"});
-        int idProject = ServicesHandler.getInstance().getResourceHandler().getAllProjects().stream().findAny().orElse(null).getId();
-        choosePgm(new String[]{"", idUser + "", idProject + ""});
-        openRegistrations(new String[]{"", idProject + ""});
-        sendPr(new String[]{"", idProject + ""});
-        removePr(new String[]{"", idUser + "", idProject + "", "Non", "vai", "bene!"});
-        sendPr(new String[]{"", idProject + ""});
-        addDesigner(new String[]{"", idUser + "", idProject + ""});
-        choosePjm(new String[]{"", idUser + "", idProject + ""});
-        upgradeState(new String[]{"", idProject + ""});
-        upgradeState(new String[]{"", idProject + ""});
-        evaluateDesigner(new String[]{"", idUser + "", idProject + "", "3"});
-        exitAll(new String[]{"", idProject + ""});*/
     }
 
     public Map<String, Map<String, Function<String[], String>>> getCommands() {

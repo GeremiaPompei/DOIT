@@ -42,7 +42,7 @@ public abstract class Role implements IRole {
 
     @Override
     public void exitTeam(int idProject) {
-        ITeam team = ServicesHandler.getInstance().getResourceHandler().getProject(idProject).getTeam();
+        ITeam team = this.getInnerTeam(idProject);
         history.add(team);
         teams.remove(team);
     }

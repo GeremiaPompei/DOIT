@@ -1,18 +1,16 @@
-/*
+
 package it.unicam.cs.ids.DOIT;
 
-import it.unicam.cs.ids.DOIT.category.Category;
+import it.unicam.cs.ids.DOIT.category.ICategory;
 import it.unicam.cs.ids.DOIT.project.IProject;
 import it.unicam.cs.ids.DOIT.role.*;
-import it.unicam.cs.ids.DOIT.service.FactoryModel;
-import it.unicam.cs.ids.DOIT.service.IFactoryModel;
-import it.unicam.cs.ids.DOIT.service.ResourceHandler;
-import it.unicam.cs.ids.DOIT.service.IResourceHandler;
+import it.unicam.cs.ids.DOIT.service.*;
 import it.unicam.cs.ids.DOIT.user.IUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,32 +19,27 @@ class ProjectProposerRoleTest {
     private IUser user2;
     private IUser user3;
     private IUser user4;
-    private Category category1;
-    private Category category2;
-    private IResourceHandler resourceHandler;
-    private IFactoryModel factory;
+    private ICategory category1;
+    private ICategory category2;
+    private ICategory category3;
 
     @BeforeEach
     void init() throws ReflectiveOperationException {
-        resourceHandler = new ResourceHandler();
-        resourceHandler.search(Object.class, t->true).forEach(t->resourceHandler.remove(t));
-        factory = new FactoryModel(resourceHandler);
-        factory.createProjectState(0, "INIZIALIZZAZIONE", "Stato iniziale.");
-        factory.createProjectState(1, "SVILUPPO", "Stato di sviluppo.");
-        factory.createProjectState(2, "TERMINALE", "Stato terminale.");
-        factory.createCategory("Sport", "Descrizione.");
-        factory.createCategory("Informatica", "Descrizione.");
-        factory.createCategory("Domotica", "Descrizione.");
-        user1 = factory.createUser(1, "Daniele", "Baiocco", 1930, "Male");
-        user2 = factory.createUser(2, "Giacomo", "Simonetti", 1999, "Male");
-        user3 = factory.createUser(3, "Franca", "Suria", 1994, "Female");
-        user4 = factory.createUser(4, "Sara", "Giampitelli", 2000, "Female");
-        category1 = resourceHandler.searchOne(Category.class, x -> x.getName().equals("SPORT"));
-        category2 = resourceHandler.searchOne(Category.class, x -> x.getName().equals("INFORMATICA"));
-        user2.addRole(ProjectProposerRole.class, category1, factory);
-        user4.addRole(ProjectProposerRole.class, category2, factory);
-        user1.addRole(ProgramManagerRole.class, category1, factory);
-        user3.addRole(ProgramManagerRole.class, category2, factory);
+        ServicesHandler.getInstance().getResourceHandler().getRisorse().clear();
+        ServicesHandler.getInstance().getFactoryModel().createProjectState(0, "INIZIALIZZAZIONE", "Stato iniziale.");
+        ServicesHandler.getInstance().getFactoryModel().createProjectState(1, "SVILUPPO", "Stato di sviluppo.");
+        ServicesHandler.getInstance().getFactoryModel().createProjectState(2, "TERMINALE", "Stato terminale.");
+        category1 = ServicesHandler.getInstance().getFactoryModel().createCategory("Sport", "Descrizione.");
+        category2 = ServicesHandler.getInstance().getFactoryModel().createCategory("Informatica", "Descrizione.");
+        category3 = ServicesHandler.getInstance().getFactoryModel().createCategory("Domotica", "Descrizione.");
+        user1 = ServicesHandler.getInstance().getFactoryModel().createUser("Daniele", "Baiocco", "1930", "Male");
+        user2 = ServicesHandler.getInstance().getFactoryModel().createUser("Giacomo", "Simonetti", "1999", "Male");
+        user3 = ServicesHandler.getInstance().getFactoryModel().createUser("Franca", "Suria", "1994", "Female");
+        user4 = ServicesHandler.getInstance().getFactoryModel().createUser("Sara", "Giampitelli", "2000", "Female");
+        user2.addRole(ProjectProposerRole.class, category1.getName());
+        user4.addRole(ProjectProposerRole.class, category2.getName());
+        user1.addRole(ProgramManagerRole.class, category1.getName());
+        user3.addRole(ProgramManagerRole.class, category2.getName());
     }
 
     @Test
@@ -54,19 +47,23 @@ class ProjectProposerRoleTest {
         try {
             assertThrows(IllegalArgumentException.class,
                     () -> {
-                        user2.getRole(IProjectProposerRole.class).createProject(1, "SO", "sistema operativo", category2, factory);
+                        user2.getRole(ProjectProposerRole.class).createProject("SO", "sistema operativo", category2.getName());
                     }, "L'utente non presenta la categoria: [INFORMATICA]");
-            IProject project = user2.getRole(IProjectProposerRole.class).createProject(1, "Campo da calcio", "calcio a 5", category1, factory);
-            assertTrue(user2.getRole(IProjectProposerRole.class).getTeams().contains(project));
+            user2.getRole(ProjectProposerRole.class).createProject("Campo da calcio", "calcio a 5", category1.getName());
+            IProject project = ServicesHandler.getInstance().getResourceHandler().getAllProjects()
+                    .stream().filter(x -> x.getName() == "Campo da calcio").findFirst().orElse(null);
+            user2.getRole(ProjectProposerRole.class).createTeam(user1.getId(), project.getId());
+            assertTrue(user2.getRole(ProjectProposerRole.class).getTeams().contains(project.getTeam()));
         } catch (RoleException e) {
             e.printStackTrace();
         }
     }
 
+
     @Test
     void testFindProgramManagerList() {
         try {
-            Set<IUser> userSet = resourceHandler.search(IUser.class, user2.getRole(IProjectProposerRole.class).findProgramManagerList(category1));
+            Set<IUser> userSet = user2.getRole(ProjectProposerRole.class).findProgramManagerList(category1.getName());
             assertTrue(userSet.contains(user1));
             assertFalse(userSet.contains(user3));
         } catch (RoleException e) {
@@ -74,26 +71,29 @@ class ProjectProposerRoleTest {
         }
     }
 
+
     @Test
     void testCreateTeam() {
         try {
-            IProject project = user2.getRole(ProjectProposerRole.class).createProject(1, "Campo da calcio", "calcio a 5", category1, factory);
+            user2.getRole(ProjectProposerRole.class).createProject("Campo da calcio", "calcio a 5", category1.getName());
+            IProject project = ServicesHandler.getInstance().getResourceHandler().getAllProjects()
+                    .stream().filter(x -> x.getName() == "Campo da calcio").findFirst().orElse(null);
             assertThrows(RoleException.class,
                     () -> {
-                        user2.getRole(ProjectProposerRole.class).createTeam(user2, project, factory);
+                        user2.getRole(ProjectProposerRole.class).createTeam(user2.getId(), project.getId());
                     });
             assertThrows(IllegalArgumentException.class,
                     () -> {
-                        user2.getRole(ProjectProposerRole.class).createTeam(user3, project, factory);
+                        user2.getRole(ProjectProposerRole.class).createTeam(user3.getId(), project.getId());
                     });
             assertThrows(RoleException.class,
                     () -> {
-                        user2.getRole(ProjectProposerRole.class).createTeam(user4, project, factory);
+                        user2.getRole(ProjectProposerRole.class).createTeam(user4.getId(), project.getId());
                     });
 
-            user2.getRole(ProjectProposerRole.class).createTeam(user1, project, factory);
+            user2.getRole(ProjectProposerRole.class).createTeam(user1.getId(), project.getId());
         } catch (RoleException e) {
             e.printStackTrace();
         }
     }
-}*/
+}

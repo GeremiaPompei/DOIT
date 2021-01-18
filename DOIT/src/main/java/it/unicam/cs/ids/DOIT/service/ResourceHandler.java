@@ -85,4 +85,8 @@ public class ResourceHandler implements IResourceHandler {
     public <T> void remove(T t) {
         this.risorse.remove(t);
     }
+
+    public Set<Object> getRisorse() {
+        return risorse;
+    }
 }

@@ -31,4 +31,6 @@ public interface IResourceHandler {
     Set<IProject> getProjectsByCategory(String idCategory);
 
     Set<ICategory> getAllCategories();
+
+    Set<Object> getRisorse();
 }

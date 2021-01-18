@@ -1,15 +1,11 @@
-/*
+
 package it.unicam.cs.ids.DOIT;
 
-import it.unicam.cs.ids.DOIT.category.Category;
-import it.unicam.cs.ids.DOIT.role.ICategory;
-import it.unicam.cs.ids.DOIT.role.IPartecipationRequest;
+import it.unicam.cs.ids.DOIT.category.ICategory;
+import it.unicam.cs.ids.DOIT.partecipation_request.IPartecipationRequest;
 import it.unicam.cs.ids.DOIT.project.IProject;
 import it.unicam.cs.ids.DOIT.role.*;
-import it.unicam.cs.ids.DOIT.service.FactoryModel;
-import it.unicam.cs.ids.DOIT.service.IFactoryModel;
-import it.unicam.cs.ids.DOIT.service.ResourceHandler;
-import it.unicam.cs.ids.DOIT.service.IResourceHandler;
+import it.unicam.cs.ids.DOIT.service.*;
 import it.unicam.cs.ids.DOIT.user.IUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,68 +21,64 @@ class ProgramManagerRoleTest {
     private IProject project2;
     private ICategory category1;
     private ICategory category2;
-    private IFactoryModel factory;
-    private IResourceHandler resourceHandler;
 
     @BeforeEach
     void init() {
         try {
-            resourceHandler = new ResourceHandler();
-            resourceHandler.search(Object.class, t->true).forEach(t->resourceHandler.remove(t));
-            factory = new FactoryModel(resourceHandler);
-            factory.createProjectState(0, "INIZIALIZZAZIONE", "Stato iniziale.");
-            factory.createProjectState(1, "SVILUPPO", "Stato di sviluppo.");
-            factory.createProjectState(2, "TERMINALE", "Stato terminale.");
-            factory.createCategory("Sport", "Descrizione.");
-            factory.createCategory("Informatica", "Descrizione.");
-            factory.createCategory("Domotica", "Descrizione.");
-            user1 = factory.createUser(1, "Daniele", "Baiocco", 1930, "Male");
-            user2 = factory.createUser(2, "Giacomo", "Simonetti", 1999, "Male");
-            user3 = factory.createUser(3, "Franca", "Suria", 1994, "Female");
-            user4 = factory.createUser(4, "Sara", "Giampitelli", 2000, "Female");
-            category1 = resourceHandler.searchOne(Category.class, x -> x.getName().equals("SPORT"));
-            category2 = resourceHandler.searchOne(Category.class, x -> x.getName().equals("INFORMATICA"));
-            user2.addRole(ProjectProposerRole.class, category1, factory);
+            ServicesHandler.getInstance().getResourceHandler().getRisorse().clear();
+            ServicesHandler.getInstance().getFactoryModel().createProjectState(0, "INIZIALIZZAZIONE", "Stato iniziale.");
+            ServicesHandler.getInstance().getFactoryModel().createProjectState(1, "SVILUPPO", "Stato di sviluppo.");
+            ServicesHandler.getInstance().getFactoryModel().createProjectState(2, "TERMINALE", "Stato terminale.");
+            category1 = ServicesHandler.getInstance().getFactoryModel().createCategory("Sport", "Descrizione.");
+            category2 = ServicesHandler.getInstance().getFactoryModel().createCategory("Informatica", "Descrizione.");
+            user1 = ServicesHandler.getInstance().getFactoryModel().createUser("Daniele", "Baiocco", "1930", "Male");
+            user2 = ServicesHandler.getInstance().getFactoryModel().createUser("Giacomo", "Simonetti", "1999", "Male");
+            user3 = ServicesHandler.getInstance().getFactoryModel().createUser("Franca", "Suria", "1994", "Female");
+            user4 = ServicesHandler.getInstance().getFactoryModel().createUser("Sara", "Giampitelli", "2000", "Female");
+            user2.addRole(ProjectProposerRole.class, category1.getName());
             user2.getRole(ProjectProposerRole.class).getCategories().add(category2);
-            project1 = user2.getRole(ProjectProposerRole.class).createProject(1, "Campo da calcio", "calcio a 5", category1, factory);
-            project2 = user2.getRole(ProjectProposerRole.class).createProject(2, "SO", "sistema operativo", category2, factory);
-            user2.addRole(ProgramManagerRole.class, category1, factory);
-            user2.getRole(ProjectProposerRole.class).createTeam(user2, project1, factory);
-            user4.addRole(ProgramManagerRole.class, category2, factory);
-            user2.getRole(ProjectProposerRole.class).createTeam(user4, project2, factory);
-            user1.addRole(DesignerRole.class, category1, factory);
-            user3.addRole(DesignerRole.class, category2, factory);
+            user2.getRole(ProjectProposerRole.class).createProject("Campo da calcio", "calcio a 5", category1.getName());
+            project1 = ServicesHandler.getInstance().getResourceHandler().getAllProjects()
+                    .stream().filter(x -> x.getName() == "Campo da calcio").findFirst().orElse(null);
+            user2.getRole(ProjectProposerRole.class).createProject("SO", "sistema operativo", category2.getName());
+            project2 = ServicesHandler.getInstance().getResourceHandler().getAllProjects()
+                    .stream().filter(x -> x.getName() == "SO").findFirst().orElse(null);
+            user2.addRole(ProgramManagerRole.class, category1.getName());
+            user2.getRole(ProjectProposerRole.class).createTeam(user2.getId(), project1.getId());
+            user4.addRole(ProgramManagerRole.class, category2.getName());
+            user2.getRole(ProjectProposerRole.class).createTeam(user4.getId(), project2.getId());
+            user1.addRole(DesignerRole.class, category1.getName());
+            user3.addRole(DesignerRole.class, category2.getName());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Test
-    void setProjectManager() {
+    void testAcceptPR() {
         try {
-            IPartecipationRequest pr = user1.getRole(IDesignerRole.class).createPartecipationRequest(project1.getTeam(), factory);
-            user2.getRole(IProgramManagerRole.class).addDesigner(pr);
+            user2.getRole(ProgramManagerRole.class).openRegistrations(project1.getId());
+            user1.getRole(DesignerRole.class).createPartecipationRequest(project1.getId());
+            IPartecipationRequest pr = ServicesHandler.getInstance().getResourceHandler().getProject(project1.getId())
+                    .getTeam().getDesignerRequest().stream()
+                    .filter(d -> {
+                        try {
+                            return d.getPendingRole() == user1.getRole(DesignerRole.class);
+                        } catch (RoleException e) {
+                            e.printStackTrace();
+                        }
+                        return false;
+                    }).findFirst().orElse(null);
             assertThrows(IllegalArgumentException.class,
                     () -> {
-                        user2.getRole(IProgramManagerRole.class).setProjectManager(user1, project2, ProgramManagerRole.class);
-                    }, "L'utente non possiede il progetto con id:[2]");
-            assertThrows(IllegalArgumentException.class,
-                    () -> {
-                        user2.getRole(IProgramManagerRole.class).setProjectManager(user3, project1, ProgramManagerRole.class);
-                    }, "L'utente non è presente nel team del progetto!");
-            user2.getRole(IProgramManagerRole.class).setProjectManager(user1, project1, ProgramManagerRole.class);
-            assertEquals(user1, project1.getProjectManager());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Test
-    void createTeam() {
-        try {
-            assertTrue(user4.getRole(IProgramManagerRole.class).getTeams().contains(project2.getTeam()));
-            assertTrue(user4.getRole(IProgramManagerRole.class).getTeams().contains(project2));
-        } catch (Exception e) {
+                        user4.getRole(ProgramManagerRole.class).acceptPR(user1.getId(), project1.getId());
+                    }, "Il Program Manager non possiede il team: [1]");
+            user2.getRole(ProgramManagerRole.class).acceptPR(user1.getId(), project1.getId());
+            assertTrue(pr.getState());
+            assertEquals(pr.getDescription(), "Congratulations! You are accepted.");
+            assertFalse(project1.getTeam().getDesignerRequest().contains(pr));
+            assertTrue(project1.getTeam().getDesigners().contains(user1.getRole(DesignerRole.class)));
+        } catch (RoleException e) {
             e.printStackTrace();
         }
     }
@@ -94,63 +86,34 @@ class ProgramManagerRoleTest {
     @Test
     void testRemovePartecipationRequest() {
         try {
-            IPartecipationRequest pr = user1.getRole(IDesignerRole.class).createPartecipationRequest(project1.getTeam(), factory);
+            user2.getRole(ProgramManagerRole.class).openRegistrations(project1.getId());
+            user1.getRole(DesignerRole.class).createPartecipationRequest(project1.getId());
+            IPartecipationRequest pr = ServicesHandler.getInstance().getResourceHandler().getProject(project1.getId())
+                    .getTeam().getDesignerRequest().stream()
+                    .filter(d -> {
+                        try {
+                            return d.getPendingRole() == user1.getRole(DesignerRole.class);
+                        } catch (RoleException e) {
+                            e.printStackTrace();
+                        }
+                        return false;
+                    }).findFirst().orElse(null);
             assertThrows(IllegalArgumentException.class,
                     () -> {
-                        user4.getRole(IProgramManagerRole.class).removePartecipationRequest(pr, "Mi dispiace");
+                        user4.getRole(ProgramManagerRole.class).removePR(user1.getId(), project1.getId(), "Mi dispiace");
                     }, "Il Program Manager non possiede il team: [1]");
             assertThrows(IllegalArgumentException.class,
                     () -> {
-                        user2.getRole(IProgramManagerRole.class).removePartecipationRequest(pr, "");
+                        user2.getRole(ProgramManagerRole.class).removePR(user1.getId(), project1.getId(), "");
                     }, "La descrizione non può essere vuota!");
             assertThrows(IllegalArgumentException.class,
                     () -> {
-                        user2.getRole(IProgramManagerRole.class).removePartecipationRequest(pr, null);
+                        user2.getRole(ProgramManagerRole.class).removePR(user1.getId(), project1.getId(), null);
                     }, "La descrizione non può essere vuota!");
-            user2.getRole(IProgramManagerRole.class).removePartecipationRequest(pr, "Mi dispiace...");
+            user2.getRole(ProgramManagerRole.class).removePR(user1.getId(), project1.getId(), "Mi dispiace...");
             assertTrue(pr.getState());
             assertEquals(pr.getDescription(), "Mi dispiace...");
-            assertFalse(project1.getTeam().getPartecipationRequests().contains(pr));
-        } catch (RoleException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Test
-    void testRemoveDesigner() {
-        try {
-            IPartecipationRequest pr = user1.getRole(IDesignerRole.class).createPartecipationRequest(project1.getTeam(), factory);
-            user2.getRole(IProgramManagerRole.class).addDesigner(pr);
-            assertTrue(project1.getTeam().getDesigners().contains(user1));
-            assertThrows(IllegalArgumentException.class,
-                    () -> {
-                        user4.getRole(IProgramManagerRole.class).removeDesigner(user1, project1.getTeam());
-                    }, "Il Program Manager non possiede il team: [1]");
-            assertThrows(IllegalArgumentException.class,
-                    () -> {
-                        user2.getRole(IProgramManagerRole.class).removeDesigner(user3, project1.getTeam());
-                    }, "Il Program Manager non è interno al team: [1]");
-            user2.getRole(IProgramManagerRole.class).removeDesigner(user1, project1.getTeam());
-            assertFalse(project1.getTeam().getDesigners().contains(user1));
-        } catch (RoleException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Test
-    void testAddDesigner() {
-        try {
-            IPartecipationRequest pr = user1.getRole(IDesignerRole.class).createPartecipationRequest(project1.getTeam(), factory);
-            assertThrows(IllegalArgumentException.class,
-                    () -> {
-                        user4.getRole(IProgramManagerRole.class).addDesigner(pr);
-                    }, "Il Program Manager non possiede il team: [1]");
-            user2.getRole(IProgramManagerRole.class).addDesigner(pr);
-            assertTrue(pr.getState());
-            assertEquals(pr.getDescription(), "Congratulations! You are accepted.");
-            assertFalse(project1.getTeam().getPartecipationRequests().contains(pr));
-            assertTrue(project1.getTeam().getDesigners().contains(user1));
-
+            assertFalse(project1.getTeam().getDesignerRequest().contains(pr));
         } catch (RoleException e) {
             e.printStackTrace();
         }
@@ -159,11 +122,85 @@ class ProgramManagerRoleTest {
     @Test
     void testGetDesigners() {
         try {
-            IPartecipationRequest pr = user1.getRole(IDesignerRole.class).createPartecipationRequest(project1.getTeam(), factory);
-            user2.getRole(IProgramManagerRole.class).addDesigner(pr);
-            assertThrows(IllegalArgumentException.class, () -> user2.getRole(IProgramManagerRole.class).getDesigners(project2.getTeam()));
-            assertTrue(user2.getRole(IProgramManagerRole.class).getDesigners(project1.getTeam()).contains(user1));
+            user2.getRole(ProgramManagerRole.class).openRegistrations(project1.getId());
+            user1.getRole(DesignerRole.class).createPartecipationRequest(project1.getId());
+            IPartecipationRequest pr = ServicesHandler.getInstance().getResourceHandler().getProject(project1.getId())
+                    .getTeam().getDesignerRequest().stream()
+                    .filter(d -> {
+                        try {
+                            return d.getPendingRole() == user1.getRole(DesignerRole.class);
+                        } catch (RoleException e) {
+                            e.printStackTrace();
+                        }
+                        return false;
+                    }).findFirst().orElse(null);
+            user2.getRole(ProgramManagerRole.class).acceptPR(user1.getId(), project1.getId());
+            assertThrows(IllegalArgumentException.class, () -> user2.getRole(ProgramManagerRole.class).getDesigners(project2.getId()));
+            assertTrue(user2.getRole(ProgramManagerRole.class).getDesigners(project1.getId()).contains(user1));
         } catch (RoleException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    void testRemoveDesigner() {
+        try {
+            user2.getRole(ProgramManagerRole.class).openRegistrations(project1.getId());
+            user1.getRole(DesignerRole.class).createPartecipationRequest(project1.getId());
+            IPartecipationRequest pr = ServicesHandler.getInstance().getResourceHandler().getProject(project1.getId())
+                    .getTeam().getDesignerRequest().stream()
+                    .filter(d -> {
+                        try {
+                            return d.getPendingRole() == user1.getRole(DesignerRole.class);
+                        } catch (RoleException e) {
+                            e.printStackTrace();
+                        }
+                        return false;
+                    }).findFirst().orElse(null);
+            user2.getRole(ProgramManagerRole.class).acceptPR(user1.getId(), project1.getId());
+            assertTrue(project1.getTeam().getDesigners().contains(user1.getRole(DesignerRole.class)));
+            assertThrows(IllegalArgumentException.class,
+                    () -> {
+                        user4.getRole(ProgramManagerRole.class).removeDesigner(user1.getId(), project1.getId());
+                    }, "Il Program Manager non possiede il team: [1]");
+            assertThrows(IllegalArgumentException.class,
+                    () -> {
+                        user2.getRole(ProgramManagerRole.class).removeDesigner(user3.getId(), project1.getId());
+                    }, "Il Program Manager non è interno al team: [1]");
+            user2.getRole(ProgramManagerRole.class).removeDesigner(user1.getId(), project1.getId());
+            assertFalse(project1.getTeam().getDesigners().contains(user1));
+        } catch (RoleException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    void setProjectManager() {
+        try {
+            user2.getRole(ProgramManagerRole.class).openRegistrations(project1.getId());
+            user1.getRole(DesignerRole.class).createPartecipationRequest(project1.getId());
+            IPartecipationRequest pr = ServicesHandler.getInstance().getResourceHandler().getProject(project1.getId())
+                    .getTeam().getDesignerRequest().stream()
+                    .filter(d -> {
+                        try {
+                            return d.getPendingRole() == user1.getRole(DesignerRole.class);
+                        } catch (RoleException e) {
+                            e.printStackTrace();
+                        }
+                        return false;
+                    }).findFirst().orElse(null);
+            user2.getRole(ProgramManagerRole.class).acceptPR(user1.getId(), project1.getId());
+            assertThrows(IllegalArgumentException.class,
+                    () -> {
+                        user2.getRole(ProgramManagerRole.class).setProjectManager(user1.getId(), project2.getId());
+                    }, "L'utente non possiede il progetto con id:[2]");
+            assertThrows(IllegalArgumentException.class,
+                    () -> {
+                        user2.getRole(ProgramManagerRole.class).setProjectManager(user3.getId(), project1.getId());
+                    }, "L'utente non è presente nel team del progetto!");
+            user2.getRole(ProgramManagerRole.class).setProjectManager(user1.getId(), project1.getId());
+            assertEquals(user1.getRole(ProjectManagerRole.class), project1.getTeam().getProjectManager());
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -173,25 +210,60 @@ class ProgramManagerRoleTest {
         try {
             assertThrows(IllegalArgumentException.class,
                     () -> {
-                        user4.getRole(IProgramManagerRole.class).getPartecipationRequests(project1.getTeam());
+                        user4.getRole(ProgramManagerRole.class).getPartecipationRequests(project1.getId());
                     }, "Team non posseduto: [1]");
-            IPartecipationRequest pr = user1.getRole(IDesignerRole.class).createPartecipationRequest(project1.getTeam(), factory);
-            assertTrue(project1.getTeam().getPartecipationRequests().contains(pr));
+            user2.getRole(ProgramManagerRole.class).openRegistrations(project1.getId());
+            user1.getRole(DesignerRole.class).createPartecipationRequest(project1.getId());
+            IPartecipationRequest pr = ServicesHandler.getInstance().getResourceHandler().getProject(project1.getId())
+                    .getTeam().getDesignerRequest().stream()
+                    .filter(d -> {
+                        try {
+                            return d.getPendingRole() == user1.getRole(DesignerRole.class);
+                        } catch (RoleException e) {
+                            e.printStackTrace();
+                        }
+                        return false;
+                    }).findFirst().orElse(null);
+            assertTrue(project1.getTeam().getDesignerRequest().contains(pr));
         } catch (RoleException e) {
             e.printStackTrace();
         }
-
     }
 
     @Test
-    void testGetTeam() {
+    void testOpenRegistrations() {
         try {
-            assertEquals(project1.getTeam(), user2.getRole(IProgramManagerRole.class).getTeams().stream().findFirst().get());
-            assertNotEquals(project2.getTeam(), user2.getRole(IProgramManagerRole.class).getTeams().stream().findFirst().get());
+            assertThrows(IllegalArgumentException.class,
+                    () -> {
+                        user1.getRole(DesignerRole.class).createPartecipationRequest(project1.getId());
+                    }, "Le registrazioni non sono aperte !");
+            user2.getRole(ProgramManagerRole.class).openRegistrations(project1.getId());
+            user1.getRole(DesignerRole.class).createPartecipationRequest(project1.getId());
+            IPartecipationRequest pr = ServicesHandler.getInstance().getResourceHandler().getProject(project1.getId())
+                    .getTeam().getDesignerRequest().stream()
+                    .filter(d -> {
+                        try {
+                            return d.getPendingRole() == user1.getRole(DesignerRole.class);
+                        } catch (RoleException e) {
+                            e.printStackTrace();
+                        }
+                        return false;
+                    }).findFirst().orElse(null);
+            assertTrue(project1.getTeam().getDesignerRequest().contains(pr));
         } catch (RoleException e) {
             e.printStackTrace();
         }
     }
 
-
-}*/
+    @Test
+    void testCloseRegistrations() {
+        try {
+            user2.getRole(ProgramManagerRole.class).openRegistrations(project1.getId());
+            assertTrue(project1.getTeam().isOpen());
+            user2.getRole(ProgramManagerRole.class).closeRegistrations(project1.getId());
+            assertFalse(project1.getTeam().isOpen());
+        } catch (RoleException e) {
+            e.printStackTrace();
+    }
+    }
+}

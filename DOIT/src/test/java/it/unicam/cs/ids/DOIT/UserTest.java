@@ -2,7 +2,6 @@
 package it.unicam.cs.ids.DOIT;
 
 import it.unicam.cs.ids.DOIT.category.ICategory;
-import it.unicam.cs.ids.DOIT.category.ICategory;
 import it.unicam.cs.ids.DOIT.role.*;
 import it.unicam.cs.ids.DOIT.role.ProjectManagerRole;
 import it.unicam.cs.ids.DOIT.role.ProjectProposerRole;

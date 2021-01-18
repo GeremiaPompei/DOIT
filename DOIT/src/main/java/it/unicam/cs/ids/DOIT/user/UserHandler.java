@@ -9,10 +9,18 @@ import java.util.Set;
 
 public class UserHandler implements IUserHandler {
 
+    private static IUserHandler userHandler;
+
+    public static IUserHandler getInstance() {
+        if (userHandler == null)
+            userHandler = new UserHandler();
+        return userHandler;
+    }
+
     private IUser user;
     private Set<Class<? extends IRole>> choosableRoles;
 
-    public UserHandler() {
+    private UserHandler() {
         choosableRoles = new HashSet<>();
         choosableRoles.add(ProgramManagerRole.class);
         choosableRoles.add(ProjectProposerRole.class);

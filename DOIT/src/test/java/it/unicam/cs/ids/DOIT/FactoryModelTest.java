@@ -4,7 +4,6 @@ import it.unicam.cs.ids.DOIT.category.ICategory;
 import it.unicam.cs.ids.DOIT.partecipation_request.IPartecipationRequest;
 import it.unicam.cs.ids.DOIT.project.IProject;
 import it.unicam.cs.ids.DOIT.role.*;
-import it.unicam.cs.ids.DOIT.service.ResourceHandler;
 import it.unicam.cs.ids.DOIT.service.ServicesHandler;
 import it.unicam.cs.ids.DOIT.user.IUser;
 import org.junit.jupiter.api.BeforeEach;

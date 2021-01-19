@@ -1,7 +1,13 @@
 package it.unicam.cs.ids.DOIT.role;
 
-public interface IPartecipationRequestHandler {
-    void acceptPR(int idDesigner, int idProject) throws RoleException;
+import it.unicam.cs.ids.DOIT.partecipation_request.IPartecipationRequest;
 
-    void removePR(int idDesigner, int idProject, String description);
+import java.util.Set;
+
+public interface IPartecipationRequestHandler {
+    void acceptPR(int idRole, int idProject) throws RoleException;
+
+    void removePR(int idRole, int idProject, String description);
+
+    Set<IPartecipationRequest> getPartecipationRequestsByTeam(int idProject);
 }

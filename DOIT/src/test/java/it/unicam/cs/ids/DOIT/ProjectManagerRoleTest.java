@@ -1,3 +1,4 @@
+/*
 package it.unicam.cs.ids.DOIT;
 
 import it.unicam.cs.ids.DOIT.category.ICategory;
@@ -145,4 +146,4 @@ class ProjectManagerRoleTest {
             e.printStackTrace();
         }
     }
-}
+}*/

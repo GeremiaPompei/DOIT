@@ -4,7 +4,6 @@
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/project/IProject.java
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/role/Team.java
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/view/IView.java
-/Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/App.java
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/role/ITeam.java
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/view/ConsoleView.java
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/service/IResourceHandler.java
@@ -14,6 +13,7 @@
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/role/RoleException.java
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/role/ProgramManagerRole.java
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/user/User.java
+/Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/SpringBootController.java
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/role/IPendingRole.java
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/role/Role.java
 /Users/geremiapompei/Desktop/DOIT/DOIT/src/main/java/it/unicam/cs/ids/DOIT/project/ProjectState.java

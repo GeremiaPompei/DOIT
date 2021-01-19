@@ -8,6 +8,7 @@ function createRouteRole(name) {
 const routes = [
   {path: '/cerca', component: () => import('./components/cerca.js')},
   {path: '/login', name: 'login', component: () => import('./components/login.js')},
+  {path: '/signin', name: 'signin', component: () => import('./components/signin.js')},
   createRouteRole('project-proposer'),
   createRouteRole('program-manager'),
   createRouteRole('designer'),
@@ -43,16 +44,17 @@ const app = new Vue({
     signin(user) {
       this.load(true);
       this.roles = [];
-      fetch('/api/user/'+user).then(res=>res.json()).then(res=>{
-        res.roles.forEach(r=>this.roles.push(r));
-        this.$router.replace({path: '/user/'+user});
-        localStorage.setItem(key, user);
-       this.init();
-        this.load(false);
-      }).catch(err => {
-        alert(err);
-        this.load(false);
-      });
+      fetch('/api/user/?args=user create '+user.name+' '+user.surname+' '+user.birthDate+' '+user.sex)
+        .then(res=>res.json()).then(res => {
+          res.roles.forEach(r=>this.roles.push(r));
+          this.$router.replace({path: '/user/'+user.id});
+          localStorage.setItem(key, user.id);
+          this.init();
+          this.load(false);
+        }).catch(err => {
+          alert(err);
+          this.load(false);
+        });
     },
     login(user) {
       this.load(true);

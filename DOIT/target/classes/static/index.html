@@ -22,32 +22,44 @@
 </head>
 <body>
     <div id='app'>
-        <div class="topnav" id="myTopnav">
+        <div class="topnav" id="myTopnav" onclick="itemTap()">
             <router-link to="/cerca">
                 <a>CERCA</a>
             </router-link>
             <router-link v-show="user" v-for="role in roles" v-show="role" :to="'/'+role.name+'/'+user" :key="role.name">
                 <a>{{role.displayName}}</a>
             </router-link>
-            <router-link v-if="user" :to="'/user/'+user">
+            <router-link v-show="user" :to="'/user/'+user">
                 <a>USER</a>
             </router-link>
-            <router-link v-else to="/login">
+            <router-link v-show="!user" to="/login">
                 <a>Login</a>
+            </router-link>
+            <router-link v-show="!user" to="/signin">
+                <a>Signin</a>
             </router-link>
             <a href="javascript:void(0);" class="icon" onclick="iconTap()">
                 <i class="fa fa-bars"></i>
             </a>
         </div>
         <div v-if="loading" class="container-first-level"><div class="loader"></div></div>
-        <router-view @login="login" @logout="logout" @load="load"></router-view>
+        <router-view @login="signin" @login="login" @logout="logout" @load="load"></router-view>
     </div>
     <script src="router.js"></script>
     <script>
+        var flag = false;
+        function itemTap() {
+            flag=!flag;
+            var x = document.getElementById("myTopnav");
+            if(x.className.includes(" responsive") && flag) {
+                x.className = "topnav";
+            }
+        }
         function iconTap() {
             var x = document.getElementById("myTopnav");
             if (x.className === "topnav") {
                 x.className += " responsive";
+                flag = true;
             } else {
                 x.className = "topnav";
             }

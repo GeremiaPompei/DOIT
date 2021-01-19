@@ -28,6 +28,8 @@ public interface ITeam {
 
     Set<IPartecipationRequest> getDesignerRequest();
 
+    Set<IPartecipationRequest> getProgramManagerRequest();
+
     void openRegistrations();
 
     void closeRegistrations();

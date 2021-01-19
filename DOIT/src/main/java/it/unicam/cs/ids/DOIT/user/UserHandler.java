@@ -3,24 +3,18 @@ package it.unicam.cs.ids.DOIT.user;
 import it.unicam.cs.ids.DOIT.category.ICategory;
 import it.unicam.cs.ids.DOIT.role.*;
 import it.unicam.cs.ids.DOIT.service.ServicesHandler;
+import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@Service
 public class UserHandler implements IUserHandler {
-
-    private static IUserHandler userHandler;
-
-    public static IUserHandler getInstance() {
-        if (userHandler == null)
-            userHandler = new UserHandler();
-        return userHandler;
-    }
 
     private IUser user;
     private Set<Class<? extends IRole>> choosableRoles;
 
-    private UserHandler() {
+    public UserHandler() {
         choosableRoles = new HashSet<>();
         choosableRoles.add(ProgramManagerRole.class);
         choosableRoles.add(ProjectProposerRole.class);

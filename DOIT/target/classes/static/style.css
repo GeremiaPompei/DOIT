@@ -27,6 +27,8 @@ button {
   padding: 1rem;
   width: 70vw;
   font-size: larger;
+  border: 1px solid black;
+  border-radius: 0%;
 }
 
 .container {

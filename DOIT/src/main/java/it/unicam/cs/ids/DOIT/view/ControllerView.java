@@ -7,8 +7,7 @@ import it.unicam.cs.ids.DOIT.role.DesignerRole;
 import it.unicam.cs.ids.DOIT.role.ProgramManagerRole;
 import it.unicam.cs.ids.DOIT.role.ProjectProposerRole;
 import it.unicam.cs.ids.DOIT.service.ServicesHandler;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +16,7 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+@Service
 public class ControllerView {
 
     private IUserHandler controller;
@@ -32,6 +32,28 @@ public class ControllerView {
         ServicesHandler.getInstance().getFactoryModel().createProjectState(0, "INITIALIZATION", "description...");
         ServicesHandler.getInstance().getFactoryModel().createProjectState(1, "IN PROGRESS", "description...");
         ServicesHandler.getInstance().getFactoryModel().createProjectState(2, "TERMINAL", "description...");
+
+        //TODO da rimuovere, viene creato un utente con tutti i ruoli, viene creato un progetto e viene portato a termine.
+        createUser(new String[]{"", "1", "1", "1", "1"});
+        int idUser = ServicesHandler.getInstance().getResourceHandler().getAllUsers().stream().findAny().orElse(null).getId();
+        login(new String[]{"", idUser + ""});
+        addRole(new String[]{"", "ProjectProposerRole", "sport"});
+        addRole(new String[]{"", "ProgramManagerRole", "sport"});
+        addRole(new String[]{"", "DesignerRole", "sport"});
+        createProject(new String[]{"", "9", "9", "sport"});
+        int idProject = ServicesHandler.getInstance().getResourceHandler().getAllProjects().stream().findAny().orElse(null).getId();
+        /*choosePgm(new String[]{"", idUser + "", idProject + ""});
+        openRegistrations(new String[]{"", idProject + ""});
+        sendPrD(new String[]{"", idProject + ""});
+        removePr(new String[]{"", idUser + "", idProject + "", "Non", "vai", "bene!"});
+        sendPrD(new String[]{"", idProject + ""});
+        addDesigner(new String[]{"", idUser + "", idProject + ""});
+        choosePjm(new String[]{"", idUser + "", idProject + ""});
+        upgradeState(new String[]{"", idProject + ""});
+        upgradeState(new String[]{"", idProject + ""});
+        evaluateDesigner(new String[]{"", idUser + "", idProject + "", "3"});
+        exitAll(new String[]{"", idProject + ""});*/
+        System.err.println(idUser + " " + idProject);
     }
 
     public Map<String, Map<String, Function<String[], String>>> getCommands() {
@@ -97,10 +119,11 @@ public class ControllerView {
         Map<String, Function<String[], String>> map = new HashMap<>();
         map.put("create", this::createProject);
         map.put("choose-pgm", this::choosePgm);
-        map.put("list-pgm", this::listPgm);
+        map.put("list-pmrequest", this::listProgramManagerRequest);
         map.putAll(roleActions("ProjectProposerRole"));
-        map.put("help", (s) -> " > create idProject nameProject descriptionProject categoryProject \n > choose-pgm " +
-                "idUser idProject \n > list-pgm nameCategory \n > add-category nameCategory \n > remove-category nameCategory");
+        map.put("help", (s) -> " > create idProject nameProject descriptionProject categoryProject \n > list-pmrequest idCategory " +
+                "\n > choose-pgm idUser idProject \n > list-pgm nameCategory \n > add-category nameCategory " +
+                "\n > remove-category nameCategory");
         return map;
     }
 
@@ -109,18 +132,18 @@ public class ControllerView {
     }
 
     private String choosePgm(String[] s) {
-        return manageRunnable(() -> this.controller.getUser().getRole(ProjectProposerRole.class).createTeam(Integer.parseInt(s[1]), Integer.parseInt(s[2])));
+        return manageRunnable(() -> this.controller.getUser().getRole(ProjectProposerRole.class).acceptPR(Integer.parseInt(s[1]), Integer.parseInt(s[2])));
     }
 
-    private String listPgm(String[] s) {
+    private String listProgramManagerRequest(String[] s) {
         if (s.length == 1)
             return "Aggiungere una categoria!";
-        return manageException(() -> this.controller.getUser().getRole(ProjectProposerRole.class).findProgramManagerList(s[1]).toString());
+        return manageException(() -> this.controller.getUser().getRole(ProjectProposerRole.class).getPartecipationRequestsByTeam(Integer.parseInt(s[1])).toString());
     }
 
     private Map<String, Function<String[], String>> designerMap() {
         Map<String, Function<String[], String>> map = new HashMap<>();
-        map.put("send-pr", this::sendPr);
+        map.put("send-pr", this::sendPrD);
         map.put("list-projects", this::listProjectsDesigner);
         map.putAll(roleActions("DesignerRole"));
         map.put("evaluations", this::visualizeEvaluations);
@@ -133,14 +156,14 @@ public class ControllerView {
         return manageException(() -> controller.getUser().getRole(DesignerRole.class).getEvaluations().toString());
     }
 
-    private String sendPr(String[] s) {
+    private String sendPrD(String[] s) {
         return manageRunnable(() -> this.controller.getUser().getRole(DesignerRole.class).createPartecipationRequest(Integer.parseInt(s[1])));
     }
 
     private String listProjectsDesigner(String[] s) {
         if (s.length == 1)
             return "Aggiungere una categoria!";
-        return manageException(() -> this.controller.getUser().getRole(DesignerRole.class).getProjects(s[1]).toString());
+        return manageException(() -> this.controller.getUser().getRole(DesignerRole.class).getProjectsByCategory(s[1]).toString());
     }
 
     private Map<String, Function<String[], String>> programManagerMap() {
@@ -154,12 +177,23 @@ public class ControllerView {
         map.put("remove-designer", this::removeDesigner);
         map.put("open-registrations", this::openRegistrations);
         map.put("close-registrations", this::closeRegistrations);
+        map.put("list-projects", this::listProjectsProgramManager);
+        map.put("send-pr", this::sendPrPm);
         map.putAll(roleActions("ProgramManagerRole"));
         map.put("help", (s) -> " > add-designer idDesigner idTeam \n > remove-pr idDesigner idTeam reason \n > choose-pjm idDesigner "
                 + "idProject \n > list-d idProject \n > list-pr idProject \n > remove-designer idUser idProject " +
                 "\n > open-registrations idProject \n > close-registrations idProject \n > add-category nameCategory " +
-                "\n > remove-category nameCategory");
+                "\n > remove-category nameCategory \n > list-projects idCategory \n > send-pr idProject");
         return map;
+    }
+
+    private String sendPrPm(String[] s) {
+        return manageRunnable(() -> this.controller.getUser().getRole(ProgramManagerRole.class).createPartecipationRequest(Integer.parseInt(s[1])));
+    }
+
+    private String listProjectsProgramManager(String[] s) {
+        return manageException(() ->
+                this.controller.getUser().getRole(ProgramManagerRole.class).getProjectsByCategory(s[1]).toString());
     }
 
     private String removeDesigner(String[] s) {
@@ -244,7 +278,7 @@ public class ControllerView {
     private String listPR(String[] s) {
         if (s.length == 1)
             return "Aggiungere l'id di un progetto!";
-        return manageException(() -> this.controller.getUser().getRole(ProgramManagerRole.class).getPartecipationRequests(Integer.parseInt(s[1])).toString());
+        return manageException(() -> this.controller.getUser().getRole(ProgramManagerRole.class).getPartecipationRequestsByTeam(Integer.parseInt(s[1])).toString());
     }
 
     private String listDesignerForProgramManager(String[] s) {

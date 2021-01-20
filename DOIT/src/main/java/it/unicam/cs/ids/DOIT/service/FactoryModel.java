@@ -45,6 +45,7 @@ public class FactoryModel implements IFactoryModel {
     @Override
     public IPartecipationRequest createPartecipationRequest(IPendingRole role, ITeam team) {
         IPartecipationRequest partecipationRequest = new PartecipationRequest(role, team);
+        resourceHandler.insert(partecipationRequest);
         return partecipationRequest;
     }
 

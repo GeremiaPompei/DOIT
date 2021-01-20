@@ -2,7 +2,6 @@ package it.unicam.cs.ids.DOIT.user;
 
 import it.unicam.cs.ids.DOIT.role.IRole;
 import it.unicam.cs.ids.DOIT.role.RoleException;
-import org.springframework.stereotype.Service;
 
 import java.util.Set;
 

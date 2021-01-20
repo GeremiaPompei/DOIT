@@ -1,7 +1,7 @@
-/*
 
 package it.unicam.cs.ids.DOIT;
 
+import it.unicam.cs.ids.DOIT.category.ICategory;
 import it.unicam.cs.ids.DOIT.category.ICategory;
 import it.unicam.cs.ids.DOIT.role.*;
 import it.unicam.cs.ids.DOIT.role.ProjectManagerRole;
@@ -54,4 +54,3 @@ class UserTest {
         assertThrows(RoleException.class, () -> this.user1.getRole(ProjectProposerRole.class));
     }
 }
-*/

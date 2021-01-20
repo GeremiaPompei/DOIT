@@ -2,15 +2,12 @@ package it.unicam.cs.ids.DOIT.role;
 
 import it.unicam.cs.ids.DOIT.category.ICategory;
 import it.unicam.cs.ids.DOIT.partecipation_request.IPartecipationRequest;
-import it.unicam.cs.ids.DOIT.project.IProject;
-import it.unicam.cs.ids.DOIT.service.ServicesHandler;
 import it.unicam.cs.ids.DOIT.user.IUser;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class ProgramManagerRole extends Role implements IPartecipationRequestHandler, IPendingRole {
-    private Set<IPartecipationRequest> partecipationRequests;
+public class ProgramManagerRole extends Role implements IPartecipationRequestHandler {
 
     public ProgramManagerRole(IUser user, ICategory category) {
         super(user, category);
@@ -61,7 +58,7 @@ public class ProgramManagerRole extends Role implements IPartecipationRequestHan
         user.getRole(ProjectManagerRole.class).enterTeam(team.getId());
     }
 
-    public Set<IPartecipationRequest> getPartecipationRequestsByTeam(int idProject) {
+    public Set<IPartecipationRequest> getPartecipationRequests(int idProject) {
         ITeam team = getInnerTeam(idProject);
         if (!getTeams().contains(team))
             throw new IllegalArgumentException("Team non posseduto: [" + team.getId() + "]");
@@ -74,34 +71,6 @@ public class ProgramManagerRole extends Role implements IPartecipationRequestHan
 
     public void closeRegistrations(int idProject) {
         getInnerTeam(idProject).closeRegistrations();
-    }
-
-    @Override
-    public void createPartecipationRequest(int idProject) {
-        ITeam team = ServicesHandler.getInstance().getResourceHandler().getProject(idProject).getTeam();
-        getInnerCategory(team.getProject().getCategory().getName());
-        if (team.getProgramManagerRequest().stream().map(p -> p.getPendingRole()).collect(Collectors.toSet()).contains(this))
-            throw new IllegalArgumentException("Partecipation request gia presente nel team!");
-        if (team.getProgramManagerRequest() != null)
-            throw new IllegalArgumentException("Program Manager gia presente nel team!");
-        if (!this.getCategories().contains(team.getProject().getCategory()))
-            throw new IllegalArgumentException("L'utente non presenta la categoria: [" + team.getProject().getCategory() + "]");
-        IPartecipationRequest pr = ServicesHandler.getInstance().getFactoryModel().createPartecipationRequest(this, team);
-        if (this.partecipationRequests.contains(pr))
-            this.partecipationRequests.remove(pr);
-        this.partecipationRequests.add(pr);
-        if (team.getProgramManagerRequest().contains(pr))
-            team.getProgramManagerRequest().remove(pr);
-        team.getProgramManagerRequest().add(pr);
-    }
-
-    public Set<IProject> getProjectsByCategory(String idCategory) {
-        return ServicesHandler.getInstance().getResourceHandler().getProjectsByCategory(idCategory).stream()
-                .filter(p -> p.getTeam().getProgramManager() == null).collect(Collectors.toSet());
-    }
-
-    public Set<IPartecipationRequest> getMyPartecipationRequests() {
-        return this.partecipationRequests;
     }
 
     @Override

@@ -1,4 +1,3 @@
-/*
 
 package it.unicam.cs.ids.DOIT;
 
@@ -268,4 +267,3 @@ class ProgramManagerRoleTest {
     }
     }
 }
-*/

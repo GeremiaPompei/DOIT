@@ -3,12 +3,10 @@ package it.unicam.cs.ids.DOIT.user;
 import it.unicam.cs.ids.DOIT.category.ICategory;
 import it.unicam.cs.ids.DOIT.role.*;
 import it.unicam.cs.ids.DOIT.service.ServicesHandler;
-import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@Service
 public class UserHandler implements IUserHandler {
 
     private IUser user;

@@ -1,4 +1,3 @@
-/*
 
 package it.unicam.cs.ids.DOIT;
 
@@ -73,7 +72,7 @@ class DesignerRoleTest {
                         return false;
                     }).findFirst().orElse(null);
             assertThrows(IllegalArgumentException.class, () -> user1.getRole(DesignerRole.class).createPartecipationRequest(project1.getId()));
-            assertTrue(user1.getRole(DesignerRole.class).getMyPartecipationRequests().contains(pr));
+            assertTrue(user1.getRole(DesignerRole.class).getPartecipationRequests().contains(pr));
             assertTrue(project1.getTeam().getDesignerRequest().contains(pr));
             user2.getRole(ProgramManagerRole.class).acceptPR(user1.getId(), project1.getId());
             assertThrows(IllegalArgumentException.class,
@@ -89,8 +88,8 @@ class DesignerRoleTest {
             user2.getRole(ProgramManagerRole.class).openRegistrations(project1.getId());
             user1.getRole(DesignerRole.class).createPartecipationRequest(project1.getId());
             user2.getRole(ProgramManagerRole.class).acceptPR(user1.getId(), project1.getId());
-            assertTrue(user1.getRole(DesignerRole.class).getProjectsByCategory(category1.getName()).contains(project1));
-            assertFalse(user1.getRole(DesignerRole.class).getProjectsByCategory(category1.getName()).contains(project2));
+            assertTrue(user1.getRole(DesignerRole.class).getProjects(category1.getName()).contains(project1));
+            assertFalse(user1.getRole(DesignerRole.class).getProjects(category1.getName()).contains(project2));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -113,4 +112,3 @@ class DesignerRoleTest {
     }
 
 }
-*/

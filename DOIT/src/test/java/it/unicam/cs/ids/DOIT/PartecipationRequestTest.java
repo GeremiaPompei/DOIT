@@ -1,4 +1,3 @@
-/*
 package it.unicam.cs.ids.DOIT;
 
 import it.unicam.cs.ids.DOIT.category.ICategory;
@@ -104,4 +103,4 @@ class PartecipationRequestTest {
         pr.displayed("ok");
         assertTrue(pr.getState());
     }
-}*/
+}

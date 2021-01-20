@@ -16,7 +16,6 @@ public class Team implements ITeam {
     private ProgramManagerRole programManager;
     private Set<DesignerRole> designers;
     private Set<IPartecipationRequest> designerRequest;
-    private Set<IPartecipationRequest> programManagerRequest;
 
     public Team(IProject project, ProjectProposerRole projectProposer) {
         this.open = false;
@@ -25,7 +24,6 @@ public class Team implements ITeam {
         this.projectProposer = projectProposer;
         this.designers = new HashSet<>();
         this.designerRequest = new HashSet<>();
-        this.programManagerRequest = new HashSet<>();
     }
 
     @Override
@@ -57,11 +55,6 @@ public class Team implements ITeam {
 
     public Set<IPartecipationRequest> getDesignerRequest() {
         return designerRequest;
-    }
-
-    @Override
-    public Set<IPartecipationRequest> getProgramManagerRequest() {
-        return this.programManagerRequest;
     }
 
     public void setProgramManager(ProgramManagerRole programManagerRole) {

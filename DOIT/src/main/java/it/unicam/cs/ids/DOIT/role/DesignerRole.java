@@ -17,6 +17,7 @@ public class DesignerRole extends Role implements IPendingRole {
 
     private Set<IPartecipationRequest> partecipationRequests;
     private Map<ITeam, Integer> evaluations;
+    //TODO aggiungere informazioni del designer su esperienze pregresse.
     private Map<LocalDate, String> curriculumVitae;
 
 
@@ -27,7 +28,7 @@ public class DesignerRole extends Role implements IPendingRole {
         this.evaluations = new HashMap<>();
     }
 
-    public Set<IPartecipationRequest> getMyPartecipationRequests() {
+    public Set<IPartecipationRequest> getPartecipationRequests() {
         return partecipationRequests;
     }
 
@@ -51,7 +52,7 @@ public class DesignerRole extends Role implements IPendingRole {
         team.getDesignerRequest().add(pr);
     }
 
-    public Set<IProject> getProjectsByCategory(String idCategory) {
+    public Set<IProject> getProjects(String idCategory) {
         return ServicesHandler.getInstance().getResourceHandler().getProjectsByCategory(idCategory).stream()
                 .filter(p -> p.getTeam().isOpen()).collect(Collectors.toSet());
     }
@@ -62,10 +63,6 @@ public class DesignerRole extends Role implements IPendingRole {
 
     public Map<ITeam, Integer> getEvaluations() {
         return evaluations;
-    }
-
-    public Map<LocalDate, String> getCurriculumVitae() {
-        return curriculumVitae;
     }
 
     @Override

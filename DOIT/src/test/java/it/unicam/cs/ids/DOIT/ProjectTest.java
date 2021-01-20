@@ -1,4 +1,3 @@
-/*
 
 package it.unicam.cs.ids.DOIT;
 
@@ -8,11 +7,13 @@ import it.unicam.cs.ids.DOIT.role.ITeam;
 import it.unicam.cs.ids.DOIT.role.ProjectProposerRole;
 import it.unicam.cs.ids.DOIT.role.RoleException;
 import it.unicam.cs.ids.DOIT.role.Team;
+import it.unicam.cs.ids.DOIT.service.ResourceHandler;
 import it.unicam.cs.ids.DOIT.service.ServicesHandler;
 import it.unicam.cs.ids.DOIT.user.IUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static java.util.stream.Collectors.toSet;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProjectTest {
@@ -107,4 +108,3 @@ class ProjectTest {
 
     }
 }
-*/

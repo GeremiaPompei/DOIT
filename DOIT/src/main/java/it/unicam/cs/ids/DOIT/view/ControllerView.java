@@ -22,8 +22,8 @@ public class ControllerView {
     private IUserHandler controller;
     private Map<String, Map<String, Function<String[], String>>> commands;
 
-    public ControllerView(IUserHandler controller) {
-        this.controller = controller;
+    public ControllerView(IUserHandler userHandler) {
+        this.controller = userHandler;
         commands = new HashMap<>();
         loadCommands();
         ServicesHandler.getInstance().getFactoryModel().createCategory("SPORT", "description...");
@@ -34,12 +34,12 @@ public class ControllerView {
         ServicesHandler.getInstance().getFactoryModel().createProjectState(2, "TERMINAL", "description...");
 
         //TODO da rimuovere, viene creato un utente con tutti i ruoli, viene creato un progetto e viene portato a termine.
-        createUser(new String[]{"", "1", "1", "1", "1"});
+        /*createUser(new String[]{"", "1", "1", "1", "1", "email", "psw"});
         int idUser = ServicesHandler.getInstance().getResourceHandler().getAllUsers().stream().findAny().orElse(null).getId();
-        login(new String[]{"", idUser + ""});
-        addRole(new String[]{"", "ProjectProposerRole", "sport"});
-        addRole(new String[]{"", "ProgramManagerRole", "sport"});
-        addRole(new String[]{"", "DesignerRole", "sport"});
+        login(new String[]{"", "email", "psw"});
+        addRole(new String[]{"", "project-proposer", "sport"});
+        addRole(new String[]{"", "program-manager", "sport"});
+        addRole(new String[]{"", "designer", "sport"});
         createProject(new String[]{"", "9", "9", "sport"});
         int idProject = ServicesHandler.getInstance().getResourceHandler().getAllProjects().stream().findAny().orElse(null).getId();
         sendPrPm(new String[]{"", idProject + ""});
@@ -53,8 +53,8 @@ public class ControllerView {
         upgradeState(new String[]{"", idProject + ""});
         upgradeState(new String[]{"", idProject + ""});
         evaluateDesigner(new String[]{"", idUser + "", idProject + "", "3"});
-        exitAll(new String[]{"", idProject + ""});/**/
-        System.err.println(idUser + " " + idProject);
+        exitAll(new String[]{"", idProject + ""});
+        System.err.println(idUser + " " + idProject);*/
     }
 
     public Map<String, Map<String, Function<String[], String>>> getCommands() {
@@ -69,40 +69,40 @@ public class ControllerView {
         map.put("remove-role", this::removeRole);
         map.put("login", this::login);
         map.put("logout", this::logout);
-        map.put("help", (s) -> " > create idUser nameUser surnameUser birthYearUeser genderUser"
-                + "\n > add-role nameRole categoryName \n > remove-role nameRole \n > login idUser");
+        map.put("help", (s) -> " > create idUser nameUser surnameUser birthYearUeser genderUser email password"
+                + "\n > add-role nameRole categoryName \n > remove-role nameRole \n > login email password");
         return map;
     }
 
     private String createUser(String[] s) {
         return manageRunnable(() ->
-                this.controller.signIn(s[1], s[2], s[3], s[4]));
+                this.controller.signIn(s[1], s[2], s[3], s[4], s[5], s[6]));
     }
 
     private String addRole(String[] s) {
         return manageRunnable(() -> {
-            this.controller.addRole(s[1], s[2]);
+            this.controller.getUser().addRole(s[1], s[2]);
             loadCommands();
         });
     }
 
     private String removeRole(String[] s) {
         return manageRunnable(() -> {
-            this.controller.removeRole(s[1]);
+            this.controller.getUser().removeRole(s[1]);
             loadCommands();
         });
     }
 
     private String login(String[] s) {
         return manageRunnable(() -> {
-            this.controller.logIn(Integer.parseInt(s[1]));
+            this.controller.logIn(s[1], s[2]);
             loadCommands();
         });
     }
 
     private String logout(String[] s) {
         return manageRunnable(() -> {
-            this.controller.logOut();
+            this.controller.logOut(Integer.parseInt(s[1]), Integer.parseInt(s[2]));
             loadCommands();
         });
     }
@@ -112,7 +112,7 @@ public class ControllerView {
         map.put("users", (s) -> ServicesHandler.getInstance().getResourceHandler().getAllUsers() + "");
         map.put("projects", (s) -> ServicesHandler.getInstance().getResourceHandler().getAllProjects() + "");
         map.put("categories", (s) -> ServicesHandler.getInstance().getResourceHandler().getAllCategories() + "");
-        map.put("roles", (s) -> controller.getChoosableRoles().stream().map(c -> c.getSimpleName()).collect(Collectors.toSet()) + "");
+        map.put("roles", (s) -> ServicesHandler.getInstance().getResourceHandler().getRolesName() + "");
         return map;
     }
 
@@ -257,18 +257,18 @@ public class ControllerView {
 
     private String visualizeHistory(String role) {
         return manageException(() ->
-                this.controller.getUser().getRole(controller.getRole(role)).getHistory().toString());
+                this.controller.getUser().getRole(role).getHistory().toString());
     }
 
     private String addCategory(String[] s, String role) {
         return manageRunnable(() -> {
-            this.controller.getUser().getRole(controller.getRole(role)).addCategory(s[1]);
+            this.controller.getUser().getRole(role).addCategory(s[1]);
         });
     }
 
     private String removeCategory(String[] s, String role) {
         return manageRunnable(() -> {
-            this.controller.getUser().getRole(controller.getRole(role)).removeCategory(s[1]);
+            this.controller.getUser().getRole(role).removeCategory(s[1]);
         });
     }
 

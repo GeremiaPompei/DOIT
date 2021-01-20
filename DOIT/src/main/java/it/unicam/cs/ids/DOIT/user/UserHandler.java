@@ -1,71 +1,45 @@
 package it.unicam.cs.ids.DOIT.user;
 
-import it.unicam.cs.ids.DOIT.category.ICategory;
-import it.unicam.cs.ids.DOIT.role.*;
 import it.unicam.cs.ids.DOIT.service.ServicesHandler;
 import org.springframework.stereotype.Service;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Service
 public class UserHandler implements IUserHandler {
 
-    private IUser user;
-    private Set<Class<? extends IRole>> choosableRoles;
-
-    public UserHandler() {
-        choosableRoles = new HashSet<>();
-        choosableRoles.add(ProgramManagerRole.class);
-        choosableRoles.add(ProjectProposerRole.class);
-        choosableRoles.add(DesignerRole.class);
-        choosableRoles.add(ProjectManagerRole.class);
-    }
-
     @Override
-    public void logIn(int id) {
-        user = ServicesHandler.getInstance().getResourceHandler().getUser(id);
+    public IUser logIn(String email, String password) {
+        IUser user = ServicesHandler.getInstance().getResourceHandler().getUser(email);
         if (user == null)
             throw new NullPointerException("Utente non trovato!");
-    }
-
-    @Override
-    public void signIn(String name, String surname, String birthDate, String sex) {
-        ServicesHandler.getInstance().getFactoryModel().createUser(name, surname, birthDate, sex);
-    }
-
-    public void addRole(String roleName, String idCategory) throws Exception {
-        ICategory category = ServicesHandler.getInstance().getResourceHandler().getCategory(idCategory);
-        if (category == null)
-            throw new Exception("Categoria inesistente!");
-        if (roleName.equalsIgnoreCase("ProjectManagerRole"))
-            throw new Exception();
-        user.addRole(getRole(roleName), category.getName());
-    }
-
-    public void removeRole(String roleName) throws RoleException {
-        Class<? extends IRole> clazz = getRole(roleName);
-        if (!user.getRole(clazz).getTeams().isEmpty())
-            throw new IllegalArgumentException("Impossibile eliminare un ruolo se contiene team in esecuzione!");
-        user.removeRole(clazz);
-    }
-
-
-    public Class<? extends IRole> getRole(String roleName) {
-        return choosableRoles.stream().filter(c -> c.getSimpleName().equalsIgnoreCase(roleName)).findAny().orElse(null);
-    }
-
-    public Set<Class<? extends IRole>> getChoosableRoles() {
-        return choosableRoles;
-    }
-
-    @Override
-    public void logOut() {
-        user = null;
-    }
-
-    @Override
-    public IUser getUser() {
+        if (!user.getPassword().equals(password))
+            throw new NullPointerException("Password errata!");
+        user.getToken().generateToken();
         return user;
+    }
+
+    @Override
+    public void signIn(String name, String surname, String birthDate, String sex, String email, String password) {
+        IUser user = ServicesHandler.getInstance().getResourceHandler().getUser(email);
+        if (user != null)
+            throw new IllegalArgumentException("Email gia usata!");
+        ServicesHandler.getInstance().getFactoryModel().createUser(name, surname, birthDate, sex, email, password);
+    }
+
+    @Override
+    public void logOut(int idUser, int token) {
+        IUser user = ServicesHandler.getInstance().getResourceHandler().getUser(idUser);
+        user.getToken().clearToken();
+    }
+
+    @Override
+    public IUser getUser(int idUser, int token) {
+        IUser user = ServicesHandler.getInstance().getResourceHandler().getUser(idUser);
+        if (user == null) return null;
+        user.getToken().checkToken(token);
+        return user;
+    }
+
+    public IUser getUser() {
+        return null;
     }
 }

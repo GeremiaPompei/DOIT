@@ -1,8 +1,7 @@
 package it.unicam.cs.ids.DOIT.user;
 
 import it.unicam.cs.ids.DOIT.category.ICategory;
-import it.unicam.cs.ids.DOIT.role.IRole;
-import it.unicam.cs.ids.DOIT.role.RoleException;
+import it.unicam.cs.ids.DOIT.role.*;
 import it.unicam.cs.ids.DOIT.service.ServicesHandler;
 
 import java.util.HashSet;
@@ -15,15 +14,23 @@ public class User implements IUser {
     private String surname;
     private String birthDate;
     private String sex;
+    private String email;
+    private String password;
     private Set<IRole> roles;
+    private TokenHandler token;
 
-    public User(int id, String name, String surname, String birthYear, String sex) {
-        this.id = id;
+    public User(String name, String surname, String birthDate, String sex, String email, String password) {
+        do {
+            this.id = ServicesHandler.getInstance().getIdGenerator().getId();
+        } while (ServicesHandler.getInstance().getResourceHandler().getUser(this.id) != null);
         this.name = name;
         this.surname = surname;
-        this.birthDate = birthYear;
+        this.birthDate = birthDate;
         this.sex = sex;
+        this.email = email;
+        this.password = password;
         this.roles = new HashSet<>();
+        this.token = new TokenHandler();
     }
 
     public int getId() {
@@ -46,9 +53,23 @@ public class User implements IUser {
         return sex;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public TokenHandler getToken() {
+        return token;
+    }
+
     public <T extends IRole> boolean addRole(Class<T> clazz, String idCategory)
             throws ReflectiveOperationException {
         ICategory category = ServicesHandler.getInstance().getResourceHandler().getCategory(idCategory);
+        if (category == null)
+            throw new NullPointerException();
         return this.roles.add(ServicesHandler.getInstance().getFactoryModel().createRole(clazz, this, category));
     }
 
@@ -60,7 +81,9 @@ public class User implements IUser {
                 .orElseThrow(RoleException::new));
     }
 
-    public <T extends IRole> boolean removeRole(Class<T> clazz) {
+    public <T extends IRole> boolean removeRole(Class<T> clazz) throws RoleException {
+        if (!this.getRole(clazz).getTeams().isEmpty())
+            throw new IllegalArgumentException("Impossibile eliminare un ruolo se contiene team in esecuzione!");
         IRole role = this.roles
                 .stream()
                 .filter(clazz::isInstance)
@@ -69,6 +92,24 @@ public class User implements IUser {
         if (!role.getTeams().isEmpty())
             throw new IllegalArgumentException("Bisogna non possedere alcun progetto nel ruolo da eliminare!");
         return this.roles.remove(role);
+    }
+
+    @Override
+    public <T extends IRole> boolean addRole(String idRole, String idCategory) throws ReflectiveOperationException {
+        Class clazz = Class.forName(ServicesHandler.getInstance().getResourceHandler().getRolesByName(idRole));
+        return addRole(clazz, idCategory);
+    }
+
+    @Override
+    public <T extends IRole> T getRole(String idRole) throws RoleException, ClassNotFoundException {
+        Class clazz = Class.forName(ServicesHandler.getInstance().getResourceHandler().getRolesByName(idRole));
+        return (T) getRole(clazz);
+    }
+
+    @Override
+    public <T extends IRole> boolean removeRole(String idRole) throws ClassNotFoundException, RoleException {
+        Class clazz = Class.forName(ServicesHandler.getInstance().getResourceHandler().getRolesByName(idRole));
+        return removeRole(clazz);
     }
 
     public Set<IRole> getRoles() {
@@ -94,8 +135,11 @@ public class User implements IUser {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
-                ", birthDate=" + birthDate +
+                ", birthDate='" + birthDate + '\'' +
                 ", sex='" + sex + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", token=" + token +
                 ", roles=" + roles +
                 '}';
     }

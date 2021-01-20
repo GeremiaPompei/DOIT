@@ -1,6 +1,6 @@
 package it.unicam.cs.ids.DOIT.view;
 
-import it.unicam.cs.ids.DOIT.user.IUserHandler;
+import it.unicam.cs.ids.DOIT.user.UserHandler;
 
 import java.util.Map;
 import java.util.Scanner;
@@ -13,10 +13,10 @@ public class ConsoleView implements IView {
         this.scanner = new Scanner(System.in);
     }
 
-    public void start(IUserHandler controller) {
+    public void start() {
         String command1 = "";
         Map<String, Map<String, Function<String[], String>>> commands;
-        commands = new ControllerView(controller).getCommands();
+        commands = new ControllerView(new UserHandler()).getCommands();
         System.out.println("***DOIT***");
         while (!command1.equalsIgnoreCase("exit")) {
             System.out.println(" Write \"exit\" to leave app!");

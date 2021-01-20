@@ -15,7 +15,7 @@ public interface IFactoryModel {
 
     ProjectState createProjectState(int id, String name, String description);
 
-    IUser createUser(String name, String surname, String birthdDay, String sex);
+    IUser createUser(String name, String surname, String birthdDay, String sex, String email, String password);
 
     IPartecipationRequest createPartecipationRequest(IPendingRole role, ITeam team);
 

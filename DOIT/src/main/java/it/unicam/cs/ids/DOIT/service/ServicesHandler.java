@@ -10,13 +10,15 @@ public class ServicesHandler {
         return servicesHandler;
     }
 
+    private IFactoryModel factoryModel;
+    private IResourceHandler resourceHandler;
+    private IIdGenerator idGenerator;
+
     private ServicesHandler() {
         this.resourceHandler = new ResourceHandler();
         this.factoryModel = new FactoryModel(resourceHandler);
+        this.idGenerator = new IdGenerator();
     }
-
-    private IFactoryModel factoryModel;
-    private IResourceHandler resourceHandler;
 
     public IFactoryModel getFactoryModel() {
         return factoryModel;
@@ -24,5 +26,9 @@ public class ServicesHandler {
 
     public IResourceHandler getResourceHandler() {
         return resourceHandler;
+    }
+
+    public IIdGenerator getIdGenerator() {
+        return idGenerator;
     }
 }

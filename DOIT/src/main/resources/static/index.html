@@ -22,14 +22,15 @@
 </head>
 <body>
     <div id='app'>
+        <div v-if="loading" class="container-first-level"><div class="loader"></div></div>
         <div class="topnav" id="myTopnav" onclick="itemTap()">
             <router-link to="/cerca">
                 <a>CERCA</a>
             </router-link>
-            <router-link v-show="user" v-for="role in roles" v-show="role" :to="'/'+role.name+'/'+user" :key="role.name">
+            <router-link v-show="user" v-for="role in roles" v-show="role" :to="'/'+role.name" :key="role.name">
                 <a>{{role.displayName}}</a>
             </router-link>
-            <router-link v-show="user" :to="'/user/'+user">
+            <router-link v-show="user" to="/user">
                 <a>USER</a>
             </router-link>
             <router-link v-show="!user" to="/login">
@@ -42,8 +43,7 @@
                 <i class="fa fa-bars"></i>
             </a>
         </div>
-        <div v-if="loading" class="container-first-level"><div class="loader"></div></div>
-        <router-view @login="signin" @login="login" @logout="logout" @load="load"></router-view>
+        <router-view @load="load"></router-view>
     </div>
     <script src="router.js"></script>
     <script>

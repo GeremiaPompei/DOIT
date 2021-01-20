@@ -16,12 +16,23 @@ public interface IUser {
 
     String getSex();
 
-    <T extends IRole> boolean addRole(Class<T> clazz, String idCategory)
-            throws ReflectiveOperationException;
+    String getEmail();
+
+    String getPassword();
+
+    TokenHandler getToken();
+
+    <T extends IRole> boolean addRole(Class<T> clazz, String idCategory) throws ReflectiveOperationException;
 
     <T extends IRole> T getRole(Class<T> clazz) throws RoleException;
 
-    <T extends IRole> boolean removeRole(Class<T> clazz);
+    <T extends IRole> boolean removeRole(Class<T> clazz) throws RoleException;
+
+    <T extends IRole> boolean addRole(String idRole, String idCategory) throws ReflectiveOperationException;
+
+    <T extends IRole> T getRole(String idRole) throws RoleException, ClassNotFoundException;
+
+    <T extends IRole> boolean removeRole(String idRole) throws ClassNotFoundException, RoleException;
 
     Set<IRole> getRoles();
 

@@ -14,8 +14,10 @@ public class Project implements IProject {
     private ITeam team;
     private ICategory category;
 
-    public Project(int id, String name, String description, ICategory category) {
-        this.id = id;
+    public Project(String name, String description, ICategory category) {
+        do {
+            this.id = ServicesHandler.getInstance().getIdGenerator().getId();
+        } while (ServicesHandler.getInstance().getResourceHandler().getProject(this.id) != null);
         this.name = name;
         this.description = description;
         this.category = category;

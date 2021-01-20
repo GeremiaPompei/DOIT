@@ -9,6 +9,10 @@ import it.unicam.cs.ids.DOIT.user.IUser;
 import java.util.Set;
 
 public interface IResourceHandler {
+    Set<String> getRolesName();
+
+    String getRolesByName(String key);
+
     <T> void insert(T t);
 
     <T> void remove(T t);
@@ -16,6 +20,8 @@ public interface IResourceHandler {
     IProject getProject(int id);
 
     IUser getUser(int id);
+
+    IUser getUser(String email);
 
     ICategory getCategory(String id);
 

@@ -3,8 +3,7 @@ package it.unicam.cs.ids.DOIT.service;
 import it.unicam.cs.ids.DOIT.project.IProject;
 import it.unicam.cs.ids.DOIT.project.ProjectState;
 import it.unicam.cs.ids.DOIT.category.ICategory;
-import it.unicam.cs.ids.DOIT.role.IRole;
-import it.unicam.cs.ids.DOIT.role.RoleException;
+import it.unicam.cs.ids.DOIT.role.*;
 import it.unicam.cs.ids.DOIT.user.IUser;
 
 import java.util.*;
@@ -14,9 +13,15 @@ import java.util.stream.Collectors;
 public class ResourceHandler implements IResourceHandler {
 
     private final Set<Object> risorse;
+    private final Map<String, String> roles;
 
     ResourceHandler() {
-        risorse = new HashSet<>();
+        this.risorse = new HashSet<>();
+        this.roles = new HashMap<>();
+        this.roles.put("project-proposer", "it.unicam.cs.ids.DOIT.role.ProjectProposerRole");
+        this.roles.put("program-manager", "it.unicam.cs.ids.DOIT.role.ProgramManagerRole");
+        this.roles.put("designer", "it.unicam.cs.ids.DOIT.role.DesignerRole");
+        this.roles.put("project-manager", "it.unicam.cs.ids.DOIT.role.ProjectManagerRole");
     }
 
     private <T> T searchOne(Class<T> clazz, Predicate<T> p) {
@@ -29,6 +34,14 @@ public class ResourceHandler implements IResourceHandler {
                 .filter(p).collect(Collectors.toSet());
     }
 
+    public Set<String> getRolesName() {
+        return roles.keySet();
+    }
+
+    public String getRolesByName(String key) {
+        return roles.get(key);
+    }
+
     public IProject getProject(int id) {
         return searchOne(IProject.class, p -> p.getId() == id);
     }
@@ -39,6 +52,11 @@ public class ResourceHandler implements IResourceHandler {
 
     public IUser getUser(int id) {
         return searchOne(IUser.class, p -> p.getId() == id);
+    }
+
+    @Override
+    public IUser getUser(String email) {
+        return searchOne(IUser.class, u -> u.getEmail().equals(email));
     }
 
     @Override

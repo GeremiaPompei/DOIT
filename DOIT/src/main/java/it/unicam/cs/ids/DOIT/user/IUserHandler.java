@@ -1,25 +1,14 @@
 package it.unicam.cs.ids.DOIT.user;
 
-import it.unicam.cs.ids.DOIT.role.IRole;
-import it.unicam.cs.ids.DOIT.role.RoleException;
-import org.springframework.stereotype.Service;
-
-import java.util.Set;
 
 public interface IUserHandler {
-    void logIn(int id);
+    IUser logIn(String email, String password);
 
-    void signIn(String name, String surname, String birthDate, String sex);
+    void signIn(String name, String surname, String birthDate, String sex, String email, String password);
 
-    void logOut();
+    void logOut(int idUser, int token);
+
+    IUser getUser(int idUser, int token);
 
     IUser getUser();
-
-    void addRole(String roleName, String idCategory) throws Exception;
-
-    void removeRole(String roleName) throws RoleException;
-
-    Set<Class<? extends IRole>> getChoosableRoles();
-
-    Class<? extends IRole> getRole(String roleName);
 }

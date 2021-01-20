@@ -1,10 +1,9 @@
+/*
 package it.unicam.cs.ids.DOIT;
 
 import it.unicam.cs.ids.DOIT.category.ICategory;
 import it.unicam.cs.ids.DOIT.role.ProjectProposerRole;
 import it.unicam.cs.ids.DOIT.role.RoleException;
-import it.unicam.cs.ids.DOIT.service.IFactoryModel;
-import it.unicam.cs.ids.DOIT.service.IResourceHandler;
 import it.unicam.cs.ids.DOIT.service.ServicesHandler;
 import it.unicam.cs.ids.DOIT.user.IUser;
 import it.unicam.cs.ids.DOIT.user.IUserHandler;
@@ -89,4 +88,4 @@ class UserHandlerTest {
         userHandler.logOut();
         assertNull(userHandler.getUser());
     }
-}
+}*/

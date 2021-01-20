@@ -92,7 +92,7 @@ public abstract class Role implements IRole {
                 .orElseThrow(() -> new IllegalArgumentException("L'utente non presenta la categoria!"));
     }
 
-    protected IPartecipationRequest getInnerPR(int idDesigner, int idProject) {
+    protected IPartecipationRequest getInnerDesignerRequest(int idDesigner, int idProject) {
         IPartecipationRequest pr = this.getTeams().stream()
                 .filter(t -> t.getProject().getId() == idProject)
                 .findAny()
@@ -100,7 +100,20 @@ public abstract class Role implements IRole {
                 .getDesignerRequest().stream()
                 .filter(t -> t.getPendingRole().getUser().getId() == idDesigner)
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("Non vi è una request fatta dal designer con id: [" + idDesigner + "]"));
+                .orElseThrow(() -> new IllegalArgumentException("Non vi è una request fatta dal ruolo con id: [" + idDesigner + "]"));
+        getInnerCategory(pr.getTeam().getProject().getCategory().getName());
+        return pr;
+    }
+
+    protected IPartecipationRequest getInnerProgramManagerRequest(int idDesigner, int idProject) {
+        IPartecipationRequest pr = this.getTeams().stream()
+                .filter(t -> t.getProject().getId() == idProject)
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("Non sei in possesso del team con id: [" + idProject + "]"))
+                .getProgramManagerRequest().stream()
+                .filter(t -> t.getPendingRole().getUser().getId() == idDesigner)
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("Non vi è una request fatta dal ruolo con id: [" + idDesigner + "]"));
         getInnerCategory(pr.getTeam().getProject().getCategory().getName());
         return pr;
     }

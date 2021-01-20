@@ -3,7 +3,6 @@ package it.unicam.cs.ids.DOIT.service;
 import it.unicam.cs.ids.DOIT.project.IProject;
 import it.unicam.cs.ids.DOIT.project.ProjectState;
 import it.unicam.cs.ids.DOIT.category.ICategory;
-import it.unicam.cs.ids.DOIT.partecipation_request.IPartecipationRequest;
 import it.unicam.cs.ids.DOIT.role.IRole;
 import it.unicam.cs.ids.DOIT.role.RoleException;
 import it.unicam.cs.ids.DOIT.user.IUser;

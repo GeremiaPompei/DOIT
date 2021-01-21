@@ -3,16 +3,14 @@ package it.unicam.cs.ids.DOIT.user;
 import it.unicam.cs.ids.DOIT.category.ICategory;
 import it.unicam.cs.ids.DOIT.role.*;
 import it.unicam.cs.ids.DOIT.service.ServicesHandler;
+import org.hibernate.annotations.ColumnTransformer;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-@Entity
+//@Entity
 public class User implements IUser {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -6,8 +6,6 @@ import it.unicam.cs.ids.DOIT.category.ICategory;
 import it.unicam.cs.ids.DOIT.project.*;
 import it.unicam.cs.ids.DOIT.role.IRole;
 import it.unicam.cs.ids.DOIT.user.IUser;
-import it.unicam.cs.ids.DOIT.user.User;
-import it.unicam.cs.ids.DOIT.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
@@ -16,10 +14,10 @@ import java.util.Map;
 import java.util.Set;
 
 public class Repository implements IResourceHandler {
-    @Autowired
+    /*@Autowired
     private UserRepository userRepository;
     @Autowired
-    private ProjectRepository projectRepository;
+    private ProjectRepository projectRepository;*/
     @Autowired
     private CategoryRepository categoryRepository;
     @Autowired
@@ -44,11 +42,11 @@ public class Repository implements IResourceHandler {
 
     @Override
     public <T> void insert(T t) {
-        if (User.class.equals(t.getClass())) {
+        /*if (User.class.equals(t.getClass())) {
             userRepository.save((User) t);
         } else if (Project.class.equals(t.getClass())) {
             projectRepository.save((Project) t);
-        } else if (Category.class.equals(t.getClass())) {
+        } else*/ if (Category.class.equals(t.getClass())) {
             categoryRepository.save((Category) t);
         } else if (ProjectState.class.equals(t.getClass())) {
             projectStateRepository.save((ProjectState) t);
@@ -57,11 +55,11 @@ public class Repository implements IResourceHandler {
 
     @Override
     public <T> void remove(T t) {
-        if (User.class.equals(t.getClass())) {
+        /*if (User.class.equals(t.getClass())) {
             userRepository.delete((User) t);
         } else if (Project.class.equals(t.getClass())) {
             projectRepository.delete((Project) t);
-        } else if (Category.class.equals(t.getClass())) {
+        } else*/ if (Category.class.equals(t.getClass())) {
             categoryRepository.delete((Category) t);
         } else if (ProjectState.class.equals(t.getClass())) {
             projectStateRepository.delete((ProjectState) t);
@@ -70,22 +68,22 @@ public class Repository implements IResourceHandler {
 
     @Override
     public IProject getProject(Long id) {
-        return projectRepository.findById(id).get();
+        return null;//projectRepository.findById(id).get();
     }
 
     @Override
     public IUser getUser(Long id) {
-        return userRepository.findById(id).get();
+        return null;//userRepository.findById(id).get();
     }
 
     @Override
     public IUser getUser(String email) {
-        Iterator<User> ur = userRepository.findAll().iterator();
+        /*Iterator<User> ur = userRepository.findAll().iterator();
         while (ur.hasNext()) {
             User user = ur.next();
             if (user.getEmail().equals(email))
                 return user;
-        }
+        }*/
         return null;
     }
 

@@ -19,7 +19,6 @@ public class DesignerRole extends Role implements IPendingRole {
     private Map<ITeam, Integer> evaluations;
     private Map<LocalDate, String> curriculumVitae;
 
-
     public DesignerRole(IUser user, ICategory category) {
         super(user, category);
         this.partecipationRequests = new HashSet<>();

@@ -17,7 +17,7 @@ public class ServicesHandler {
     private IIdGenerator idGenerator;
 
     private ServicesHandler() {
-        this.resourceHandler = new Repository();
+        this.resourceHandler = new ResourceHandler();
         this.factoryModel = new FactoryModel(resourceHandler);
         this.idGenerator = new IdGenerator();
     }

@@ -11,6 +11,5 @@ public class App {
             view = new SpringBootServer(args);
         view.start();
         view.stop();
-
     }
 }

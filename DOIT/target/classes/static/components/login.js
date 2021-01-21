@@ -1,7 +1,7 @@
 export default Vue.component('login', {
     template: `
-    <div class='container' @submit.prevent="login">
-        <form>
+    <div class='container'>
+        <form @submit.prevent="login">
             <input type="text" v-model="email" placeholder="Email">
             <input type="password" v-model="password" placeholder="Password">
             <input type="submit" value="Login">
@@ -17,14 +17,14 @@ export default Vue.component('login', {
     methods: {
         login() {
             this.$emit('load',true);
-            fetch('/api/user/login', {method: 'POST', body: {
-                'email': this.email,
-                'password': this.password
-            }, headers: {'Content-Type': 'application/json'}})
-            .then(res => res.json())
+            fetch('/api/user/login', {
+                method: 'POST', 
+                body: this.email + " " + this.password , 
+                headers: {'Content-Type': 'application/json'}})
+            .then(res => res.text())
             .then(res => {
-                this.$emit('load',false); 
-                alert(res.message);
+                this.$emit('load',false);
+                alert(res)
             });
         }
     }

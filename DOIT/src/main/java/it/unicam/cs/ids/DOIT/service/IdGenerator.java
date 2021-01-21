@@ -9,7 +9,7 @@ public class IdGenerator implements IIdGenerator {
         this.rnd = new Random();
     }
 
-    public int getId() {
-        return 100000 + rnd.nextInt(900000);
+    public Long getId() {
+        return (long)(100000 + rnd.nextInt(900000));
     }
 }

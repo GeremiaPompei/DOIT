@@ -33,7 +33,7 @@ public class UserHandler implements IUserHandler {
     }
 
     @Override
-    public IUser getUser(Long idUser, int token) {
+    public IUser getUser(Long idUser, Long token) {
         IUser user = ServicesHandler.getInstance().getResourceHandler().getUser(idUser);
         if (user == null) return null;
         user.getToken().checkToken(token);

@@ -12,9 +12,9 @@ import java.util.Objects;
 
 //@Entity
 public class Project implements IProject {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    //@Id
+    //@GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id = ServicesHandler.getInstance().getIdGenerator().getId();
     private String name;
     private String description;
     private ProjectState projectState;

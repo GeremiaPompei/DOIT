@@ -9,5 +9,5 @@ public interface IUserHandler {
 
     void logOut(Long idUser, Long token);
 
-    IUser getUser(Long idUser, int token);
+    IUser getUser(Long idUser, Long token);
 }

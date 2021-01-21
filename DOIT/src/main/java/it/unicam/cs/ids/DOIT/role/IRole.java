@@ -11,9 +11,9 @@ public interface IRole {
 
     Set<ITeam> getTeams();
 
-    void enterTeam(int idProject);
+    void enterTeam(Long idProject);
 
-    void exitTeam(int idProject);
+    void exitTeam(Long idProject);
 
     Set<ICategory> getCategories();
 

@@ -17,15 +17,15 @@ public interface IResourceHandler {
 
     <T> void remove(T t);
 
-    IProject getProject(int id);
+    IProject getProject(Long id);
 
-    IUser getUser(int id);
+    IUser getUser(Long id);
 
     IUser getUser(String email);
 
     ICategory getCategory(String id);
 
-    ProjectState getProjectState(int id);
+    ProjectState getProjectState(Long id);
 
     Set<IUser> getAllUsers();
 

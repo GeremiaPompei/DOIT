@@ -6,7 +6,7 @@ import it.unicam.cs.ids.DOIT.role.RoleException;
 import java.util.Set;
 
 public interface IUser {
-    int getId();
+    Long getId();
 
     String getName();
 

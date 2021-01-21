@@ -6,10 +6,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class SpringBootServer implements IView {
+    private String[] args;
+
+    public SpringBootServer(String[] args) {
+        this.args = args;
+    }
 
     @Override
     public void start() {
-        SpringApplication.run(SpringBootServer.class);
+        SpringApplication.run(SpringBootServer.class, args);
     }
 
     @Override

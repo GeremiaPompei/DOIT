@@ -5,7 +5,7 @@ import it.unicam.cs.ids.DOIT.role.ITeam;
 
 public interface IProject {
 
-    int getId();
+    Long getId();
 
     String getName();
 

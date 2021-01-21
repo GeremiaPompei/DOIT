@@ -42,15 +42,15 @@ public class ResourceHandler implements IResourceHandler {
         return roles.get(key);
     }
 
-    public IProject getProject(int id) {
+    public IProject getProject(Long id) {
         return searchOne(IProject.class, p -> p.getId() == id);
     }
 
-    public ProjectState getProjectState(int id) {
+    public ProjectState getProjectState(Long id) {
         return searchOne(ProjectState.class, p -> p.getId() == id);
     }
 
-    public IUser getUser(int id) {
+    public IUser getUser(Long id) {
         return searchOne(IUser.class, p -> p.getId() == id);
     }
 

@@ -6,7 +6,7 @@ import it.unicam.cs.ids.DOIT.project.IProject;
 import java.util.Set;
 
 public interface ITeam {
-    int getId();
+    Long getId();
 
     boolean isOpen();
 

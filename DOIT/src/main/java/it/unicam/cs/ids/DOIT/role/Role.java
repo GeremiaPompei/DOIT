@@ -41,14 +41,14 @@ public abstract class Role implements IRole {
     }
 
     @Override
-    public void exitTeam(int idProject) {
+    public void exitTeam(Long idProject) {
         ITeam team = this.getInnerTeam(idProject);
         history.add(team);
         teams.remove(team);
     }
 
     @Override
-    public void enterTeam(int idProject) {
+    public void enterTeam(Long idProject) {
         teams.add(ServicesHandler.getInstance().getResourceHandler().getProject(idProject).getTeam());
     }
 
@@ -92,7 +92,7 @@ public abstract class Role implements IRole {
                 .orElseThrow(() -> new IllegalArgumentException("L'utente non presenta la categoria!"));
     }
 
-    protected IPartecipationRequest getInnerDesignerRequest(int idDesigner, int idProject) {
+    protected IPartecipationRequest getInnerDesignerRequest(Long idDesigner, Long idProject) {
         IPartecipationRequest pr = this.getTeams().stream()
                 .filter(t -> t.getProject().getId() == idProject)
                 .findAny()
@@ -105,7 +105,7 @@ public abstract class Role implements IRole {
         return pr;
     }
 
-    protected IPartecipationRequest getInnerProgramManagerRequest(int idDesigner, int idProject) {
+    protected IPartecipationRequest getInnerProgramManagerRequest(Long idDesigner, Long idProject) {
         IPartecipationRequest pr = this.getTeams().stream()
                 .filter(t -> t.getProject().getId() == idProject)
                 .findAny()
@@ -118,14 +118,14 @@ public abstract class Role implements IRole {
         return pr;
     }
 
-    protected ITeam getInnerTeam(int idProject) {
+    protected ITeam getInnerTeam(Long idProject) {
         ITeam team = this.getTeams().stream().filter(t -> t.getId() == idProject).findAny().orElseThrow(() ->
                 new IllegalArgumentException("Il ruolo non ha il progetto con id: [" + idProject + "]"));
         getInnerCategory(team.getProject().getCategory().getName());
         return team;
     }
 
-    protected DesignerRole getInnerDesignerInTeam(int idDesigner, int idProject) {
+    protected DesignerRole getInnerDesignerInTeam(Long idDesigner, Long idProject) {
         return getInnerTeam(idProject).getDesigners().stream().filter(d -> d.getUser().getId() == idDesigner).findAny().orElseThrow(() ->
                 new IllegalArgumentException("Il progetto: [" + idProject + "] non possiede il designer: [" + idDesigner + "]"));
     }

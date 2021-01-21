@@ -14,7 +14,7 @@ public class ProjectManagerRole extends Role {
         super(user, category);
     }
 
-    public void upgradeState(int idProject) {
+    public void upgradeState(Long idProject) {
         ITeam team = getInnerTeam(idProject);
         ProjectState ps = ServicesHandler.getInstance().getResourceHandler().getProjectState(team.getProject().getProjectState().getId() + 1);
         if (ps == null)
@@ -22,7 +22,7 @@ public class ProjectManagerRole extends Role {
         team.getProject().setProjectState(ps);
     }
 
-    public void downgradeState(int idProject) {
+    public void downgradeState(Long idProject) {
         ITeam team = getInnerTeam(idProject);
         ProjectState ps = ServicesHandler.getInstance().getResourceHandler().getProjectState(team.getProject().getProjectState().getId() - 1);
         if (ps == null)
@@ -31,7 +31,7 @@ public class ProjectManagerRole extends Role {
 
     }
 
-    public void insertEvaluation(int idDesigner, int idProject, int evaluation) throws RoleException {
+    public void insertEvaluation(Long idDesigner, Long idProject, int evaluation) throws RoleException {
         DesignerRole designer = getInnerDesignerInTeam(idDesigner, idProject);
         if (evaluation < 0 || evaluation > 5)
             throw new IllegalArgumentException("La valutazione deve essere compresa tra 0 e 5!");
@@ -39,11 +39,11 @@ public class ProjectManagerRole extends Role {
         designer.exitTeam(idProject);
     }
 
-    public Set<IUser> getDesigners(int idProject) {
+    public Set<IUser> getDesigners(Long idProject) {
         return getInnerTeam(idProject).getDesigners().stream().map(t -> t.getUser()).collect(Collectors.toSet());
     }
 
-    public void exitAll(int idProject) {
+    public void exitAll(Long idProject) {
         ITeam team = getInnerTeam(idProject);
         for (DesignerRole d : team.getDesigners())
             if (d.getTeams().contains(team))

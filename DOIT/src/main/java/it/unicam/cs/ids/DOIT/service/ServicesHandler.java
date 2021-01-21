@@ -1,5 +1,7 @@
 package it.unicam.cs.ids.DOIT.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class ServicesHandler {
 
     private static ServicesHandler servicesHandler;
@@ -15,7 +17,7 @@ public class ServicesHandler {
     private IIdGenerator idGenerator;
 
     private ServicesHandler() {
-        this.resourceHandler = new ResourceHandler();
+        this.resourceHandler = new Repository();
         this.factoryModel = new FactoryModel(resourceHandler);
         this.idGenerator = new IdGenerator();
     }

@@ -1,9 +1,10 @@
-package it.unicam.cs.ids.DOIT.user;
+package it.unicam.cs.ids.DOIT.controller;
 
 import it.unicam.cs.ids.DOIT.service.ServicesHandler;
+import it.unicam.cs.ids.DOIT.user.IUser;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service("userHandler")
 public class UserHandler implements IUserHandler {
 
     @Override
@@ -26,20 +27,16 @@ public class UserHandler implements IUserHandler {
     }
 
     @Override
-    public void logOut(int idUser, int token) {
+    public void logOut(Long idUser, Long token) {
         IUser user = ServicesHandler.getInstance().getResourceHandler().getUser(idUser);
         user.getToken().clearToken();
     }
 
     @Override
-    public IUser getUser(int idUser, int token) {
+    public IUser getUser(Long idUser, int token) {
         IUser user = ServicesHandler.getInstance().getResourceHandler().getUser(idUser);
         if (user == null) return null;
         user.getToken().checkToken(token);
         return user;
-    }
-
-    public IUser getUser() {
-        return null;
     }
 }

@@ -29,7 +29,7 @@ public class Team implements ITeam {
     }
 
     @Override
-    public int getId() {
+    public Long getId() {
         return this.project.getId();
     }
 

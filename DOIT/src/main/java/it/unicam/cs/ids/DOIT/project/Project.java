@@ -4,10 +4,17 @@ import it.unicam.cs.ids.DOIT.category.ICategory;
 import it.unicam.cs.ids.DOIT.role.ITeam;
 import it.unicam.cs.ids.DOIT.service.ServicesHandler;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.Objects;
 
+@Entity
 public class Project implements IProject {
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String name;
     private String description;
     private ProjectState projectState;
@@ -15,13 +22,10 @@ public class Project implements IProject {
     private ICategory category;
 
     public Project(String name, String description, ICategory category) {
-        do {
-            this.id = ServicesHandler.getInstance().getIdGenerator().getId();
-        } while (ServicesHandler.getInstance().getResourceHandler().getProject(this.id) != null);
         this.name = name;
         this.description = description;
         this.category = category;
-        this.projectState = ServicesHandler.getInstance().getResourceHandler().getProjectState(0);
+        this.projectState = ServicesHandler.getInstance().getResourceHandler().getProjectState(0L);
     }
 
     public ProjectState getProjectState() {
@@ -40,7 +44,7 @@ public class Project implements IProject {
         return team;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 

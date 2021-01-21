@@ -4,12 +4,19 @@ import it.unicam.cs.ids.DOIT.category.ICategory;
 import it.unicam.cs.ids.DOIT.role.*;
 import it.unicam.cs.ids.DOIT.service.ServicesHandler;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+@Entity
 public class User implements IUser {
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String name;
     private String surname;
     private String birthDate;
@@ -20,9 +27,6 @@ public class User implements IUser {
     private TokenHandler token;
 
     public User(String name, String surname, String birthDate, String sex, String email, String password) {
-        do {
-            this.id = ServicesHandler.getInstance().getIdGenerator().getId();
-        } while (ServicesHandler.getInstance().getResourceHandler().getUser(this.id) != null);
         this.name = name;
         this.surname = surname;
         this.birthDate = birthDate;
@@ -33,7 +37,7 @@ public class User implements IUser {
         this.token = new TokenHandler();
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 

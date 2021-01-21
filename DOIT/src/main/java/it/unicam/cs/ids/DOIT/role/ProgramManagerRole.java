@@ -18,7 +18,7 @@ public class ProgramManagerRole extends Role implements IPartecipationRequestHan
         this.partecipationRequests = new HashSet<>();
     }
 
-    public void acceptPR(int idDesigner, int idProject) throws RoleException {
+    public void acceptPR(Long idDesigner, Long idProject) throws RoleException {
         IPartecipationRequest pr = getInnerDesignerRequest(idDesigner, idProject);
         if (!this.getTeams().contains(pr.getTeam()))
             throw new IllegalArgumentException("Il Program Manager non possiede il team");
@@ -28,7 +28,7 @@ public class ProgramManagerRole extends Role implements IPartecipationRequestHan
         pr.getTeam().addDesigner(designer);
     }
 
-    public void removePR(int idDesigner, int idProject, String description) {
+    public void removePR(Long idDesigner, Long idProject, String description) {
         IPartecipationRequest pr = getInnerDesignerRequest(idDesigner, idProject);
         if (!this.getTeams().contains(pr.getTeam()))
             throw new IllegalArgumentException("Il Program Manager non possiede il team]");
@@ -38,11 +38,11 @@ public class ProgramManagerRole extends Role implements IPartecipationRequestHan
         pr.getTeam().getDesignerRequest().remove(pr);
     }
 
-    public Set<IUser> getDesigners(int idProject) {
+    public Set<IUser> getDesigners(Long idProject) {
         return getInnerTeam(idProject).getDesigners().stream().map(r -> r.getUser()).collect(Collectors.toSet());
     }
 
-    public void removeDesigner(int idDesigner, int idProject) {
+    public void removeDesigner(Long idDesigner, Long idProject) {
         ITeam team = getInnerTeam(idProject);
         DesignerRole designer = getInnerDesignerInTeam(idDesigner, idProject);
         if (!team.getDesigners().contains(designer))
@@ -52,7 +52,7 @@ public class ProgramManagerRole extends Role implements IPartecipationRequestHan
         team.removeDesigner(designer);
     }
 
-    public void setProjectManager(int idDesigner, int idProject) throws ReflectiveOperationException, RoleException {
+    public void setProjectManager(Long idDesigner, Long idProject) throws ReflectiveOperationException, RoleException {
         ITeam team = getInnerTeam(idProject);
         IUser user = getInnerDesignerInTeam(idDesigner, idProject).getUser();
         if (!this.getTeams().contains(team))
@@ -63,23 +63,23 @@ public class ProgramManagerRole extends Role implements IPartecipationRequestHan
         user.getRole(ProjectManagerRole.class).enterTeam(team.getId());
     }
 
-    public Set<IPartecipationRequest> getPartecipationRequestsByTeam(int idProject) {
+    public Set<IPartecipationRequest> getPartecipationRequestsByTeam(Long idProject) {
         ITeam team = getInnerTeam(idProject);
         if (!getTeams().contains(team))
             throw new IllegalArgumentException("Team non posseduto: [" + team.getId() + "]");
         return team.getDesignerRequest();
     }
 
-    public void openRegistrations(int idProject) {
+    public void openRegistrations(Long idProject) {
         getInnerTeam(idProject).openRegistrations();
     }
 
-    public void closeRegistrations(int idProject) {
+    public void closeRegistrations(Long idProject) {
         getInnerTeam(idProject).closeRegistrations();
     }
 
     @Override
-    public void createPartecipationRequest(int idProject) {
+    public void createPartecipationRequest(Long idProject) {
         ITeam team = ServicesHandler.getInstance().getResourceHandler().getProject(idProject).getTeam();
         getInnerCategory(team.getProject().getCategory().getName());
         if (team.getProgramManagerRequest().stream().map(p -> p.getPendingRole()).collect(Collectors.toSet()).contains(this))

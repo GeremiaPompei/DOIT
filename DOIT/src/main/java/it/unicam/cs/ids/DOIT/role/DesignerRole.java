@@ -31,7 +31,7 @@ public class DesignerRole extends Role implements IPendingRole {
         return partecipationRequests;
     }
 
-    public void createPartecipationRequest(int idProject) {
+    public void createPartecipationRequest(Long idProject) {
         ITeam team = ServicesHandler.getInstance().getResourceHandler().getProject(idProject).getTeam();
         getInnerCategory(team.getProject().getCategory().getName());
         if (team.getDesignerRequest().stream().map(p -> p.getPendingRole()).collect(Collectors.toSet()).contains(this))
@@ -56,7 +56,7 @@ public class DesignerRole extends Role implements IPendingRole {
                 .filter(p -> p.getTeam().isOpen()).collect(Collectors.toSet());
     }
 
-    public void enterEvaluation(int idProject, int evaluation) {
+    public void enterEvaluation(Long idProject, int evaluation) {
         this.evaluations.put(getInnerTeam(idProject), evaluation);
     }
 

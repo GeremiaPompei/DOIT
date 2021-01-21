@@ -29,7 +29,7 @@ public class FactoryModel implements IFactoryModel {
         return category;
     }
 
-    public ProjectState createProjectState(int id, String name, String description) {
+    public ProjectState createProjectState(Long id, String name, String description) {
         ProjectState projectState = new ProjectState(id, name, description);
         resourceHandler.insert(projectState);
         return projectState;

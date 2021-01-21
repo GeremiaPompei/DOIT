@@ -1,8 +1,13 @@
 package it.unicam.cs.ids.DOIT.category;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.Objects;
 
+@Entity
 public class Category implements ICategory {
+
+    @Id
     private String name;
     private String description;
 

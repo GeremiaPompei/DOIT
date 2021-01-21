@@ -6,7 +6,7 @@ import it.unicam.cs.ids.DOIT.project.IProject;
 import java.util.Set;
 
 public interface IPendingRole extends IRole {
-    void createPartecipationRequest(int idProject);
+    void createPartecipationRequest(Long idProject);
 
     Set<IPartecipationRequest> getMyPartecipationRequests();
 

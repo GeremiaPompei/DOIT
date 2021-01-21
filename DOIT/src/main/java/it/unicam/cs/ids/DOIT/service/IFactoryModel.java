@@ -13,7 +13,7 @@ public interface IFactoryModel {
 
     ICategory createCategory(String name, String description);
 
-    ProjectState createProjectState(int id, String name, String description);
+    ProjectState createProjectState(Long id, String name, String description);
 
     IUser createUser(String name, String surname, String birthdDay, String sex, String email, String password);
 

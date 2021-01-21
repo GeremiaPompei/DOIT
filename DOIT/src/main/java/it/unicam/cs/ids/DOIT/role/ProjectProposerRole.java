@@ -22,7 +22,7 @@ public class ProjectProposerRole extends Role implements IPartecipationRequestHa
     }
 
     @Override
-    public void acceptPR(int idProgramManager, int idProject) throws RoleException {
+    public void acceptPR(Long idProgramManager, Long idProject) throws RoleException {
         IPartecipationRequest pr = getInnerProgramManagerRequest(idProgramManager, idProject);
         if (!this.getTeams().contains(pr.getTeam()))
             throw new IllegalArgumentException("Il Project Proposer non possiede il team");
@@ -37,7 +37,7 @@ public class ProjectProposerRole extends Role implements IPartecipationRequestHa
     }
 
     @Override
-    public void removePR(int idProgramManager, int idProject, String description) {
+    public void removePR(Long idProgramManager, Long idProject, String description) {
         IPartecipationRequest pr = getInnerDesignerRequest(idProgramManager, idProject);
         if (!this.getTeams().contains(pr.getTeam()))
             throw new IllegalArgumentException("Il Project Proposer non possiede il team]");
@@ -47,7 +47,7 @@ public class ProjectProposerRole extends Role implements IPartecipationRequestHa
         pr.getTeam().getProgramManagerRequest().remove(pr);
     }
 
-    public Set<IPartecipationRequest> getPartecipationRequestsByTeam(int idProject) {
+    public Set<IPartecipationRequest> getPartecipationRequestsByTeam(Long idProject) {
         ITeam team = getInnerTeam(idProject);
         if (!getTeams().contains(team))
             throw new IllegalArgumentException("Team non posseduto: [" + team.getId() + "]");

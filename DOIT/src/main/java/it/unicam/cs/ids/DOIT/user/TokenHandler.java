@@ -17,7 +17,9 @@ public class TokenHandler {
     }
 
     public void checkToken(Long token) {
-        if (this.token != token || LocalDateTime.now().isAfter(date.plusDays(1)))
+        if (!this.token.equals(token))
+            throw new IllegalArgumentException("Token errato, riautenticati!");
+        if (LocalDateTime.now().isAfter(date.plusDays(1)))
             throw new IllegalArgumentException("Token scaduto, riautenticati!");
     }
 

@@ -6,7 +6,7 @@ export default Vue.component('user', {
             <p>Surname</p>
             <h3 class="el">{{user.surname}}</h3>
             <p>Birth date</p>
-            <h3 class="el">{{user.birthDay}}</h3>
+            <h3 class="el">{{user.birthDate}}</h3>
             <p>Sex</p>
             <h3 class="el">{{user.sex}}</h3>
             <p>Roles</p>
@@ -26,7 +26,12 @@ export default Vue.component('user', {
         },
         created() {
             this.$emit('load',true);
-            fetch('/api/user/'+this.$route.params.user).then(res=>res.json()).then(res=>{
+            fetch('/api/user/get', {
+                method: 'POST', 
+                body: localStorage.getItem(key) , 
+                headers: {'Content-Type': 'application/json'}})
+            .then(res => res.json())
+            .then(res => {
                 this.user = res;
                 this.initializer();
                 this.$emit('load',false);
@@ -57,8 +62,18 @@ export default Vue.component('user', {
                 this.$emit('login', this.user.id);
             },
             logout() {
-                this.user = undefined;
-                this.$emit('logout');
+                this.$emit('load',true);
+                fetch('/api/user/logout', {
+                    method: 'POST', 
+                    body: localStorage.getItem(key) , 
+                    headers: {'Content-Type': 'application/json'}})
+                .then(res => res.json())
+                .then(res => {
+                    this.user = undefined;
+                    this.initializer();
+                    localStorage.setItem(key, undefined);
+                    this.$emit('load',false);
+                });
             }
         }
 });

@@ -7,14 +7,14 @@ function createRouteRole(name) {
 
 const routes = [
   {path: '/cerca', component: () => import('./components/cerca.js')},
-  {path: '/login', name: 'login', component: () => import('./components/login.js')},
-  {path: '/signin', name: 'signin', component: () => import('./components/signin.js')},
+  {path: '/login', component: () => import('./components/login.js')},
+  {path: '/signin', component: () => import('./components/signin.js')},
   createRouteRole('project-proposer'),
   createRouteRole('program-manager'),
   createRouteRole('designer'),
   createRouteRole('project-manager'),
-  {path: '/user/', component: () => import('./components/user.js')},
-  {path: '/create-project/', component: () => import('./components/create_project.js')},
+  {path: '/user', component: () => import('./components/user.js')},
+  {path: '/create-project', component: () => import('./components/create_project.js')},
   {path: '/', redirect: '/login'}
 ];
 
@@ -35,9 +35,9 @@ const app = new Vue({
       this.user = JSON.parse(localStorage.getItem(key));
       if(this.user) {
         this.roles = [];
-        fetch('/api/user/', {method: 'POST', body: this.user}).then(res=>res.json()).then(res=>{
+        fetch('/api/user/login', {method: 'POST', body: this.user}).then(res=>res.json()).then(res=> {
           res.roles.forEach(r=>this.roles.push(r));
-          this.$router.replace({path: '/user/'});
+          this.$router.replace({path: '/user'});
         });
       }
     },

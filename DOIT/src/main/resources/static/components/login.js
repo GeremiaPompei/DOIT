@@ -24,7 +24,8 @@ export default Vue.component('login', {
             .then(res => res.text())
             .then(res => {
                 this.$emit('load',false);
-                alert(res)
+                localStorage.setItem(key, res);
+                this.$router.replace({path: '/user'});
             });
         }
     }

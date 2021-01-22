@@ -51,7 +51,7 @@ public class ResourceHandler implements IResourceHandler {
     }
 
     public IUser getUser(Long id) {
-        return searchOne(IUser.class, p -> p.getId() == id);
+        return searchOne(IUser.class, p -> p.getId().equals(id));
     }
 
     @Override

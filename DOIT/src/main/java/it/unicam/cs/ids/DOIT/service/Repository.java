@@ -1,15 +1,15 @@
 package it.unicam.cs.ids.DOIT.service;
 
 import it.unicam.cs.ids.DOIT.category.Category;
-import it.unicam.cs.ids.DOIT.category.CategoryRepository;
+import it.unicam.cs.ids.DOIT.service.entity.CategoryRepository;
 import it.unicam.cs.ids.DOIT.category.ICategory;
 import it.unicam.cs.ids.DOIT.project.*;
 import it.unicam.cs.ids.DOIT.role.IRole;
+import it.unicam.cs.ids.DOIT.service.entity.ProjectStateRepository;
 import it.unicam.cs.ids.DOIT.user.IUser;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 

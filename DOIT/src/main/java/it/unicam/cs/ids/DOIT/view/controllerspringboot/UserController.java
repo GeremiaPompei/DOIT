@@ -2,6 +2,7 @@ package it.unicam.cs.ids.DOIT.view.controllerspringboot;
 
 import it.unicam.cs.ids.DOIT.controller.IUserHandler;
 import it.unicam.cs.ids.DOIT.user.IUser;
+import it.unicam.cs.ids.DOIT.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,13 @@ public class UserController {
     @Autowired
     public UserController(@Qualifier("userHandler") IUserHandler userHandler) {
         this.userHandler = userHandler;
+    }
+
+    @PostMapping(value = "/get")
+    public User getUser(@RequestBody String args) {
+        String[] params = args.split(" ");
+        IUser user = this.userHandler.getUser(Long.parseLong(params[0]),Long.parseLong(params[1]));
+        return (User) user;
     }
 
     @PostMapping(value = "/login")

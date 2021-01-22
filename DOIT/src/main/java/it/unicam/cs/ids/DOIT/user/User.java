@@ -10,10 +10,8 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-//@Entity
 public class User implements IUser {
-    //@Id
-    //@GeneratedValue(strategy = GenerationType.AUTO)
+
     private Long id = ServicesHandler.getInstance().getIdGenerator().getId();
     private String name;
     private String surname;

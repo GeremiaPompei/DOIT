@@ -5,6 +5,7 @@ import it.unicam.cs.ids.DOIT.partecipation_request.IPartecipationRequest;
 import it.unicam.cs.ids.DOIT.project.IProject;
 import it.unicam.cs.ids.DOIT.service.ServicesHandler;
 import it.unicam.cs.ids.DOIT.user.IUser;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -15,6 +16,8 @@ import java.util.stream.Collectors;
 
 public class DesignerRole extends Role implements IPendingRole {
 
+    @Autowired
+    private ServicesHandler servicesHandler;
     private Set<IPartecipationRequest> partecipationRequests;
     private Map<ITeam, Integer> evaluations;
     private Map<LocalDate, String> curriculumVitae;
@@ -31,7 +34,7 @@ public class DesignerRole extends Role implements IPendingRole {
     }
 
     public void createPartecipationRequest(Long idProject) {
-        ITeam team = ServicesHandler.getInstance().getResourceHandler().getProject(idProject).getTeam();
+        ITeam team = servicesHandler.getResourceHandler().getProject(idProject).getTeam();
         getInnerCategory(team.getProject().getCategory().getName());
         if (team.getDesignerRequest().stream().map(p -> p.getPendingRole()).collect(Collectors.toSet()).contains(this))
             throw new IllegalArgumentException("Partecipation request gia presente nel team!");
@@ -41,7 +44,7 @@ public class DesignerRole extends Role implements IPendingRole {
             throw new IllegalArgumentException("L'utente non presenta la categoria: [" + team.getProject().getCategory() + "]");
         if (!team.isOpen())
             throw new IllegalArgumentException("Le registrazioni non sono aperte !");
-        IPartecipationRequest pr = ServicesHandler.getInstance().getFactoryModel().createPartecipationRequest(this, team);
+        IPartecipationRequest pr = servicesHandler.getFactoryModel().createPartecipationRequest(this, team);
         if (this.partecipationRequests.contains(pr))
             this.partecipationRequests.remove(pr);
         this.partecipationRequests.add(pr);
@@ -51,7 +54,7 @@ public class DesignerRole extends Role implements IPendingRole {
     }
 
     public Set<IProject> getProjectsByCategory(String idCategory) {
-        return ServicesHandler.getInstance().getResourceHandler().getProjectsByCategory(idCategory).stream()
+        return servicesHandler.getResourceHandler().getProjectsByCategory(idCategory).stream()
                 .filter(p -> p.getTeam().isOpen()).collect(Collectors.toSet());
     }
 

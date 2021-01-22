@@ -4,11 +4,15 @@ import it.unicam.cs.ids.DOIT.category.ICategory;
 import it.unicam.cs.ids.DOIT.project.ProjectState;
 import it.unicam.cs.ids.DOIT.service.ServicesHandler;
 import it.unicam.cs.ids.DOIT.user.IUser;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class ProjectManagerRole extends Role {
+
+    @Autowired
+    private ServicesHandler servicesHandler;
 
     public ProjectManagerRole(IUser user, ICategory category) {
         super(user, category);
@@ -16,7 +20,7 @@ public class ProjectManagerRole extends Role {
 
     public void upgradeState(Long idProject) {
         ITeam team = getInnerTeam(idProject);
-        ProjectState ps = ServicesHandler.getInstance().getResourceHandler().getProjectState(team.getProject().getProjectState().getId() + 1);
+        ProjectState ps = servicesHandler.getResourceHandler().getProjectState(team.getProject().getProjectState().getId() + 1);
         if (ps == null)
             throw new IllegalArgumentException("Stato progetto terminale, non si può procedere oltre!");
         team.getProject().setProjectState(ps);
@@ -24,7 +28,7 @@ public class ProjectManagerRole extends Role {
 
     public void downgradeState(Long idProject) {
         ITeam team = getInnerTeam(idProject);
-        ProjectState ps = ServicesHandler.getInstance().getResourceHandler().getProjectState(team.getProject().getProjectState().getId() - 1);
+        ProjectState ps = servicesHandler.getResourceHandler().getProjectState(team.getProject().getProjectState().getId() - 1);
         if (ps == null)
             throw new IllegalArgumentException("Stato progetto iniziale, non si può procedere oltre!");
         team.getProject().setProjectState(ps);

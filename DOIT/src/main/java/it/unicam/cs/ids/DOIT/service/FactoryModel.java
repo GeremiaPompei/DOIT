@@ -8,12 +8,16 @@ import it.unicam.cs.ids.DOIT.project.*;
 import it.unicam.cs.ids.DOIT.role.*;
 import it.unicam.cs.ids.DOIT.user.IUser;
 import it.unicam.cs.ids.DOIT.user.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
+@Service("factoryModel")
 public class FactoryModel implements IFactoryModel {
 
     private IResourceHandler resourceHandler;
 
-    FactoryModel(IResourceHandler resourceHandler) {
+    public FactoryModel(@Qualifier("resourceHandler") IResourceHandler resourceHandler) {
         this.resourceHandler = resourceHandler;
     }
 

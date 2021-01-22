@@ -1,15 +1,9 @@
 package it.unicam.cs.ids.DOIT.project;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import java.util.Objects;
 
-@Entity
 public class ProjectState {
 
-    @Id
-    @Column(name = "id_projectstate")
     private Long id;
     private String name;
     private String description;

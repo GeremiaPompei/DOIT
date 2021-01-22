@@ -1,8 +1,9 @@
-/*
-package it.unicam.cs.ids.DOIT.project;
+package it.unicam.cs.ids.DOIT.service.entity;
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-public interface ProjectRepository extends CrudRepository<Project, Long> {
+@Repository
+public interface ProjectRepository extends CrudRepository<ProjectEntity, Long> {
 }
-*/
+

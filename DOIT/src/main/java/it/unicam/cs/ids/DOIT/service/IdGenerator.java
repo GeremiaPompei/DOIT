@@ -3,9 +3,8 @@ package it.unicam.cs.ids.DOIT.service;
 import java.util.Random;
 
 public class IdGenerator {
-    private Random rnd = new Random();
 
-    public Long getId() {
-        return (long)(100000 + rnd.nextInt(900000));
+    public static Long getId() {
+        return (long)(100000 + new Random().nextInt(900000));
     }
 }

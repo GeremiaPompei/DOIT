@@ -1,23 +1,19 @@
 package it.unicam.cs.ids.DOIT.service;
 
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
+@Service
 public class ServicesHandler {
-
-    private static ServicesHandler servicesHandler;
-
-    public static ServicesHandler getInstance() {
-        if(servicesHandler == null)
-            servicesHandler = new ServicesHandler();
-        return servicesHandler;
-    }
 
     private IFactoryModel factoryModel;
     private IResourceHandler resourceHandler;
-    private IIdGenerator idGenerator;
 
-    private ServicesHandler() {
-        this.resourceHandler = new ResourceHandler();
-        this.factoryModel = new FactoryModel(resourceHandler);
-        this.idGenerator = new IdGenerator();
+    private ServicesHandler(
+            @Qualifier("resourceHandler") IResourceHandler resourceHandler,
+            @Qualifier("factoryModel") IFactoryModel factoryModel) {
+        this.resourceHandler = resourceHandler;
+        this.factoryModel = factoryModel;
     }
 
     public IFactoryModel getFactoryModel() {
@@ -26,9 +22,5 @@ public class ServicesHandler {
 
     public IResourceHandler getResourceHandler() {
         return resourceHandler;
-    }
-
-    public IIdGenerator getIdGenerator() {
-        return idGenerator;
     }
 }

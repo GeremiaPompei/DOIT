@@ -1,15 +1,24 @@
 package it.unicam.cs.ids.DOIT.user;
 
+import it.unicam.cs.ids.DOIT.service.IdGenerator;
 import it.unicam.cs.ids.DOIT.service.ServicesHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 
 public class TokenHandler {
+    @Autowired
+    private ServicesHandler servicesHandler;
     private LocalDateTime date;
     private Long token;
 
     public TokenHandler() {
         clearToken();
+    }
+
+    public TokenHandler(LocalDateTime date, Long token) {
+        this.date = date;
+        this.token = token;
     }
 
     public Long getToken() {
@@ -25,7 +34,7 @@ public class TokenHandler {
 
     public Long generateToken() {
         date = LocalDateTime.now();
-        token = ServicesHandler.getInstance().getIdGenerator().getId();
+        token = IdGenerator.getId();
         return token;
     }
 
@@ -37,5 +46,9 @@ public class TokenHandler {
     public void clearToken() {
         token = -1L;
         date = LocalDateTime.MIN;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
     }
 }

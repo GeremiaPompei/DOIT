@@ -2,8 +2,10 @@ package it.unicam.cs.ids.DOIT.user;
 
 import it.unicam.cs.ids.DOIT.category.ICategory;
 import it.unicam.cs.ids.DOIT.role.*;
+import it.unicam.cs.ids.DOIT.service.IdGenerator;
 import it.unicam.cs.ids.DOIT.service.ServicesHandler;
 import org.hibernate.annotations.ColumnTransformer;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -11,8 +13,10 @@ import java.util.Objects;
 import java.util.Set;
 
 public class User implements IUser {
+    @Autowired
+    private ServicesHandler servicesHandler;
 
-    private Long id = ServicesHandler.getInstance().getIdGenerator().getId();
+    private Long id;
     private String name;
     private String surname;
     private String birthDate;
@@ -23,6 +27,7 @@ public class User implements IUser {
     private TokenHandler token;
 
     public User(String name, String surname, String birthDate, String sex, String email, String password) {
+        this.id = IdGenerator.getId();
         this.name = name;
         this.surname = surname;
         this.birthDate = birthDate;
@@ -67,10 +72,10 @@ public class User implements IUser {
 
     public <T extends IRole> boolean addRole(Class<T> clazz, String idCategory)
             throws ReflectiveOperationException {
-        ICategory category = ServicesHandler.getInstance().getResourceHandler().getCategory(idCategory);
+        ICategory category = servicesHandler.getResourceHandler().getCategory(idCategory);
         if (category == null)
             throw new NullPointerException();
-        return this.roles.add(ServicesHandler.getInstance().getFactoryModel().createRole(clazz, this, category));
+        return this.roles.add(servicesHandler.getFactoryModel().createRole(clazz, this, category));
     }
 
     public <T extends IRole> T getRole(Class<T> clazz) throws RoleException {
@@ -96,19 +101,19 @@ public class User implements IUser {
 
     @Override
     public <T extends IRole> boolean addRole(String idRole, String idCategory) throws ReflectiveOperationException {
-        Class clazz = Class.forName(ServicesHandler.getInstance().getResourceHandler().getRolesByName(idRole));
+        Class clazz = Class.forName(servicesHandler.getResourceHandler().getRolesByName(idRole));
         return addRole(clazz, idCategory);
     }
 
     @Override
     public <T extends IRole> T getRole(String idRole) throws RoleException, ClassNotFoundException {
-        Class clazz = Class.forName(ServicesHandler.getInstance().getResourceHandler().getRolesByName(idRole));
+        Class clazz = Class.forName(servicesHandler.getResourceHandler().getRolesByName(idRole));
         return (T) getRole(clazz);
     }
 
     @Override
     public <T extends IRole> boolean removeRole(String idRole) throws ClassNotFoundException, RoleException {
-        Class clazz = Class.forName(ServicesHandler.getInstance().getResourceHandler().getRolesByName(idRole));
+        Class clazz = Class.forName(servicesHandler.getResourceHandler().getRolesByName(idRole));
         return removeRole(clazz);
     }
 
@@ -142,5 +147,9 @@ public class User implements IUser {
                 ", token=" + token +
                 ", roles=" + roles +
                 '}';
+    }
+
+    public void setToken(TokenHandler token) {
+        this.token = token;
     }
 }

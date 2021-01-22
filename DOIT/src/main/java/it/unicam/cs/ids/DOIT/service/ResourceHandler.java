@@ -5,11 +5,13 @@ import it.unicam.cs.ids.DOIT.project.ProjectState;
 import it.unicam.cs.ids.DOIT.category.ICategory;
 import it.unicam.cs.ids.DOIT.role.*;
 import it.unicam.cs.ids.DOIT.user.IUser;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+@Service("resourceHandler")
 public class ResourceHandler implements IResourceHandler {
 
     private final Set<Object> risorse;

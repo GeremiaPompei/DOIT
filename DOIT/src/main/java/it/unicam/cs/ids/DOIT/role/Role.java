@@ -4,6 +4,7 @@ import it.unicam.cs.ids.DOIT.category.ICategory;
 import it.unicam.cs.ids.DOIT.partecipation_request.IPartecipationRequest;
 import it.unicam.cs.ids.DOIT.service.ServicesHandler;
 import it.unicam.cs.ids.DOIT.user.IUser;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -11,6 +12,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public abstract class Role implements IRole {
+    @Autowired
+    private ServicesHandler servicesHandler;
 
     private IUser user;
 
@@ -49,7 +52,7 @@ public abstract class Role implements IRole {
 
     @Override
     public void enterTeam(Long idProject) {
-        teams.add(ServicesHandler.getInstance().getResourceHandler().getProject(idProject).getTeam());
+        teams.add(servicesHandler.getResourceHandler().getProject(idProject).getTeam());
     }
 
     public Set<ITeam> getHistory() {
@@ -58,13 +61,13 @@ public abstract class Role implements IRole {
 
     @Override
     public void addCategory(String idCategory) {
-        ICategory category = ServicesHandler.getInstance().getResourceHandler().getCategory(idCategory);
+        ICategory category = servicesHandler.getResourceHandler().getCategory(idCategory);
         this.categories.add(category);
     }
 
     @Override
     public void removeCategory(String idCategory) {
-        ICategory category = ServicesHandler.getInstance().getResourceHandler().getCategory(idCategory);
+        ICategory category = servicesHandler.getResourceHandler().getCategory(idCategory);
         if (this.categories.size() == 1)
             throw new IllegalArgumentException("Non si puo eliminare una categoria quando ne rimane solo una!");
         this.teams.stream().filter(p -> p.getProject().getCategory().equals(category)).findAny().orElseThrow(

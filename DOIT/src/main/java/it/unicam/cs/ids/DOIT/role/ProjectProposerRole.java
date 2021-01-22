@@ -5,19 +5,22 @@ import it.unicam.cs.ids.DOIT.partecipation_request.IPartecipationRequest;
 import it.unicam.cs.ids.DOIT.project.IProject;
 import it.unicam.cs.ids.DOIT.service.ServicesHandler;
 import it.unicam.cs.ids.DOIT.user.IUser;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Set;
 
 public class ProjectProposerRole extends Role implements IPartecipationRequestHandler {
 
+    @Autowired
+    private ServicesHandler servicesHandler;
     public ProjectProposerRole(IUser user, ICategory category) {
         super(user, category);
     }
 
     public void createProject(String name, String description, String idCategory)
             throws IllegalArgumentException {
-        IProject project = ServicesHandler.getInstance().getFactoryModel().createProject(name, description, getInnerCategory(idCategory));
-        ITeam team = ServicesHandler.getInstance().getFactoryModel().createTeam(project, this);
+        IProject project = servicesHandler.getFactoryModel().createProject(name, description, getInnerCategory(idCategory));
+        ITeam team = servicesHandler.getFactoryModel().createTeam(project, this);
         this.getTeams().add(team);
     }
 

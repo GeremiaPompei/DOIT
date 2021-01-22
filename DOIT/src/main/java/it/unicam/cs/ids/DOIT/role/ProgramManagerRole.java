@@ -5,12 +5,16 @@ import it.unicam.cs.ids.DOIT.partecipation_request.IPartecipationRequest;
 import it.unicam.cs.ids.DOIT.project.IProject;
 import it.unicam.cs.ids.DOIT.service.ServicesHandler;
 import it.unicam.cs.ids.DOIT.user.IUser;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class ProgramManagerRole extends Role implements IPartecipationRequestHandler, IPendingRole {
+
+    @Autowired
+    private ServicesHandler servicesHandler;
     private Set<IPartecipationRequest> partecipationRequests;
 
     public ProgramManagerRole(IUser user, ICategory category) {
@@ -80,7 +84,7 @@ public class ProgramManagerRole extends Role implements IPartecipationRequestHan
 
     @Override
     public void createPartecipationRequest(Long idProject) {
-        ITeam team = ServicesHandler.getInstance().getResourceHandler().getProject(idProject).getTeam();
+        ITeam team = servicesHandler.getResourceHandler().getProject(idProject).getTeam();
         getInnerCategory(team.getProject().getCategory().getName());
         if (team.getProgramManagerRequest().stream().map(p -> p.getPendingRole()).collect(Collectors.toSet()).contains(this))
             throw new IllegalArgumentException("Partecipation request gia presente nel team!");
@@ -88,7 +92,7 @@ public class ProgramManagerRole extends Role implements IPartecipationRequestHan
             throw new IllegalArgumentException("Program Manager gia presente nel team!");
         if (!this.getCategories().contains(team.getProject().getCategory()))
             throw new IllegalArgumentException("L'utente non presenta la categoria: [" + team.getProject().getCategory() + "]");
-        IPartecipationRequest pr = ServicesHandler.getInstance().getFactoryModel().createPartecipationRequest(this, team);
+        IPartecipationRequest pr = servicesHandler.getFactoryModel().createPartecipationRequest(this, team);
         if (this.partecipationRequests.contains(pr))
             this.partecipationRequests.remove(pr);
         this.partecipationRequests.add(pr);
@@ -98,7 +102,7 @@ public class ProgramManagerRole extends Role implements IPartecipationRequestHan
     }
 
     public Set<IProject> getProjectsByCategory(String idCategory) {
-        return ServicesHandler.getInstance().getResourceHandler().getProjectsByCategory(idCategory).stream()
+        return servicesHandler.getResourceHandler().getProjectsByCategory(idCategory).stream()
                 .filter(p -> p.getTeam().getProgramManager() == null).collect(Collectors.toSet());
     }
 

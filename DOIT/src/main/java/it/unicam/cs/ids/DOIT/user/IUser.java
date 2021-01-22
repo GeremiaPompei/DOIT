@@ -36,4 +36,6 @@ public interface IUser {
 
     Set<IRole> getRoles();
 
+    void setToken(TokenHandler token);
+
 }

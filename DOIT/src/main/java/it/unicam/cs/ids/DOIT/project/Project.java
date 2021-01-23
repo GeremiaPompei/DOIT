@@ -23,8 +23,8 @@ public class Project implements IProject {
     private ITeam team;
     private ICategory category;
 
-    public Project(String name, String description, ICategory category) {
-        this.id = IdGenerator.getId();;
+    public Project(Long id, String name, String description, ICategory category) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.category = category;

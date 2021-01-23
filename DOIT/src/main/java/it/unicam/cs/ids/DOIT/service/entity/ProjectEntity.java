@@ -1,6 +1,7 @@
 package it.unicam.cs.ids.DOIT.service.entity;
 
 import it.unicam.cs.ids.DOIT.project.IProject;
+import it.unicam.cs.ids.DOIT.project.Project;
 import it.unicam.cs.ids.DOIT.role.*;
 import it.unicam.cs.ids.DOIT.service.ServicesHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,9 +59,8 @@ public class ProjectEntity implements ResourceEntity<IProject> {
     }
 
     public IProject toObject() throws RoleException {
-        IProject project = servicesHandler.getFactoryModel()
-                .createProject(this.name, this.description,
-                        servicesHandler.getResourceHandler().getCategory(this.category));
+        IProject project = new Project(this.id, this.name, this.description,
+                servicesHandler.getResourceHandler().getCategory(this.category));
         ITeam team = servicesHandler.getFactoryModel()
                 .createTeam(project, servicesHandler.getResourceHandler()
                         .getUser(this.teamProjectProposer).getRole(ProjectProposerRole.class));
@@ -76,23 +76,9 @@ public class ProjectEntity implements ResourceEntity<IProject> {
             }
         });
         Arrays.stream(this.teamDesignerRequest.split(" ")).forEach(d ->
-        {
-            try {
-                team.getDesignerRequest().add(servicesHandler.getFactoryModel()
-                        .createPartecipationRequest(servicesHandler.getResourceHandler()
-                                .getUser(Long.parseLong(d)).getRole(DesignerRole.class), team));
-            } catch (RoleException e) {
-            }
-        });
+                team.getDesignerRequest().add(servicesHandler.getResourceHandler().getPartecipationRequest(Long.parseLong(d), this.id, DesignerRole.class)));
         Arrays.stream(this.teamProgramManagerRequest.split(" ")).forEach(d ->
-        {
-            try {
-                team.getProgramManagerRequest().add(servicesHandler.getFactoryModel()
-                        .createPartecipationRequest(servicesHandler.getResourceHandler()
-                                .getUser(Long.parseLong(d)).getRole(ProgramManagerRole.class), team));
-            } catch (RoleException e) {
-            }
-        });
+                team.getProgramManagerRequest().add(servicesHandler.getResourceHandler().getPartecipationRequest(Long.parseLong(d), this.id, ProgramManagerRole.class)));
         return project;
     }
 }

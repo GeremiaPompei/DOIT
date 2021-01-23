@@ -26,8 +26,8 @@ public class User implements IUser {
     private Set<IRole> roles;
     private TokenHandler token;
 
-    public User(String name, String surname, String birthDate, String sex, String email, String password) {
-        this.id = IdGenerator.getId();
+    public User(Long id, String name, String surname, String birthDate, String sex, String email, String password) {
+        this.id = id;
         this.name = name;
         this.surname = surname;
         this.birthDate = birthDate;

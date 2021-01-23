@@ -27,6 +27,6 @@ public class ProjectStateEntity implements ResourceEntity<ProjectState> {
 
     @Override
     public ProjectState toObject() {
-        return servicesHandler.getFactoryModel().createProjectState(this.id, this.name, this.description);
+        return new ProjectState(this.id, this.name, this.description);
     }
 }

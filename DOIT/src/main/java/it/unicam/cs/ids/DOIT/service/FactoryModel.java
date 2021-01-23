@@ -17,12 +17,12 @@ public class FactoryModel implements IFactoryModel {
 
     private IResourceHandler resourceHandler;
 
-    public FactoryModel(@Qualifier("resourceHandler") IResourceHandler resourceHandler) {
+    public FactoryModel(@Qualifier("repository") IResourceHandler resourceHandler) {
         this.resourceHandler = resourceHandler;
     }
 
     public IProject createProject(String name, String description, ICategory category) {
-        IProject project = new Project(name, description, category);
+        IProject project = new Project(IdGenerator.getId(), name, description, category);
         resourceHandler.insert(project);
         return project;
     }
@@ -40,7 +40,7 @@ public class FactoryModel implements IFactoryModel {
     }
 
     public IUser createUser(String name, String surname, String birthdDay, String sex, String email, String password) {
-        IUser user = new User(name, surname, birthdDay, sex, email, password);
+        IUser user = new User(IdGenerator.getId(), name, surname, birthdDay, sex, email, password);
         resourceHandler.insert(user);
         return user;
     }

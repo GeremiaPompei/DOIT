@@ -1,5 +1,8 @@
 package it.unicam.cs.ids.DOIT.service;
 
+import it.unicam.cs.ids.DOIT.partecipation_request.IPartecipationRequest;
+import it.unicam.cs.ids.DOIT.role.DesignerRole;
+import it.unicam.cs.ids.DOIT.role.IPendingRole;
 import it.unicam.cs.ids.DOIT.service.entity.*;
 import it.unicam.cs.ids.DOIT.category.ICategory;
 import it.unicam.cs.ids.DOIT.project.*;
@@ -8,10 +11,7 @@ import it.unicam.cs.ids.DOIT.user.IUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service("repository")
 public class Repository implements IResourceHandler {
@@ -23,6 +23,8 @@ public class Repository implements IResourceHandler {
     private CategoryRepository categoryRepository;
     @Autowired
     private ProjectStateRepository projectStateRepository;
+    @Autowired
+    private PartecipationRequestRepository partecipationRequestRepository;
     private final Map<String, String> roles;
 
     public Repository() {
@@ -42,15 +44,28 @@ public class Repository implements IResourceHandler {
     }
 
     @Override
-    public <T> void  insert(T t) {
+    public <T> void insert(T t) {
         if (IUser.class.isInstance(t)) {
             UserEntity ue = new UserEntity();
             ue.fromObject(IUser.class.cast(t));
             userRepository.save(ue);
         } else if (IProject.class.isInstance(t)) {
             ProjectEntity pe = new ProjectEntity();
-            pe.fromObject(IProject.class.cast(t));
+            IProject project = IProject.class.cast(t);
+            pe.fromObject(project);
             projectRepository.save(pe);
+            project.getTeam().getDesignerRequest().forEach(p ->
+            {
+                PartecipationRequestEntity pre = new PartecipationRequestEntity();
+                pre.fromObject(p);
+                partecipationRequestRepository.save(pre);
+            });
+            project.getTeam().getProgramManagerRequest().forEach(p ->
+            {
+                PartecipationRequestEntity pre = new PartecipationRequestEntity();
+                pre.fromObject(p);
+                partecipationRequestRepository.save(pre);
+            });
         } else if (ICategory.class.isInstance(t)) {
             CategoryEntity ce = new CategoryEntity();
             ce.fromObject(ICategory.class.cast(t));
@@ -70,8 +85,21 @@ public class Repository implements IResourceHandler {
             userRepository.delete(ue);
         } else if (IProject.class.isInstance(t)) {
             ProjectEntity pe = new ProjectEntity();
-            pe.fromObject(IProject.class.cast(t));
+            IProject project = IProject.class.cast(t);
+            pe.fromObject(project);
             projectRepository.delete(pe);
+            project.getTeam().getDesignerRequest().forEach(p ->
+            {
+                PartecipationRequestEntity pre = new PartecipationRequestEntity();
+                pre.fromObject(p);
+                partecipationRequestRepository.delete(pre);
+            });
+            project.getTeam().getProgramManagerRequest().forEach(p ->
+            {
+                PartecipationRequestEntity pre = new PartecipationRequestEntity();
+                pre.fromObject(p);
+                partecipationRequestRepository.delete(pre);
+            });
         } else if (ICategory.class.isInstance(t)) {
             CategoryEntity ce = new CategoryEntity();
             ce.fromObject(ICategory.class.cast(t));
@@ -110,7 +138,7 @@ public class Repository implements IResourceHandler {
             return null;
         }
         while (ur.hasNext()) {
-            IUser user = null;
+            IUser user;
             try {
                 user = ur.next().toObject();
             } catch (Exception e) {
@@ -154,11 +182,22 @@ public class Repository implements IResourceHandler {
 
     @Override
     public Set<ICategory> getAllCategories() {
-        return null;
+        Set<ICategory> categories = new HashSet<>();
+        categoryRepository.findAll().forEach(c -> categories.add(c.toObject()));
+        return categories;
     }
 
     @Override
     public Set<Object> getRisorse() {
         return null;
+    }
+
+    @Override
+    public IPartecipationRequest getPartecipationRequest(Long role, Long team, Class<? extends IPendingRole> clazz) {
+        try {
+            return partecipationRequestRepository.findById(role.toString() + " " + team.toString() + clazz.getSimpleName()).get().toObject();
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

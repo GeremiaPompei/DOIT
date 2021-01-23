@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.DOIT.service;
 
+import it.unicam.cs.ids.DOIT.partecipation_request.IPartecipationRequest;
 import it.unicam.cs.ids.DOIT.project.IProject;
 import it.unicam.cs.ids.DOIT.project.ProjectState;
 import it.unicam.cs.ids.DOIT.category.ICategory;
@@ -107,5 +108,11 @@ public class ResourceHandler implements IResourceHandler {
 
     public Set<Object> getRisorse() {
         return risorse;
+    }
+
+    @Override
+    public IPartecipationRequest getPartecipationRequest(Long role, Long team, Class<? extends IPendingRole> clazz) {
+        return searchOne(IPartecipationRequest.class, pr -> pr.getPendingRole().equals(role) && pr.getTeam().equals(team)
+                && clazz.isInstance(pr.getPendingRole()));
     }
 }

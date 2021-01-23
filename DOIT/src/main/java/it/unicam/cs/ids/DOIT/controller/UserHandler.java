@@ -18,6 +18,7 @@ public class UserHandler implements IUserHandler {
         if (!user.getPassword().equals(password))
             throw new NullPointerException("Password errata!");
         user.getToken().generateToken();
+        servicesHandler.getResourceHandler().insert(user);
         return user;
     }
 
@@ -32,6 +33,7 @@ public class UserHandler implements IUserHandler {
     @Override
     public void logOut(Long idUser, Long token) {
         IUser user = servicesHandler.getResourceHandler().getUser(idUser);
+        servicesHandler.getResourceHandler().insert(user);
         user.getToken().clearToken();
     }
 
@@ -40,6 +42,7 @@ public class UserHandler implements IUserHandler {
         IUser user = servicesHandler.getResourceHandler().getUser(idUser);
         if (user == null) return null;
         user.getToken().checkToken(token);
+        servicesHandler.getResourceHandler().insert(user);
         return user;
     }
 }

@@ -10,7 +10,7 @@ public class ServicesHandler {
     private IResourceHandler resourceHandler;
 
     private ServicesHandler(
-            @Qualifier("resourceHandler") IResourceHandler resourceHandler,
+            @Qualifier("repository") IResourceHandler resourceHandler,
             @Qualifier("factoryModel") IFactoryModel factoryModel) {
         this.resourceHandler = resourceHandler;
         this.factoryModel = factoryModel;

@@ -42,6 +42,23 @@ public class PartecipationRequest implements IPartecipationRequest {
 		return state;
 	}
 
+	public void setState(boolean state) {
+		this.state = state;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public void setDateTime(LocalDateTime dateTime) {
+		this.dateTime = dateTime;
+	}
+
+	@Override
+	public LocalDateTime getDateTime() {
+		return this.dateTime;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;

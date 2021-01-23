@@ -1,9 +1,9 @@
 package it.unicam.cs.ids.DOIT.service.entity;
 
-import it.unicam.cs.ids.DOIT.role.IRole;
 import it.unicam.cs.ids.DOIT.service.ServicesHandler;
 import it.unicam.cs.ids.DOIT.user.IUser;
 import it.unicam.cs.ids.DOIT.user.TokenHandler;
+import it.unicam.cs.ids.DOIT.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.Entity;
@@ -25,7 +25,8 @@ public class UserEntity implements ResourceEntity<IUser> {
     private String email;
     private String password;
     private String roles;
-    private String token;
+    private Long tokenId;
+    private String tokenDate;
 
     @Override
     public void fromObject(IUser user) {
@@ -36,17 +37,18 @@ public class UserEntity implements ResourceEntity<IUser> {
         this.sex = user.getSex();
         this.email = user.getEmail();
         this.password = user.getPassword();
-        this.token = user.getToken().getDate() + " " + user.getToken().getToken();
+        this.tokenDate = user.getToken().getDate().toString();
+        this.tokenId = user.getToken().getToken();
         try {
             this.roles = user.getRoles().stream().map(r -> r.getClass().getSimpleName()).reduce((x, y) -> x + " " + y).get();
-        } catch (Exception e) { }
+        } catch (Exception e) {
+        }
     }
 
     @Override
     public IUser toObject() throws Exception {
-        IUser user = servicesHandler.getFactoryModel().createUser(this.name, this.surname, this.birthDate, this.sex, this.email, this.password);
-        String[] params = token.split(" ");
-        user.setToken(new TokenHandler(LocalDateTime.parse(params[0]), Long.parseLong(params[1])));
+        IUser user = new User(this.id, this.name, this.surname, this.birthDate, this.sex, this.email, this.password);
+        user.setToken(new TokenHandler(LocalDateTime.parse(this.tokenDate), this.tokenId));
         return user;
     }
 }

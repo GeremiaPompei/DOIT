@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.DOIT.service.entity;
 
+import it.unicam.cs.ids.DOIT.category.Category;
 import it.unicam.cs.ids.DOIT.category.ICategory;
 import it.unicam.cs.ids.DOIT.service.ServicesHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,6 @@ public class CategoryEntity implements ResourceEntity<ICategory> {
 
     @Override
     public ICategory toObject() {
-        return servicesHandler.getFactoryModel().createCategory(this.name, this.description);
+        return new Category(this.name, this.description);
     }
 }

@@ -19,13 +19,17 @@ export default Vue.component('login', {
             this.$emit('load',true);
             fetch('/api/user/login', {
                 method: 'POST', 
-                body: this.email + " " + this.password , 
+                body: this.email + " " + md5(this.password),
                 headers: {'Content-Type': 'application/json'}})
             .then(res => res.text())
             .then(res => {
+                if(!res.includes('error')) {
+                    localStorage.setItem(key, res);
+                    this.$router.replace({path: '/user'});
+                }
+                this.email = '';
+                this.password = '';
                 this.$emit('load',false);
-                localStorage.setItem(key, res);
-                this.$router.replace({path: '/user'});
             });
         }
     }

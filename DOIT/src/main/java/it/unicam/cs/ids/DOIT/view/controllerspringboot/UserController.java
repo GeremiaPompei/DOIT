@@ -23,7 +23,7 @@ public class UserController {
     @PostMapping(value = "/get")
     public User getUser(@RequestBody String args) {
         String[] params = args.split(" ");
-        IUser user = this.userHandler.getUser(Long.parseLong(params[0]),Long.parseLong(params[1]));
+        IUser user = this.userHandler.getUser(Long.parseLong(params[0]), Long.parseLong(params[1]));
         return (User) user;
     }
 
@@ -37,7 +37,7 @@ public class UserController {
     @PostMapping(value = "/logout")
     public String logOut(@RequestBody String args) {
         String[] params = args.split(" ");
-        this.userHandler.logOut(Long.parseLong(params[0]),Long.parseLong(params[1]));
+        this.userHandler.logOut(Long.parseLong(params[0]), Long.parseLong(params[1]));
         return "success";
     }
 
@@ -47,4 +47,15 @@ public class UserController {
         this.userHandler.signIn(params[0], params[1], params[2], params[3], params[4], params[5]);
         return "success";
     }
+
+    @PostMapping(value = "/add-role")
+    public String addRole(@RequestBody String args) {
+        String[] params = args.split(" ");
+        try {
+            this.userHandler.getUser(Long.parseLong(params[0]), Long.parseLong(params[1]))
+                    .addRole(params[2], params[3]);
+        } catch (Exception e) {}
+        return "success";
+    }
+
 }

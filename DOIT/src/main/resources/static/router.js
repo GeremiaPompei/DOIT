@@ -15,6 +15,7 @@ const routes = [
   createRouteRole('project-manager'),
   {path: '/user', component: () => import('./components/user.js')},
   {path: '/create-project', component: () => import('./components/create_project.js')},
+  {path: '/category-list', component: () => import('./components/category-list.js')},
   {path: '/', redirect: '/login'}
 ];
 
@@ -32,11 +33,16 @@ const app = new Vue({
   },
   methods: {
     init() {
-      this.user = JSON.parse(localStorage.getItem(key));
+      this.user = localStorage.getItem(key);
       if(this.user) {
         this.roles = [];
-        fetch('/api/user/login', {method: 'POST', body: this.user}).then(res=>res.json()).then(res=> {
-          res.roles.forEach(r=>this.roles.push(r));
+        fetch('/api/user/get', {
+          method: 'POST', 
+          body: this.user , 
+          headers: {'Content-Type': 'application/json'}})
+        .then(res=>res.text())
+        .then(res=> {
+          //res.roles.forEach(r=>this.roles.push(r));
           this.$router.replace({path: '/user'});
         });
       }

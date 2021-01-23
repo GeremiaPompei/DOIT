@@ -16,8 +16,7 @@ public class UserEntity implements ResourceEntity<IUser> {
     @Id
     private Long id;
     @Transient
-    @Autowired
-    private ServicesHandler servicesHandler;
+    private ServicesHandler servicesHandler = ServicesHandler.getInstance();
     private String name;
     private String surname;
     private String birthDate;
@@ -40,7 +39,7 @@ public class UserEntity implements ResourceEntity<IUser> {
         this.tokenDate = user.getToken().getDate().toString();
         this.tokenId = user.getToken().getToken();
         try {
-            this.roles = user.getRoles().stream().map(r -> r.getClass().getSimpleName()).reduce((x, y) -> x + " " + y).get();
+            this.roles = user.getRoles().stream().map(r -> r.getClass().getName()).reduce((x, y) -> x + " " + y).get();
         } catch (Exception e) {
         }
     }
@@ -50,5 +49,45 @@ public class UserEntity implements ResourceEntity<IUser> {
         IUser user = new User(this.id, this.name, this.surname, this.birthDate, this.sex, this.email, this.password);
         user.setToken(new TokenHandler(LocalDateTime.parse(this.tokenDate), this.tokenId));
         return user;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public String getBirthDate() {
+        return birthDate;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getRoles() {
+        return roles;
+    }
+
+    public Long getTokenId() {
+        return tokenId;
+    }
+
+    public String getTokenDate() {
+        return tokenDate;
     }
 }

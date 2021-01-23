@@ -7,8 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDateTime;
 
 public class TokenHandler {
-    @Autowired
-    private ServicesHandler servicesHandler;
+    private ServicesHandler servicesHandler = ServicesHandler.getInstance();
     private LocalDateTime date;
     private Long token;
 

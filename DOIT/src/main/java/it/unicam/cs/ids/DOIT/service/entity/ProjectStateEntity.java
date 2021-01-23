@@ -11,8 +11,7 @@ import javax.persistence.Transient;
 @Entity
 public class ProjectStateEntity implements ResourceEntity<ProjectState> {
     @Transient
-    @Autowired
-    private ServicesHandler servicesHandler;
+    private ServicesHandler servicesHandler = ServicesHandler.getInstance();
     @Id
     private Long id;
     private String name;
@@ -27,6 +26,6 @@ public class ProjectStateEntity implements ResourceEntity<ProjectState> {
 
     @Override
     public ProjectState toObject() {
-        return new ProjectState(this.id, this.name, this.description);
+        return servicesHandler.getFactoryModel().createProjectState(this.id, this.name, this.description);
     }
 }

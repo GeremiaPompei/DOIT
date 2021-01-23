@@ -46,7 +46,7 @@ export default Vue.component('user', {
                     ];
             },
             addRole(index) {
-                this.$router.push({path: '/category-list', params: {role: this.roles[index].role}});
+                this.$router.push({path: '/category-list/'+this.roles[index].name});
             },
             logout() {
                 this.$emit('load',true);

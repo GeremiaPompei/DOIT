@@ -15,7 +15,7 @@ const routes = [
   createRouteRole('project-manager'),
   {path: '/user', component: () => import('./components/user.js')},
   {path: '/create-project', component: () => import('./components/create_project.js')},
-  {path: '/category-list', component: () => import('./components/category-list.js')},
+  {path: '/category-list/:role', component: () => import('./components/category-list.js')},
   {path: '/', redirect: '/login'}
 ];
 

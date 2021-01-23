@@ -16,8 +16,7 @@ import java.util.stream.Collectors;
 
 public class DesignerRole extends Role implements IPendingRole {
 
-    @Autowired
-    private ServicesHandler servicesHandler;
+    private ServicesHandler servicesHandler = ServicesHandler.getInstance();
     private Set<IPartecipationRequest> partecipationRequests;
     private Map<ITeam, Integer> evaluations;
     private Map<LocalDate, String> curriculumVitae;

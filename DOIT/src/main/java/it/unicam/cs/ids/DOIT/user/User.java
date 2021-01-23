@@ -13,8 +13,8 @@ import java.util.Objects;
 import java.util.Set;
 
 public class User implements IUser {
-    @Autowired
-    private ServicesHandler servicesHandler;
+
+    private ServicesHandler servicesHandler = ServicesHandler.getInstance();
 
     private Long id;
     private String name;

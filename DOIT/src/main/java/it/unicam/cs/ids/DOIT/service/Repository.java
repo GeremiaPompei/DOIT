@@ -1,29 +1,20 @@
 package it.unicam.cs.ids.DOIT.service;
 
 import it.unicam.cs.ids.DOIT.partecipation_request.IPartecipationRequest;
-import it.unicam.cs.ids.DOIT.role.DesignerRole;
 import it.unicam.cs.ids.DOIT.role.IPendingRole;
 import it.unicam.cs.ids.DOIT.service.entity.*;
 import it.unicam.cs.ids.DOIT.category.ICategory;
 import it.unicam.cs.ids.DOIT.project.*;
 import it.unicam.cs.ids.DOIT.role.IRole;
 import it.unicam.cs.ids.DOIT.user.IUser;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.*;
 
-@Service("repository")
 public class Repository implements IResourceHandler {
-    @Autowired
+
     private UserRepository userRepository;
-    @Autowired
     private ProjectRepository projectRepository;
-    @Autowired
     private CategoryRepository categoryRepository;
-    @Autowired
     private ProjectStateRepository projectStateRepository;
-    @Autowired
     private PartecipationRequestRepository partecipationRequestRepository;
     private final Map<String, String> roles;
 

@@ -7,8 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service("userHandler")
 public class UserHandler implements IUserHandler {
-    @Autowired
-    private ServicesHandler servicesHandler;
+    private ServicesHandler servicesHandler = ServicesHandler.getInstance();
 
     @Override
     public IUser logIn(String email, String password) {

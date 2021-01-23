@@ -12,7 +12,6 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-@Service("resourceHandler")
 public class ResourceHandler implements IResourceHandler {
 
     private final Set<Object> risorse;

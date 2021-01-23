@@ -4,7 +4,6 @@ import it.unicam.cs.ids.DOIT.project.IProject;
 import it.unicam.cs.ids.DOIT.project.Project;
 import it.unicam.cs.ids.DOIT.role.*;
 import it.unicam.cs.ids.DOIT.service.ServicesHandler;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -14,8 +13,7 @@ import java.util.Arrays;
 @Entity
 public class ProjectEntity implements ResourceEntity<IProject> {
     @Transient
-    @Autowired
-    private ServicesHandler servicesHandler;
+    private ServicesHandler servicesHandler = ServicesHandler.getInstance();
     @Id
     private Long id;
     private String name;

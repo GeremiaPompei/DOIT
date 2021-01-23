@@ -11,8 +11,8 @@ import java.util.Set;
 
 public class ProjectProposerRole extends Role implements IPartecipationRequestHandler {
 
-    @Autowired
-    private ServicesHandler servicesHandler;
+    private ServicesHandler servicesHandler = ServicesHandler.getInstance();
+
     public ProjectProposerRole(IUser user, ICategory category) {
         super(user, category);
     }

@@ -11,8 +11,7 @@ import java.util.stream.Collectors;
 
 public class ProjectManagerRole extends Role {
 
-    @Autowired
-    private ServicesHandler servicesHandler;
+    private ServicesHandler servicesHandler = ServicesHandler.getInstance();
 
     public ProjectManagerRole(IUser user, ICategory category) {
         super(user, category);

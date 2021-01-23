@@ -13,8 +13,7 @@ import java.util.stream.Collectors;
 
 public class ProgramManagerRole extends Role implements IPartecipationRequestHandler, IPendingRole {
 
-    @Autowired
-    private ServicesHandler servicesHandler;
+    private ServicesHandler servicesHandler = ServicesHandler.getInstance();
     private Set<IPartecipationRequest> partecipationRequests;
 
     public ProgramManagerRole(IUser user, ICategory category) {

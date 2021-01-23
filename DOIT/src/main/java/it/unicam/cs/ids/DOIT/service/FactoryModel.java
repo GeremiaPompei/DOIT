@@ -12,12 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-@Service("factoryModel")
 public class FactoryModel implements IFactoryModel {
 
     private IResourceHandler resourceHandler;
 
-    public FactoryModel(@Qualifier("repository") IResourceHandler resourceHandler) {
+    public FactoryModel(IResourceHandler resourceHandler) {
         this.resourceHandler = resourceHandler;
     }
 

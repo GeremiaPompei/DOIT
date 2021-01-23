@@ -12,8 +12,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public abstract class Role implements IRole {
-    @Autowired
-    private ServicesHandler servicesHandler;
+
+    private ServicesHandler servicesHandler = ServicesHandler.getInstance();
 
     private IUser user;
 

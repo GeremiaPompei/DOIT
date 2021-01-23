@@ -15,8 +15,7 @@ import java.time.LocalDateTime;
 public class PartecipationRequestEntity implements ResourceEntity<IPartecipationRequest> {
 
     @Transient
-    @Autowired
-    private ServicesHandler servicesHandler;
+    private ServicesHandler servicesHandler = ServicesHandler.getInstance();
     @Id
     private String id;
     private boolean state;

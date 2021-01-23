@@ -12,8 +12,7 @@ import javax.persistence.Transient;
 @Entity
 public class CategoryEntity implements ResourceEntity<ICategory> {
     @Transient
-    @Autowired
-    private ServicesHandler servicesHandler;
+    private ServicesHandler servicesHandler = ServicesHandler.getInstance();
     @Id
     private String name;
     private String description;
@@ -26,6 +25,14 @@ public class CategoryEntity implements ResourceEntity<ICategory> {
 
     @Override
     public ICategory toObject() {
-        return new Category(this.name, this.description);
+        return servicesHandler.getFactoryModel().createCategory(this.name, this.description);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

@@ -1,7 +1,0 @@
-INSERT INTO CATEGORY_ENTITY VALUES ('sport', 'description sport')
-INSERT INTO CATEGORY_ENTITY VALUES ('informatica', 'description informatica')
-INSERT INTO CATEGORY_ENTITY VALUES ('cucina', 'description cucina')
-
-INSERT INTO PROJECT_STATE_ENTITY VALUES (0, 'INITIAL', 'description')
-INSERT INTO PROJECT_STATE_ENTITY VALUES (1, 'IN PROGRESS', 'description')
-INSERT INTO PROJECT_STATE_ENTITY VALUES (2, 'TERMINAL', 'description')

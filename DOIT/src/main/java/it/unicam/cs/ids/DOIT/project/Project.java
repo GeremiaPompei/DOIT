@@ -14,8 +14,7 @@ import java.util.Objects;
 
 public class Project implements IProject {
 
-    @Autowired
-    private ServicesHandler servicesHandler;
+    private ServicesHandler servicesHandler = ServicesHandler.getInstance();
     private Long id;
     private String name;
     private String description;

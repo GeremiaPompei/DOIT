@@ -1,8 +1,33 @@
 package it.unicam.cs.ids.DOIT.service.entity;
 
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import it.unicam.cs.ids.DOIT.project.ProjectState;
 
-@Repository
-public interface ProjectStateRepository extends CrudRepository<ProjectStateEntity, Long> {
+import java.util.List;
+
+public class ProjectStateRepository implements IRepository<ProjectState, Long> {
+
+    @Override
+    public void save(ProjectState projectState) {
+
+    }
+
+    @Override
+    public void delete(Long aLong) {
+
+    }
+
+    @Override
+    public void update(ProjectState projectState) {
+
+    }
+
+    @Override
+    public ProjectState findById(Long aLong) {
+        return null;
+    }
+
+    @Override
+    public List<ProjectState> findAll() {
+        return null;
+    }
 }

@@ -2,7 +2,6 @@ package it.unicam.cs.ids.DOIT.controller;
 
 import it.unicam.cs.ids.DOIT.service.ServicesHandler;
 import it.unicam.cs.ids.DOIT.user.IUser;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service("userHandler")
@@ -17,6 +16,9 @@ public class UserHandler implements IUserHandler {
         if (!user.getPassword().equals(password))
             throw new NullPointerException("Password errata!");
         user.getToken().generateToken();
+        try{
+            servicesHandler.getResourceHandler().remove(user);
+        }catch (Exception e){}
         servicesHandler.getResourceHandler().insert(user);
         return user;
     }

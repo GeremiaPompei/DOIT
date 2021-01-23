@@ -13,14 +13,14 @@ public class ServicesHandler {
     private IResourceHandler resourceHandler;
 
     private ServicesHandler() {
-        this.resourceHandler = new ResourceHandler();
+        this.resourceHandler = new RHDatabase();
         this.factoryModel = new FactoryModel(resourceHandler);
-        this.factoryModel.createCategory("sport", "description sport");
+        /*this.factoryModel.createCategory("sport", "description sport");
         this.factoryModel.createCategory("informatica", "description informatica");
         this.factoryModel.createCategory("cucina", "description cucina");
         this.factoryModel.createProjectState(0L, "INITIAL", "description");
         this.factoryModel.createProjectState(1L, "IN PROGRESS", "description");
-        this.factoryModel.createProjectState(2L, "TERMINAL", "description");
+        this.factoryModel.createProjectState(2L, "TERMINAL", "description");*/
     }
 
     public IFactoryModel getFactoryModel() {

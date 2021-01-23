@@ -12,12 +12,12 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class ResourceHandler implements IResourceHandler {
+public class RHSet implements IResourceHandler {
 
     private final Set<Object> risorse;
     private final Map<String, String> roles;
 
-    ResourceHandler() {
+    RHSet() {
         this.risorse = new HashSet<>();
         this.roles = new HashMap<>();
         this.roles.put("project-proposer", "it.unicam.cs.ids.DOIT.role.ProjectProposerRole");

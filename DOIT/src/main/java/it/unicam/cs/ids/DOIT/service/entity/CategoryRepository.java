@@ -1,8 +1,32 @@
 package it.unicam.cs.ids.DOIT.service.entity;
 
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import it.unicam.cs.ids.DOIT.category.ICategory;
 
-@Repository
-public interface CategoryRepository extends CrudRepository<CategoryEntity, String> {
+import java.util.List;
+
+public class CategoryRepository implements IRepository<ICategory, String> {
+    @Override
+    public void save(ICategory category) {
+
+    }
+
+    @Override
+    public void delete(String s) {
+
+    }
+
+    @Override
+    public void update(ICategory category) {
+
+    }
+
+    @Override
+    public ICategory findById(String s) {
+        return null;
+    }
+
+    @Override
+    public List<ICategory> findAll() {
+        return null;
+    }
 }

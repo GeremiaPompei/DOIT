@@ -1,8 +1,6 @@
 package it.unicam.cs.ids.DOIT.category;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
@@ -16,6 +14,9 @@ public class Category {
     public Category(String name, String description) {
         this.name = name;
         this.description = description;
+    }
+
+    public Category() {
     }
 
     public String getName() {

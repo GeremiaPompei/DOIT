@@ -18,7 +18,7 @@ public class DesignerRole extends PendingRole {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Transient
+    @OneToMany(cascade = CascadeType.ALL)
     private Set<PartecipationRequest> partecipationRequests;
 
     @JoinColumn(name = "ID_Evaluation")

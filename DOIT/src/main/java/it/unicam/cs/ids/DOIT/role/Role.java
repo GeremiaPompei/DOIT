@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.DOIT.role;
 
+import com.sun.istack.Nullable;
 import it.unicam.cs.ids.DOIT.category.Category;
 import it.unicam.cs.ids.DOIT.partecipation_request.PartecipationRequest;
 import it.unicam.cs.ids.DOIT.service.FactoryModel;
@@ -27,11 +28,13 @@ public abstract class Role {
     @OneToOne
     private User user;
 
-    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
+    @JoinColumn(name = "ID_Team")
+    @OneToMany(cascade = CascadeType.ALL)
     private Set<Team> teams;
-    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
+    @JoinColumn(name = "ID_Team")
+    @OneToMany(cascade = CascadeType.ALL)
     private Set<Team> history;
-    @OneToMany(mappedBy = "name", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     private Set<Category> categories;
 
     public Role(User user, Category category, IFactoryModel factoryModel) {

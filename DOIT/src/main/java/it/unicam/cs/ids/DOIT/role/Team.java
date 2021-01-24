@@ -35,10 +35,9 @@ public class Team {
     @JoinColumn(name = "ID_Designer")
     @OneToMany(cascade = CascadeType.ALL)
     private Set<DesignerRole> designers;
-
-    @Transient
+    @OneToMany(cascade = CascadeType.ALL)
     private Set<PartecipationRequest<DesignerRole>> designerRequest;
-    @Transient
+    @OneToMany(cascade = CascadeType.ALL)
     private Set<PartecipationRequest<ProgramManagerRole>> programManagerRequest;
 
     public Team(Project project, ProjectProposerRole projectProposer) {

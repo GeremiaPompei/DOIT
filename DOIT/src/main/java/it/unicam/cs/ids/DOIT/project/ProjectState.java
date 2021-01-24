@@ -14,6 +14,9 @@ public class ProjectState {
     private String name;
     private String description;
 
+    public ProjectState() {
+    }
+
     public ProjectState(Long id, String name, String description) {
         this.id = id;
         this.name = name;

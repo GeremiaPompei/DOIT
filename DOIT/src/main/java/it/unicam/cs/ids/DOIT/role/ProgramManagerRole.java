@@ -20,7 +20,7 @@ public class ProgramManagerRole extends PendingRole implements IPartecipationReq
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Transient
+    @OneToMany(cascade = CascadeType.ALL)
     private Set<PartecipationRequest> partecipationRequests;
 
     public ProgramManagerRole(User user, Category category, IFactoryModel factoryModel) {

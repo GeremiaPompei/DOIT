@@ -1,10 +1,8 @@
 package it.unicam.cs.ids.DOIT.view.controllerspringboot;
 
 import it.unicam.cs.ids.DOIT.controller.IUserHandler;
-import it.unicam.cs.ids.DOIT.service.entity.UserRepository;
 import it.unicam.cs.ids.DOIT.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,9 +14,10 @@ public class UserController {
     IUserHandler userHandler;
 
     @Autowired
-    public UserController(@Qualifier("userHandler") IUserHandler userHandler) {
+    public UserController(IUserHandler userHandler) {
         this.userHandler = userHandler;
     }
+
 
     @PostMapping(value = "/get")
     public User getUser(@RequestBody String args) {
@@ -52,8 +51,7 @@ public class UserController {
     public String addRole(@RequestBody String args) {
         String[] params = args.split(" ");
         try {
-            this.userHandler.getUser(Long.parseLong(params[0]), Long.parseLong(params[1]))
-                    .addRole(params[2], params[3]);
+            //this.userHandler.getUser(Long.parseLong(params[0]), Long.parseLong(params[1])).addRole(params[2], params[3]);
         } catch (Exception e) {}
         return "success";
     }

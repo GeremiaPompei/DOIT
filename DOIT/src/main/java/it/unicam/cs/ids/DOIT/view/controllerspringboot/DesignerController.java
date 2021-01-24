@@ -12,7 +12,7 @@ public class DesignerController {
     IUserHandler userHandler;
 
     @Autowired
-    public DesignerController(@Qualifier("userHandler") IUserHandler userHandler) {
+    public DesignerController(IUserHandler userHandler) {
         this.userHandler = userHandler;
     }
 }

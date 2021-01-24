@@ -1,16 +1,21 @@
 package it.unicam.cs.ids.DOIT.controller;
 
 import it.unicam.cs.ids.DOIT.category.Category;
-import it.unicam.cs.ids.DOIT.service.ServicesHandler;
+import it.unicam.cs.ids.DOIT.service.entity.CategoryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Set;
 
-@Service("search")
+@Service
 public class Search implements ISearch {
-    private ServicesHandler servicesHandler = ServicesHandler.getInstance();
+    @Autowired
+    CategoryRepository categoryRepository;
 
     public Set<Category> getAllCategories() {
-        return servicesHandler.getResourceHandler().getAllCategories();
+        Set<Category> categories = new HashSet<>();
+        categoryRepository.findAll().forEach(c -> categories.add(c));
+        return categories;
     }
 }

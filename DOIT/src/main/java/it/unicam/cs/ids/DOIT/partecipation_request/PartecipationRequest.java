@@ -6,14 +6,14 @@ import it.unicam.cs.ids.DOIT.role.Team;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class PartecipationRequest {
+public class PartecipationRequest<T extends PendingRole> {
 	private boolean state;
 	private String description;
 	private LocalDateTime dateTime;
-	private PendingRole role;
+	private T role;
 	private Team team;
 
-	public PartecipationRequest(PendingRole role, Team team) {
+	public PartecipationRequest(T role, Team team) {
 		this.role = role;
 		this.team = team;
 		this.description = "Partecipation request sent...";
@@ -21,7 +21,7 @@ public class PartecipationRequest {
 		this.dateTime = LocalDateTime.now();
 	}
 
-	public PendingRole getPendingRole() {
+	public T getPendingRole() {
 		return role;
 	}
 

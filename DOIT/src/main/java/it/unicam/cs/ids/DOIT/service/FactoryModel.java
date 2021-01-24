@@ -12,27 +12,19 @@ import it.unicam.cs.ids.DOIT.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service()
+@Service
 public class FactoryModel implements IFactoryModel {
-    private static FactoryModel factoryModel;
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    CategoryRepository categoryRepository;
+    @Autowired
+    ProjectRepository projectRepository;
+    @Autowired
+    ProjectStateRepository projectStateRepository;
 
-    public static FactoryModel getInstance() {
-        if (factoryModel == null)
-            factoryModel = new FactoryModel();
-        return factoryModel;
-    }
-
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private CategoryRepository categoryRepository;
-    @Autowired
-    private ProjectRepository projectRepository;
-    @Autowired
-    private ProjectStateRepository projectStateRepository;
-
-    public Project createProject(String name, String description, Category category) {
-        Project project = new Project(IdGenerator.getId(), name, description, category);
+    public Project createProject(String name, String description, Category category, ProjectState projectState) {
+        Project project = new Project(name, description, category, projectState);
         projectRepository.save(project);
         return project;
     }
@@ -50,7 +42,7 @@ public class FactoryModel implements IFactoryModel {
     }
 
     public User createUser(String name, String surname, String birthdDay, String sex, String email, String password) {
-        User user = new User(IdGenerator.getId(), name, surname, birthdDay, sex, email, password);
+        User user = new User(name, surname, birthdDay, sex, email, password, this);
         userRepository.save(user);
         return user;
     }
@@ -67,7 +59,22 @@ public class FactoryModel implements IFactoryModel {
     }
 
     @Override
-    public <T extends Role> T createRole(Class<T> clazz, User user, Category category) throws ReflectiveOperationException {
-        return clazz.getConstructor(new Class<?>[]{User.class, Category.class}).newInstance(new Object[]{user, category});
+    public ProjectProposerRole createProjectProposerRole(User user, Category category) {
+        return new ProjectProposerRole(user, category, this);
+    }
+
+    @Override
+    public ProgramManagerRole createProgramManagerRole(User user, Category category) {
+        return new ProgramManagerRole(user, category, this);
+    }
+
+    @Override
+    public DesignerRole createDesignerRole(User user, Category category) {
+        return new DesignerRole(user, category, this);
+    }
+
+    @Override
+    public ProjectManagerRole createProjectManagerRole(User user, Category category) {
+        return new ProjectManagerRole(user, category, this);
     }
 }

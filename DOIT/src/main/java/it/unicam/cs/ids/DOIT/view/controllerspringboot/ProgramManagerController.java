@@ -12,7 +12,7 @@ public class ProgramManagerController {
     IUserHandler userHandler;
 
     @Autowired
-    public ProgramManagerController(@Qualifier("userHandler") IUserHandler userHandler) {
+    public ProgramManagerController(IUserHandler userHandler) {
         this.userHandler = userHandler;
     }
 }

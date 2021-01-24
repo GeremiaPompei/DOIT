@@ -12,7 +12,7 @@ public class ProjectProposerController {
     IUserHandler userHandler;
 
     @Autowired
-    public ProjectProposerController(@Qualifier("userHandler") IUserHandler userHandler) {
+    public ProjectProposerController(IUserHandler userHandler) {
         this.userHandler = userHandler;
     }
 }

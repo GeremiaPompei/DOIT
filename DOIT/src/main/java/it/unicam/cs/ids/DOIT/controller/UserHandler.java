@@ -1,6 +1,7 @@
 package it.unicam.cs.ids.DOIT.controller;
 
-import it.unicam.cs.ids.DOIT.service.IdGenerator;
+import it.unicam.cs.ids.DOIT.service.FactoryModel;
+import it.unicam.cs.ids.DOIT.service.IFactoryModel;
 import it.unicam.cs.ids.DOIT.service.entity.UserRepository;
 import it.unicam.cs.ids.DOIT.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,14 +9,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.Iterator;
 
-@Service("userHandler")
+@Service
 public class UserHandler implements IUserHandler {
 
+    @Autowired
+    private IFactoryModel factoryModel;
+    @Autowired
     private UserRepository userRepository;
-
-    public UserHandler(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     private User findByEmail(String email) {
         Iterator<User> iterator = userRepository.findAll().iterator();
@@ -36,10 +36,6 @@ public class UserHandler implements IUserHandler {
         if (!user.getPassword().equals(password))
             throw new NullPointerException("Password errata!");
         user.getToken().generateToken();
-        try {
-            userRepository.delete(user);
-        } catch (Exception e) {
-        }
         userRepository.save(user);
         return user;
     }
@@ -49,8 +45,7 @@ public class UserHandler implements IUserHandler {
         User user = findByEmail(email);
         if (user != null)
             throw new IllegalArgumentException("Email gia usata!");
-        user = new User(IdGenerator.getId(), name, surname, birthDate, sex, email, password);
-        userRepository.save(user);
+        factoryModel.createUser(name, surname, birthDate, sex, email, password);
     }
 
     @Override
@@ -62,7 +57,7 @@ public class UserHandler implements IUserHandler {
 
     @Override
     public User getUser(Long idUser, Long token) {
-        User user = userRepository.findById(idUser).get();
+        User user = userRepository.findById(idUser).orElse(null);
         if (user == null) return null;
         user.getToken().checkToken(token);
         userRepository.save(user);

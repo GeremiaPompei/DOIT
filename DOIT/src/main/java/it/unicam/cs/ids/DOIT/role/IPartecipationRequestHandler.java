@@ -4,10 +4,10 @@ import it.unicam.cs.ids.DOIT.partecipation_request.PartecipationRequest;
 
 import java.util.Set;
 
-public interface IPartecipationRequestHandler {
-    void acceptPR(Long idRole, Long idProject) throws RoleException;
+public interface IPartecipationRequestHandler<T extends PendingRole> {
+    void acceptPR(T role, Team team);
 
-    void removePR(Long idRole, Long idProject, String description);
+    void removePR(T role, Team team, String description);
 
-    Set<PartecipationRequest> getPartecipationRequestsByTeam(Long idProject);
+    Set<PartecipationRequest<T>> getPartecipationRequestsByTeam(Team team);
 }

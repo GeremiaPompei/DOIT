@@ -17,7 +17,7 @@ public class SearchController {
     private ISearch search;
 
     @Autowired
-    public SearchController(@Qualifier("search") ISearch search) {
+    public SearchController(ISearch search) {
         this.search = search;
     }
 

@@ -2,7 +2,6 @@ package it.unicam.cs.ids.DOIT.project;
 
 import it.unicam.cs.ids.DOIT.category.Category;
 import it.unicam.cs.ids.DOIT.role.Team;
-import it.unicam.cs.ids.DOIT.service.ServicesHandler;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -10,10 +9,9 @@ import java.util.Objects;
 @Entity
 public class Project {
 
-    @Transient
-    private ServicesHandler servicesHandler = ServicesHandler.getInstance();
     @Id
     @Column(name = "ID_Project")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     private String description;
@@ -27,12 +25,12 @@ public class Project {
     @JoinColumn(name = "ID_Category")
     private Category category;
 
-    public Project(Long id, String name, String description, Category category) {
+    public Project(String name, String description, Category category, ProjectState projectState) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.category = category;
-        this.projectState = servicesHandler.getResourceHandler().getProjectState(0L);
+        this.projectState = projectState;
     }
 
     public ProjectState getProjectState() {

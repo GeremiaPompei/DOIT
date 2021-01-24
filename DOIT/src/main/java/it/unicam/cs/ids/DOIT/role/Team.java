@@ -20,19 +20,26 @@ public class Team {
     @JoinColumn(name = "ID_Project")
     private Project project;
 
+    @JoinColumn(name = "ID_ProjectProposer")
+    @OneToOne(cascade = CascadeType.ALL)
+    private ProjectProposerRole projectProposer;
+
+    @JoinColumn(name = "ID_ProjectManager")
+    @OneToOne(cascade = CascadeType.ALL)
+    private ProjectManagerRole projectManager;
+
+    @JoinColumn(name = "ID_ProgramManager")
+    @OneToOne(cascade = CascadeType.ALL)
+    private ProgramManagerRole programManager;
+
+    @JoinColumn(name = "ID_Designer")
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<DesignerRole> designers;
 
     @Transient
-    private ProjectProposerRole projectProposer;
+    private Set<PartecipationRequest<DesignerRole>> designerRequest;
     @Transient
-    private ProjectManagerRole projectManager;
-    @Transient
-    private ProgramManagerRole programManager;
-    @Transient
-    private Set<DesignerRole> designers;
-    @Transient
-    private Set<PartecipationRequest> designerRequest;
-    @Transient
-    private Set<PartecipationRequest> programManagerRequest;
+    private Set<PartecipationRequest<ProgramManagerRole>> programManagerRequest;
 
     public Team(Project project, ProjectProposerRole projectProposer) {
         this.open = false;
@@ -57,7 +64,7 @@ public class Team {
     }
 
     public void addDesigner(DesignerRole designer) {
-        designer.enterTeam(this.project.getId());
+        designer.enterTeam(this);
         this.designers.add(designer);
     }
 
@@ -70,17 +77,17 @@ public class Team {
         return designers;
     }
 
-    public Set<PartecipationRequest> getDesignerRequest() {
+    public Set<PartecipationRequest<DesignerRole>> getDesignerRequest() {
         return designerRequest;
     }
 
-    public Set<PartecipationRequest> getProgramManagerRequest() {
+    public Set<PartecipationRequest<ProgramManagerRole>> getProgramManagerRequest() {
         return this.programManagerRequest;
     }
 
     public void setProgramManager(ProgramManagerRole programManagerRole) {
         this.programManager = programManagerRole;
-        programManagerRole.enterTeam(this.getId());
+        programManagerRole.enterTeam(this);
     }
 
     public void setProjectManager(ProjectManagerRole projectManager) {

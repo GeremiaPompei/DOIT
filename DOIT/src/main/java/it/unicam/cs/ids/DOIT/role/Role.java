@@ -2,7 +2,8 @@ package it.unicam.cs.ids.DOIT.role;
 
 import it.unicam.cs.ids.DOIT.category.Category;
 import it.unicam.cs.ids.DOIT.partecipation_request.PartecipationRequest;
-import it.unicam.cs.ids.DOIT.service.ServicesHandler;
+import it.unicam.cs.ids.DOIT.service.FactoryModel;
+import it.unicam.cs.ids.DOIT.service.IFactoryModel;
 import it.unicam.cs.ids.DOIT.user.User;
 
 import javax.persistence.*;
@@ -15,25 +16,26 @@ import java.util.stream.Collectors;
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Role {
     @Transient
-    private ServicesHandler servicesHandler = ServicesHandler.getInstance();
+    protected IFactoryModel factoryModel;
 
     @Id
     @Column(name = "ID_Role")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
     @JoinColumn(name = "ID_User")
+    @OneToOne
     private User user;
 
-    @Transient
+    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
     private Set<Team> teams;
-    @Transient
+    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
     private Set<Team> history;
-    @OneToMany(mappedBy = "name")
+    @OneToMany(mappedBy = "name", cascade = CascadeType.ALL)
     private Set<Category> categories;
 
-    public Role(User user, Category category) {
+    public Role(User user, Category category, IFactoryModel factoryModel) {
+        this.factoryModel = factoryModel;
         this.user = user;
         teams = new HashSet<>();
         categories = new HashSet<>();
@@ -53,27 +55,25 @@ public abstract class Role {
         return categories;
     }
 
-    public void exitTeam(Long idProject) {
-        Team team = this.getInnerTeam(idProject);
-        history.add(team);
-        teams.remove(team);
+    public void exitTeam(Team team) {
+        Team teamFound = this.getInnerTeam(team);
+        history.add(teamFound);
+        teams.remove(teamFound);
     }
 
-    public void enterTeam(Long idProject) {
-        teams.add(servicesHandler.getResourceHandler().getProject(idProject).getTeam());
+    public void enterTeam(Team team) {
+        teams.add(team);
     }
 
     public Set<Team> getHistory() {
         return history;
     }
 
-    public void addCategory(String idCategory) {
-        Category category = servicesHandler.getResourceHandler().getCategory(idCategory);
+    public void addCategory(Category category) {
         this.categories.add(category);
     }
 
-    public void removeCategory(String idCategory) {
-        Category category = servicesHandler.getResourceHandler().getCategory(idCategory);
+    public void removeCategory(Category category) {
         if (this.categories.size() == 1)
             throw new IllegalArgumentException("Non si puo eliminare una categoria quando ne rimane solo una!");
         this.teams.stream().filter(p -> p.getProject().getCategory().equals(category)).findAny().orElseThrow(
@@ -94,49 +94,49 @@ public abstract class Role {
         return Objects.hash(user);
     }
 
-    protected Category getInnerCategory(String idCategory) {
+    protected Category getInnerCategory(Category category) {
         return this.getCategories().stream()
-                .filter(c -> c.getName().equalsIgnoreCase(idCategory))
+                .filter(c -> c.equals(category))
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("L'utente non presenta la categoria!"));
     }
 
-    protected PartecipationRequest getInnerDesignerRequest(Long idDesigner, Long idProject) {
+    protected PartecipationRequest getInnerDesignerRequest(DesignerRole designer, Team team) {
         PartecipationRequest pr = this.getTeams().stream()
-                .filter(t -> t.getProject().getId() == idProject)
+                .filter(t -> t.equals(team))
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("Non sei in possesso del team con id: [" + idProject + "]"))
+                .orElseThrow(() -> new IllegalArgumentException("Non sei in possesso del team con id: [" + team.getId() + "]"))
                 .getDesignerRequest().stream()
-                .filter(t -> t.getPendingRole().getUser().getId() == idDesigner)
+                .filter(t -> t.getPendingRole().getUser().getRolesHandler().isDesignerRole())
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("Non vi è una request fatta dal ruolo con id: [" + idDesigner + "]"));
-        getInnerCategory(pr.getTeam().getProject().getCategory().getName());
+                .orElseThrow(() -> new IllegalArgumentException("Non vi è una request fatta dal ruolo con id: [" + designer.getUser().getId() + "]"));
+        getInnerCategory(pr.getTeam().getProject().getCategory());
         return pr;
     }
 
-    protected PartecipationRequest getInnerProgramManagerRequest(Long idDesigner, Long idProject) {
+    protected PartecipationRequest getInnerProgramManagerRequest(ProgramManagerRole programManager, Team team) {
         PartecipationRequest pr = this.getTeams().stream()
-                .filter(t -> t.getProject().getId() == idProject)
+                .filter(t -> t.equals(team))
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("Non sei in possesso del team con id: [" + idProject + "]"))
+                .orElseThrow(() -> new IllegalArgumentException("Non sei in possesso del team con id: [" + team.getId() + "]"))
                 .getProgramManagerRequest().stream()
-                .filter(t -> t.getPendingRole().getUser().getId() == idDesigner)
+                .filter(t -> t.getPendingRole().getUser().getRolesHandler().isProgramManager())
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("Non vi è una request fatta dal ruolo con id: [" + idDesigner + "]"));
-        getInnerCategory(pr.getTeam().getProject().getCategory().getName());
+                .orElseThrow(() -> new IllegalArgumentException("Non vi è una request fatta dal ruolo con id: [" + programManager.getUser().getId() + "]"));
+        getInnerCategory(pr.getTeam().getProject().getCategory());
         return pr;
     }
 
-    protected Team getInnerTeam(Long idProject) {
-        Team team = this.getTeams().stream().filter(t -> t.getId() == idProject).findAny().orElseThrow(() ->
-                new IllegalArgumentException("Il ruolo non ha il progetto con id: [" + idProject + "]"));
-        getInnerCategory(team.getProject().getCategory().getName());
-        return team;
+    protected Team getInnerTeam(Team team) {
+        Team teamFound = this.getTeams().stream().filter(t -> t.getId().equals(team)).findAny().orElseThrow(() ->
+                new IllegalArgumentException("Il ruolo non ha il progetto con id: [" + team.getId() + "]"));
+        getInnerCategory(teamFound.getProject().getCategory());
+        return teamFound;
     }
 
-    protected DesignerRole getInnerDesignerInTeam(Long idDesigner, Long idProject) {
-        return getInnerTeam(idProject).getDesigners().stream().filter(d -> d.getUser().getId() == idDesigner).findAny().orElseThrow(() ->
-                new IllegalArgumentException("Il progetto: [" + idProject + "] non possiede il designer: [" + idDesigner + "]"));
+    protected DesignerRole getInnerDesignerInTeam(DesignerRole designer, Team team) {
+        return getInnerTeam(team).getDesigners().stream().filter(d -> d.getUser().getRolesHandler().isDesignerRole()).findAny().orElseThrow(() ->
+                new IllegalArgumentException("Il progetto: [" + team.getId() + "] non possiede il designer: [" + designer.getUser().getId() + "]"));
     }
 
     @Override

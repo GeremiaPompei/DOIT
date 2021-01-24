@@ -1,10 +1,9 @@
 package it.unicam.cs.ids.DOIT.user;
 
-import it.unicam.cs.ids.DOIT.service.IdGenerator;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Random;
 
 @Entity
 public class TokenHandler {
@@ -33,7 +32,7 @@ public class TokenHandler {
 
     public Long generateToken() {
         date = Timestamp.valueOf(LocalDateTime.now());
-        token = IdGenerator.getId();
+        token = (long) (100000 + new Random().nextInt(900000));
         return token;
     }
 

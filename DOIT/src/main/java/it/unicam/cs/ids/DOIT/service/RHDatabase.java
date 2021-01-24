@@ -1,12 +1,13 @@
 package it.unicam.cs.ids.DOIT.service;
 
-import it.unicam.cs.ids.DOIT.partecipation_request.IPartecipationRequest;
-import it.unicam.cs.ids.DOIT.role.IPendingRole;
+import it.unicam.cs.ids.DOIT.partecipation_request.PartecipationRequest;
+import it.unicam.cs.ids.DOIT.role.PendingRole;
 import it.unicam.cs.ids.DOIT.service.entity.*;
-import it.unicam.cs.ids.DOIT.category.ICategory;
+import it.unicam.cs.ids.DOIT.category.Category;
 import it.unicam.cs.ids.DOIT.project.*;
-import it.unicam.cs.ids.DOIT.role.IRole;
-import it.unicam.cs.ids.DOIT.user.IUser;
+import it.unicam.cs.ids.DOIT.role.Role;
+import it.unicam.cs.ids.DOIT.user.User;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -28,12 +29,6 @@ public class RHDatabase implements IResourceHandler {
         this.roles.put("program-manager", "it.unicam.cs.ids.DOIT.role.ProgramManagerRole");
         this.roles.put("designer", "it.unicam.cs.ids.DOIT.role.DesignerRole");
         this.roles.put("project-manager", "it.unicam.cs.ids.DOIT.role.ProjectManagerRole");
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:h2:mem:testdb", "sa", "");
-            Statement statement = connection.createStatement();
-            userRepository = new UserRepository(statement);
-        } catch (SQLException throwables) {
-        }
     }
 
     public Set<String> getRolesName() {
@@ -46,12 +41,12 @@ public class RHDatabase implements IResourceHandler {
 
     @Override
     public <T> void insert(T t) {
-        if (IUser.class.isInstance(t)) {
-            userRepository.save(IUser.class.cast(t));
-        } else if (IProject.class.isInstance(t)) {
-            projectRepository.save(IProject.class.cast(t));
-        } else if (ICategory.class.isInstance(t)) {
-            categoryRepository.save(ICategory.class.cast(t));
+        if (User.class.isInstance(t)) {
+            userRepository.save(User.class.cast(t));
+        } else if (Project.class.isInstance(t)) {
+            projectRepository.save(Project.class.cast(t));
+        } else if (Category.class.isInstance(t)) {
+            categoryRepository.save(Category.class.cast(t));
         } else if (ProjectState.class.isInstance(t)) {
             projectStateRepository.save(ProjectState.class.cast(t));
         }
@@ -59,11 +54,11 @@ public class RHDatabase implements IResourceHandler {
 
     @Override
     public <T> void remove(T t) {
-        if (IUser.class.isInstance(t)) {
-            userRepository.delete(IUser.class.cast(t).getId());
-        } else if (IProject.class.isInstance(t)) {
+        if (User.class.isInstance(t)) {
+            //userRepository.delete(User.class.cast(t).getId());
+        } else if (Project.class.isInstance(t)) {
             projectRepository.delete(Long.class.cast(t));
-        } else if (ICategory.class.isInstance(t)) {
+        } else if (Category.class.isInstance(t)) {
             categoryRepository.delete(String.class.cast(t));
         } else if (ProjectState.class.isInstance(t)) {
             projectStateRepository.delete(Long.class.cast(t));
@@ -71,7 +66,7 @@ public class RHDatabase implements IResourceHandler {
     }
 
     @Override
-    public IProject getProject(Long id) {
+    public Project getProject(Long id) {
         try {
             return projectRepository.findById(id);
         } catch (Exception e) {
@@ -80,25 +75,25 @@ public class RHDatabase implements IResourceHandler {
     }
 
     @Override
-    public IUser getUser(Long id) {
+    public User getUser(Long id) {
         try {
-            return userRepository.findById(id);
+            return null;//userRepository.findById(id);
         } catch (Exception e) {
             return null;
         }
     }
 
     @Override
-    public IUser getUser(String email) {
+    public User getUser(String email) {
         try {
-            return userRepository.findAll().stream().filter(u->u.getEmail().equals(email)).findAny().get();
+            return null;//userRepository.findAll().stream().filter(u->u.getEmail().equals(email)).findAny().get();
         } catch (Exception e) {
             return null;
         }
     }
 
     @Override
-    public ICategory getCategory(String id) {
+    public Category getCategory(String id) {
         return categoryRepository.findById(id);
     }
 
@@ -108,27 +103,27 @@ public class RHDatabase implements IResourceHandler {
     }
 
     @Override
-    public Set<IUser> getAllUsers() {
+    public Set<User> getAllUsers() {
         return null;
     }
 
     @Override
-    public Set<IUser> getUsersByCategoryAndRole(String idCategory, Class<? extends IRole> clazz) {
+    public Set<User> getUsersByCategoryAndRole(String idCategory, Class<? extends Role> clazz) {
         return null;
     }
 
     @Override
-    public Set<IProject> getAllProjects() {
+    public Set<Project> getAllProjects() {
         return null;
     }
 
     @Override
-    public Set<IProject> getProjectsByCategory(String idCategory) {
+    public Set<Project> getProjectsByCategory(String idCategory) {
         return null;
     }
 
     @Override
-    public Set<ICategory> getAllCategories() {
+    public Set<Category> getAllCategories() {
         return Set.copyOf(categoryRepository.findAll());
     }
 
@@ -138,7 +133,7 @@ public class RHDatabase implements IResourceHandler {
     }
 
     @Override
-    public IPartecipationRequest getPartecipationRequest(Long role, Long team, Class<? extends IPendingRole> clazz) {
+    public PartecipationRequest getPartecipationRequest(Long role, Long team, Class<? extends PendingRole> clazz) {
         return null;
     }
 }

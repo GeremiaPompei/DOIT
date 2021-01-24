@@ -1,39 +1,35 @@
 package it.unicam.cs.ids.DOIT.role;
 
-import it.unicam.cs.ids.DOIT.category.ICategory;
-import it.unicam.cs.ids.DOIT.partecipation_request.IPartecipationRequest;
-import it.unicam.cs.ids.DOIT.project.IProject;
-import it.unicam.cs.ids.DOIT.service.ServicesHandler;
-import it.unicam.cs.ids.DOIT.user.IUser;
-import org.springframework.beans.factory.annotation.Autowired;
+import it.unicam.cs.ids.DOIT.category.Category;
+import it.unicam.cs.ids.DOIT.partecipation_request.PartecipationRequest;
+import it.unicam.cs.ids.DOIT.project.Project;
+import it.unicam.cs.ids.DOIT.service.FactoryModel;
+import it.unicam.cs.ids.DOIT.service.IFactoryModel;
+import it.unicam.cs.ids.DOIT.user.User;
 
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
-public class DesignerRole extends Role implements IPendingRole {
+public class DesignerRole extends PendingRole {
 
-    private ServicesHandler servicesHandler = ServicesHandler.getInstance();
-    private Set<IPartecipationRequest> partecipationRequests;
-    private Map<ITeam, Integer> evaluations;
+    private IFactoryModel factoryModel = FactoryModel.getInstance();
+    private Set<PartecipationRequest> partecipationRequests;
+    private Map<Team, Integer> evaluations;
     private Map<LocalDate, String> curriculumVitae;
 
-    public DesignerRole(IUser user, ICategory category) {
+    public DesignerRole(User user, Category category) {
         super(user, category);
         this.partecipationRequests = new HashSet<>();
         this.curriculumVitae = new HashMap<>();
         this.evaluations = new HashMap<>();
     }
 
-    public Set<IPartecipationRequest> getMyPartecipationRequests() {
+    public Set<PartecipationRequest> getMyPartecipationRequests() {
         return partecipationRequests;
     }
 
-    public void createPartecipationRequest(Long idProject) {
-        ITeam team = servicesHandler.getResourceHandler().getProject(idProject).getTeam();
+    public void createPartecipationRequest(Team team) {
         getInnerCategory(team.getProject().getCategory().getName());
         if (team.getDesignerRequest().stream().map(p -> p.getPendingRole()).collect(Collectors.toSet()).contains(this))
             throw new IllegalArgumentException("Partecipation request gia presente nel team!");
@@ -43,7 +39,7 @@ public class DesignerRole extends Role implements IPendingRole {
             throw new IllegalArgumentException("L'utente non presenta la categoria: [" + team.getProject().getCategory() + "]");
         if (!team.isOpen())
             throw new IllegalArgumentException("Le registrazioni non sono aperte !");
-        IPartecipationRequest pr = servicesHandler.getFactoryModel().createPartecipationRequest(this, team);
+        PartecipationRequest pr = factoryModel.createPartecipationRequest(this, team);
         if (this.partecipationRequests.contains(pr))
             this.partecipationRequests.remove(pr);
         this.partecipationRequests.add(pr);
@@ -52,16 +48,21 @@ public class DesignerRole extends Role implements IPendingRole {
         team.getDesignerRequest().add(pr);
     }
 
-    public Set<IProject> getProjectsByCategory(String idCategory) {
-        return servicesHandler.getResourceHandler().getProjectsByCategory(idCategory).stream()
-                .filter(p -> p.getTeam().isOpen()).collect(Collectors.toSet());
+    public Set<Project> getProjectsByCategory(Iterator<Project> iterator, Category category) {
+        Set<Project> projects = new HashSet<>();
+        while (iterator.hasNext()) {
+            Project project = iterator.next();
+            if (project.getCategory().equals(category) && project.getTeam().isOpen())
+                projects.add(project);
+        }
+        return projects;
     }
 
     public void enterEvaluation(Long idProject, int evaluation) {
         this.evaluations.put(getInnerTeam(idProject), evaluation);
     }
 
-    public Map<ITeam, Integer> getEvaluations() {
+    public Map<Team, Integer> getEvaluations() {
         return evaluations;
     }
 

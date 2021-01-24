@@ -1,6 +1,6 @@
 package it.unicam.cs.ids.DOIT.role;
 
-import it.unicam.cs.ids.DOIT.partecipation_request.IPartecipationRequest;
+import it.unicam.cs.ids.DOIT.partecipation_request.PartecipationRequest;
 
 import java.util.Set;
 
@@ -9,5 +9,5 @@ public interface IPartecipationRequestHandler {
 
     void removePR(Long idRole, Long idProject, String description);
 
-    Set<IPartecipationRequest> getPartecipationRequestsByTeam(Long idProject);
+    Set<PartecipationRequest> getPartecipationRequestsByTeam(Long idProject);
 }

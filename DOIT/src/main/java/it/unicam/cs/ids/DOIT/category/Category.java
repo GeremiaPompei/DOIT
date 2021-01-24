@@ -1,9 +1,15 @@
 package it.unicam.cs.ids.DOIT.category;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.Objects;
 
-public class Category implements ICategory {
+@Entity
+public class Category {
 
+    @Id
+    @Column(name = "ID_Category")
     private String name;
     private String description;
 
@@ -12,12 +18,10 @@ public class Category implements ICategory {
         this.description = description;
     }
 
-    @Override
     public String getName() {
         return name;
     }
 
-    @Override
     public String getDescription() {
         return description;
     }

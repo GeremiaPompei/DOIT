@@ -1,49 +1,71 @@
 package it.unicam.cs.ids.DOIT.controller;
 
-import it.unicam.cs.ids.DOIT.service.ServicesHandler;
-import it.unicam.cs.ids.DOIT.user.IUser;
+import it.unicam.cs.ids.DOIT.service.IdGenerator;
+import it.unicam.cs.ids.DOIT.service.entity.UserRepository;
+import it.unicam.cs.ids.DOIT.user.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Iterator;
 
 @Service("userHandler")
 public class UserHandler implements IUserHandler {
-    private ServicesHandler servicesHandler = ServicesHandler.getInstance();
+
+    private UserRepository userRepository;
+
+    public UserHandler(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    private User findByEmail(String email) {
+        Iterator<User> iterator = userRepository.findAll().iterator();
+        User user = null;
+        while (iterator.hasNext()) {
+            user = iterator.next();
+            if (user.getEmail().equals(email))
+                return user;
+        }
+        return null;
+    }
 
     @Override
-    public IUser logIn(String email, String password) {
-        IUser user = servicesHandler.getResourceHandler().getUser(email);
+    public User logIn(String email, String password) {
+        User user = findByEmail(email);
         if (user == null)
             throw new NullPointerException("Utente non trovato!");
         if (!user.getPassword().equals(password))
             throw new NullPointerException("Password errata!");
         user.getToken().generateToken();
-        try{
-            servicesHandler.getResourceHandler().remove(user);
-        }catch (Exception e){}
-        servicesHandler.getResourceHandler().insert(user);
+        try {
+            userRepository.delete(user);
+        } catch (Exception e) {
+        }
+        userRepository.save(user);
         return user;
     }
 
     @Override
     public void signIn(String name, String surname, String birthDate, String sex, String email, String password) {
-        IUser user = servicesHandler.getResourceHandler().getUser(email);
+        User user = findByEmail(email);
         if (user != null)
             throw new IllegalArgumentException("Email gia usata!");
-        servicesHandler.getFactoryModel().createUser(name, surname, birthDate, sex, email, password);
+        user = new User(IdGenerator.getId(), name, surname, birthDate, sex, email, password);
+        userRepository.save(user);
     }
 
     @Override
     public void logOut(Long idUser, Long token) {
-        IUser user = servicesHandler.getResourceHandler().getUser(idUser);
-        servicesHandler.getResourceHandler().insert(user);
+        User user = userRepository.findById(idUser).get();
+        userRepository.save(user);
         user.getToken().clearToken();
     }
 
     @Override
-    public IUser getUser(Long idUser, Long token) {
-        IUser user = servicesHandler.getResourceHandler().getUser(idUser);
+    public User getUser(Long idUser, Long token) {
+        User user = userRepository.findById(idUser).get();
         if (user == null) return null;
         user.getToken().checkToken(token);
-        servicesHandler.getResourceHandler().insert(user);
+        userRepository.save(user);
         return user;
     }
 }

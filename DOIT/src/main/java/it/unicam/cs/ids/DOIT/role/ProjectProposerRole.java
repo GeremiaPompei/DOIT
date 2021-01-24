@@ -1,32 +1,35 @@
 package it.unicam.cs.ids.DOIT.role;
 
-import it.unicam.cs.ids.DOIT.category.ICategory;
-import it.unicam.cs.ids.DOIT.partecipation_request.IPartecipationRequest;
-import it.unicam.cs.ids.DOIT.project.IProject;
-import it.unicam.cs.ids.DOIT.service.ServicesHandler;
-import it.unicam.cs.ids.DOIT.user.IUser;
-import org.springframework.beans.factory.annotation.Autowired;
+import it.unicam.cs.ids.DOIT.category.Category;
+import it.unicam.cs.ids.DOIT.partecipation_request.PartecipationRequest;
+import it.unicam.cs.ids.DOIT.project.Project;
+import it.unicam.cs.ids.DOIT.service.FactoryModel;
+import it.unicam.cs.ids.DOIT.service.IFactoryModel;
+import it.unicam.cs.ids.DOIT.user.User;
 
+import javax.persistence.*;
 import java.util.Set;
 
+@Entity
 public class ProjectProposerRole extends Role implements IPartecipationRequestHandler {
 
-    private ServicesHandler servicesHandler = ServicesHandler.getInstance();
+    @Transient
+    private IFactoryModel factoryModel = FactoryModel.getInstance();
 
-    public ProjectProposerRole(IUser user, ICategory category) {
+    public ProjectProposerRole(User user, Category category) {
         super(user, category);
     }
 
     public void createProject(String name, String description, String idCategory)
             throws IllegalArgumentException {
-        IProject project = servicesHandler.getFactoryModel().createProject(name, description, getInnerCategory(idCategory));
-        ITeam team = servicesHandler.getFactoryModel().createTeam(project, this);
+        Project project = factoryModel.createProject(name, description, getInnerCategory(idCategory));
+        Team team = factoryModel.createTeam(project, this);
         this.getTeams().add(team);
     }
 
     @Override
     public void acceptPR(Long idProgramManager, Long idProject) throws RoleException {
-        IPartecipationRequest pr = getInnerProgramManagerRequest(idProgramManager, idProject);
+        PartecipationRequest pr = getInnerProgramManagerRequest(idProgramManager, idProject);
         if (!this.getTeams().contains(pr.getTeam()))
             throw new IllegalArgumentException("Il Project Proposer non possiede il team");
         pr.displayed("Congratulations! You are accepted.");
@@ -41,7 +44,7 @@ public class ProjectProposerRole extends Role implements IPartecipationRequestHa
 
     @Override
     public void removePR(Long idProgramManager, Long idProject, String description) {
-        IPartecipationRequest pr = getInnerDesignerRequest(idProgramManager, idProject);
+        PartecipationRequest pr = getInnerDesignerRequest(idProgramManager, idProject);
         if (!this.getTeams().contains(pr.getTeam()))
             throw new IllegalArgumentException("Il Project Proposer non possiede il team]");
         if (description == null || description.equals(""))
@@ -50,8 +53,8 @@ public class ProjectProposerRole extends Role implements IPartecipationRequestHa
         pr.getTeam().getProgramManagerRequest().remove(pr);
     }
 
-    public Set<IPartecipationRequest> getPartecipationRequestsByTeam(Long idProject) {
-        ITeam team = getInnerTeam(idProject);
+    public Set<PartecipationRequest> getPartecipationRequestsByTeam(Long idProject) {
+        Team team = getInnerTeam(idProject);
         if (!getTeams().contains(team))
             throw new IllegalArgumentException("Team non posseduto: [" + team.getId() + "]");
         return team.getProgramManagerRequest();

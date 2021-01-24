@@ -1,21 +1,20 @@
 package it.unicam.cs.ids.DOIT.user;
 
-import it.unicam.cs.ids.DOIT.category.ICategory;
+import it.unicam.cs.ids.DOIT.category.Category;
 import it.unicam.cs.ids.DOIT.role.*;
-import it.unicam.cs.ids.DOIT.service.IdGenerator;
 import it.unicam.cs.ids.DOIT.service.ServicesHandler;
-import org.hibernate.annotations.ColumnTransformer;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-
-public class User implements IUser {
-
+@Entity
+public class User {
+    @Transient
     private ServicesHandler servicesHandler = ServicesHandler.getInstance();
 
+    @Id
+    @Column(name = "ID_User")
     private Long id;
     private String name;
     private String surname;
@@ -23,7 +22,10 @@ public class User implements IUser {
     private String sex;
     private String email;
     private String password;
-    private Set<IRole> roles;
+    @OneToMany(mappedBy = "user")
+    private Set<Role> roles;
+    @JoinColumn(name = "ID_TokenHandler")
+    @OneToOne(cascade = CascadeType.ALL)
     private TokenHandler token;
 
     public User(Long id, String name, String surname, String birthDate, String sex, String email, String password) {
@@ -36,6 +38,9 @@ public class User implements IUser {
         this.password = password;
         this.roles = new HashSet<>();
         this.token = new TokenHandler();
+    }
+
+    public User() {
     }
 
     public Long getId() {
@@ -70,15 +75,15 @@ public class User implements IUser {
         return token;
     }
 
-    public <T extends IRole> boolean addRole(Class<T> clazz, String idCategory)
+    public <T extends Role> boolean addRole(Class<T> clazz, String idCategory)
             throws ReflectiveOperationException {
-        ICategory category = servicesHandler.getResourceHandler().getCategory(idCategory);
+        Category category = servicesHandler.getResourceHandler().getCategory(idCategory);
         if (category == null)
             throw new NullPointerException();
         return this.roles.add(servicesHandler.getFactoryModel().createRole(clazz, this, category));
     }
 
-    public <T extends IRole> T getRole(Class<T> clazz) throws RoleException {
+    public <T extends Role> T getRole(Class<T> clazz) throws RoleException {
         return clazz.cast(this.roles
                 .stream()
                 .filter(clazz::isInstance)
@@ -86,10 +91,10 @@ public class User implements IUser {
                 .orElseThrow(RoleException::new));
     }
 
-    public <T extends IRole> boolean removeRole(Class<T> clazz) throws RoleException {
+    public <T extends Role> boolean removeRole(Class<T> clazz) throws RoleException {
         if (!this.getRole(clazz).getTeams().isEmpty())
             throw new IllegalArgumentException("Impossibile eliminare un ruolo se contiene team in esecuzione!");
-        IRole role = this.roles
+        Role role = this.roles
                 .stream()
                 .filter(clazz::isInstance)
                 .findAny()
@@ -99,25 +104,22 @@ public class User implements IUser {
         return this.roles.remove(role);
     }
 
-    @Override
-    public <T extends IRole> boolean addRole(String idRole, String idCategory) throws ReflectiveOperationException {
+    public <T extends Role> boolean addRole(String idRole, String idCategory) throws ReflectiveOperationException {
         Class clazz = Class.forName(servicesHandler.getResourceHandler().getRolesByName(idRole));
         return addRole(clazz, idCategory);
     }
 
-    @Override
-    public <T extends IRole> T getRole(String idRole) throws RoleException, ClassNotFoundException {
+    public <T extends Role> T getRole(String idRole) throws RoleException, ClassNotFoundException {
         Class clazz = Class.forName(servicesHandler.getResourceHandler().getRolesByName(idRole));
         return (T) getRole(clazz);
     }
 
-    @Override
-    public <T extends IRole> boolean removeRole(String idRole) throws ClassNotFoundException, RoleException {
+    public <T extends Role> boolean removeRole(String idRole) throws ClassNotFoundException, RoleException {
         Class clazz = Class.forName(servicesHandler.getResourceHandler().getRolesByName(idRole));
         return removeRole(clazz);
     }
 
-    public Set<IRole> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 

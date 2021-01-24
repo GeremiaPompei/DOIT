@@ -1,19 +1,19 @@
 package it.unicam.cs.ids.DOIT.partecipation_request;
 
-import it.unicam.cs.ids.DOIT.role.IPendingRole;
-import it.unicam.cs.ids.DOIT.role.ITeam;
+import it.unicam.cs.ids.DOIT.role.PendingRole;
+import it.unicam.cs.ids.DOIT.role.Team;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class PartecipationRequest implements IPartecipationRequest {
+public class PartecipationRequest {
 	private boolean state;
 	private String description;
 	private LocalDateTime dateTime;
-	private IPendingRole role;
-	private ITeam team;
+	private PendingRole role;
+	private Team team;
 
-	public PartecipationRequest(IPendingRole role, ITeam team) {
+	public PartecipationRequest(PendingRole role, Team team) {
 		this.role = role;
 		this.team = team;
 		this.description = "Partecipation request sent...";
@@ -21,7 +21,7 @@ public class PartecipationRequest implements IPartecipationRequest {
 		this.dateTime = LocalDateTime.now();
 	}
 
-	public IPendingRole getPendingRole() {
+	public PendingRole getPendingRole() {
 		return role;
 	}
 
@@ -30,7 +30,7 @@ public class PartecipationRequest implements IPartecipationRequest {
 		this.description = description;
 	}
 
-	public ITeam getTeam() {
+	public Team getTeam() {
 		return team;
 	}
 
@@ -54,7 +54,6 @@ public class PartecipationRequest implements IPartecipationRequest {
 		this.dateTime = dateTime;
 	}
 
-	@Override
 	public LocalDateTime getDateTime() {
 		return this.dateTime;
 	}

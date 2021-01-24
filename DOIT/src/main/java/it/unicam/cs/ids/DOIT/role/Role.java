@@ -1,29 +1,39 @@
 package it.unicam.cs.ids.DOIT.role;
 
-import it.unicam.cs.ids.DOIT.category.ICategory;
-import it.unicam.cs.ids.DOIT.partecipation_request.IPartecipationRequest;
+import it.unicam.cs.ids.DOIT.category.Category;
+import it.unicam.cs.ids.DOIT.partecipation_request.PartecipationRequest;
 import it.unicam.cs.ids.DOIT.service.ServicesHandler;
-import it.unicam.cs.ids.DOIT.user.IUser;
-import org.springframework.beans.factory.annotation.Autowired;
+import it.unicam.cs.ids.DOIT.user.User;
 
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public abstract class Role implements IRole {
-
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Role {
+    @Transient
     private ServicesHandler servicesHandler = ServicesHandler.getInstance();
 
-    private IUser user;
+    @Id
+    @Column(name = "ID_Role")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-    private Set<ITeam> teams;
+    @ManyToOne
+    @JoinColumn(name = "ID_User")
+    private User user;
 
-    private Set<ITeam> history;
+    @Transient
+    private Set<Team> teams;
+    @Transient
+    private Set<Team> history;
+    @OneToMany(mappedBy = "name")
+    private Set<Category> categories;
 
-    private Set<ICategory> categories;
-
-    public Role(IUser user, ICategory category) {
+    public Role(User user, Category category) {
         this.user = user;
         teams = new HashSet<>();
         categories = new HashSet<>();
@@ -31,43 +41,39 @@ public abstract class Role implements IRole {
         this.categories.add(category);
     }
 
-    public IUser getUser() {
+    public User getUser() {
         return this.user;
     }
 
-    public Set<ITeam> getTeams() {
+    public Set<Team> getTeams() {
         return teams;
     }
 
-    public Set<ICategory> getCategories() {
+    public Set<Category> getCategories() {
         return categories;
     }
 
-    @Override
     public void exitTeam(Long idProject) {
-        ITeam team = this.getInnerTeam(idProject);
+        Team team = this.getInnerTeam(idProject);
         history.add(team);
         teams.remove(team);
     }
 
-    @Override
     public void enterTeam(Long idProject) {
         teams.add(servicesHandler.getResourceHandler().getProject(idProject).getTeam());
     }
 
-    public Set<ITeam> getHistory() {
+    public Set<Team> getHistory() {
         return history;
     }
 
-    @Override
     public void addCategory(String idCategory) {
-        ICategory category = servicesHandler.getResourceHandler().getCategory(idCategory);
+        Category category = servicesHandler.getResourceHandler().getCategory(idCategory);
         this.categories.add(category);
     }
 
-    @Override
     public void removeCategory(String idCategory) {
-        ICategory category = servicesHandler.getResourceHandler().getCategory(idCategory);
+        Category category = servicesHandler.getResourceHandler().getCategory(idCategory);
         if (this.categories.size() == 1)
             throw new IllegalArgumentException("Non si puo eliminare una categoria quando ne rimane solo una!");
         this.teams.stream().filter(p -> p.getProject().getCategory().equals(category)).findAny().orElseThrow(
@@ -88,15 +94,15 @@ public abstract class Role implements IRole {
         return Objects.hash(user);
     }
 
-    protected ICategory getInnerCategory(String idCategory) {
+    protected Category getInnerCategory(String idCategory) {
         return this.getCategories().stream()
                 .filter(c -> c.getName().equalsIgnoreCase(idCategory))
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("L'utente non presenta la categoria!"));
     }
 
-    protected IPartecipationRequest getInnerDesignerRequest(Long idDesigner, Long idProject) {
-        IPartecipationRequest pr = this.getTeams().stream()
+    protected PartecipationRequest getInnerDesignerRequest(Long idDesigner, Long idProject) {
+        PartecipationRequest pr = this.getTeams().stream()
                 .filter(t -> t.getProject().getId() == idProject)
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("Non sei in possesso del team con id: [" + idProject + "]"))
@@ -108,8 +114,8 @@ public abstract class Role implements IRole {
         return pr;
     }
 
-    protected IPartecipationRequest getInnerProgramManagerRequest(Long idDesigner, Long idProject) {
-        IPartecipationRequest pr = this.getTeams().stream()
+    protected PartecipationRequest getInnerProgramManagerRequest(Long idDesigner, Long idProject) {
+        PartecipationRequest pr = this.getTeams().stream()
                 .filter(t -> t.getProject().getId() == idProject)
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("Non sei in possesso del team con id: [" + idProject + "]"))
@@ -121,8 +127,8 @@ public abstract class Role implements IRole {
         return pr;
     }
 
-    protected ITeam getInnerTeam(Long idProject) {
-        ITeam team = this.getTeams().stream().filter(t -> t.getId() == idProject).findAny().orElseThrow(() ->
+    protected Team getInnerTeam(Long idProject) {
+        Team team = this.getTeams().stream().filter(t -> t.getId() == idProject).findAny().orElseThrow(() ->
                 new IllegalArgumentException("Il ruolo non ha il progetto con id: [" + idProject + "]"));
         getInnerCategory(team.getProject().getCategory().getName());
         return team;

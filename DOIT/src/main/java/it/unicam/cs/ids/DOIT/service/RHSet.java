@@ -1,12 +1,11 @@
 package it.unicam.cs.ids.DOIT.service;
 
-import it.unicam.cs.ids.DOIT.partecipation_request.IPartecipationRequest;
-import it.unicam.cs.ids.DOIT.project.IProject;
+import it.unicam.cs.ids.DOIT.partecipation_request.PartecipationRequest;
+import it.unicam.cs.ids.DOIT.project.Project;
 import it.unicam.cs.ids.DOIT.project.ProjectState;
-import it.unicam.cs.ids.DOIT.category.ICategory;
+import it.unicam.cs.ids.DOIT.category.Category;
 import it.unicam.cs.ids.DOIT.role.*;
-import it.unicam.cs.ids.DOIT.user.IUser;
-import org.springframework.stereotype.Service;
+import it.unicam.cs.ids.DOIT.user.User;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -44,30 +43,30 @@ public class RHSet implements IResourceHandler {
         return roles.get(key);
     }
 
-    public IProject getProject(Long id) {
-        return searchOne(IProject.class, p -> p.getId() == id);
+    public Project getProject(Long id) {
+        return searchOne(Project.class, p -> p.getId() == id);
     }
 
     public ProjectState getProjectState(Long id) {
         return searchOne(ProjectState.class, p -> p.getId() == id);
     }
 
-    public IUser getUser(Long id) {
-        return searchOne(IUser.class, p -> p.getId().equals(id));
+    public User getUser(Long id) {
+        return searchOne(User.class, p -> p.getId().equals(id));
     }
 
     @Override
-    public IUser getUser(String email) {
-        return searchOne(IUser.class, u -> u.getEmail().equals(email));
+    public User getUser(String email) {
+        return searchOne(User.class, u -> u.getEmail().equals(email));
     }
 
     @Override
-    public Set<IUser> getAllUsers() {
-        return search(IUser.class, t -> true);
+    public Set<User> getAllUsers() {
+        return search(User.class, t -> true);
     }
 
-    public Set<IUser> getUsersByCategoryAndRole(String idCategory, Class<? extends IRole> clazz) {
-        return search(IUser.class, u -> {
+    public Set<User> getUsersByCategoryAndRole(String idCategory, Class<? extends Role> clazz) {
+        return search(User.class, u -> {
             try {
                 return u.getRole(clazz).getCategories().contains(getCategory(idCategory));
             } catch (RoleException e) {
@@ -76,23 +75,23 @@ public class RHSet implements IResourceHandler {
         });
     }
 
-    public ICategory getCategory(String id) {
-        return searchOne(ICategory.class, p -> p.getName().equalsIgnoreCase(id));
+    public Category getCategory(String id) {
+        return searchOne(Category.class, p -> p.getName().equalsIgnoreCase(id));
     }
 
     @Override
-    public Set<IProject> getAllProjects() {
-        return search(IProject.class, t -> true);
+    public Set<Project> getAllProjects() {
+        return search(Project.class, t -> true);
     }
 
     @Override
-    public Set<IProject> getProjectsByCategory(String idCategory) {
-        return search(IProject.class, p -> p.getCategory().getName().equalsIgnoreCase(idCategory));
+    public Set<Project> getProjectsByCategory(String idCategory) {
+        return search(Project.class, p -> p.getCategory().getName().equalsIgnoreCase(idCategory));
     }
 
     @Override
-    public Set<ICategory> getAllCategories() {
-        return search(ICategory.class, t -> true);
+    public Set<Category> getAllCategories() {
+        return search(Category.class, t -> true);
     }
 
     @Override
@@ -110,8 +109,8 @@ public class RHSet implements IResourceHandler {
     }
 
     @Override
-    public IPartecipationRequest getPartecipationRequest(Long role, Long team, Class<? extends IPendingRole> clazz) {
-        return searchOne(IPartecipationRequest.class, pr -> pr.getPendingRole().equals(role) && pr.getTeam().equals(team)
+    public PartecipationRequest getPartecipationRequest(Long role, Long team, Class<? extends PendingRole> clazz) {
+        return searchOne(PartecipationRequest.class, pr -> pr.getPendingRole().equals(role) && pr.getTeam().equals(team)
                 && clazz.isInstance(pr.getPendingRole()));
     }
 }

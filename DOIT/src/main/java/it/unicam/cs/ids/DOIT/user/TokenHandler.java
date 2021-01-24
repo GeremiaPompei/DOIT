@@ -1,23 +1,23 @@
 package it.unicam.cs.ids.DOIT.user;
 
 import it.unicam.cs.ids.DOIT.service.IdGenerator;
-import it.unicam.cs.ids.DOIT.service.ServicesHandler;
-import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.persistence.*;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+@Entity
 public class TokenHandler {
-    private ServicesHandler servicesHandler = ServicesHandler.getInstance();
-    private LocalDateTime date;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID_TokenHandler")
+    private Long id;
+    private Timestamp date;
+
     private Long token;
 
     public TokenHandler() {
         clearToken();
-    }
-
-    public TokenHandler(LocalDateTime date, Long token) {
-        this.date = date;
-        this.token = token;
     }
 
     public Long getToken() {
@@ -27,12 +27,12 @@ public class TokenHandler {
     public void checkToken(Long token) {
         if (!this.token.equals(token))
             throw new IllegalArgumentException("Token errato, riautenticati!");
-        if (LocalDateTime.now().isAfter(date.plusDays(1)))
+        if (LocalDateTime.now().isAfter(date.toLocalDateTime().plusDays(1)))
             throw new IllegalArgumentException("Token scaduto, riautenticati!");
     }
 
     public Long generateToken() {
-        date = LocalDateTime.now();
+        date = Timestamp.valueOf(LocalDateTime.now());
         token = IdGenerator.getId();
         return token;
     }
@@ -44,10 +44,10 @@ public class TokenHandler {
 
     public void clearToken() {
         token = -1L;
-        date = LocalDateTime.MIN;
+        date = Timestamp.valueOf(LocalDateTime.MIN);
     }
 
     public LocalDateTime getDate() {
-        return date;
+        return date.toLocalDateTime();
     }
 }

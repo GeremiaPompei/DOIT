@@ -1,6 +1,6 @@
 package it.unicam.cs.ids.DOIT.controller;
 
-import it.unicam.cs.ids.DOIT.category.ICategory;
+import it.unicam.cs.ids.DOIT.category.Category;
 import it.unicam.cs.ids.DOIT.service.ServicesHandler;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +10,7 @@ import java.util.Set;
 public class Search implements ISearch {
     private ServicesHandler servicesHandler = ServicesHandler.getInstance();
 
-    public Set<ICategory> getAllCategories() {
+    public Set<Category> getAllCategories() {
         return servicesHandler.getResourceHandler().getAllCategories();
     }
 }

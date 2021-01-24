@@ -1,12 +1,12 @@
 package it.unicam.cs.ids.DOIT.service;
 
-import it.unicam.cs.ids.DOIT.partecipation_request.IPartecipationRequest;
-import it.unicam.cs.ids.DOIT.project.IProject;
+import it.unicam.cs.ids.DOIT.partecipation_request.PartecipationRequest;
+import it.unicam.cs.ids.DOIT.project.Project;
 import it.unicam.cs.ids.DOIT.project.ProjectState;
-import it.unicam.cs.ids.DOIT.category.ICategory;
-import it.unicam.cs.ids.DOIT.role.IPendingRole;
-import it.unicam.cs.ids.DOIT.role.IRole;
-import it.unicam.cs.ids.DOIT.user.IUser;
+import it.unicam.cs.ids.DOIT.category.Category;
+import it.unicam.cs.ids.DOIT.role.PendingRole;
+import it.unicam.cs.ids.DOIT.role.Role;
+import it.unicam.cs.ids.DOIT.user.User;
 
 import java.util.Set;
 
@@ -19,27 +19,27 @@ public interface IResourceHandler {
 
     <T> void remove(T t);
 
-    IProject getProject(Long id);
+    Project getProject(Long id);
 
-    IUser getUser(Long id);
+    User getUser(Long id);
 
-    IUser getUser(String email);
+    User getUser(String email);
 
-    ICategory getCategory(String id);
+    Category getCategory(String id);
 
     ProjectState getProjectState(Long id);
 
-    Set<IUser> getAllUsers();
+    Set<User> getAllUsers();
 
-    Set<IUser> getUsersByCategoryAndRole(String idCategory, Class<? extends IRole> clazz);
+    Set<User> getUsersByCategoryAndRole(String idCategory, Class<? extends Role> clazz);
 
-    Set<IProject> getAllProjects();
+    Set<Project> getAllProjects();
 
-    Set<IProject> getProjectsByCategory(String idCategory);
+    Set<Project> getProjectsByCategory(String idCategory);
 
-    Set<ICategory> getAllCategories();
+    Set<Category> getAllCategories();
 
     Set<Object> getRisorse();
 
-    IPartecipationRequest getPartecipationRequest(Long role, Long team, Class<? extends IPendingRole> clazz);
+    PartecipationRequest getPartecipationRequest(Long role, Long team, Class<? extends PendingRole> clazz);
 }

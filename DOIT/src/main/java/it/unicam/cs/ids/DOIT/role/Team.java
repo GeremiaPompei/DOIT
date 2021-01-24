@@ -1,24 +1,40 @@
 package it.unicam.cs.ids.DOIT.role;
 
-import it.unicam.cs.ids.DOIT.partecipation_request.IPartecipationRequest;
-import it.unicam.cs.ids.DOIT.project.IProject;
+import it.unicam.cs.ids.DOIT.partecipation_request.PartecipationRequest;
+import it.unicam.cs.ids.DOIT.project.Project;
 
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class Team implements ITeam {
+@Entity
+public class Team {
     private boolean open;
-    private IProject project;
-    private ProjectProposerRole projectProposer;
-    private ProjectManagerRole projectManager;
-    private ProgramManagerRole programManager;
-    private Set<DesignerRole> designers;
-    private Set<IPartecipationRequest> designerRequest;
-    private Set<IPartecipationRequest> programManagerRequest;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID_Team")
+    private Long id;
+    @OneToOne
+    @JoinColumn(name = "ID_Project")
+    private Project project;
 
-    public Team(IProject project, ProjectProposerRole projectProposer) {
+
+    @Transient
+    private ProjectProposerRole projectProposer;
+    @Transient
+    private ProjectManagerRole projectManager;
+    @Transient
+    private ProgramManagerRole programManager;
+    @Transient
+    private Set<DesignerRole> designers;
+    @Transient
+    private Set<PartecipationRequest> designerRequest;
+    @Transient
+    private Set<PartecipationRequest> programManagerRequest;
+
+    public Team(Project project, ProjectProposerRole projectProposer) {
         this.open = false;
         this.project = project;
         this.project.setTeam(this);
@@ -28,7 +44,6 @@ public class Team implements ITeam {
         this.programManagerRequest = new HashSet<>();
     }
 
-    @Override
     public Long getId() {
         return this.project.getId();
     }
@@ -55,12 +70,11 @@ public class Team implements ITeam {
         return designers;
     }
 
-    public Set<IPartecipationRequest> getDesignerRequest() {
+    public Set<PartecipationRequest> getDesignerRequest() {
         return designerRequest;
     }
 
-    @Override
-    public Set<IPartecipationRequest> getProgramManagerRequest() {
+    public Set<PartecipationRequest> getProgramManagerRequest() {
         return this.programManagerRequest;
     }
 
@@ -81,17 +95,15 @@ public class Team implements ITeam {
         return projectManager;
     }
 
-    @Override
     public void openRegistrations() {
         this.open = true;
     }
 
-    @Override
     public void closeRegistrations() {
         this.open = false;
     }
 
-    public IProject getProject() {
+    public Project getProject() {
         return project;
     }
 

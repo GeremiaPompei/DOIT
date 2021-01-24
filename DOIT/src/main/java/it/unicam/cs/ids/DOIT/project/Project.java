@@ -1,28 +1,33 @@
 package it.unicam.cs.ids.DOIT.project;
 
-import it.unicam.cs.ids.DOIT.category.ICategory;
-import it.unicam.cs.ids.DOIT.role.ITeam;
-import it.unicam.cs.ids.DOIT.service.IdGenerator;
+import it.unicam.cs.ids.DOIT.category.Category;
+import it.unicam.cs.ids.DOIT.role.Team;
 import it.unicam.cs.ids.DOIT.service.ServicesHandler;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
-public class Project implements IProject {
+@Entity
+public class Project {
 
+    @Transient
     private ServicesHandler servicesHandler = ServicesHandler.getInstance();
+    @Id
+    @Column(name = "ID_Project")
     private Long id;
     private String name;
     private String description;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ID_ProjectState")
     private ProjectState projectState;
-    private ITeam team;
-    private ICategory category;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ID_Team")
+    private Team team;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ID_Category")
+    private Category category;
 
-    public Project(Long id, String name, String description, ICategory category) {
+    public Project(Long id, String name, String description, Category category) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -38,11 +43,11 @@ public class Project implements IProject {
         this.projectState = projectState;
     }
 
-    public void setTeam(ITeam team) {
+    public void setTeam(Team team) {
         this.team = team;
     }
 
-    public ITeam getTeam() {
+    public Team getTeam() {
         return team;
     }
 
@@ -58,7 +63,7 @@ public class Project implements IProject {
         return description;
     }
 
-    public ICategory getCategory() {
+    public Category getCategory() {
         return category;
     }
 

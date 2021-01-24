@@ -1,25 +1,25 @@
 package it.unicam.cs.ids.DOIT.service;
 
-import it.unicam.cs.ids.DOIT.category.ICategory;
-import it.unicam.cs.ids.DOIT.partecipation_request.IPartecipationRequest;
-import it.unicam.cs.ids.DOIT.project.IProject;
+import it.unicam.cs.ids.DOIT.category.Category;
+import it.unicam.cs.ids.DOIT.partecipation_request.PartecipationRequest;
+import it.unicam.cs.ids.DOIT.project.Project;
 import it.unicam.cs.ids.DOIT.project.ProjectState;
-import it.unicam.cs.ids.DOIT.role.ITeam;
+import it.unicam.cs.ids.DOIT.role.Team;
 import it.unicam.cs.ids.DOIT.role.*;
-import it.unicam.cs.ids.DOIT.user.IUser;
+import it.unicam.cs.ids.DOIT.user.User;
 
 public interface IFactoryModel {
-    IProject createProject(String name, String description, ICategory category);
+    Project createProject(String name, String description, Category category);
 
-    ICategory createCategory(String name, String description);
+    Category createCategory(String name, String description);
 
     ProjectState createProjectState(Long id, String name, String description);
 
-    IUser createUser(String name, String surname, String birthdDay, String sex, String email, String password);
+    User createUser(String name, String surname, String birthdDay, String sex, String email, String password);
 
-    IPartecipationRequest createPartecipationRequest(IPendingRole role, ITeam team);
+    PartecipationRequest createPartecipationRequest(PendingRole role, Team team);
 
-    ITeam createTeam(IProject project, ProjectProposerRole projectProposer);
+    Team createTeam(Project project, ProjectProposerRole projectProposer);
 
-    <T extends IRole> T createRole(Class<T> clazz, IUser user, ICategory category) throws ReflectiveOperationException;
+    <T extends Role> T createRole(Class<T> clazz, User user, Category category) throws ReflectiveOperationException;
 }

@@ -1,7 +1,9 @@
 package it.unicam.cs.ids.DOIT.view.controllerspringboot;
 
+import it.unicam.cs.ids.DOIT.category.Category;
 import it.unicam.cs.ids.DOIT.controller.ProjectProposerMVC;
 import it.unicam.cs.ids.DOIT.partecipation_request.PartecipationRequest;
+import it.unicam.cs.ids.DOIT.project.Project;
 import it.unicam.cs.ids.DOIT.role.ProgramManagerRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -47,12 +49,38 @@ public class ProjectProposerController {
         }
     }
 
-    @GetMapping(value = "/remove-pr")
-    public String removeAcceptProgramManagerPR(@RequestParam Long iduser, @RequestParam Long tokenuser,
-                                               @RequestParam Long idprogrammanager, @RequestParam Long idproject,
-                                               @RequestParam String reason) {
+    @GetMapping(value = "/list-projects")
+    public List<Project> listProjects(@RequestParam Long iduser, @RequestParam Long tokenuser) {
         try {
-            this.projectProposerMVC.removePR(iduser, tokenuser, idprogrammanager, idproject, reason);
+            return List.copyOf(this.projectProposerMVC.listProjects(iduser, tokenuser));
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @GetMapping(value = "/list-categories")
+    public List<Category> listCategories(@RequestParam Long iduser, @RequestParam Long tokenuser) {
+        try {
+            return List.copyOf(this.projectProposerMVC.listCategories(iduser, tokenuser));
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @GetMapping(value = "/add-category")
+    public String addCategory(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam String idcategory) {
+        try {
+            this.projectProposerMVC.addCategory(iduser, tokenuser, idcategory);
+            return "success";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    @GetMapping(value = "/remove-category")
+    public String removeCategory(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam String idcategory) {
+        try {
+            this.projectProposerMVC.removeCategory(iduser, tokenuser, idcategory);
             return "success";
         } catch (Exception e) {
             return e.getMessage();

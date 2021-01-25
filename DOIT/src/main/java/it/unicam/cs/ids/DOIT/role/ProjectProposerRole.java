@@ -59,7 +59,7 @@ public class ProjectProposerRole extends Role implements IPartecipationRequestHa
         pr.getTeam().getProgramManagerRequest().remove(pr);
     }
 
-    public Set<PartecipationRequest<ProgramManagerRole>> getPartecipationRequestsByTeam(Project inputProject) {
+    public Set<PartecipationRequest<ProgramManagerRole>> getPartecipationRequestsByProject(Project inputProject) {
         Project project = getInnerProject(inputProject);
         if (!getProjects().contains(project))
             throw new IllegalArgumentException("Project non posseduto: [" + project.getId() + "]");

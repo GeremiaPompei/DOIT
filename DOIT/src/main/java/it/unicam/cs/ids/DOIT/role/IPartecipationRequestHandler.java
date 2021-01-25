@@ -10,5 +10,5 @@ public interface IPartecipationRequestHandler<T extends PendingRole> {
 
     void removePR(T role, Project projectInput, String description);
 
-    Set<PartecipationRequest<T>> getPartecipationRequestsByTeam(Project projectInput);
+    Set<PartecipationRequest<T>> getPartecipationRequestsByProject(Project projectInput);
 }

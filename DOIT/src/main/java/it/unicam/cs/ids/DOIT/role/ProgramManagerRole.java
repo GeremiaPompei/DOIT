@@ -22,7 +22,7 @@ public class ProgramManagerRole extends PendingRole implements IPartecipationReq
 
     @OneToMany(cascade = CascadeType.ALL)
     @JsonIgnoreProperties("pendingRole")
-    private Set<PartecipationRequest> myPartecipationRequests;
+    private Set<PartecipationRequest<ProgramManagerRole>> myPartecipationRequests;
 
     public ProgramManagerRole() {
         super();
@@ -68,7 +68,7 @@ public class ProgramManagerRole extends PendingRole implements IPartecipationReq
         designer.getProjects().remove(project);
     }
 
-    public void setProjectManager(User user, Project projectInput) throws RoleException {
+    public void setProjectManager(User user, Project projectInput) {
         Project project = getInnerProject(projectInput);
         getInnerDesignerInTeam(user, projectInput);
         if (!this.getProjects().contains(project))
@@ -79,7 +79,7 @@ public class ProgramManagerRole extends PendingRole implements IPartecipationReq
         user.getRolesHandler().getProjectManagerRole().enterProject(project);
     }
 
-    public Set<PartecipationRequest<DesignerRole>> getPartecipationRequestsByTeam(Project projectInput) {
+    public Set<PartecipationRequest<DesignerRole>> getPartecipationRequestsByProject(Project projectInput) {
         Project project = getInnerProject(projectInput);
         if (!getProjects().contains(project))
             throw new IllegalArgumentException("Team non posseduto: [" + project.getId() + "]");
@@ -95,7 +95,7 @@ public class ProgramManagerRole extends PendingRole implements IPartecipationReq
     }
 
     @Override
-    public PartecipationRequest createPartecipationRequest(Project project) {
+    public PartecipationRequest<ProgramManagerRole> createPartecipationRequest(Project project) {
         getInnerCategory(project.getCategory());
         if (project.getTeam().getProgramManagerRequest().stream().map(p -> p.getPendingRole()).collect(Collectors.toSet()).contains(this))
             throw new IllegalArgumentException("Partecipation request gia presente nel team!");
@@ -103,7 +103,7 @@ public class ProgramManagerRole extends PendingRole implements IPartecipationReq
             throw new IllegalArgumentException("Program Manager gia presente nel team!");
         if (!this.getCategories().contains(project.getCategory()))
             throw new IllegalArgumentException("L'utente non presenta la categoria: [" + project.getCategory() + "]");
-        PartecipationRequest pr = new PartecipationRequest(this, project.getTeam());
+        PartecipationRequest<ProgramManagerRole> pr = new PartecipationRequest(this, project.getTeam());
         if (this.myPartecipationRequests.contains(pr))
             this.myPartecipationRequests.remove(pr);
         this.myPartecipationRequests.add(pr);
@@ -123,7 +123,7 @@ public class ProgramManagerRole extends PendingRole implements IPartecipationReq
         return projects;
     }
 
-    public Set<PartecipationRequest> getMyPartecipationRequests() {
+    public Set<PartecipationRequest<ProgramManagerRole>> getMyPartecipationRequests() {
         return this.myPartecipationRequests;
     }
 

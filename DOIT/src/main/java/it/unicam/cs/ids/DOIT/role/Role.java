@@ -72,8 +72,8 @@ public abstract class Role {
     public void removeCategory(Category category) {
         if (this.categories.size() == 1)
             throw new IllegalArgumentException("Non si puo eliminare una categoria quando ne rimane solo una!");
-        this.projects.stream().filter(p -> p.getCategory().equals(category)).findAny().orElseThrow(
-                () -> new IllegalArgumentException("Non puo essere eliminata una categoria in uso su uno dei progetti appartenenti al ruolo!"));
+        if (this.projects.stream().filter(p -> p.getCategory().equals(category)).findAny().orElse(null) != null)
+            throw new IllegalArgumentException("Non puo essere eliminata una categoria in uso su uno dei progetti appartenenti al ruolo!");
         this.categories.remove(category);
     }
 

@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.DOIT.view.controllerspringboot;
 
+import it.unicam.cs.ids.DOIT.category.Category;
 import it.unicam.cs.ids.DOIT.controller.ProjectManagerMVC;
 import it.unicam.cs.ids.DOIT.project.Project;
 import it.unicam.cs.ids.DOIT.project.ProjectState;
@@ -75,6 +76,24 @@ public class ProjectManagerController {
     public ProjectState visualizeState(@RequestBody String argv){
         try {
             return null;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @GetMapping(value = "/list-projects")
+    public List<Project> listProjects(@RequestParam Long iduser, @RequestParam Long tokenuser) {
+        try {
+            return List.copyOf(this.projectManagerMVC.listProjects(iduser, tokenuser));
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @GetMapping(value = "/list-categories")
+    public List<Category> listCategories(@RequestParam Long iduser, @RequestParam Long tokenuser) {
+        try {
+            return List.copyOf(this.projectManagerMVC.listCategories(iduser, tokenuser));
         } catch (Exception e) {
             return null;
         }

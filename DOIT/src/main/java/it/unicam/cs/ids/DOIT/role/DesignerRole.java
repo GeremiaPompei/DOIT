@@ -18,7 +18,7 @@ public class DesignerRole extends PendingRole {
     private Long id;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private Set<PartecipationRequest> myPartecipationRequests;
+    private Set<PartecipationRequest<DesignerRole>> myPartecipationRequests;
 
     @JoinColumn(name = "ID_Evaluation")
     @OneToMany(cascade = CascadeType.ALL)
@@ -37,11 +37,11 @@ public class DesignerRole extends PendingRole {
         this.evaluations = new HashSet<>();
     }
 
-    public Set<PartecipationRequest> getMyPartecipationRequests() {
+    public Set<PartecipationRequest<DesignerRole>> getMyPartecipationRequests() {
         return myPartecipationRequests;
     }
 
-    public PartecipationRequest createPartecipationRequest(Project inputProject) {
+    public PartecipationRequest<DesignerRole> createPartecipationRequest(Project inputProject) {
         getInnerCategory(inputProject.getCategory());
         if (inputProject.getTeam().getDesignerRequest().stream().map(p -> p.getPendingRole()).collect(Collectors.toSet()).contains(this))
             throw new IllegalArgumentException("Partecipation request gia presente nel team!");
@@ -51,7 +51,7 @@ public class DesignerRole extends PendingRole {
             throw new IllegalArgumentException("L'utente non presenta la categoria: [" + inputProject.getCategory() + "]");
         if (!inputProject.getTeam().isOpen())
             throw new IllegalArgumentException("Le registrazioni non sono aperte !");
-        PartecipationRequest pr = new PartecipationRequest(this, inputProject.getTeam());
+        PartecipationRequest<DesignerRole> pr = new PartecipationRequest(this, inputProject.getTeam());
         if (this.myPartecipationRequests.contains(pr))
             this.myPartecipationRequests.remove(pr);
         this.myPartecipationRequests.add(pr);

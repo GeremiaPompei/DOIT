@@ -8,7 +8,7 @@ import it.unicam.cs.ids.DOIT.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Iterator;
+import java.util.*;
 
 @Service
 public class UserMVC {
@@ -18,7 +18,7 @@ public class UserMVC {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    CategoryRepository categoryRepository;
+    private CategoryRepository categoryRepository;
 
     private User findByEmail(String email) {
         Iterator<User> iterator = userRepository.findAll().iterator();
@@ -59,41 +59,38 @@ public class UserMVC {
     public String addRole(Long idUser, Long tokenUser, String idRole, String idCategory) {
         Category category = categoryRepository.findById(idCategory).orElse(null);
         User user = this.getUser(idUser, tokenUser);
-        switch (idRole) {
-            case "project-proposer":
-                user.getRolesHandler().addProjectProposerRole(category);
-                break;
-            case "program-manager":
-                user.getRolesHandler().addProgramManagerRole(category);
-                break;
-            case "designer":
-                user.getRolesHandler().addDesignerRole(category);
-                break;
-            case "project-manager":
-                user.getRolesHandler().addProjectManagerRole(category);
-                break;
-        }
+        if (idRole.equals(getRoles().get(0)))
+            user.getRolesHandler().addProjectProposerRole(category);
+        else if (idRole.equals(getRoles().get(1)))
+            user.getRolesHandler().addProgramManagerRole(category);
+        else if (idRole.equals(getRoles().get(2)))
+            user.getRolesHandler().addDesignerRole(category);
+        else if (idRole.equals(getRoles().get(3)))
+            throw new IllegalArgumentException("Non può essere aggiunto il ruolo di projectManager!");
         userRepository.save(user);
         return "success";
     }
 
     public String removeRole(Long idUser, Long tokenUser, String idRole) {
         User user = this.getUser(idUser, tokenUser);
-        switch (idRole) {
-            case "project-proposer":
-                user.getRolesHandler().removeProjectProposerRole();
-                break;
-            case "program-manager":
-                user.getRolesHandler().removeProgramManagerRole();
-                break;
-            case "designer":
-                user.getRolesHandler().removeDesignerRole();
-                break;
-            case "project-manager":
-                user.getRolesHandler().removeProjectManagerRole();
-                break;
-        }
+        if (idRole.equals(getRoles().get(0)))
+            user.getRolesHandler().removeProjectProposerRole();
+        else if (idRole.equals(getRoles().get(1)))
+            user.getRolesHandler().removeProgramManagerRole();
+        else if (idRole.equals(getRoles().get(2)))
+            user.getRolesHandler().removeDesignerRole();
+        else if (idRole.equals(getRoles().get(3)))
+            user.getRolesHandler().removeProjectManagerRole();
         userRepository.save(user);
         return "success";
+    }
+
+    public List<String> getRoles() {
+        List<String> roles = new ArrayList<>();
+        roles.add("project-proposer");
+        roles.add("program-manager");
+        roles.add("designer");
+        roles.add("project-manager");
+        return roles;
     }
 }

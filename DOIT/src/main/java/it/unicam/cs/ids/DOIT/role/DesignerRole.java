@@ -41,23 +41,23 @@ public class DesignerRole extends PendingRole {
         return partecipationRequests;
     }
 
-    public void createPartecipationRequest(Team team) {
-        getInnerCategory(team.getProject().getCategory());
-        if (team.getDesignerRequest().stream().map(p -> p.getPendingRole()).collect(Collectors.toSet()).contains(this))
+    public void createPartecipationRequest(Project inputProject) {
+        getInnerCategory(inputProject.getCategory());
+        if (inputProject.getTeam().getDesignerRequest().stream().map(p -> p.getPendingRole()).collect(Collectors.toSet()).contains(this))
             throw new IllegalArgumentException("Partecipation request gia presente nel team!");
-        if (team.getDesigners().contains(this))
+        if (inputProject.getTeam().getDesigners().contains(this))
             throw new IllegalArgumentException("Designer gia presente nel team!");
-        if (!this.getCategories().contains(team.getProject().getCategory()))
-            throw new IllegalArgumentException("L'utente non presenta la categoria: [" + team.getProject().getCategory() + "]");
-        if (!team.isOpen())
+        if (!this.getCategories().contains(inputProject.getCategory()))
+            throw new IllegalArgumentException("L'utente non presenta la categoria: [" + inputProject.getCategory() + "]");
+        if (!inputProject.getTeam().isOpen())
             throw new IllegalArgumentException("Le registrazioni non sono aperte !");
-        PartecipationRequest pr = new PartecipationRequest(this, team);
+        PartecipationRequest pr = new PartecipationRequest(this, inputProject.getTeam());
         if (this.partecipationRequests.contains(pr))
             this.partecipationRequests.remove(pr);
         this.partecipationRequests.add(pr);
-        if (team.getDesignerRequest().contains(pr))
-            team.getDesignerRequest().remove(pr);
-        team.getDesignerRequest().add(pr);
+        if (inputProject.getTeam().getDesignerRequest().contains(pr))
+            inputProject.getTeam().getDesignerRequest().remove(pr);
+        inputProject.getTeam().getDesignerRequest().add(pr);
     }
 
     public Set<Project> getProjectsByCategory(Iterator<Project> iterator, Category category) {
@@ -70,9 +70,9 @@ public class DesignerRole extends PendingRole {
         return projects;
     }
 
-    public void enterEvaluation(Team team, int evaluation) {
-        Team teamFound = getInnerTeam(team);
-        this.evaluations.add(new Evaluation(team, evaluation));
+    public void enterEvaluation(Project projectInput, int evaluation) {
+        Project project = getInnerProject(projectInput);
+        this.evaluations.add(new Evaluation(project, evaluation));
     }
 
     public Set<Evaluation> getEvaluations() {
@@ -81,16 +81,5 @@ public class DesignerRole extends PendingRole {
 
     public Set<CVUnit> getCurriculumVitae() {
         return curriculumVitae;
-    }
-
-    @Override
-    public String toString() {
-        return "DesignerRole{" +
-                "partecipationRequests=" + partecipationRequests +
-                ", curriculumVitae=" + curriculumVitae +
-                ", evaluations=" + evaluations.stream().map(t -> t.getTeam().getId() + "-" + t.getEvaluate()).
-                reduce((x, y) -> x + ", " + y) +
-                ", role=" + super.toString() +
-                '}';
     }
 }

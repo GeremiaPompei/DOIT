@@ -7,7 +7,6 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Entity
 public class Team {
@@ -16,9 +15,6 @@ public class Team {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID_Team")
     private Long id;
-    @OneToOne
-    @JoinColumn(name = "ID_Project")
-    private Project project;
 
     @JoinColumn(name = "ID_ProjectProposer")
     @OneToOne(cascade = CascadeType.ALL)
@@ -42,16 +38,10 @@ public class Team {
 
     public Team(Project project, ProjectProposerRole projectProposer) {
         this.open = false;
-        this.project = project;
-        this.project.setTeam(this);
         this.projectProposer = projectProposer;
         this.designers = new HashSet<>();
         this.designerRequest = new HashSet<>();
         this.programManagerRequest = new HashSet<>();
-    }
-
-    public Long getId() {
-        return this.project.getId();
     }
 
     public boolean isOpen() {
@@ -63,12 +53,10 @@ public class Team {
     }
 
     public void addDesigner(DesignerRole designer) {
-        designer.enterTeam(this);
         this.designers.add(designer);
     }
 
     public void removeDesigner(DesignerRole designer) {
-        designer.getTeams().remove(this.project);
         this.designers.remove(designer);
     }
 
@@ -86,7 +74,6 @@ public class Team {
 
     public void setProgramManager(ProgramManagerRole programManagerRole) {
         this.programManager = programManagerRole;
-        programManagerRole.enterTeam(this);
     }
 
     public void setProjectManager(ProjectManagerRole projectManager) {
@@ -109,34 +96,16 @@ public class Team {
         this.open = false;
     }
 
-    public Project getProject() {
-        return project;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Team team = (Team) o;
-        return Objects.equals(project, team.project);
+        return Objects.equals(id, team.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(project);
-    }
-
-    @Override
-    public String toString() {
-        return "Team{" +
-                "project=" + project.getId() +
-                ", state=" + open +
-                ", projectProposer=" + projectProposer.getUser().getId() +
-                ", projectManager=" + (projectManager == null ? "null" : projectManager.getUser().getId()) +
-                ", programManager=" + (programManager == null ? "null" : programManager.getUser().getId()) +
-                ", designers=" + designers.stream().map(d -> d.getUser().getId()).collect(Collectors.toSet()) +
-                ", designerRequest=" + designerRequest.stream().map(pr -> pr.getPendingRole().getUser().getId())
-                .collect(Collectors.toSet()) +
-                '}';
+        return Objects.hash(id);
     }
 }

@@ -16,7 +16,7 @@ public abstract class PendingRole extends Role {
         super(user, category);
     }
 
-    abstract void createPartecipationRequest(Team team);
+    abstract void createPartecipationRequest(Project project);
 
     abstract Set<PartecipationRequest> getMyPartecipationRequests();
 

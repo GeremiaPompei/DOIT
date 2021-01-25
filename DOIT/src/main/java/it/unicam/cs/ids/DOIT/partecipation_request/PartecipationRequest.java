@@ -6,7 +6,6 @@ import it.unicam.cs.ids.DOIT.role.ProgramManagerRole;
 import it.unicam.cs.ids.DOIT.role.Team;
 import org.hibernate.annotations.Any;
 import org.hibernate.annotations.AnyMetaDef;
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.MetaValue;
 
 import javax.persistence.*;
@@ -99,16 +98,5 @@ public class PartecipationRequest<T extends PendingRole> {
     @Override
     public int hashCode() {
         return Objects.hash(role, team);
-    }
-
-    @Override
-    public String toString() {
-        return "PartecipationRequest{" +
-                "state=" + state +
-                ", description='" + description + '\'' +
-                ", dateTime=" + dateTime +
-                ", role=" + role.getUser().getId() +
-                ", team=" + team.getProject().getId() +
-                '}';
     }
 }

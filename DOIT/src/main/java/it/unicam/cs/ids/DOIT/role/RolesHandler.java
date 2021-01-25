@@ -4,6 +4,9 @@ import it.unicam.cs.ids.DOIT.category.Category;
 import it.unicam.cs.ids.DOIT.user.User;
 
 import javax.persistence.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 @Entity
 public class RolesHandler {
@@ -67,25 +70,25 @@ public class RolesHandler {
     }
 
     public void removeProjectProposerRole() {
-        if(!this.projectProposerRole.getTeams().isEmpty())
+        if(!this.projectProposerRole.getProjects().isEmpty())
             throw new IllegalArgumentException("Il ruolo contiene team!");
         this.projectProposerRole = null;
     }
 
     public void removeProgramManagerRole() {
-        if(!this.programManagerRole.getTeams().isEmpty())
+        if(!this.programManagerRole.getProjects().isEmpty())
             throw new IllegalArgumentException("Il ruolo contiene team!");
         this.programManagerRole = null;
     }
 
     public void removeDesignerRole() {
-        if(!this.designerRole.getTeams().isEmpty())
+        if(!this.designerRole.getProjects().isEmpty())
             throw new IllegalArgumentException("Il ruolo contiene team!");
         this.designerRole = null;
     }
 
     public void removeProjectManagerRole() {
-        if(!this.projectManagerRole.getTeams().isEmpty())
+        if(!this.projectManagerRole.getProjects().isEmpty())
             throw new IllegalArgumentException("Il ruolo contiene team!");
         this.projectManagerRole = null;
     }

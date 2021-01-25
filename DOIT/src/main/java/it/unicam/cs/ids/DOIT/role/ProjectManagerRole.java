@@ -48,31 +48,31 @@ public class ProjectManagerRole extends Role {
         return null;
     }
 
-    public void insertEvaluation(DesignerRole designer, Team team, int evaluation) throws RoleException {
-        DesignerRole designerFound = getInnerDesignerInTeam(designer, team);
+    public void insertEvaluation(User user, Project projectInput, int evaluation) throws RoleException {
+        DesignerRole designerFound = getInnerDesignerInTeam(user, projectInput);
         if (evaluation < 0 || evaluation > 5)
             throw new IllegalArgumentException("La valutazione deve essere compresa tra 0 e 5!");
-        designerFound.enterEvaluation(team, evaluation);
-        designerFound.exitTeam(team);
+        designerFound.enterEvaluation(projectInput, evaluation);
+        designerFound.exitProject(projectInput);
     }
 
-    public Set<User> getDesigners(Team team) {
-        return getInnerTeam(team).getDesigners().stream().map(t -> t.getUser()).collect(Collectors.toSet());
+    public Set<Long> getDesigners(Project projectInput) {
+        return getInnerProject(projectInput).getTeam().getDesigners().stream().map(t -> t.getIdUser()).collect(Collectors.toSet());
     }
 
-    public void exitAll(Team team) {
-        Team teamFound = getInnerTeam(team);
-        for (DesignerRole d : teamFound.getDesigners())
-            if (d.getTeams().contains(teamFound))
+    public void exitAll(Project projectInput) {
+        Project project = getInnerProject(projectInput);
+        for (DesignerRole d : project.getTeam().getDesigners())
+            if (d.getProjects().contains(project))
                 throw new IllegalArgumentException("Prima di chiudere il progetto finisci di valutare i designer!");
-        teamFound.getProjectProposer().exitTeam(teamFound);
-        teamFound.getProgramManager().exitTeam(teamFound);
-        teamFound.getProjectManager().exitTeam(teamFound);
-        teamFound.closeRegistrations();
+        project.getTeam().getProjectProposer().exitProject(project);
+        project.getTeam().getProgramManager().exitProject(project);
+        project.getTeam().getProjectManager().exitProject(project);
+        project.getTeam().closeRegistrations();
     }
 
-    public ProjectState getProjectState(Team team) {
-        return this.getTeams().stream().filter(t -> t.equals(team)).findAny().orElse(null).getProject().getProjectState();
+    public ProjectState getProjectState(Project projectInput) {
+        return this.getProjects().stream().filter(t -> t.equals(projectInput)).findAny().orElse(null).getProjectState();
     }
 
     @Override

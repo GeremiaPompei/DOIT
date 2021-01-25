@@ -7,11 +7,9 @@ export default Vue.component('category-list', {
     },
     template: `
     <div class='container'>
-        <select>
-        <option v-for="(category, index) in categories" key="index" @click="select(index)">
+        <button v-for="(category, index) in categories" key="index" @click="select(index)">
             {{category.name}}
-        </option>
-        </select>
+        </button>
     </div>
     `,
     data() {

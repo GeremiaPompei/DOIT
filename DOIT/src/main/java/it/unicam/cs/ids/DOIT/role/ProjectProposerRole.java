@@ -8,6 +8,7 @@ import it.unicam.cs.ids.DOIT.user.User;
 
 import javax.persistence.*;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 public class ProjectProposerRole extends Role implements IPartecipationRequestHandler<ProgramManagerRole> {
@@ -35,8 +36,8 @@ public class ProjectProposerRole extends Role implements IPartecipationRequestHa
     @Override
     public void acceptPR(ProgramManagerRole role, Project inputProject) {
         PartecipationRequest<ProgramManagerRole> pr = getInnerProgramManagerRequest(role, inputProject);
-        if (!this.getProjects().contains(pr.getTeam()))
-            throw new IllegalArgumentException("Il Project Proposer non possiede il team");
+        if (!this.getProjects().stream().map(p->p.getTeam()).collect(Collectors.toSet()).contains(pr.getTeam()))
+            throw new IllegalArgumentException("Il Project Proposer non possiede il progetto");
         pr.displayed("Congratulations! You are accepted.");
         pr.getTeam().getProgramManagerRequest().remove(pr);
         pr.getTeam().setProgramManager(role);
@@ -50,8 +51,8 @@ public class ProjectProposerRole extends Role implements IPartecipationRequestHa
     @Override
     public void removePR(ProgramManagerRole role, Project inputProject, String description) {
         PartecipationRequest pr = getInnerProgramManagerRequest(role, inputProject);
-        if (!this.getProjects().contains(pr.getTeam()))
-            throw new IllegalArgumentException("Il Project Proposer non possiede il team]");
+        if (!this.getProjects().stream().map(p->p.getTeam()).collect(Collectors.toSet()).contains(pr.getTeam()))
+            throw new IllegalArgumentException("Il Project Proposer non possiede il progetto");
         if (description == null || description.equals(""))
             throw new IllegalArgumentException("La descrizione non può essere vuota!");
         pr.displayed(description);
@@ -61,7 +62,7 @@ public class ProjectProposerRole extends Role implements IPartecipationRequestHa
     public Set<PartecipationRequest<ProgramManagerRole>> getPartecipationRequestsByTeam(Project inputProject) {
         Project project = getInnerProject(inputProject);
         if (!getProjects().contains(project))
-            throw new IllegalArgumentException("Team non posseduto: [" + project.getId() + "]");
+            throw new IllegalArgumentException("Project non posseduto: [" + project.getId() + "]");
         return project.getTeam().getProgramManagerRequest();
     }
 }

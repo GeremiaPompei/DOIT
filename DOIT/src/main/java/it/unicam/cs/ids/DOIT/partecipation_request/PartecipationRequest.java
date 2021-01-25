@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.DOIT.partecipation_request;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import it.unicam.cs.ids.DOIT.role.DesignerRole;
 import it.unicam.cs.ids.DOIT.role.PendingRole;
 import it.unicam.cs.ids.DOIT.role.ProgramManagerRole;
@@ -27,23 +28,24 @@ public class PartecipationRequest<T extends PendingRole> {
     @Any(metaColumn = @Column(name = "ROLE"))
     @AnyMetaDef(
             idType = "long",
-            metaType = "long",
+            metaType = "string",
             metaValues = {
-                    @MetaValue(value = "1", targetEntity = DesignerRole.class),
-                    @MetaValue(value = "1", targetEntity = ProgramManagerRole.class)
+                    @MetaValue(value = "DesignerRole", targetEntity = DesignerRole.class),
+                    @MetaValue(value = "ProgramManagerRole", targetEntity = ProgramManagerRole.class)
             })
-    @JoinColumn(name = "ID_Role")
-    private T role;
+    @JoinColumn(name = "ID_PendingRole")
+    private T pendingRole;
 
     @OneToOne()
     @JoinColumn(name = "ID_Team")
+    @JsonIgnoreProperties({"programManagerRequest", "designerRequest"})
     private Team team;
 
     public PartecipationRequest() {
     }
 
     public PartecipationRequest(T role, Team team) {
-        this.role = role;
+        this.pendingRole = role;
         this.team = team;
         this.description = "Partecipation request sent...";
         this.state = false;
@@ -51,7 +53,7 @@ public class PartecipationRequest<T extends PendingRole> {
     }
 
     public T getPendingRole() {
-        return role;
+        return pendingRole;
     }
 
     public void displayed(String description) {
@@ -92,11 +94,11 @@ public class PartecipationRequest<T extends PendingRole> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PartecipationRequest that = (PartecipationRequest) o;
-        return Objects.equals(role, that.role) && Objects.equals(team, that.team);
+        return Objects.equals(pendingRole, that.pendingRole) && Objects.equals(team, that.team);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(role, team);
+        return Objects.hash(pendingRole, team);
     }
 }

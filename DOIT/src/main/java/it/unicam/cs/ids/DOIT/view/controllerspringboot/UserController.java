@@ -15,45 +15,73 @@ public class UserController {
 
     @GetMapping(value = "/get")
     public User getUser(@RequestParam Long iduser, @RequestParam Long tokenuser) {
-        User user = this.userMVC.getUser(iduser, tokenuser);
-        return user;
+        try {
+            User user = this.userMVC.getUser(iduser, tokenuser);
+            return user;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @GetMapping(value = "/login")
     public String logIn(@RequestParam String email, @RequestParam String password) {
-        User user = this.userMVC.logIn(email, password);
-        return user.getId() + " " + user.getToken().getToken();
+        try {
+            User user = this.userMVC.logIn(email, password);
+            return user.getId() + " " + user.getToken().getToken();
+        } catch (Exception e) {
+            return e.getMessage();
+        }
     }
 
     @GetMapping(value = "/logout")
     public String logOut(@RequestParam Long iduser, @RequestParam Long tokenuser) {
-        this.userMVC.logOut(iduser, tokenuser);
-        return "success";
+        try {
+            this.userMVC.logOut(iduser, tokenuser);
+            return "success";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
     }
 
     @GetMapping(value = "/signin")
     public String signIn(@RequestParam String name, @RequestParam String surname, @RequestParam String birthdate,
                          @RequestParam String sex, @RequestParam String email, @RequestParam String password) {
-        this.userMVC.signIn(name, surname, birthdate, sex, email, password);
-        return "success";
+        try {
+            this.userMVC.signIn(name, surname, birthdate, sex, email, password);
+            return "success";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
     }
 
     @GetMapping(value = "/add-role")
     public String addRole(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam String idrole,
                           @RequestParam String idcategory) {
-        this.userMVC.addRole(iduser, tokenuser, idrole, idcategory);
-        return "success";
+        try {
+            this.userMVC.addRole(iduser, tokenuser, idrole, idcategory);
+            return "success";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
     }
 
     @GetMapping(value = "/remove-role")
     public String removeRole(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam String idrole) {
-        this.userMVC.removeRole(iduser, tokenuser, idrole);
-        return "success";
+        try {
+            this.userMVC.removeRole(iduser, tokenuser, idrole);
+            return "success";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
     }
 
     @GetMapping(value = "/get-roles")
     public List<String> getRoles() {
-        return this.userMVC.getRoles();
+        try {
+            return this.userMVC.getRoles();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }

@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.DOIT.role;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import it.unicam.cs.ids.DOIT.category.Category;
 import it.unicam.cs.ids.DOIT.partecipation_request.PartecipationRequest;
 import it.unicam.cs.ids.DOIT.project.Project;
@@ -16,7 +17,7 @@ public abstract class PendingRole extends Role {
         super(user, category);
     }
 
-    abstract void createPartecipationRequest(Project project);
+    abstract PartecipationRequest createPartecipationRequest(Project project);
 
     abstract Set<PartecipationRequest> getMyPartecipationRequests();
 

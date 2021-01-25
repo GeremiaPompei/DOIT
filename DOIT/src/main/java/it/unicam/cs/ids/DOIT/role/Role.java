@@ -9,7 +9,6 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -22,13 +21,11 @@ public abstract class Role {
 
     private Long idUser;
 
-    @JoinColumn(name = "ID_Project")
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     private Set<Project> projects;
-    @JoinColumn(name = "ID_Project")
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     private Set<Project> history;
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     private Set<Category> categories;
 
     public Role() {
@@ -129,7 +126,7 @@ public abstract class Role {
     }
 
     protected Project getInnerProject(Project projectInput) {
-        Project project = this.getProjects().stream().filter(t -> t.getId().equals(projectInput)).findAny().orElseThrow(() ->
+        Project project = this.getProjects().stream().filter(t -> t.equals(projectInput)).findAny().orElseThrow(() ->
                 new IllegalArgumentException("Il ruolo non ha il progetto con id: [" + projectInput.getId() + "]"));
         getInnerCategory(project.getCategory());
         return project;

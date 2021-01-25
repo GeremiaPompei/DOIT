@@ -4,9 +4,6 @@ import it.unicam.cs.ids.DOIT.category.Category;
 import it.unicam.cs.ids.DOIT.user.User;
 
 import javax.persistence.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
 @Entity
 public class RolesHandler {
@@ -93,7 +90,7 @@ public class RolesHandler {
         this.projectManagerRole = null;
     }
 
-    public boolean isProjectProposerRole() {
+    public boolean isProjectProposer() {
         return this.projectProposerRole != null;
     }
 
@@ -101,7 +98,7 @@ public class RolesHandler {
         return this.programManagerRole != null;
     }
 
-    public boolean isDesignerRole() {
+    public boolean isDesigner() {
         return this.designerRole != null;
     }
 

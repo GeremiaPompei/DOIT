@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.DOIT.role;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import it.unicam.cs.ids.DOIT.category.Category;
 import it.unicam.cs.ids.DOIT.partecipation_request.PartecipationRequest;
 import it.unicam.cs.ids.DOIT.project.Project;
@@ -20,7 +21,8 @@ public class ProgramManagerRole extends PendingRole implements IPartecipationReq
     private Long id;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private Set<PartecipationRequest> partecipationRequests;
+    @JsonIgnoreProperties("pendingRole")
+    private Set<PartecipationRequest> myPartecipationRequests;
 
     public ProgramManagerRole() {
         super();
@@ -28,7 +30,7 @@ public class ProgramManagerRole extends PendingRole implements IPartecipationReq
 
     public ProgramManagerRole(User user, Category category) {
         super(user, category);
-        this.partecipationRequests = new HashSet<>();
+        this.myPartecipationRequests = new HashSet<>();
     }
 
     public void acceptPR(DesignerRole designer, Project projectInput) {
@@ -66,9 +68,9 @@ public class ProgramManagerRole extends PendingRole implements IPartecipationReq
         designer.getProjects().remove(project);
     }
 
-    //TODO controllare user
-    public void setProjectManager(User user, Project projectInput) {
+    public void setProjectManager(User user, Project projectInput) throws RoleException {
         Project project = getInnerProject(projectInput);
+        getInnerDesignerInTeam(user, projectInput);
         if (!this.getProjects().contains(project))
             throw new IllegalArgumentException("L'utente non possiede il progetto con id:[" + project.getId() + "]");
         user.getRolesHandler().addProjectManagerRole(project.getCategory());
@@ -93,7 +95,7 @@ public class ProgramManagerRole extends PendingRole implements IPartecipationReq
     }
 
     @Override
-    public void createPartecipationRequest(Project project) {
+    public PartecipationRequest createPartecipationRequest(Project project) {
         getInnerCategory(project.getCategory());
         if (project.getTeam().getProgramManagerRequest().stream().map(p -> p.getPendingRole()).collect(Collectors.toSet()).contains(this))
             throw new IllegalArgumentException("Partecipation request gia presente nel team!");
@@ -102,12 +104,13 @@ public class ProgramManagerRole extends PendingRole implements IPartecipationReq
         if (!this.getCategories().contains(project.getCategory()))
             throw new IllegalArgumentException("L'utente non presenta la categoria: [" + project.getCategory() + "]");
         PartecipationRequest pr = new PartecipationRequest(this, project.getTeam());
-        if (this.partecipationRequests.contains(pr))
-            this.partecipationRequests.remove(pr);
-        this.partecipationRequests.add(pr);
+        if (this.myPartecipationRequests.contains(pr))
+            this.myPartecipationRequests.remove(pr);
+        this.myPartecipationRequests.add(pr);
         if (project.getTeam().getProgramManagerRequest().contains(pr))
             project.getTeam().getProgramManagerRequest().remove(pr);
         project.getTeam().getProgramManagerRequest().add(pr);
+        return pr;
     }
 
     public Set<Project> getProjectsByCategory(Iterator<Project> iterator, Category category) {
@@ -121,7 +124,7 @@ public class ProgramManagerRole extends PendingRole implements IPartecipationReq
     }
 
     public Set<PartecipationRequest> getMyPartecipationRequests() {
-        return this.partecipationRequests;
+        return this.myPartecipationRequests;
     }
 
 }

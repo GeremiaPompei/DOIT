@@ -17,25 +17,45 @@ public class ProjectProposerController {
     @GetMapping(value = "/create-project")
     public String createProject(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam String name,
                                 @RequestParam String description, @RequestParam String idcategory) {
-        this.projectProposerMVC.createProject(iduser, tokenuser, name, description, idcategory);
-        return "success";
+        try {
+            this.projectProposerMVC.createProject(iduser, tokenuser, name, description, idcategory);
+            return "success";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
     }
 
-    @GetMapping(value = "/program-manager-pr")
+    @GetMapping(value = "/list-pr")
     public List<PartecipationRequest<ProgramManagerRole>> getProgramManagerPR(@RequestParam Long iduser,
                                                                               @RequestParam Long tokenuser,
                                                                               @RequestParam Long idproject) {
-        return null;
+        try {
+            return List.copyOf(this.projectProposerMVC.listPR(iduser, tokenuser, idproject));
+        } catch (Exception e) {
+            return null;
+        }
     }
 
-    @GetMapping(value = "/accept-program-manager-pr")
-    public void acceptAcceptProgramManagerPR(@RequestParam Long iduser, @RequestParam Long tokenuser,
-                                             @RequestParam Long idprgrammanager, @RequestParam Long idproject) {
+    @GetMapping(value = "/accept-pr")
+    public String acceptAcceptProgramManagerPR(@RequestParam Long iduser, @RequestParam Long tokenuser,
+                                               @RequestParam Long idprogrammanager, @RequestParam Long idproject) {
+        try {
+            this.projectProposerMVC.acceptPR(iduser, tokenuser, idprogrammanager, idproject);
+            return "success";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
     }
 
-    @GetMapping(value = "/remove-program-manager-pr")
-    public void removeAcceptProgramManagerPR(@RequestParam Long iduser, @RequestParam Long tokenuser,
-                                             @RequestParam Long idprgrammanager, @RequestParam Long idproject,
-                                             @RequestParam String reason) {
+    @GetMapping(value = "/remove-pr")
+    public String removeAcceptProgramManagerPR(@RequestParam Long iduser, @RequestParam Long tokenuser,
+                                               @RequestParam Long idprogrammanager, @RequestParam Long idproject,
+                                               @RequestParam String reason) {
+        try {
+            this.projectProposerMVC.removePR(iduser, tokenuser, idprogrammanager, idproject, reason);
+            return "success";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
     }
 }

@@ -1,6 +1,5 @@
 package it.unicam.cs.ids.DOIT.project;
 
-import com.sun.istack.Nullable;
 import it.unicam.cs.ids.DOIT.category.Category;
 import it.unicam.cs.ids.DOIT.role.Team;
 
@@ -32,6 +31,9 @@ public class Project {
         this.description = description;
         this.category = category;
         this.projectState = projectState;
+    }
+
+    public Project() {
     }
 
     public ProjectState getProjectState() {

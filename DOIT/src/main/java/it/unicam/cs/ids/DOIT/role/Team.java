@@ -1,7 +1,9 @@
 package it.unicam.cs.ids.DOIT.role;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import it.unicam.cs.ids.DOIT.partecipation_request.PartecipationRequest;
 import it.unicam.cs.ids.DOIT.project.Project;
+import org.springframework.context.annotation.Lazy;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -16,24 +18,30 @@ public class Team {
     @Column(name = "ID_Team")
     private Long id;
 
+
     @JoinColumn(name = "ID_ProjectProposer")
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
+    @JsonIgnoreProperties("projects")
     private ProjectProposerRole projectProposer;
 
     @JoinColumn(name = "ID_ProjectManager")
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
+    @JsonIgnoreProperties("projects")
     private ProjectManagerRole projectManager;
 
     @JoinColumn(name = "ID_ProgramManager")
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
+    @JsonIgnoreProperties("projects")
     private ProgramManagerRole programManager;
 
-    @JoinColumn(name = "ID_Designer")
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany
+    @JsonIgnoreProperties("projects")
     private Set<DesignerRole> designers;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany
+    @JsonIgnoreProperties("teams")
     private Set<PartecipationRequest<DesignerRole>> designerRequest;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany
+    @JsonIgnoreProperties("teams")
     private Set<PartecipationRequest<ProgramManagerRole>> programManagerRequest;
 
     public Team(Project project, ProjectProposerRole projectProposer) {
@@ -42,6 +50,9 @@ public class Team {
         this.designers = new HashSet<>();
         this.designerRequest = new HashSet<>();
         this.programManagerRequest = new HashSet<>();
+    }
+
+    public Team() {
     }
 
     public boolean isOpen() {

@@ -18,7 +18,7 @@ public class DesignerRole extends PendingRole {
     private Long id;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private Set<PartecipationRequest> partecipationRequests;
+    private Set<PartecipationRequest> myPartecipationRequests;
 
     @JoinColumn(name = "ID_Evaluation")
     @OneToMany(cascade = CascadeType.ALL)
@@ -32,16 +32,16 @@ public class DesignerRole extends PendingRole {
 
     public DesignerRole(User user, Category category) {
         super(user, category);
-        this.partecipationRequests = new HashSet<>();
+        this.myPartecipationRequests = new HashSet<>();
         this.curriculumVitae = new HashSet<>();
         this.evaluations = new HashSet<>();
     }
 
     public Set<PartecipationRequest> getMyPartecipationRequests() {
-        return partecipationRequests;
+        return myPartecipationRequests;
     }
 
-    public void createPartecipationRequest(Project inputProject) {
+    public PartecipationRequest createPartecipationRequest(Project inputProject) {
         getInnerCategory(inputProject.getCategory());
         if (inputProject.getTeam().getDesignerRequest().stream().map(p -> p.getPendingRole()).collect(Collectors.toSet()).contains(this))
             throw new IllegalArgumentException("Partecipation request gia presente nel team!");
@@ -52,12 +52,13 @@ public class DesignerRole extends PendingRole {
         if (!inputProject.getTeam().isOpen())
             throw new IllegalArgumentException("Le registrazioni non sono aperte !");
         PartecipationRequest pr = new PartecipationRequest(this, inputProject.getTeam());
-        if (this.partecipationRequests.contains(pr))
-            this.partecipationRequests.remove(pr);
-        this.partecipationRequests.add(pr);
+        if (this.myPartecipationRequests.contains(pr))
+            this.myPartecipationRequests.remove(pr);
+        this.myPartecipationRequests.add(pr);
         if (inputProject.getTeam().getDesignerRequest().contains(pr))
             inputProject.getTeam().getDesignerRequest().remove(pr);
         inputProject.getTeam().getDesignerRequest().add(pr);
+        return pr;
     }
 
     public Set<Project> getProjectsByCategory(Iterator<Project> iterator, Category category) {

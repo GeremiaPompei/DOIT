@@ -1,10 +1,7 @@
 package it.unicam.cs.ids.DOIT.role;
 
-import com.sun.istack.Nullable;
 import it.unicam.cs.ids.DOIT.category.Category;
 import it.unicam.cs.ids.DOIT.partecipation_request.PartecipationRequest;
-import it.unicam.cs.ids.DOIT.service.FactoryModel;
-import it.unicam.cs.ids.DOIT.service.IFactoryModel;
 import it.unicam.cs.ids.DOIT.user.User;
 
 import javax.persistence.*;
@@ -16,16 +13,13 @@ import java.util.stream.Collectors;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Role {
-    @Transient
-    protected IFactoryModel factoryModel;
 
     @Id
     @Column(name = "ID_Role")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @JoinColumn(name = "ID_User")
-    @OneToOne
+    @Transient
     private User user;
 
     @JoinColumn(name = "ID_Team")
@@ -37,8 +31,10 @@ public abstract class Role {
     @OneToMany(cascade = CascadeType.ALL)
     private Set<Category> categories;
 
-    public Role(User user, Category category, IFactoryModel factoryModel) {
-        this.factoryModel = factoryModel;
+    public Role() {
+    }
+
+    public Role(User user, Category category) {
         this.user = user;
         teams = new HashSet<>();
         categories = new HashSet<>();

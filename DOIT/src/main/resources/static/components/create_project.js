@@ -4,9 +4,9 @@ export default Vue.component('create-project', {
         <button @click="back()" class="back"><i style="font-size:24px" class="fa">&#xf104;</i></button>
         <form @submit.prevent="">
             <p>Name</p>
-            <input placeholder="Project name..." type="text">
+            <input placeholder="Project name..." type="text" v-model="name">
             <p>Description</p>
-            <input placeholder="Project description..." type="text">
+            <input placeholder="Project description..." type="text" v-model="description">
             <p>Category</p>
             <select>
             <option v-for="(category, index) in role.categories" key="index"">
@@ -19,12 +19,17 @@ export default Vue.component('create-project', {
     `,
     data() {
         return {
-            role: undefined
+            role: undefined,
+            name: '',
+            description: '',
         }
     },
     created() {
         this.$emit('load',true);
-        fetch('/api/role/'+this.$route.params.user+'/project-proposer').then(res=>res.json()).then(res=>{
+        fetch('/api/project-proposer/create-project', {
+        method: 'POST',
+        body: localStorage.getItem(key) + " " + this.name + " " + this.description,
+        headers: {'Content-Type': 'application/json'}}).then(res=>res.json()).then(res => {
             this.role = res;
             this.$emit('load',false);
         });

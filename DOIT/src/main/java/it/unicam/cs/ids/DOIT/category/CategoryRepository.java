@@ -1,6 +1,5 @@
-package it.unicam.cs.ids.DOIT.service.entity;
+package it.unicam.cs.ids.DOIT.category;
 
-import it.unicam.cs.ids.DOIT.category.Category;
 import org.springframework.data.repository.CrudRepository;
 
 public interface CategoryRepository extends CrudRepository<Category, String> {

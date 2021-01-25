@@ -1,7 +1,7 @@
 package it.unicam.cs.ids.DOIT.controller;
 
 import it.unicam.cs.ids.DOIT.category.Category;
-import it.unicam.cs.ids.DOIT.service.entity.CategoryRepository;
+import it.unicam.cs.ids.DOIT.category.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service
-public class Search implements ISearch {
+public class SearchMVC {
     @Autowired
     CategoryRepository categoryRepository;
 

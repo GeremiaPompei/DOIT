@@ -3,7 +3,6 @@ package it.unicam.cs.ids.DOIT.role;
 import it.unicam.cs.ids.DOIT.category.Category;
 import it.unicam.cs.ids.DOIT.project.Project;
 import it.unicam.cs.ids.DOIT.project.ProjectState;
-import it.unicam.cs.ids.DOIT.service.IFactoryModel;
 import it.unicam.cs.ids.DOIT.user.User;
 
 import javax.persistence.*;
@@ -18,8 +17,12 @@ public class ProjectManagerRole extends Role {
     @Column(name = "ID_ProjectManager")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    public ProjectManagerRole(User user, Category category, IFactoryModel factoryModel) {
-        super(user, category, factoryModel);
+
+    public ProjectManagerRole() {
+    }
+
+    public ProjectManagerRole(User user, Category category) {
+        super(user, category);
     }
 
     public void upgradeState(Iterator<ProjectState> iterator, Project project) {

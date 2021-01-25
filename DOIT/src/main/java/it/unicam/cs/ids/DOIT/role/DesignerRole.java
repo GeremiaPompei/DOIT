@@ -3,7 +3,6 @@ package it.unicam.cs.ids.DOIT.role;
 import it.unicam.cs.ids.DOIT.category.Category;
 import it.unicam.cs.ids.DOIT.partecipation_request.PartecipationRequest;
 import it.unicam.cs.ids.DOIT.project.Project;
-import it.unicam.cs.ids.DOIT.service.IFactoryModel;
 import it.unicam.cs.ids.DOIT.user.User;
 
 import javax.persistence.*;
@@ -28,8 +27,11 @@ public class DesignerRole extends PendingRole {
     @OneToMany(cascade = CascadeType.ALL)
     private Set<CVUnit> curriculumVitae;
 
-    public DesignerRole(User user, Category category, IFactoryModel factoryModel) {
-        super(user, category, factoryModel);
+    public DesignerRole() {
+    }
+
+    public DesignerRole(User user, Category category) {
+        super(user, category);
         this.partecipationRequests = new HashSet<>();
         this.curriculumVitae = new HashSet<>();
         this.evaluations = new HashSet<>();
@@ -49,7 +51,7 @@ public class DesignerRole extends PendingRole {
             throw new IllegalArgumentException("L'utente non presenta la categoria: [" + team.getProject().getCategory() + "]");
         if (!team.isOpen())
             throw new IllegalArgumentException("Le registrazioni non sono aperte !");
-        PartecipationRequest pr = factoryModel.createPartecipationRequest(this, team);
+        PartecipationRequest pr = new PartecipationRequest(this, team);
         if (this.partecipationRequests.contains(pr))
             this.partecipationRequests.remove(pr);
         this.partecipationRequests.add(pr);

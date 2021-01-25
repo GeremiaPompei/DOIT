@@ -1,7 +1,7 @@
 package it.unicam.cs.ids.DOIT.user;
 
+import it.unicam.cs.ids.DOIT.category.CategoryRepository;
 import it.unicam.cs.ids.DOIT.role.*;
-import it.unicam.cs.ids.DOIT.service.IFactoryModel;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -25,14 +25,14 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     private TokenHandler token;
 
-    public User(String name, String surname, String birthDate, String sex, String email, String password, IFactoryModel factoryModel) {
+    public User(String name, String surname, String birthDate, String sex, String email, String password) {
         this.name = name;
         this.surname = surname;
         this.birthDate = birthDate;
         this.sex = sex;
         this.email = email;
         this.password = password;
-        this.rolesHandler = new RolesHandler(this, factoryModel);
+        this.rolesHandler = new RolesHandler(this);
         this.token = new TokenHandler();
     }
 

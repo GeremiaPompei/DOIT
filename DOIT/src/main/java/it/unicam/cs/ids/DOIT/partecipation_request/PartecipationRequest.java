@@ -30,8 +30,8 @@ public class PartecipationRequest<T extends PendingRole> {
             idType = "long",
             metaType = "long",
             metaValues = {
-                    @MetaValue(value = "ID_Designer", targetEntity = DesignerRole.class),
-                    @MetaValue(value = "ID_ProgramManager", targetEntity = ProgramManagerRole.class)
+                    @MetaValue(value = "1", targetEntity = DesignerRole.class),
+                    @MetaValue(value = "1", targetEntity = ProgramManagerRole.class)
             })
     @JoinColumn(name = "ID_Role")
     private T role;

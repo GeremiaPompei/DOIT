@@ -1,4 +1,4 @@
-package it.unicam.cs.ids.DOIT.service.entity;
+package it.unicam.cs.ids.DOIT.partecipation_request;
 
 import it.unicam.cs.ids.DOIT.partecipation_request.PartecipationRequest;
 import it.unicam.cs.ids.DOIT.role.PendingRole;

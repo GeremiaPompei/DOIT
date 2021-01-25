@@ -3,7 +3,6 @@ package it.unicam.cs.ids.DOIT.role;
 import it.unicam.cs.ids.DOIT.category.Category;
 import it.unicam.cs.ids.DOIT.partecipation_request.PartecipationRequest;
 import it.unicam.cs.ids.DOIT.project.Project;
-import it.unicam.cs.ids.DOIT.service.IFactoryModel;
 import it.unicam.cs.ids.DOIT.user.User;
 
 import javax.persistence.*;
@@ -23,8 +22,12 @@ public class ProgramManagerRole extends PendingRole implements IPartecipationReq
     @OneToMany(cascade = CascadeType.ALL)
     private Set<PartecipationRequest> partecipationRequests;
 
-    public ProgramManagerRole(User user, Category category, IFactoryModel factoryModel) {
-        super(user, category, factoryModel);
+    public ProgramManagerRole() {
+        super();
+    }
+
+    public ProgramManagerRole(User user, Category category) {
+        super(user, category);
         this.partecipationRequests = new HashSet<>();
     }
 
@@ -61,7 +64,7 @@ public class ProgramManagerRole extends PendingRole implements IPartecipationReq
         team.removeDesigner(designer);
     }
 
-    public void setProjectManager(DesignerRole inputDesigner, Team inputTeam) throws ReflectiveOperationException, RoleException {
+    public void setProjectManager(DesignerRole inputDesigner, Team inputTeam) {
         Team team = getInnerTeam(inputTeam);
         User user = getInnerDesignerInTeam(inputDesigner, inputTeam).getUser();
         if (!this.getTeams().contains(team))
@@ -96,7 +99,7 @@ public class ProgramManagerRole extends PendingRole implements IPartecipationReq
             throw new IllegalArgumentException("Program Manager gia presente nel team!");
         if (!this.getCategories().contains(team.getProject().getCategory()))
             throw new IllegalArgumentException("L'utente non presenta la categoria: [" + team.getProject().getCategory() + "]");
-        PartecipationRequest pr = factoryModel.createPartecipationRequest(this, team);
+        PartecipationRequest pr = new PartecipationRequest(this, team);
         if (this.partecipationRequests.contains(pr))
             this.partecipationRequests.remove(pr);
         this.partecipationRequests.add(pr);

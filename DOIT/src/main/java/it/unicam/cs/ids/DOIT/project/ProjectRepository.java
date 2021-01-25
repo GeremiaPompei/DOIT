@@ -1,4 +1,4 @@
-package it.unicam.cs.ids.DOIT.service.entity;
+package it.unicam.cs.ids.DOIT.project;
 
 import it.unicam.cs.ids.DOIT.project.Project;
 import org.springframework.data.repository.CrudRepository;

@@ -1,15 +1,12 @@
 package it.unicam.cs.ids.DOIT.role;
 
 import it.unicam.cs.ids.DOIT.category.Category;
-import it.unicam.cs.ids.DOIT.service.IFactoryModel;
 import it.unicam.cs.ids.DOIT.user.User;
 
 import javax.persistence.*;
 
 @Entity
 public class RolesHandler {
-    @Transient
-    private IFactoryModel factoryModel;
     @Id
     @Column(name = "ID_RolesHandler")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,9 +27,11 @@ public class RolesHandler {
     @OneToOne(cascade = CascadeType.ALL)
     private ProjectManagerRole projectManagerRole;
 
-    public RolesHandler(User user, IFactoryModel factoryModel) {
+    public RolesHandler() {
+    }
+
+    public RolesHandler(User user) {
         this.user = user;
-        this.factoryModel = factoryModel;
     }
 
     public ProjectProposerRole getProjectProposerRole() {
@@ -52,34 +51,42 @@ public class RolesHandler {
     }
 
     public void addProjectProposerRole(Category category) {
-        this.projectProposerRole = factoryModel.createProjectProposerRole(this.user, category);
+        this.projectProposerRole = new ProjectProposerRole(this.user, category);
     }
 
     public void addProgramManagerRole(Category category) {
-        this.programManagerRole = factoryModel.createProgramManagerRole(this.user, category);
+        this.programManagerRole = new ProgramManagerRole(this.user, category);
     }
 
     public void addDesignerRole(Category category) {
-        this.designerRole = factoryModel.createDesignerRole(this.user, category);
+        this.designerRole = new DesignerRole(this.user, category);
     }
 
     public void addProjectManagerRole(Category category) {
-        this.projectManagerRole = factoryModel.createProjectManagerRole(this.user, category);
+        this.projectManagerRole = new ProjectManagerRole(this.user, category);
     }
 
     public void removeProjectProposerRole() {
+        if(!this.projectProposerRole.getTeams().isEmpty())
+            throw new IllegalArgumentException("Il ruolo contiene team!");
         this.projectProposerRole = null;
     }
 
     public void removeProgramManagerRole() {
+        if(!this.programManagerRole.getTeams().isEmpty())
+            throw new IllegalArgumentException("Il ruolo contiene team!");
         this.programManagerRole = null;
     }
 
     public void removeDesignerRole() {
+        if(!this.designerRole.getTeams().isEmpty())
+            throw new IllegalArgumentException("Il ruolo contiene team!");
         this.designerRole = null;
     }
 
     public void removeProjectManagerRole() {
+        if(!this.projectManagerRole.getTeams().isEmpty())
+            throw new IllegalArgumentException("Il ruolo contiene team!");
         this.projectManagerRole = null;
     }
 

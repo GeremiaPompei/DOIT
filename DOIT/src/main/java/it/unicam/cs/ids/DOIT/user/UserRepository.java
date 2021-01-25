@@ -1,6 +1,5 @@
-package it.unicam.cs.ids.DOIT.service.entity;
+package it.unicam.cs.ids.DOIT.user;
 
-import it.unicam.cs.ids.DOIT.user.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

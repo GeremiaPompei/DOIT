@@ -4,7 +4,6 @@ import it.unicam.cs.ids.DOIT.category.Category;
 import it.unicam.cs.ids.DOIT.partecipation_request.PartecipationRequest;
 import it.unicam.cs.ids.DOIT.project.Project;
 import it.unicam.cs.ids.DOIT.project.ProjectState;
-import it.unicam.cs.ids.DOIT.service.IFactoryModel;
 import it.unicam.cs.ids.DOIT.user.User;
 
 import javax.persistence.*;
@@ -18,14 +17,17 @@ public class ProjectProposerRole extends Role implements IPartecipationRequestHa
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    public ProjectProposerRole(User user, Category category, IFactoryModel factoryModel) {
-        super(user, category, factoryModel);
+    public ProjectProposerRole() {
+    }
+
+    public ProjectProposerRole(User user, Category category) {
+        super(user, category);
     }
 
     public void createProject(String name, String description, Category category, ProjectState projectState)
             throws IllegalArgumentException {
-        Project project = factoryModel.createProject(name, description, getInnerCategory(category), projectState);
-        Team team = factoryModel.createTeam(project, this);
+        Project project = new Project(name, description, getInnerCategory(category), projectState);
+        Team team = new Team(project, this);
         this.getTeams().add(team);
     }
 

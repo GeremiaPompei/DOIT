@@ -23,7 +23,7 @@ public class DesignerRole extends Role implements PendingRole {
     private Set<PartecipationRequest<DesignerRole>> myPartecipationRequests;
 
     @JoinColumn(name = "ID_Evaluation")
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     private Set<Evaluation> evaluations;
     @JoinColumn(name = "ID_CVUnit")
     @OneToMany(cascade = CascadeType.ALL)
@@ -73,9 +73,11 @@ public class DesignerRole extends Role implements PendingRole {
         return projects;
     }
 
-    public void enterEvaluation(Project projectInput, int evaluation) {
+    public Evaluation enterEvaluation(Project projectInput, int evaluation) {
         Project project = getInnerProject(projectInput);
-        this.evaluations.add(new Evaluation(project, evaluation));
+        Evaluation ev = new Evaluation(project.getId(), evaluation);
+        this.evaluations.add(ev);
+        return ev;
     }
 
     public Set<Evaluation> getEvaluations() {

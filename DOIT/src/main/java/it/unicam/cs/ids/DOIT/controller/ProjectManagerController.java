@@ -18,7 +18,7 @@ public class ProjectManagerController {
     @Autowired
     private ProjectManagerService projectManagerMVC;
 
-    @GetMapping(value = "/upgrade-state")
+    @PutMapping(value = "/upgrade-state")
     public String ugradeState(@RequestParam Long iduser, @RequestParam Long tokenuser,
                               @RequestParam Long idproject) {
         try {
@@ -29,7 +29,7 @@ public class ProjectManagerController {
         }
     }
 
-    @GetMapping(value = "/downgrade-state")
+    @PutMapping(value = "/downgrade-state")
     public String downgradeState(@RequestParam Long iduser, @RequestParam Long tokenuser,
                                  @RequestParam Long idproject) {
         try {
@@ -50,7 +50,7 @@ public class ProjectManagerController {
         }
     }
 
-    @GetMapping(value = "/evaluate")
+    @PutMapping(value = "/evaluate")
     public String evaluateDesigner(@RequestParam Long iduser, @RequestParam Long tokenuser,
                                    @RequestParam Long iddesigner, @RequestParam Long idproject,
                                    @RequestParam Integer evaluation) {
@@ -62,7 +62,7 @@ public class ProjectManagerController {
         }
     }
 
-    @GetMapping(value = "/exit-all")
+    @PutMapping(value = "/exit-all")
     public String exitAll(@RequestParam Long iduser, @RequestParam Long tokenuser,
                           @RequestParam Long idproject) {
         try {

@@ -20,6 +20,10 @@ public class RepositoryHandler {
     private PartecipationRequestRepository<DesignerRole> partecipationRequestDesignerRepository;
     @Autowired
     private PartecipationRequestRepository<ProgramManagerRole> partecipationRequestProgramManagerRepository;
+    @Autowired
+    private ProjectManagerRepository projectManagerRepository;
+    @Autowired
+    private EvaluationRepository evaluationRepository;
 
     public UserRepository getUserRepository() {
         return userRepository;
@@ -45,4 +49,11 @@ public class RepositoryHandler {
         return projectStateRepository;
     }
 
+    public ProjectManagerRepository getProjectManagerRepository() {
+        return projectManagerRepository;
+    }
+
+    public EvaluationRepository getEvaluationRepository() {
+        return evaluationRepository;
+    }
 }

@@ -48,12 +48,13 @@ public class ProjectManagerRole extends Role {
         return null;
     }
 
-    public void insertEvaluation(User user, Project projectInput, int evaluation) {
+    public Evaluation insertEvaluation(User user, Project projectInput, int evaluation) {
         DesignerRole designerFound = getInnerDesignerInTeam(user, projectInput);
         if (evaluation < 0 || evaluation > 5)
             throw new IllegalArgumentException("La valutazione deve essere compresa tra 0 e 5!");
-        designerFound.enterEvaluation(projectInput, evaluation);
+        Evaluation ev = designerFound.enterEvaluation(projectInput, evaluation);
         designerFound.exitProject(projectInput);
+        return ev;
     }
 
     public Set<Long> getDesigners(Project projectInput) {

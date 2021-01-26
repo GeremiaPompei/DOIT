@@ -31,9 +31,9 @@ public class DOITCommandLineRunner implements CommandLineRunner {
 
         userMVC.signIn("Nome", "Cognome", "Eta", "Sesso", "Email", "Password");
         User user = userMVC.logIn("Email", "Password");
-        userMVC.addRole(user.getId(), user.getTokenHandler().getToken(), "project-proposer", "SPORT");
-        userMVC.addRole(user.getId(), user.getTokenHandler().getToken(), "program-manager", "SPORT");
-        userMVC.addRole(user.getId(), user.getTokenHandler().getToken(), "designer", "SPORT");
-        System.err.println(user.getId() + " " + user.getTokenHandler().getToken());
+        userMVC.addRole(user.getId(), user.tokenHandlerGet().getToken(), "project-proposer", "SPORT");
+        userMVC.addRole(user.getId(), user.tokenHandlerGet().getToken(), "program-manager", "SPORT");
+        userMVC.addRole(user.getId(), user.tokenHandlerGet().getToken(), "designer", "SPORT");
+        System.err.println(user.getId() + " " + user.tokenHandlerGet().getToken());
     }
 }

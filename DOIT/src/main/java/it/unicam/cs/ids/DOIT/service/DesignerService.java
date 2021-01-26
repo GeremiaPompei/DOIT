@@ -1,6 +1,7 @@
 package it.unicam.cs.ids.DOIT.service;
 
 import it.unicam.cs.ids.DOIT.model.category.Category;
+import it.unicam.cs.ids.DOIT.model.role.ProgramManagerRole;
 import it.unicam.cs.ids.DOIT.repository.*;
 import it.unicam.cs.ids.DOIT.model.partecipation_request.PartecipationRequest;
 import it.unicam.cs.ids.DOIT.model.project.Project;
@@ -25,6 +26,11 @@ public class DesignerService {
                 user.getRolesHandler(tokenUser).getDesignerRole().createPartecipationRequest(project);
         repositoryHandler.getPartecipationRequestDesignerRepository().save(pr);
         repositoryHandler.getUserRepository().save(user);
+    }
+
+    public Set<PartecipationRequest<DesignerRole>> listPR(Long idUser, Long tokenUser) {
+        User user = repositoryHandler.getUserRepository().findById(idUser).get();
+        return user.getRolesHandler(tokenUser).getDesignerRole().getMyPartecipationRequests();
     }
 
     public Set<Project> listProjectsByCategory(Long idUser, Long tokenUser, String idCategory) {
@@ -58,4 +64,5 @@ public class DesignerService {
         User user = repositoryHandler.getUserRepository().findById(idUser).get();
         return user.getRolesHandler(tokenUser).getDesignerRole().getCategories();
     }
+
 }

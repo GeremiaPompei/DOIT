@@ -16,7 +16,7 @@ public class ProjectProposerController {
     @Autowired
     private ProjectProposerService projectProposerMVC;
 
-    @GetMapping(value = "/create-project")
+    @PostMapping(value = "/create-project")
     public String createProject(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam String name,
                                 @RequestParam String description, @RequestParam String idcategory) {
         try {
@@ -38,7 +38,7 @@ public class ProjectProposerController {
         }
     }
 
-    @GetMapping(value = "/accept-pr")
+    @PutMapping(value = "/accept-pr")
     public String acceptAcceptProgramManagerPR(@RequestParam Long iduser, @RequestParam Long tokenuser,
                                                @RequestParam Long idprogrammanagerpr, @RequestParam Long idproject) {
         try {

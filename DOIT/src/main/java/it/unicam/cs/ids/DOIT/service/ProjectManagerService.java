@@ -3,6 +3,7 @@ package it.unicam.cs.ids.DOIT.service;
 import it.unicam.cs.ids.DOIT.model.category.Category;
 import it.unicam.cs.ids.DOIT.model.project.Project;
 import it.unicam.cs.ids.DOIT.model.project.ProjectState;
+import it.unicam.cs.ids.DOIT.model.role.Evaluation;
 import it.unicam.cs.ids.DOIT.repository.RepositoryHandler;
 import it.unicam.cs.ids.DOIT.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,8 @@ public class ProjectManagerService {
         User user = repositoryHandler.getUserRepository().findById(idUser).get();
         Project project = repositoryHandler.getProjectRepository().findById(projectId).get();
         User userD = repositoryHandler.getUserRepository().findById(idDesigner).get();
-        user.getRolesHandler(tokenUser).getProjectManagerRole().insertEvaluation(userD, project, evaluation);
+        Evaluation ev = user.getRolesHandler(tokenUser).getProjectManagerRole().insertEvaluation(userD, project, evaluation);
+        repositoryHandler.getEvaluationRepository().save(ev);
         repositoryHandler.getUserRepository().save(user);
         repositoryHandler.getUserRepository().save(userD);
     }

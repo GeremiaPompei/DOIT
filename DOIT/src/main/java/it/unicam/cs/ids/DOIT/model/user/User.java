@@ -23,7 +23,7 @@ public class User {
     private RolesHandler rolesHandler;
     @JoinColumn(name = "ID_TokenHandler")
     @OneToOne(cascade = CascadeType.ALL)
-    private TokenHandler token;
+    private TokenHandler tokenHandler;
 
     public User(String name, String surname, String birthDate, String sex, String email, String password) {
         this.name = name;
@@ -33,7 +33,7 @@ public class User {
         this.email = email;
         this.password = password;
         this.rolesHandler = new RolesHandler(this);
-        this.token = new TokenHandler();
+        this.tokenHandler = new TokenHandler();
     }
 
     public User() {
@@ -68,12 +68,12 @@ public class User {
             throw new NullPointerException("Password errata!");
     }
 
-    public TokenHandler getTokenHandler() {
-        return token;
+    public TokenHandler tokenHandlerGet() {
+        return tokenHandler;
     }
 
     public RolesHandler getRolesHandler(Long token) {
-        this.getTokenHandler().checkToken(token);
+        this.tokenHandlerGet().checkToken(token);
         return rolesHandler;
     }
 
@@ -90,7 +90,7 @@ public class User {
         return Objects.hash(id);
     }
 
-    public void setToken(TokenHandler token) {
-        this.token = token;
+    public void setTokenHandler(TokenHandler tokenHandler) {
+        this.tokenHandler = tokenHandler;
     }
 }

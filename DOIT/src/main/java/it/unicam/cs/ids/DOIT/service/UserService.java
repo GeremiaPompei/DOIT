@@ -27,7 +27,7 @@ public class UserService {
     public User logIn(String email, String password) {
         User user = findByEmail(email);
         user.checkPassword(password);
-        user.getTokenHandler().generateToken();
+        user.tokenHandlerGet().generateToken();
         repositoryHandler.getUserRepository().save(user);
         return user;
     }
@@ -41,13 +41,13 @@ public class UserService {
 
     public void logOut(Long idUser, Long token) {
         User user = getUser(idUser, token);
-        user.getTokenHandler().clearToken();
+        user.tokenHandlerGet().clearToken();
         repositoryHandler.getUserRepository().save(user);
     }
 
     public User getUser(Long idUser, Long token) {
         User user = repositoryHandler.getUserRepository().findById(idUser).get();
-        user.getTokenHandler().checkToken(token);
+        user.tokenHandlerGet().checkToken(token);
         return user;
     }
 

@@ -28,7 +28,7 @@ public class ProgramManagerController {
         }
     }
 
-    @GetMapping("/send-pr")
+    @PostMapping("/send-pr")
     public String sendPr(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam Long idproject) {
         try {
             programManagerMVC.sendPR(iduser, tokenuser, idproject);
@@ -38,6 +38,7 @@ public class ProgramManagerController {
         }
     }
 
+    //TODO LOOP
     @GetMapping(value = "/list-pr")
     public List<PartecipationRequest<ProgramManagerRole>> listPR(@RequestParam Long iduser, @RequestParam Long tokenuser) {
         try {
@@ -47,7 +48,7 @@ public class ProgramManagerController {
         }
     }
 
-    @GetMapping(value = "/open-registrations")
+    @PutMapping(value = "/open-registrations")
     public String openRegistrations(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam Long idproject) {
         try {
             this.programManagerMVC.openRegistrations(iduser, tokenuser, idproject);
@@ -57,7 +58,7 @@ public class ProgramManagerController {
         }
     }
 
-    @GetMapping(value = "/close-registrations")
+    @PutMapping(value = "/close-registrations")
     public String closeRegistrations(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam Long idproject) {
         try {
             this.programManagerMVC.closeRegistrations(iduser, tokenuser, idproject);
@@ -67,6 +68,7 @@ public class ProgramManagerController {
         }
     }
 
+    //TODO LOOP forse
     @GetMapping(value = "/list-designer-pr")
     public List<PartecipationRequest<DesignerRole>> listDesignerPR(@RequestParam Long iduser, @RequestParam Long tokenuser,
                                                                    @RequestParam Long idproject) {
@@ -77,7 +79,7 @@ public class ProgramManagerController {
         }
     }
 
-    @GetMapping(value = "/accept-designer-pr")
+    @PutMapping(value = "/accept-designer-pr")
     public String addDesigner(@RequestParam Long iduser, @RequestParam Long tokenuser,
                               @RequestParam Long iddesignerpr, @RequestParam Long idproject) {
         try {
@@ -88,7 +90,7 @@ public class ProgramManagerController {
         }
     }
 
-    @GetMapping(value = "/remove-designer-pr")
+    @DeleteMapping(value = "/remove-designer-pr")
     public String removePr(@RequestParam Long iduser, @RequestParam Long tokenuser,
                            @RequestParam Long iddesignerpr, @RequestParam Long idproject,
                            @RequestParam String reason) {
@@ -100,7 +102,7 @@ public class ProgramManagerController {
         }
     }
 
-    @GetMapping(value = "/remove-designer")
+    @DeleteMapping(value = "/remove-designer")
     public String removeDesigner(@RequestParam Long iduser, @RequestParam Long tokenuser,
                                  @RequestParam Long iddesigner, @RequestParam Long idproject) {
         try {
@@ -121,7 +123,7 @@ public class ProgramManagerController {
         }
     }
 
-    @GetMapping(value = "/set-project-manager")
+    @PutMapping(value = "/set-project-manager")
     public String setProjectManager(@RequestParam Long iduser, @RequestParam Long tokenuser,
                                     @RequestParam Long iddesigner, @RequestParam Long idproject) {
         try {
@@ -141,6 +143,7 @@ public class ProgramManagerController {
         }
     }
 
+    //TODO LOOP
     @GetMapping(value = "/list-projects")
     public List<Project> listProjects(@RequestParam Long iduser, @RequestParam Long tokenuser) {
         try {

@@ -1,7 +1,5 @@
 package it.unicam.cs.ids.DOIT.model.role;
 
-import it.unicam.cs.ids.DOIT.model.project.Project;
-
 import javax.persistence.*;
 
 @Entity
@@ -10,18 +8,16 @@ public class Evaluation {
     @Column(name = "ID_Evaluation")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @OneToOne
-    @JoinColumn(name = "ID_Project")
-    private Project project;
+    private Long projectId;
     private Integer evaluate;
 
-    public Evaluation(Project project, Integer evaluate) {
-        this.project = project;
+    public Evaluation(Long projectId, Integer evaluate) {
+        this.projectId = projectId;
         this.evaluate = evaluate;
     }
 
-    public Project getTeam() {
-        return project;
+    public Long getProjectId() {
+        return projectId;
     }
 
     public Integer getEvaluate() {

@@ -23,17 +23,17 @@ public class UserController {
         }
     }
 
-    @GetMapping(value = "/login")
+    @PutMapping(value = "/login")
     public String logIn(@RequestParam String email, @RequestParam String password) {
         try {
             User user = this.userMVC.logIn(email, password);
-            return user.getId() + " " + user.getTokenHandler().getToken();
+            return user.getId() + " " + user.tokenHandlerGet().getToken();
         } catch (Exception e) {
             return e.getMessage();
         }
     }
 
-    @GetMapping(value = "/logout")
+    @PutMapping(value = "/logout")
     public String logOut(@RequestParam Long iduser, @RequestParam Long tokenuser) {
         try {
             this.userMVC.logOut(iduser, tokenuser);
@@ -43,7 +43,7 @@ public class UserController {
         }
     }
 
-    @GetMapping(value = "/signin")
+    @PostMapping(value = "/signin")
     public String signIn(@RequestParam String name, @RequestParam String surname, @RequestParam String birthdate,
                          @RequestParam String sex, @RequestParam String email, @RequestParam String password) {
         try {
@@ -54,7 +54,7 @@ public class UserController {
         }
     }
 
-    @GetMapping(value = "/add-role")
+    @PostMapping(value = "/add-role")
     public String addRole(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam String idrole,
                           @RequestParam String idcategory) {
         try {
@@ -65,7 +65,7 @@ public class UserController {
         }
     }
 
-    @GetMapping(value = "/remove-role")
+    @DeleteMapping(value = "/remove-role")
     public String removeRole(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam String idrole) {
         try {
             this.userMVC.removeRole(iduser, tokenuser, idrole);
@@ -84,7 +84,7 @@ public class UserController {
         }
     }
 
-    @GetMapping(value = "/add-category-to-role")
+    @PutMapping(value = "/add-category-to-role")
     public String addCategoryToRole(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam String idrole,
                                     @RequestParam String idcategory) {
         try {
@@ -95,7 +95,7 @@ public class UserController {
         }
     }
 
-    @GetMapping(value = "/remove-category-to-role")
+    @DeleteMapping(value = "/remove-category-to-role")
     public String removeCategoryToRole(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam String idrole,
                                        @RequestParam String idcategory) {
         try {

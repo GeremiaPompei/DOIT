@@ -1,6 +1,8 @@
 package it.unicam.cs.ids.DOIT.controller;
 
 import it.unicam.cs.ids.DOIT.model.category.Category;
+import it.unicam.cs.ids.DOIT.model.partecipation_request.PartecipationRequest;
+import it.unicam.cs.ids.DOIT.model.role.DesignerRole;
 import it.unicam.cs.ids.DOIT.service.DesignerService;
 import it.unicam.cs.ids.DOIT.model.project.Project;
 import it.unicam.cs.ids.DOIT.model.role.CVUnit;
@@ -16,17 +18,18 @@ public class DesignerController {
     @Autowired
     private DesignerService designerMVC;
 
+    //TODO loop
     @GetMapping("/list-projects-by-category")
     public List<Project> listProjectsByCategory(@RequestParam Long iduser, @RequestParam Long tokenuser,
-                                                @RequestParam String idCategory) {
+                                                @RequestParam String idcategory) {
         try {
-            return List.copyOf(this.designerMVC.listProjectsByCategory(iduser, tokenuser, idCategory));
+            return List.copyOf(this.designerMVC.listProjectsByCategory(iduser, tokenuser, idcategory));
         } catch (Exception e) {
             return null;
         }
     }
 
-    @GetMapping("/send-pr")
+    @PostMapping("/send-pr")
     public String sendPr(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam Long idproject) {
         try {
             designerMVC.sendPR(iduser, tokenuser, idproject);
@@ -36,7 +39,17 @@ public class DesignerController {
         }
     }
 
-    @GetMapping("/list-evalutations")
+    //TODO LOOP
+    @GetMapping(value = "/list-pr")
+    public List<PartecipationRequest<DesignerRole>> listPR(@RequestParam Long iduser, @RequestParam Long tokenuser) {
+        try {
+            return List.copyOf(this.designerMVC.listPR(iduser, tokenuser));
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @GetMapping("/list-evaluations")
     public List<Evaluation> listEvaluations(@RequestParam Long iduser, @RequestParam Long tokenuser) {
         try {
             return List.copyOf(this.designerMVC.listEvaluations(iduser, tokenuser));

@@ -102,6 +102,7 @@ public class ProgramManagerService {
         Project project = repositoryHandler.getProjectRepository().findById(idProject).get();
         User userD = repositoryHandler.getUserRepository().findById(idDesigner).get();
         user.getRolesHandler(tokenUser).getProgramManagerRole().setProjectManager(userD, project);
+        repositoryHandler.getProjectManagerRepository().save(project.getTeam().getProjectManager());
         repositoryHandler.getUserRepository().save(user);
         repositoryHandler.getUserRepository().save(userD);
     }

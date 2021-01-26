@@ -34,7 +34,7 @@ public class ProgramManagerRole extends Role implements PendingRole, IPartecipat
 
     public void acceptPR(DesignerRole designer, Project projectInput) {
         PartecipationRequest pr = getInnerDesignerRequest(designer, projectInput);
-        if (!this.getProjects().contains(pr.getTeam()))
+        if (!this.getProjects().stream().map(p->p.getTeam()).collect(Collectors.toSet()).contains(pr.getTeam()))
             throw new IllegalArgumentException("Il Program Manager non possiede il team");
         pr.displayed("Congratulations! You are accepted.");
         pr.getTeam().getDesignerRequest().remove(pr);
@@ -44,7 +44,7 @@ public class ProgramManagerRole extends Role implements PendingRole, IPartecipat
 
     public void removePR(DesignerRole designer, Project projectInput, String description) {
         PartecipationRequest pr = getInnerDesignerRequest(designer, projectInput);
-        if (!this.getProjects().contains(pr.getTeam()))
+        if (!this.getProjects().stream().map(p->p.getTeam()).collect(Collectors.toSet()).contains(pr.getTeam()))
             throw new IllegalArgumentException("Il Program Manager non possiede il team]");
         if (description == null || description.equals(""))
             throw new IllegalArgumentException("La descrizione non può essere vuota!");
@@ -72,11 +72,12 @@ public class ProgramManagerRole extends Role implements PendingRole, IPartecipat
         getInnerDesignerInTeam(user, projectInput);
         if (!this.getProjects().contains(project))
             throw new IllegalArgumentException("L'utente non possiede il progetto con id:[" + project.getId() + "]");
-        Long token = user.getTokenHandler().getToken();
+        Long token = user.tokenHandlerGet().getToken();
         user.getRolesHandler(token).addProjectManagerRole(project.getCategory());
-        project.getTeam().setProjectManager(user.getRolesHandler(token).getProjectManagerRole());
-        user.getRolesHandler(token).getProjectManagerRole().addCategory(project.getCategory());
-        user.getRolesHandler(token).getProjectManagerRole().enterProject(project);
+        ProjectManagerRole pj = user.getRolesHandler(token).getProjectManagerRole();
+        project.getTeam().setProjectManager(pj);
+        pj.addCategory(project.getCategory());
+        pj.enterProject(project);
     }
 
     public Set<PartecipationRequest<DesignerRole>> getPartecipationRequestsByProject(Project projectInput) {

@@ -51,18 +51,26 @@ public class RolesHandler {
     }
 
     public void addProjectProposerRole(Category category) {
+        if(isProjectProposer())
+            throw new IllegalArgumentException("L'utente gia possiede il ruolo!");
         this.projectProposerRole = new ProjectProposerRole(this.user, category);
     }
 
     public void addProgramManagerRole(Category category) {
+        if(isProgramManager())
+            throw new IllegalArgumentException("L'utente gia possiede il ruolo!");
         this.programManagerRole = new ProgramManagerRole(this.user, category);
     }
 
     public void addDesignerRole(Category category) {
+        if(isDesigner())
+            throw new IllegalArgumentException("L'utente gia possiede il ruolo!");
         this.designerRole = new DesignerRole(this.user, category);
     }
 
     public void addProjectManagerRole(Category category) {
+        if(isProjectManager())
+            throw new IllegalArgumentException("L'utente gia possiede il ruolo!");
         this.projectManagerRole = new ProjectManagerRole(this.user, category);
     }
 

@@ -40,9 +40,9 @@ public class ProjectProposerController {
 
     @GetMapping(value = "/accept-pr")
     public String acceptAcceptProgramManagerPR(@RequestParam Long iduser, @RequestParam Long tokenuser,
-                                               @RequestParam Long idprogrammanager, @RequestParam Long idproject) {
+                                               @RequestParam Long idprogrammanagerpr, @RequestParam Long idproject) {
         try {
-            this.projectProposerMVC.acceptPR(iduser, tokenuser, idprogrammanager, idproject);
+            this.projectProposerMVC.acceptPR(iduser, tokenuser, idprogrammanagerpr, idproject);
             return "success";
         } catch (Exception e) {
             return e.getMessage();
@@ -73,26 +73,6 @@ public class ProjectProposerController {
             return List.copyOf(this.projectProposerMVC.listCategories(iduser, tokenuser));
         } catch (Exception e) {
             return null;
-        }
-    }
-
-    @GetMapping(value = "/add-category")
-    public String addCategory(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam String idcategory) {
-        try {
-            this.projectProposerMVC.addCategory(iduser, tokenuser, idcategory);
-            return "success";
-        } catch (Exception e) {
-            return e.getMessage();
-        }
-    }
-
-    @GetMapping(value = "/remove-category")
-    public String removeCategory(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam String idcategory) {
-        try {
-            this.projectProposerMVC.removeCategory(iduser, tokenuser, idcategory);
-            return "success";
-        } catch (Exception e) {
-            return e.getMessage();
         }
     }
 }

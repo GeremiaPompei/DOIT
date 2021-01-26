@@ -80,24 +80,4 @@ public class DesignerController {
             return null;
         }
     }
-
-    @GetMapping(value = "/add-category")
-    public String addCategory(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam String idcategory) {
-        try {
-            this.designerMVC.addCategory(iduser, tokenuser, idcategory);
-            return "success";
-        } catch (Exception e) {
-            return e.getMessage();
-        }
-    }
-
-    @GetMapping(value = "/remove-category")
-    public String removeCategory(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam String idcategory) {
-        try {
-            this.designerMVC.removeCategory(iduser, tokenuser, idcategory);
-            return "success";
-        } catch (Exception e) {
-            return e.getMessage();
-        }
-    }
 }

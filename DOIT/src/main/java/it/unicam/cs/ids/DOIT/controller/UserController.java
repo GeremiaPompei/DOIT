@@ -27,7 +27,7 @@ public class UserController {
     public String logIn(@RequestParam String email, @RequestParam String password) {
         try {
             User user = this.userMVC.logIn(email, password);
-            return user.getId() + " " + user.getToken().getToken();
+            return user.getId() + " " + user.getTokenHandler().getToken();
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -81,6 +81,28 @@ public class UserController {
             return this.userMVC.getRoles();
         } catch (Exception e) {
             return null;
+        }
+    }
+
+    @GetMapping(value = "/add-category-to-role")
+    public String addCategoryToRole(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam String idrole,
+                                    @RequestParam String idcategory) {
+        try {
+            this.userMVC.addCategory(iduser, tokenuser, idrole, idcategory);
+            return "success";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    @GetMapping(value = "/remove-category-to-role")
+    public String removeCategoryToRole(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam String idrole,
+                                       @RequestParam String idcategory) {
+        try {
+            this.userMVC.removeCategory(iduser, tokenuser, idrole, idcategory);
+            return "success";
+        } catch (Exception e) {
+            return e.getMessage();
         }
     }
 

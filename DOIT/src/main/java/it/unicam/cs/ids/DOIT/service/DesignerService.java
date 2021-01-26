@@ -8,7 +8,6 @@ import it.unicam.cs.ids.DOIT.model.role.CVUnit;
 import it.unicam.cs.ids.DOIT.model.role.DesignerRole;
 import it.unicam.cs.ids.DOIT.model.role.Evaluation;
 import it.unicam.cs.ids.DOIT.model.user.User;
-import it.unicam.cs.ids.DOIT.model.user.UserHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,15 +16,13 @@ import java.util.Set;
 @Service
 public class DesignerService {
     @Autowired
-    private UserHandler userHandler;
-    @Autowired
     private RepositoryHandler repositoryHandler;
 
     public void sendPR(Long idUser, Long tokenUser, Long projectId) {
         User user = repositoryHandler.getUserRepository().findById(idUser).get();
         Project project = repositoryHandler.getProjectRepository().findById(projectId).get();
         PartecipationRequest<DesignerRole> pr =
-                userHandler.getUser(user, tokenUser).getRolesHandler().getDesignerRole().createPartecipationRequest(project);
+                user.getRolesHandler(tokenUser).getDesignerRole().createPartecipationRequest(project);
         repositoryHandler.getPartecipationRequestDesignerRepository().save(pr);
         repositoryHandler.getUserRepository().save(user);
     }
@@ -33,46 +30,32 @@ public class DesignerService {
     public Set<Project> listProjectsByCategory(Long idUser, Long tokenUser, String idCategory) {
         User user = repositoryHandler.getUserRepository().findById(idUser).get();
         Category category = repositoryHandler.getCategoryRepository().findById(idCategory).get();
-        return userHandler.getUser(user, tokenUser).getRolesHandler().getDesignerRole()
+        return user.getRolesHandler(tokenUser).getDesignerRole()
                 .getProjectsByCategory(repositoryHandler.getProjectRepository().findAll().iterator(), category);
     }
 
     public Set<Evaluation> listEvaluations(Long idUser, Long tokenUser) {
         User user = repositoryHandler.getUserRepository().findById(idUser).get();
-        return userHandler.getUser(user, tokenUser).getRolesHandler().getDesignerRole().getEvaluations();
+        return user.getRolesHandler(tokenUser).getDesignerRole().getEvaluations();
     }
 
     public Set<CVUnit> listCV(Long idUser, Long tokenUser) {
         User user = repositoryHandler.getUserRepository().findById(idUser).get();
-        return userHandler.getUser(user, tokenUser).getRolesHandler().getDesignerRole().getCurriculumVitae();
+        return user.getRolesHandler(tokenUser).getDesignerRole().getCurriculumVitae();
     }
 
     public Set<Project> listHistory(Long idUser, Long tokenUser) {
         User user = repositoryHandler.getUserRepository().findById(idUser).get();
-        return userHandler.getUser(user, tokenUser).getRolesHandler().getDesignerRole().getHistory();
+        return user.getRolesHandler(tokenUser).getDesignerRole().getHistory();
     }
 
     public Set<Project> listProjects(Long idUser, Long tokenUser) {
         User user = repositoryHandler.getUserRepository().findById(idUser).get();
-        return userHandler.getUser(user, tokenUser).getRolesHandler().getDesignerRole().getProjects();
+        return user.getRolesHandler(tokenUser).getDesignerRole().getProjects();
     }
 
     public Set<Category> listCategories(Long idUser, Long tokenUser) {
         User user = repositoryHandler.getUserRepository().findById(idUser).get();
-        return userHandler.getUser(user, tokenUser).getRolesHandler().getDesignerRole().getCategories();
-    }
-
-    public void addCategory(Long idUser, Long tokenUser, String idCategory) {
-        User user = repositoryHandler.getUserRepository().findById(idUser).get();
-        Category category = repositoryHandler.getCategoryRepository().findById(idCategory).get();
-        userHandler.getUser(user, tokenUser).getRolesHandler().getDesignerRole().addCategory(category);
-        repositoryHandler.getUserRepository().save(user);
-    }
-
-    public void removeCategory(Long idUser, Long tokenUser, String idCategory) {
-        User user = repositoryHandler.getUserRepository().findById(idUser).get();
-        Category category = repositoryHandler.getCategoryRepository().findById(idCategory).get();
-        userHandler.getUser(user, tokenUser).getRolesHandler().getDesignerRole().removeCategory(category);
-        repositoryHandler.getUserRepository().save(user);
+        return user.getRolesHandler(tokenUser).getDesignerRole().getCategories();
     }
 }

@@ -79,9 +79,9 @@ public class ProgramManagerController {
 
     @GetMapping(value = "/accept-designer-pr")
     public String addDesigner(@RequestParam Long iduser, @RequestParam Long tokenuser,
-                              @RequestParam Long iddesigner, @RequestParam Long idproject) {
+                              @RequestParam Long iddesignerpr, @RequestParam Long idproject) {
         try {
-            this.programManagerMVC.acceptDesignerPR(iduser, tokenuser, iddesigner, idproject);
+            this.programManagerMVC.acceptDesignerPR(iduser, tokenuser, iddesignerpr, idproject);
             return "success";
         } catch (Exception e) {
             return e.getMessage();
@@ -90,10 +90,10 @@ public class ProgramManagerController {
 
     @GetMapping(value = "/remove-designer-pr")
     public String removePr(@RequestParam Long iduser, @RequestParam Long tokenuser,
-                           @RequestParam Long iddesigner, @RequestParam Long idproject,
+                           @RequestParam Long iddesignerpr, @RequestParam Long idproject,
                            @RequestParam String reason) {
         try {
-            this.programManagerMVC.removeDesignerPR(iduser, tokenuser, iddesigner, idproject, reason);
+            this.programManagerMVC.removeDesignerPR(iduser, tokenuser, iddesignerpr, idproject, reason);
             return "success";
         } catch (Exception e) {
             return e.getMessage();
@@ -156,26 +156,6 @@ public class ProgramManagerController {
             return List.copyOf(this.programManagerMVC.listCategories(iduser, tokenuser));
         } catch (Exception e) {
             return null;
-        }
-    }
-
-    @GetMapping(value = "/add-category")
-    public String addCategory(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam String idcategory) {
-        try {
-            this.programManagerMVC.addCategory(iduser, tokenuser, idcategory);
-            return "success";
-        } catch (Exception e) {
-            return e.getMessage();
-        }
-    }
-
-    @GetMapping(value = "/remove-category")
-    public String removeCategory(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam String idcategory) {
-        try {
-            this.programManagerMVC.removeCategory(iduser, tokenuser, idcategory);
-            return "success";
-        } catch (Exception e) {
-            return e.getMessage();
         }
     }
 }

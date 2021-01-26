@@ -3,7 +3,6 @@ package it.unicam.cs.ids.DOIT.service;
 import it.unicam.cs.ids.DOIT.model.category.Category;
 import it.unicam.cs.ids.DOIT.repository.RepositoryHandler;
 import it.unicam.cs.ids.DOIT.model.user.User;
-import it.unicam.cs.ids.DOIT.model.user.UserHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +10,6 @@ import java.util.*;
 
 @Service
 public class UserService {
-
-    @Autowired
-    private UserHandler userHandler;
     @Autowired
     private RepositoryHandler repositoryHandler;
 
@@ -29,7 +25,9 @@ public class UserService {
     }
 
     public User logIn(String email, String password) {
-        User user = userHandler.logIn(findByEmail(email), password);
+        User user = findByEmail(email);
+        user.checkPassword(password);
+        user.getTokenHandler().generateToken();
         repositoryHandler.getUserRepository().save(user);
         return user;
     }
@@ -38,48 +36,74 @@ public class UserService {
         User user = findByEmail(email);
         if (user != null)
             throw new IllegalArgumentException("Email gia usata!");
-        user = userHandler.signIn(name, surname, birthDate, sex, email, password);
-        repositoryHandler.getUserRepository().save(user);
+        repositoryHandler.getUserRepository().save(new User(name, surname, birthDate, sex, email, password));
     }
 
     public void logOut(Long idUser, Long token) {
-        User user = repositoryHandler.getUserRepository().findById(idUser).orElse(null);
-        userHandler.logOut(user);
+        User user = getUser(idUser, token);
+        user.getTokenHandler().clearToken();
         repositoryHandler.getUserRepository().save(user);
     }
 
     public User getUser(Long idUser, Long token) {
-        User user = repositoryHandler.getUserRepository().findById(idUser).orElse(null);
-        return userHandler.getUser(user, token);
+        User user = repositoryHandler.getUserRepository().findById(idUser).get();
+        user.getTokenHandler().checkToken(token);
+        return user;
     }
 
-    public String addRole(Long idUser, Long tokenUser, String idRole, String idCategory) {
-        Category category = repositoryHandler.getCategoryRepository().findById(idCategory).orElse(null);
+    public void addRole(Long idUser, Long tokenUser, String idRole, String idCategory) {
         User user = this.getUser(idUser, tokenUser);
+        Category category = repositoryHandler.getCategoryRepository().findById(idCategory).get();
         if (idRole.equals(getRoles().get(0)))
-            user.getRolesHandler().addProjectProposerRole(category);
+            user.getRolesHandler(tokenUser).addProjectProposerRole(category);
         else if (idRole.equals(getRoles().get(1)))
-            user.getRolesHandler().addProgramManagerRole(category);
+            user.getRolesHandler(tokenUser).addProgramManagerRole(category);
         else if (idRole.equals(getRoles().get(2)))
-            user.getRolesHandler().addDesignerRole(category);
+            user.getRolesHandler(tokenUser).addDesignerRole(category);
         else if (idRole.equals(getRoles().get(3)))
             throw new IllegalArgumentException("Non può essere aggiunto il ruolo di projectManager!");
         repositoryHandler.getUserRepository().save(user);
-        return "success";
     }
 
-    public String removeRole(Long idUser, Long tokenUser, String idRole) {
+    public void removeRole(Long idUser, Long tokenUser, String idRole) {
         User user = this.getUser(idUser, tokenUser);
         if (idRole.equals(getRoles().get(0)))
-            user.getRolesHandler().removeProjectProposerRole();
+            user.getRolesHandler(tokenUser).removeProjectProposerRole();
         else if (idRole.equals(getRoles().get(1)))
-            user.getRolesHandler().removeProgramManagerRole();
+            user.getRolesHandler(tokenUser).removeProgramManagerRole();
         else if (idRole.equals(getRoles().get(2)))
-            user.getRolesHandler().removeDesignerRole();
+            user.getRolesHandler(tokenUser).removeDesignerRole();
         else if (idRole.equals(getRoles().get(3)))
-            user.getRolesHandler().removeProjectManagerRole();
+            user.getRolesHandler(tokenUser).removeProjectManagerRole();
         repositoryHandler.getUserRepository().save(user);
-        return "success";
+    }
+
+    public void addCategory(Long idUser, Long tokenUser, String idRole, String idCategory) {
+        User user = this.getUser(idUser, tokenUser);
+        Category category = repositoryHandler.getCategoryRepository().findById(idCategory).get();
+        if (idRole.equals(getRoles().get(0)))
+            user.getRolesHandler(tokenUser).getProjectProposerRole().addCategory(category);
+        else if (idRole.equals(getRoles().get(1)))
+            user.getRolesHandler(tokenUser).getProgramManagerRole().addCategory(category);
+        else if (idRole.equals(getRoles().get(2)))
+            user.getRolesHandler(tokenUser).getDesignerRole().addCategory(category);
+        else if (idRole.equals(getRoles().get(3)))
+            throw new IllegalArgumentException("Non può essere aggiunta una categoria nel projectManager!");
+        repositoryHandler.getUserRepository().save(user);
+    }
+
+    public void removeCategory(Long idUser, Long tokenUser, String idRole, String idCategory) {
+        User user = this.getUser(idUser, tokenUser);
+        Category category = repositoryHandler.getCategoryRepository().findById(idCategory).get();
+        if (idRole.equals(getRoles().get(0)))
+            user.getRolesHandler(tokenUser).getProjectProposerRole().removeCategory(category);
+        else if (idRole.equals(getRoles().get(1)))
+            user.getRolesHandler(tokenUser).getProgramManagerRole().removeCategory(category);
+        else if (idRole.equals(getRoles().get(2)))
+            user.getRolesHandler(tokenUser).getDesignerRole().removeCategory(category);
+        else if (idRole.equals(getRoles().get(3)))
+            throw new IllegalArgumentException("Non può essere rimossa una categoria nel projectManager!");
+        repositoryHandler.getUserRepository().save(user);
     }
 
     public List<String> getRoles() {

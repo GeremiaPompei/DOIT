@@ -4,6 +4,7 @@ import it.unicam.cs.ids.DOIT.model.role.*;
 
 import javax.persistence.*;
 import java.util.Objects;
+
 @Entity
 public class User {
 
@@ -62,15 +63,17 @@ public class User {
         return email;
     }
 
-    public String getPassword() {
-        return password;
+    public void checkPassword(String password) {
+        if (!this.password.equals(password))
+            throw new NullPointerException("Password errata!");
     }
 
-    public TokenHandler getToken() {
+    public TokenHandler getTokenHandler() {
         return token;
     }
 
-    public RolesHandler getRolesHandler() {
+    public RolesHandler getRolesHandler(Long token) {
+        this.getTokenHandler().checkToken(token);
         return rolesHandler;
     }
 

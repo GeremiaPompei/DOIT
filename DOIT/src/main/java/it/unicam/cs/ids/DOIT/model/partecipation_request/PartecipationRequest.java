@@ -61,6 +61,14 @@ public class PartecipationRequest<T extends PendingRole> {
         this.description = description;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public boolean isState() {
+        return state;
+    }
+
     public Team getTeam() {
         return team;
     }

@@ -72,10 +72,11 @@ public class ProgramManagerRole extends Role implements PendingRole, IPartecipat
         getInnerDesignerInTeam(user, projectInput);
         if (!this.getProjects().contains(project))
             throw new IllegalArgumentException("L'utente non possiede il progetto con id:[" + project.getId() + "]");
-        user.getRolesHandler().addProjectManagerRole(project.getCategory());
-        project.getTeam().setProjectManager(user.getRolesHandler().getProjectManagerRole());
-        user.getRolesHandler().getProjectManagerRole().addCategory(project.getCategory());
-        user.getRolesHandler().getProjectManagerRole().enterProject(project);
+        Long token = user.getTokenHandler().getToken();
+        user.getRolesHandler(token).addProjectManagerRole(project.getCategory());
+        project.getTeam().setProjectManager(user.getRolesHandler(token).getProjectManagerRole());
+        user.getRolesHandler(token).getProjectManagerRole().addCategory(project.getCategory());
+        user.getRolesHandler(token).getProjectManagerRole().enterProject(project);
     }
 
     public Set<PartecipationRequest<DesignerRole>> getPartecipationRequestsByProject(Project projectInput) {

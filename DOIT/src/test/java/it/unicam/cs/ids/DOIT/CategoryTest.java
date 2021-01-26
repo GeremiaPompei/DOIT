@@ -2,7 +2,7 @@
 
 package it.unicam.cs.ids.DOIT;
 
-import it.unicam.cs.ids.DOIT.category.ICategory;
+import it.unicam.cs.ids.DOIT.model.category.ICategory;
 import it.unicam.cs.ids.DOIT.service.ServicesHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

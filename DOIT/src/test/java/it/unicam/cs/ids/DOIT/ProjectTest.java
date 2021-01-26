@@ -2,14 +2,14 @@
 
 package it.unicam.cs.ids.DOIT;
 
-import it.unicam.cs.ids.DOIT.category.ICategory;
-import it.unicam.cs.ids.DOIT.project.IProject;
-import it.unicam.cs.ids.DOIT.role.ITeam;
-import it.unicam.cs.ids.DOIT.role.ProjectProposerRole;
-import it.unicam.cs.ids.DOIT.role.RoleException;
-import it.unicam.cs.ids.DOIT.role.Team;
+import it.unicam.cs.ids.DOIT.model.category.ICategory;
+import it.unicam.cs.ids.DOIT.model.project.IProject;
+import it.unicam.cs.ids.DOIT.model.role.ITeam;
+import it.unicam.cs.ids.DOIT.model.role.ProjectProposerRole;
+import it.unicam.cs.ids.DOIT.model.role.RoleException;
+import it.unicam.cs.ids.DOIT.model.role.Team;
 import it.unicam.cs.ids.DOIT.service.ServicesHandler;
-import it.unicam.cs.ids.DOIT.user.IUser;
+import it.unicam.cs.ids.DOIT.model.user.IUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

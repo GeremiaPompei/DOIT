@@ -1,15 +1,11 @@
 package it.unicam.cs.ids.DOIT;
 
-import it.unicam.cs.ids.DOIT.category.Category;
-import it.unicam.cs.ids.DOIT.controller.ProjectProposerMVC;
-import it.unicam.cs.ids.DOIT.controller.UserMVC;
-import it.unicam.cs.ids.DOIT.partecipation_request.PartecipationRequest;
-import it.unicam.cs.ids.DOIT.project.ProjectState;
-import it.unicam.cs.ids.DOIT.role.DesignerRole;
-import it.unicam.cs.ids.DOIT.category.CategoryRepository;
-import it.unicam.cs.ids.DOIT.project.ProjectStateRepository;
-import it.unicam.cs.ids.DOIT.user.User;
-import it.unicam.cs.ids.DOIT.user.UserRepository;
+import it.unicam.cs.ids.DOIT.model.category.Category;
+import it.unicam.cs.ids.DOIT.service.UserService;
+import it.unicam.cs.ids.DOIT.model.project.ProjectState;
+import it.unicam.cs.ids.DOIT.repository.CategoryRepository;
+import it.unicam.cs.ids.DOIT.repository.ProjectStateRepository;
+import it.unicam.cs.ids.DOIT.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -21,7 +17,7 @@ public class DOITCommandLineRunner implements CommandLineRunner {
     @Autowired
     private ProjectStateRepository projectStateRepository;
     @Autowired
-    private UserMVC userMVC;
+    private UserService userMVC;
 
     @Override
     public void run(String... args) throws Exception {

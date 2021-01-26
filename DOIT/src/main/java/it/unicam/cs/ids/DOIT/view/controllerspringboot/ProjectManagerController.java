@@ -18,64 +18,75 @@ public class ProjectManagerController {
     @Autowired
     private ProjectManagerMVC projectManagerMVC;
 
-    @GetMapping(value = "/projectsOwned")
-    public List<Project> getProjectsOwned(@RequestBody String argv){
+    @PutMapping(value = "/upgrade-state")
+    public String ugradeState(@RequestParam Long iduser, @RequestParam Long tokenuser,
+                              @RequestParam Long idproject) {
         try {
-            return null;
+            this.projectManagerMVC.upgradeState(iduser, tokenuser, idproject);
+            return "success";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    @PutMapping(value = "/downgrade-state")
+    public String downgradeState(@RequestParam Long iduser, @RequestParam Long tokenuser,
+                                 @RequestParam Long idproject) {
+        try {
+            this.projectManagerMVC.downgradeState(iduser, tokenuser, idproject);
+            return "success";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    @GetMapping(value = "/list-designers")
+    public List<User> listDesigners(@RequestParam Long iduser, @RequestParam Long tokenuser,
+                                    @RequestParam Long idproject) {
+        try {
+            return List.copyOf(this.projectManagerMVC.listDesigners(iduser, tokenuser, idproject));
         } catch (Exception e) {
             return null;
         }
     }
 
-    @PutMapping(value = "/upgrade")
-    public String ugradeState(@RequestBody String argv) {
+    @PostMapping(value = "/evaluate")
+    public String evaluateDesigner(@RequestParam Long iduser, @RequestParam Long tokenuser,
+                                   @RequestParam Long iddesigner, @RequestParam Long idproject,
+                                   @RequestParam Integer evaluation) {
         try {
-            return null;
+            this.projectManagerMVC.evaluate(iduser, tokenuser, iddesigner, idproject, evaluation);
+            return "success";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    @PostMapping(value = "/exit-all")
+    public String exitAll(@RequestParam Long iduser, @RequestParam Long tokenuser,
+                          @RequestParam Long idproject) {
+        try {
+            this.projectManagerMVC.exitAll(iduser, tokenuser, idproject);
+            return "success";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    @GetMapping(value = "/visualize-state")
+    public ProjectState visualizeState(@RequestParam Long iduser, @RequestParam Long tokenuser,
+                                       @RequestParam Long idproject) {
+        try {
+            return this.projectManagerMVC.visualizeState(iduser, tokenuser, idproject);
         } catch (Exception e) {
             return null;
         }
     }
 
-    @PutMapping (value = "/downgrade")
-    public String downgradeState(@RequestBody String argv) {
+    @GetMapping(value = "/list-history")
+    public List<Project> listHistory(@RequestParam Long iduser, @RequestParam Long tokenuser) {
         try {
-            return null;
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    @GetMapping(value = "/designers-list")
-    public List<User> getDesigners(@RequestBody String argv) {
-        try {
-            return null;
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    @PostMapping (value = "/evaluate")
-    public String evaluateDesigner(@RequestBody String argv){
-        try {
-            return null;
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    @PostMapping (value = "/exitfromproject")
-    public String exitFromProject(@RequestBody String argv){
-        try {
-            return null;
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    @GetMapping (value = "/visualizestate")
-    public ProjectState visualizeState(@RequestBody String argv){
-        try {
-            return null;
+            return List.copyOf(this.projectManagerMVC.listHistory(iduser, tokenuser));
         } catch (Exception e) {
             return null;
         }

@@ -20,9 +20,9 @@ public class ProgramManagerController {
 
     @GetMapping("/list-projects-by-category")
     public List<Project> listProjectsByCategory(@RequestParam Long iduser, @RequestParam Long tokenuser,
-                                                @RequestParam String idCategory) {
+                                                @RequestParam String idcategory) {
         try {
-            return List.copyOf(this.programManagerMVC.listProjectsByCategory(iduser, tokenuser, idCategory));
+            return List.copyOf(this.programManagerMVC.listProjectsByCategory(iduser, tokenuser, idcategory));
         } catch (Exception e) {
             return null;
         }
@@ -47,7 +47,7 @@ public class ProgramManagerController {
         }
     }
 
-    @PostMapping(value = "/open-registrations")
+    @GetMapping(value = "/open-registrations")
     public String openRegistrations(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam Long idproject) {
         try {
             this.programManagerMVC.openRegistrations(iduser, tokenuser, idproject);
@@ -57,7 +57,7 @@ public class ProgramManagerController {
         }
     }
 
-    @PostMapping(value = "/close-registrations")
+    @GetMapping(value = "/close-registrations")
     public String closeRegistrations(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam Long idproject) {
         try {
             this.programManagerMVC.closeRegistrations(iduser, tokenuser, idproject);
@@ -77,7 +77,7 @@ public class ProgramManagerController {
         }
     }
 
-    @PostMapping(value = "/accept-designer-pr")
+    @GetMapping(value = "/accept-designer-pr")
     public String addDesigner(@RequestParam Long iduser, @RequestParam Long tokenuser,
                               @RequestParam Long iddesigner, @RequestParam Long idproject) {
         try {
@@ -88,7 +88,7 @@ public class ProgramManagerController {
         }
     }
 
-    @PostMapping(value = "/remove-designer-pr")
+    @GetMapping(value = "/remove-designer-pr")
     public String removePr(@RequestParam Long iduser, @RequestParam Long tokenuser,
                            @RequestParam Long iddesigner, @RequestParam Long idproject,
                            @RequestParam String reason) {
@@ -100,7 +100,7 @@ public class ProgramManagerController {
         }
     }
 
-    @PostMapping(value = "/remove-designer")
+    @GetMapping(value = "/remove-designer")
     public String removeDesigner(@RequestParam Long iduser, @RequestParam Long tokenuser,
                                  @RequestParam Long iddesigner, @RequestParam Long idproject) {
         try {
@@ -121,7 +121,7 @@ public class ProgramManagerController {
         }
     }
 
-    @PostMapping(value = "/set-project-manager")
+    @GetMapping(value = "/set-project-manager")
     public String setProjectManager(@RequestParam Long iduser, @RequestParam Long tokenuser,
                                     @RequestParam Long iddesigner, @RequestParam Long idproject) {
         try {
@@ -129,6 +129,15 @@ public class ProgramManagerController {
             return "success";
         } catch (Exception e) {
             return e.getMessage();
+        }
+    }
+
+    @GetMapping(value = "/list-history")
+    public List<Project> listHistory(@RequestParam Long iduser, @RequestParam Long tokenuser) {
+        try {
+            return List.copyOf(this.programManagerMVC.listHistory(iduser, tokenuser));
+        } catch (Exception e) {
+            return null;
         }
     }
 

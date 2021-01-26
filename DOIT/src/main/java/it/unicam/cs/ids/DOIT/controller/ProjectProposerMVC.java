@@ -55,6 +55,11 @@ public class ProjectProposerMVC {
         userRepository.save(userPM);
     }
 
+    public Set<Project> listHistory(Long idUser, Long tokenUser) {
+        User user = userRepository.findById(idUser).get();
+        return userHandler.getUser(user, tokenUser).getRolesHandler().getProjectProposerRole().getHistory();
+    }
+
     public Set<Project> listProjects(Long idUser, Long tokenUser) {
         User user = userRepository.findById(idUser).get();
         return userHandler.getUser(user, tokenUser).getRolesHandler().getProjectProposerRole().getProjects();

@@ -3,6 +3,8 @@ package it.unicam.cs.ids.DOIT.view.controllerspringboot;
 import it.unicam.cs.ids.DOIT.category.Category;
 import it.unicam.cs.ids.DOIT.controller.DesignerMVC;
 import it.unicam.cs.ids.DOIT.project.Project;
+import it.unicam.cs.ids.DOIT.role.CVUnit;
+import it.unicam.cs.ids.DOIT.role.Evaluation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +16,16 @@ public class DesignerController {
     @Autowired
     private DesignerMVC designerMVC;
 
+    @GetMapping("/list-projects-by-category")
+    public List<Project> listProjectsByCategory(@RequestParam Long iduser, @RequestParam Long tokenuser,
+                                                @RequestParam String idCategory) {
+        try {
+            return List.copyOf(this.designerMVC.listProjectsByCategory(iduser, tokenuser, idCategory));
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     @GetMapping("/send-pr")
     public String sendPr(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam Long idproject) {
         try {
@@ -24,19 +36,28 @@ public class DesignerController {
         }
     }
 
-    @GetMapping("/list-projects-by-category")
-    public List<Project> listProjectsByCategory(@RequestBody String argv) {
+    @GetMapping("/list-evalutations")
+    public List<Evaluation> listEvaluations(@RequestParam Long iduser, @RequestParam Long tokenuser) {
         try {
-            return null;
+            return List.copyOf(this.designerMVC.listEvaluations(iduser, tokenuser));
         } catch (Exception e) {
             return null;
         }
     }
 
-    @GetMapping("/visualize-evalutation")
-    public Integer visualizeEvaluation(@RequestBody String argv) {
+    @GetMapping("/list-cv")
+    public List<CVUnit> listCV(@RequestParam Long iduser, @RequestParam Long tokenuser) {
         try {
+            return List.copyOf(this.designerMVC.listCV(iduser, tokenuser));
+        } catch (Exception e) {
             return null;
+        }
+    }
+
+    @GetMapping(value = "/list-history")
+    public List<Project> listHistory(@RequestParam Long iduser, @RequestParam Long tokenuser) {
+        try {
+            return List.copyOf(this.designerMVC.listHistory(iduser, tokenuser));
         } catch (Exception e) {
             return null;
         }

@@ -116,6 +116,11 @@ public class ProgramManagerMVC {
         userRepository.save(userD);
     }
 
+    public Set<Project> listHistory(Long idUser, Long tokenUser) {
+        User user = userRepository.findById(idUser).get();
+        return userHandler.getUser(user, tokenUser).getRolesHandler().getProgramManagerRole().getHistory();
+    }
+
     public Set<Project> listProjects(Long idUser, Long tokenUser) {
         User user = userRepository.findById(idUser).get();
         return userHandler.getUser(user, tokenUser).getRolesHandler().getProgramManagerRole().getProjects();

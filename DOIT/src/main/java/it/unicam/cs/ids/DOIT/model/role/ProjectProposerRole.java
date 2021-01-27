@@ -43,7 +43,7 @@ public class ProjectProposerRole extends Role implements IPartecipationRequestHa
     @Override
     public void acceptPR(PartecipationRequest<ProgramManagerRole> programManagerPR) {
         PartecipationRequest<ProgramManagerRole> pr = getInnerProgramManagerRequest(programManagerPR);
-        if (!this.getProjects().stream().map(p -> p.getTeam()).collect(Collectors.toSet()).contains(pr.getProject()))
+        if (!this.getProjects().contains(pr.getProject()))
             throw new IllegalArgumentException("Il Project Proposer non possiede il progetto");
         pr.displayed("Congratulations! You are accepted.");
         pr.getProject().getTeam().getProgramManagerRequest().remove(pr);
@@ -57,7 +57,7 @@ public class ProjectProposerRole extends Role implements IPartecipationRequestHa
     @Override
     public void removePR(PartecipationRequest<ProgramManagerRole> programManagerPR, String description) {
         PartecipationRequest pr = getInnerProgramManagerRequest(programManagerPR);
-        if (!this.getProjects().stream().map(p -> p.getTeam()).collect(Collectors.toSet()).contains(pr.getProject()))
+        if (!this.getProjects().contains(pr.getProject()))
             throw new IllegalArgumentException("Il Project Proposer non possiede il progetto");
         if (description == null || description.equals(""))
             throw new IllegalArgumentException("La descrizione non può essere vuota!");

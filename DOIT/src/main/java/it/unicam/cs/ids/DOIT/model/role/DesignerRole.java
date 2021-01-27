@@ -80,13 +80,6 @@ public class DesignerRole extends Role implements IPendingRole {
         return projects;
     }
 
-    public Evaluation enterEvaluation(Project projectInput, int evaluation) {
-        Project project = getInnerProject(projectInput);
-        Evaluation ev = new Evaluation(project.getId(), evaluation);
-        this.evaluations.add(ev);
-        return ev;
-    }
-
     public Set<Evaluation> getEvaluations() {
         return evaluations;
     }

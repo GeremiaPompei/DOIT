@@ -41,7 +41,7 @@ public class ProgramManagerRole extends Role implements IPendingRole, IPartecipa
 
     public void acceptPR(PartecipationRequest<DesignerRole> designerPR) {
         PartecipationRequest<DesignerRole> pr = getInnerDesignerRequest(designerPR);
-        if (!this.getProjects().stream().map(p -> p.getTeam()).collect(Collectors.toSet()).contains(pr.getProject()))
+        if (!this.getProjects().contains(pr.getProject()))
             throw new IllegalArgumentException("Il Program Manager non possiede il team");
         pr.displayed("Congratulations! You are accepted.");
         pr.getProject().getTeam().getDesignerRequest().remove(pr);
@@ -51,7 +51,7 @@ public class ProgramManagerRole extends Role implements IPendingRole, IPartecipa
 
     public void removePR(PartecipationRequest<DesignerRole> designerPR, String description) {
         PartecipationRequest<DesignerRole> pr = getInnerDesignerRequest(designerPR);
-        if (!this.getProjects().stream().map(p -> p.getTeam()).collect(Collectors.toSet()).contains(pr.getProject()))
+        if (!this.getProjects().contains(pr.getProject()))
             throw new IllegalArgumentException("Il Program Manager non possiede il team]");
         if (description == null || description.equals(""))
             throw new IllegalArgumentException("La descrizione non può essere vuota!");

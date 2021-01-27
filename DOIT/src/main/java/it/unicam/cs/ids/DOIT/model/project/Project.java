@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.DOIT.model.project;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import it.unicam.cs.ids.DOIT.model.category.Category;
 import it.unicam.cs.ids.DOIT.model.role.Team;
 
@@ -20,6 +21,8 @@ public class Project {
     private ProjectState projectState;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ID_Team")
+    @JsonIgnoreProperties({"projectProposer", "programManager", "designers", "projectManager", "designerRequest",
+            "programManagerRequest"})
     private Team team;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ID_Category")
@@ -79,17 +82,5 @@ public class Project {
     @Override
     public int hashCode() {
         return Objects.hash(id);
-    }
-
-    @Override
-    public String toString() {
-        return "Project{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", projectState=" + projectState +
-                ", category=" + category +
-                ", team=" + team +
-                '}';
     }
 }

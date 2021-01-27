@@ -75,9 +75,4 @@ public class ProjectManagerRole extends Role {
     public ProjectState getProjectState(Project projectInput) {
         return this.getProjects().stream().filter(t -> t.equals(projectInput)).findAny().orElse(null).getProjectState();
     }
-
-    @Override
-    public String toString() {
-        return "ProjectManagerRole{role=" + super.toString() + "}";
-    }
 }

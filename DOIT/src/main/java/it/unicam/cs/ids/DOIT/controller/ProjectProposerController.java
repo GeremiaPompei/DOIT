@@ -14,13 +14,13 @@ import java.util.List;
 @RequestMapping("/api/project-proposer")
 public class ProjectProposerController {
     @Autowired
-    private ProjectProposerService projectProposerMVC;
+    private ProjectProposerService projectProposerService;
 
     @PostMapping(value = "/create-project")
     public String createProject(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam String name,
                                 @RequestParam String description, @RequestParam String idcategory) {
         try {
-            this.projectProposerMVC.createProject(iduser, tokenuser, name, description, idcategory);
+            this.projectProposerService.createProject(iduser, tokenuser, name, description, idcategory);
             return "success";
         } catch (Exception e) {
             return e.getMessage();
@@ -28,21 +28,21 @@ public class ProjectProposerController {
     }
 
     @GetMapping(value = "/list-pr")
-    public List<PartecipationRequest<ProgramManagerRole>> getProgramManagerPR(@RequestParam Long iduser,
-                                                                              @RequestParam Long tokenuser,
-                                                                              @RequestParam Long idproject) {
+    public List<PartecipationRequest<ProgramManagerRole>> listProgramManagerPR(@RequestParam Long iduser,
+                                                                               @RequestParam Long tokenuser,
+                                                                               @RequestParam Long idproject) {
         try {
-            return List.copyOf(this.projectProposerMVC.listPR(iduser, tokenuser, idproject));
+            return List.copyOf(this.projectProposerService.listPR(iduser, tokenuser, idproject));
         } catch (Exception e) {
             return null;
         }
     }
 
     @PutMapping(value = "/accept-pr")
-    public String acceptAcceptProgramManagerPR(@RequestParam Long iduser, @RequestParam Long tokenuser,
-                                               @RequestParam Long idprogrammanagerpr, @RequestParam Long idproject) {
+    public String acceptProgramManagerPR(@RequestParam Long iduser, @RequestParam Long tokenuser,
+                                         @RequestParam Long idprogrammanagerpr, @RequestParam Long idproject) {
         try {
-            this.projectProposerMVC.acceptPR(iduser, tokenuser, idprogrammanagerpr, idproject);
+            this.projectProposerService.acceptPR(iduser, tokenuser, idprogrammanagerpr, idproject);
             return "success";
         } catch (Exception e) {
             return e.getMessage();
@@ -52,7 +52,7 @@ public class ProjectProposerController {
     @GetMapping(value = "/list-history")
     public List<Project> listHistory(@RequestParam Long iduser, @RequestParam Long tokenuser) {
         try {
-            return List.copyOf(this.projectProposerMVC.listHistory(iduser, tokenuser));
+            return List.copyOf(this.projectProposerService.listHistory(iduser, tokenuser));
         } catch (Exception e) {
             return null;
         }
@@ -61,7 +61,7 @@ public class ProjectProposerController {
     @GetMapping(value = "/list-projects")
     public List<Project> listProjects(@RequestParam Long iduser, @RequestParam Long tokenuser) {
         try {
-            return List.copyOf(this.projectProposerMVC.listProjects(iduser, tokenuser));
+            return List.copyOf(this.projectProposerService.listProjects(iduser, tokenuser));
         } catch (Exception e) {
             return null;
         }
@@ -70,7 +70,7 @@ public class ProjectProposerController {
     @GetMapping(value = "/list-categories")
     public List<Category> listCategories(@RequestParam Long iduser, @RequestParam Long tokenuser) {
         try {
-            return List.copyOf(this.projectProposerMVC.listCategories(iduser, tokenuser));
+            return List.copyOf(this.projectProposerService.listCategories(iduser, tokenuser));
         } catch (Exception e) {
             return null;
         }

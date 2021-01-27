@@ -16,20 +16,20 @@ import java.util.List;
 @RequestMapping("/api/search")
 public class SearchController {
     @Autowired
-    private SearchService search;
+    private SearchService searchService;
 
     @GetMapping(value = "/categories")
     public List<Category> getCategories() {
-        return List.copyOf(search.getAllCategories());
+        return List.copyOf(searchService.getAllCategories());
     }
 
     @GetMapping(value = "/users-by-key")
     public List<User> getUserByKey(@RequestParam String key) {
-        return List.copyOf(search.getUserByKey(key));
+        return List.copyOf(searchService.getUserByKey(key));
     }
 
     @GetMapping(value = "/projects-by-key")
     public List<Project> getProjectsByKey(@RequestParam String key) {
-        return List.copyOf(search.getProjectByKey(key));
+        return List.copyOf(searchService.getProjectByKey(key));
     }
 }

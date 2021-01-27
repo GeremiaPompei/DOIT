@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.DOIT.controller;
 
+import it.unicam.cs.ids.DOIT.model.role.RolesHandler;
 import it.unicam.cs.ids.DOIT.service.UserService;
 import it.unicam.cs.ids.DOIT.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +12,12 @@ import java.util.List;
 @RequestMapping("/api/user")
 public class UserController {
     @Autowired
-    UserService userMVC;
+    UserService userService;
 
     @GetMapping(value = "/get")
     public User getUser(@RequestParam Long iduser, @RequestParam Long tokenuser) {
         try {
-            User user = this.userMVC.getUser(iduser, tokenuser);
+            User user = this.userService.getUser(iduser, tokenuser);
             return user;
         } catch (Exception e) {
             return null;
@@ -26,7 +27,7 @@ public class UserController {
     @PutMapping(value = "/login")
     public String logIn(@RequestParam String email, @RequestParam String password) {
         try {
-            User user = this.userMVC.logIn(email, password);
+            User user = this.userService.logIn(email, password);
             return user.getId() + " " + user.tokenHandlerGet().getToken();
         } catch (Exception e) {
             return e.getMessage();
@@ -36,7 +37,7 @@ public class UserController {
     @PutMapping(value = "/logout")
     public String logOut(@RequestParam Long iduser, @RequestParam Long tokenuser) {
         try {
-            this.userMVC.logOut(iduser, tokenuser);
+            this.userService.logOut(iduser, tokenuser);
             return "success";
         } catch (Exception e) {
             return e.getMessage();
@@ -47,7 +48,7 @@ public class UserController {
     public String signIn(@RequestParam String name, @RequestParam String surname, @RequestParam String birthdate,
                          @RequestParam String sex, @RequestParam String email, @RequestParam String password) {
         try {
-            this.userMVC.signIn(name, surname, birthdate, sex, email, password);
+            this.userService.signIn(name, surname, birthdate, sex, email, password);
             return "success";
         } catch (Exception e) {
             return e.getMessage();
@@ -58,7 +59,7 @@ public class UserController {
     public String addRole(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam String idrole,
                           @RequestParam String idcategory) {
         try {
-            this.userMVC.addRole(iduser, tokenuser, idrole, idcategory);
+            this.userService.addRole(iduser, tokenuser, idrole, idcategory);
             return "success";
         } catch (Exception e) {
             return e.getMessage();
@@ -68,17 +69,35 @@ public class UserController {
     @DeleteMapping(value = "/remove-role")
     public String removeRole(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam String idrole) {
         try {
-            this.userMVC.removeRole(iduser, tokenuser, idrole);
+            this.userService.removeRole(iduser, tokenuser, idrole);
             return "success";
         } catch (Exception e) {
             return e.getMessage();
         }
     }
 
-    @GetMapping(value = "/get-roles")
-    public List<String> getRoles() {
+    @GetMapping(value = "/my-roles")
+    public RolesHandler getMyRoles(@RequestParam Long iduser, @RequestParam Long tokenuser) {
         try {
-            return this.userMVC.getRoles();
+            return this.userService.getMyRoles(iduser, tokenuser);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @GetMapping(value = "/roles-type")
+    public List<String> getRolesType() {
+        try {
+            return this.userService.getRolesType();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @GetMapping(value = "/my-roles-type")
+    public List<String> getMyRolesType(@RequestParam Long iduser, @RequestParam Long tokenuser) {
+        try {
+            return this.userService.getMyRolesType(iduser, tokenuser);
         } catch (Exception e) {
             return null;
         }
@@ -88,7 +107,7 @@ public class UserController {
     public String addCategoryToRole(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam String idrole,
                                     @RequestParam String idcategory) {
         try {
-            this.userMVC.addCategory(iduser, tokenuser, idrole, idcategory);
+            this.userService.addCategory(iduser, tokenuser, idrole, idcategory);
             return "success";
         } catch (Exception e) {
             return e.getMessage();
@@ -99,7 +118,7 @@ public class UserController {
     public String removeCategoryToRole(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam String idrole,
                                        @RequestParam String idcategory) {
         try {
-            this.userMVC.removeCategory(iduser, tokenuser, idrole, idcategory);
+            this.userService.removeCategory(iduser, tokenuser, idrole, idcategory);
             return "success";
         } catch (Exception e) {
             return e.getMessage();

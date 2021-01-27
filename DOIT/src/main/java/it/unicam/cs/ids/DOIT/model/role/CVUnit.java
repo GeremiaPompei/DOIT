@@ -19,6 +19,9 @@ public class CVUnit {
         this.experience = experience;
     }
 
+    public CVUnit() {
+    }
+
     public LocalDate getTimestamp() {
         return date.toLocalDate();
     }

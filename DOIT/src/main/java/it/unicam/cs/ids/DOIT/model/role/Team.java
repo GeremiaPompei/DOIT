@@ -17,7 +17,6 @@ public class Team {
     @Column(name = "ID_Team")
     private Long id;
 
-
     @JoinColumn(name = "ID_ProjectProposer")
     @OneToOne
     @JsonIgnoreProperties("projects")
@@ -37,10 +36,10 @@ public class Team {
     @JsonIgnoreProperties("projects")
     private Set<DesignerRole> designers;
     @OneToMany
-    @JsonIgnoreProperties("teams")
+    @JsonIgnoreProperties({"teams", "projects"})
     private Set<PartecipationRequest<DesignerRole>> designerRequest;
     @OneToMany
-    @JsonIgnoreProperties("teams")
+    @JsonIgnoreProperties({"teams", "projects"})
     private Set<PartecipationRequest<ProgramManagerRole>> programManagerRequest;
 
     public Team(Project project, ProjectProposerRole projectProposer) {

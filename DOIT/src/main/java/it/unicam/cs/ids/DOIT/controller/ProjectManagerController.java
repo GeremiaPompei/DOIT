@@ -16,13 +16,13 @@ import java.util.List;
 public class ProjectManagerController {
 
     @Autowired
-    private ProjectManagerService projectManagerMVC;
+    private ProjectManagerService projectManagerService;
 
     @PutMapping(value = "/upgrade-state")
     public String ugradeState(@RequestParam Long iduser, @RequestParam Long tokenuser,
                               @RequestParam Long idproject) {
         try {
-            this.projectManagerMVC.upgradeState(iduser, tokenuser, idproject);
+            this.projectManagerService.upgradeState(iduser, tokenuser, idproject);
             return "success";
         } catch (Exception e) {
             return e.getMessage();
@@ -33,7 +33,7 @@ public class ProjectManagerController {
     public String downgradeState(@RequestParam Long iduser, @RequestParam Long tokenuser,
                                  @RequestParam Long idproject) {
         try {
-            this.projectManagerMVC.downgradeState(iduser, tokenuser, idproject);
+            this.projectManagerService.downgradeState(iduser, tokenuser, idproject);
             return "success";
         } catch (Exception e) {
             return e.getMessage();
@@ -44,7 +44,7 @@ public class ProjectManagerController {
     public List<User> listDesigners(@RequestParam Long iduser, @RequestParam Long tokenuser,
                                     @RequestParam Long idproject) {
         try {
-            return List.copyOf(this.projectManagerMVC.listDesigners(iduser, tokenuser, idproject));
+            return List.copyOf(this.projectManagerService.listDesigners(iduser, tokenuser, idproject));
         } catch (Exception e) {
             return null;
         }
@@ -55,7 +55,7 @@ public class ProjectManagerController {
                                    @RequestParam Long iddesigner, @RequestParam Long idproject,
                                    @RequestParam Integer evaluation) {
         try {
-            this.projectManagerMVC.evaluate(iduser, tokenuser, iddesigner, idproject, evaluation);
+            this.projectManagerService.evaluate(iduser, tokenuser, iddesigner, idproject, evaluation);
             return "success";
         } catch (Exception e) {
             return e.getMessage();
@@ -66,7 +66,7 @@ public class ProjectManagerController {
     public String exitAll(@RequestParam Long iduser, @RequestParam Long tokenuser,
                           @RequestParam Long idproject) {
         try {
-            this.projectManagerMVC.exitAll(iduser, tokenuser, idproject);
+            this.projectManagerService.exitAll(iduser, tokenuser, idproject);
             return "success";
         } catch (Exception e) {
             return e.getMessage();
@@ -77,7 +77,7 @@ public class ProjectManagerController {
     public ProjectState visualizeState(@RequestParam Long iduser, @RequestParam Long tokenuser,
                                        @RequestParam Long idproject) {
         try {
-            return this.projectManagerMVC.visualizeState(iduser, tokenuser, idproject);
+            return this.projectManagerService.visualizeState(iduser, tokenuser, idproject);
         } catch (Exception e) {
             return null;
         }
@@ -86,7 +86,7 @@ public class ProjectManagerController {
     @GetMapping(value = "/list-history")
     public List<Project> listHistory(@RequestParam Long iduser, @RequestParam Long tokenuser) {
         try {
-            return List.copyOf(this.projectManagerMVC.listHistory(iduser, tokenuser));
+            return List.copyOf(this.projectManagerService.listHistory(iduser, tokenuser));
         } catch (Exception e) {
             return null;
         }
@@ -95,7 +95,7 @@ public class ProjectManagerController {
     @GetMapping(value = "/list-projects")
     public List<Project> listProjects(@RequestParam Long iduser, @RequestParam Long tokenuser) {
         try {
-            return List.copyOf(this.projectManagerMVC.listProjects(iduser, tokenuser));
+            return List.copyOf(this.projectManagerService.listProjects(iduser, tokenuser));
         } catch (Exception e) {
             return null;
         }
@@ -104,7 +104,7 @@ public class ProjectManagerController {
     @GetMapping(value = "/list-categories")
     public List<Category> listCategories(@RequestParam Long iduser, @RequestParam Long tokenuser) {
         try {
-            return List.copyOf(this.projectManagerMVC.listCategories(iduser, tokenuser));
+            return List.copyOf(this.projectManagerService.listCategories(iduser, tokenuser));
         } catch (Exception e) {
             return null;
         }

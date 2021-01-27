@@ -16,14 +16,13 @@ import java.util.List;
 @RequestMapping("/api/designer")
 public class DesignerController {
     @Autowired
-    private DesignerService designerMVC;
+    private DesignerService designerService;
 
-    //TODO loop
     @GetMapping("/list-projects-by-category")
     public List<Project> listProjectsByCategory(@RequestParam Long iduser, @RequestParam Long tokenuser,
                                                 @RequestParam String idcategory) {
         try {
-            return List.copyOf(this.designerMVC.listProjectsByCategory(iduser, tokenuser, idcategory));
+            return List.copyOf(this.designerService.listProjectsByCategory(iduser, tokenuser, idcategory));
         } catch (Exception e) {
             return null;
         }
@@ -32,18 +31,17 @@ public class DesignerController {
     @PostMapping("/send-pr")
     public String sendPr(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam Long idproject) {
         try {
-            designerMVC.sendPR(iduser, tokenuser, idproject);
+            designerService.sendPR(iduser, tokenuser, idproject);
             return "success";
         } catch (Exception e) {
             return e.getMessage();
         }
     }
 
-    //TODO LOOP
     @GetMapping(value = "/list-pr")
     public List<PartecipationRequest<DesignerRole>> listPR(@RequestParam Long iduser, @RequestParam Long tokenuser) {
         try {
-            return List.copyOf(this.designerMVC.listPR(iduser, tokenuser));
+            return List.copyOf(this.designerService.listPR(iduser, tokenuser));
         } catch (Exception e) {
             return null;
         }
@@ -52,16 +50,16 @@ public class DesignerController {
     @GetMapping("/list-evaluations")
     public List<Evaluation> listEvaluations(@RequestParam Long iduser, @RequestParam Long tokenuser) {
         try {
-            return List.copyOf(this.designerMVC.listEvaluations(iduser, tokenuser));
+            return List.copyOf(this.designerService.listEvaluations(iduser, tokenuser));
         } catch (Exception e) {
             return null;
         }
     }
 
-    @GetMapping("/list-cv")
-    public List<CVUnit> listCV(@RequestParam Long iduser, @RequestParam Long tokenuser) {
+    @GetMapping("/list-cvunit")
+    public List<CVUnit> listCVUnit(@RequestParam Long iduser, @RequestParam Long tokenuser) {
         try {
-            return List.copyOf(this.designerMVC.listCV(iduser, tokenuser));
+            return List.copyOf(this.designerService.listCV(iduser, tokenuser));
         } catch (Exception e) {
             return null;
         }
@@ -70,7 +68,7 @@ public class DesignerController {
     @GetMapping(value = "/list-history")
     public List<Project> listHistory(@RequestParam Long iduser, @RequestParam Long tokenuser) {
         try {
-            return List.copyOf(this.designerMVC.listHistory(iduser, tokenuser));
+            return List.copyOf(this.designerService.listHistory(iduser, tokenuser));
         } catch (Exception e) {
             return null;
         }
@@ -79,7 +77,7 @@ public class DesignerController {
     @GetMapping(value = "/list-projects")
     public List<Project> listProjects(@RequestParam Long iduser, @RequestParam Long tokenuser) {
         try {
-            return List.copyOf(this.designerMVC.listProjects(iduser, tokenuser));
+            return List.copyOf(this.designerService.listProjects(iduser, tokenuser));
         } catch (Exception e) {
             return null;
         }
@@ -88,7 +86,7 @@ public class DesignerController {
     @GetMapping(value = "/list-categories")
     public List<Category> listCategories(@RequestParam Long iduser, @RequestParam Long tokenuser) {
         try {
-            return List.copyOf(this.designerMVC.listCategories(iduser, tokenuser));
+            return List.copyOf(this.designerService.listCategories(iduser, tokenuser));
         } catch (Exception e) {
             return null;
         }

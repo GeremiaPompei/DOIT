@@ -16,6 +16,9 @@ public class Evaluation {
         this.evaluate = evaluate;
     }
 
+    public Evaluation() {
+    }
+
     public Long getProjectId() {
         return projectId;
     }

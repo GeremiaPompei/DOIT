@@ -2,7 +2,7 @@ package it.unicam.cs.ids.DOIT.model.partecipation_request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import it.unicam.cs.ids.DOIT.model.role.DesignerRole;
-import it.unicam.cs.ids.DOIT.model.role.PendingRole;
+import it.unicam.cs.ids.DOIT.model.role.IPendingRole;
 import it.unicam.cs.ids.DOIT.model.role.ProgramManagerRole;
 import it.unicam.cs.ids.DOIT.model.role.Team;
 import org.hibernate.annotations.Any;
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-public class PartecipationRequest<T extends PendingRole> {
+public class PartecipationRequest<T extends IPendingRole> {
 
     @Id
     @Column(name = "ID_PartecipationRequest")
@@ -65,10 +65,6 @@ public class PartecipationRequest<T extends PendingRole> {
         return id;
     }
 
-    public boolean isState() {
-        return state;
-    }
-
     public Team getTeam() {
         return team;
     }
@@ -81,16 +77,8 @@ public class PartecipationRequest<T extends PendingRole> {
         return state;
     }
 
-    public void setState(boolean state) {
-        this.state = state;
-    }
-
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = Timestamp.valueOf(dateTime);
     }
 
     public LocalDateTime getDateTime() {

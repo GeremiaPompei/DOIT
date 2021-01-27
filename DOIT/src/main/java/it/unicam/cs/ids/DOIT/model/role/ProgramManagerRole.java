@@ -13,7 +13,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
-public class ProgramManagerRole extends Role implements PendingRole, IPartecipationRequestHandler<DesignerRole> {
+public class ProgramManagerRole extends Role implements IPendingRole, IPartecipationRequestHandler<DesignerRole> {
 
     @Id
     @Column(name = "ID_ProgramManager")
@@ -21,7 +21,7 @@ public class ProgramManagerRole extends Role implements PendingRole, IPartecipat
     private Long id;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("pendingRole")
+    @JsonIgnoreProperties({"pendingRole", "team"})
     private Set<PartecipationRequest<ProgramManagerRole>> myPartecipationRequests;
 
     public ProgramManagerRole() {

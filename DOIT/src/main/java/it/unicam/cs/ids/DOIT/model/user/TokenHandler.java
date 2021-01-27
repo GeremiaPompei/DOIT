@@ -11,7 +11,7 @@ public class TokenHandler {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID_TokenHandler")
     private Long id;
-    private Timestamp date;
+    private Timestamp dateTime;
 
     private Long token;
 
@@ -26,27 +26,22 @@ public class TokenHandler {
     public void checkToken(Long token) {
         if (!this.token.equals(token))
             throw new IllegalArgumentException("Token errato, riautenticati!");
-        if (LocalDateTime.now().isAfter(date.toLocalDateTime().plusDays(1)))
+        if (LocalDateTime.now().isAfter(dateTime.toLocalDateTime().plusDays(1)))
             throw new IllegalArgumentException("Token scaduto, riautenticati!");
     }
 
     public Long generateToken() {
-        date = Timestamp.valueOf(LocalDateTime.now());
+        dateTime = Timestamp.valueOf(LocalDateTime.now());
         token = (long) (100000 + new Random().nextInt(900000));
         return token;
     }
 
-    @Override
-    public String toString() {
-        return date + " - " + token;
-    }
-
     public void clearToken() {
         token = -1L;
-        date = Timestamp.valueOf(LocalDateTime.MIN);
+        dateTime = Timestamp.valueOf(LocalDateTime.MIN);
     }
 
-    public LocalDateTime getDate() {
-        return date.toLocalDateTime();
+    public LocalDateTime getDateTime() {
+        return dateTime.toLocalDateTime();
     }
 }

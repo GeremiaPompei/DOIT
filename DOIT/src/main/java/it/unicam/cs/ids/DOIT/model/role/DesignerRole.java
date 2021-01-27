@@ -11,7 +11,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
-public class DesignerRole extends Role implements PendingRole {
+public class DesignerRole extends Role implements IPendingRole {
 
     @Id
     @Column(name = "ID_Designer")
@@ -19,7 +19,7 @@ public class DesignerRole extends Role implements PendingRole {
     private Long id;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("pendingRole")
+    @JsonIgnoreProperties({"pendingRole", "team"})
     private Set<PartecipationRequest<DesignerRole>> myPartecipationRequests;
 
     @JoinColumn(name = "ID_Evaluation")

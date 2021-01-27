@@ -3,7 +3,6 @@ package it.unicam.cs.ids.DOIT;
 import it.unicam.cs.ids.DOIT.model.category.Category;
 import it.unicam.cs.ids.DOIT.model.role.*;
 import it.unicam.cs.ids.DOIT.model.user.User;
-import it.unicam.cs.ids.DOIT.repository.RepositoryHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,16 +10,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class RolesHandlerTest {
 
-    RepositoryHandler repo;
     Category category;
     User user1;
     RolesHandler rh;
 
     @BeforeEach()
     void init() {
-        repo = new RepositoryHandler();
-        category = repo.getCategoryRepository().save(new Category("Fisica", "Descrizione"));
-        user1 = repo.getUserRepository().save(new User("Saverio", "Tommasi", "1998", "Male", "saveriotommasi@gmail.com", "password"));
+        category = new Category("Fisica", "Descrizione");
+        user1 = new User("Saverio", "Tommasi", "1998", "Male", "saveriotommasi@gmail.com", "password");
         rh = user1.getRolesHandler(user1.tokenHandlerGet().getToken());
     }
 

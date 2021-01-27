@@ -59,24 +59,20 @@ public class ProgramManagerService {
         return user.getRolesHandler(tokenUser).getProgramManagerRole().getPartecipationRequestsByProject(project);
     }
 
-    public void acceptDesignerPR(Long idUser, Long tokenUser, Long idDesignerPR, Long idProject) {
+    public void acceptDesignerPR(Long idUser, Long tokenUser, Long idDesignerPR) {
         User user = repositoryHandler.getUserRepository().findById(idUser).get();
-        Project project = repositoryHandler.getProjectRepository().findById(idProject).get();
         PartecipationRequest<DesignerRole> pr = repositoryHandler.getPartecipationRequestDesignerRepository()
                 .findById(idDesignerPR).get();
-        DesignerRole designerRole = pr.getPendingRole();
-        user.getRolesHandler(tokenUser).getProgramManagerRole().acceptPR(designerRole, project);
+        user.getRolesHandler(tokenUser).getProgramManagerRole().acceptPR(pr);
         repositoryHandler.getUserRepository().save(user);
         repositoryHandler.getPartecipationRequestDesignerRepository().save(pr);
     }
 
-    public void removeDesignerPR(Long idUser, Long tokenUser, Long idDesignerPR, Long idProject, String reason) {
+    public void removeDesignerPR(Long idUser, Long tokenUser, Long idDesignerPR, String reason) {
         User user = repositoryHandler.getUserRepository().findById(idUser).get();
-        Project project = repositoryHandler.getProjectRepository().findById(idProject).get();
         PartecipationRequest<DesignerRole> pr = repositoryHandler.getPartecipationRequestDesignerRepository()
                 .findById(idDesignerPR).get();
-        DesignerRole designerRole = pr.getPendingRole();
-        user.getRolesHandler(tokenUser).getProgramManagerRole().removePR(designerRole, project, reason);
+        user.getRolesHandler(tokenUser).getProgramManagerRole().removePR(pr, reason);
         repositoryHandler.getUserRepository().save(user);
         repositoryHandler.getPartecipationRequestDesignerRepository().save(pr);
     }

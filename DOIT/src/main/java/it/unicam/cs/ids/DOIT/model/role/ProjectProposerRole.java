@@ -41,29 +41,28 @@ public class ProjectProposerRole extends Role implements IPartecipationRequestHa
     }
 
     @Override
-    public void acceptPR(ProgramManagerRole role, Project inputProject) {
-        PartecipationRequest<ProgramManagerRole> pr = getInnerProgramManagerRequest(role, inputProject);
-        if (!this.getProjects().stream().map(p->p.getTeam()).collect(Collectors.toSet()).contains(pr.getTeam()))
+    public void acceptPR(PartecipationRequest<ProgramManagerRole> programManagerPR) {
+        PartecipationRequest<ProgramManagerRole> pr = getInnerProgramManagerRequest(programManagerPR);
+        if (!this.getProjects().stream().map(p -> p.getTeam()).collect(Collectors.toSet()).contains(pr.getProject()))
             throw new IllegalArgumentException("Il Project Proposer non possiede il progetto");
         pr.displayed("Congratulations! You are accepted.");
-        pr.getTeam().getProgramManagerRequest().remove(pr);
-        pr.getTeam().setProgramManager(role);
-        role.enterProject(inputProject);
-        pr.getTeam().getProgramManagerRequest().stream()
+        pr.getProject().getTeam().getProgramManagerRequest().remove(pr);
+        pr.getProject().getTeam().setProgramManager(pr.getPendingRole());
+        pr.getPendingRole().enterProject(pr.getProject());
+        pr.getProject().getTeam().getProgramManagerRequest().stream()
                 .filter(p -> !p.equals(pr))
-                .forEach(p -> removePR(p.getPendingRole(),
-                        inputProject, "I'm sorry! You are rejected."));
+                .forEach(p -> removePR(pr, "I'm sorry! You are rejected."));
     }
 
     @Override
-    public void removePR(ProgramManagerRole role, Project inputProject, String description) {
-        PartecipationRequest pr = getInnerProgramManagerRequest(role, inputProject);
-        if (!this.getProjects().stream().map(p->p.getTeam()).collect(Collectors.toSet()).contains(pr.getTeam()))
+    public void removePR(PartecipationRequest<ProgramManagerRole> programManagerPR, String description) {
+        PartecipationRequest pr = getInnerProgramManagerRequest(programManagerPR);
+        if (!this.getProjects().stream().map(p -> p.getTeam()).collect(Collectors.toSet()).contains(pr.getProject()))
             throw new IllegalArgumentException("Il Project Proposer non possiede il progetto");
         if (description == null || description.equals(""))
             throw new IllegalArgumentException("La descrizione non può essere vuota!");
         pr.displayed(description);
-        pr.getTeam().getProgramManagerRequest().remove(pr);
+        pr.getProject().getTeam().getProgramManagerRequest().remove(pr);
     }
 
     public Set<PartecipationRequest<ProgramManagerRole>> getPartecipationRequestsByProject(Project inputProject) {

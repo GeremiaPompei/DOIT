@@ -78,10 +78,9 @@ public class ProgramManagerController {
     }
 
     @PutMapping(value = "/accept-designer-pr")
-    public String addDesigner(@RequestParam Long iduser, @RequestParam Long tokenuser,
-                              @RequestParam Long iddesignerpr, @RequestParam Long idproject) {
+    public String addDesigner(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam Long iddesignerpr) {
         try {
-            this.programManagerService.acceptDesignerPR(iduser, tokenuser, iddesignerpr, idproject);
+            this.programManagerService.acceptDesignerPR(iduser, tokenuser, iddesignerpr);
             return "success";
         } catch (Exception e) {
             return e.getMessage();
@@ -89,11 +88,10 @@ public class ProgramManagerController {
     }
 
     @DeleteMapping(value = "/remove-designer-pr")
-    public String removePr(@RequestParam Long iduser, @RequestParam Long tokenuser,
-                           @RequestParam Long iddesignerpr, @RequestParam Long idproject,
+    public String removePr(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam Long iddesignerpr,
                            @RequestParam String reason) {
         try {
-            this.programManagerService.removeDesignerPR(iduser, tokenuser, iddesignerpr, idproject, reason);
+            this.programManagerService.removeDesignerPR(iduser, tokenuser, iddesignerpr, reason);
             return "success";
         } catch (Exception e) {
             return e.getMessage();

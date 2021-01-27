@@ -39,24 +39,24 @@ public class ProgramManagerRole extends Role implements IPendingRole, IPartecipa
         return TYPE;
     }
 
-    public void acceptPR(DesignerRole designer, Project projectInput) {
-        PartecipationRequest pr = getInnerDesignerRequest(designer, projectInput);
-        if (!this.getProjects().stream().map(p -> p.getTeam()).collect(Collectors.toSet()).contains(pr.getTeam()))
+    public void acceptPR(PartecipationRequest<DesignerRole> designerPR) {
+        PartecipationRequest<DesignerRole> pr = getInnerDesignerRequest(designerPR);
+        if (!this.getProjects().stream().map(p -> p.getTeam()).collect(Collectors.toSet()).contains(pr.getProject()))
             throw new IllegalArgumentException("Il Program Manager non possiede il team");
         pr.displayed("Congratulations! You are accepted.");
-        pr.getTeam().getDesignerRequest().remove(pr);
-        designer.enterProject(projectInput);
-        pr.getTeam().addDesigner(designer);
+        pr.getProject().getTeam().getDesignerRequest().remove(pr);
+        designerPR.getPendingRole().enterProject(designerPR.getProject());
+        pr.getProject().getTeam().addDesigner(designerPR.getPendingRole());
     }
 
-    public void removePR(DesignerRole designer, Project projectInput, String description) {
-        PartecipationRequest pr = getInnerDesignerRequest(designer, projectInput);
-        if (!this.getProjects().stream().map(p -> p.getTeam()).collect(Collectors.toSet()).contains(pr.getTeam()))
+    public void removePR(PartecipationRequest<DesignerRole> designerPR, String description) {
+        PartecipationRequest<DesignerRole> pr = getInnerDesignerRequest(designerPR);
+        if (!this.getProjects().stream().map(p -> p.getTeam()).collect(Collectors.toSet()).contains(pr.getProject()))
             throw new IllegalArgumentException("Il Program Manager non possiede il team]");
         if (description == null || description.equals(""))
             throw new IllegalArgumentException("La descrizione non può essere vuota!");
         pr.displayed(description);
-        pr.getTeam().getDesignerRequest().remove(pr);
+        pr.getProject().getTeam().getDesignerRequest().remove(pr);
     }
 
     public Set<Long> getIdDesigners(Project projectInput) {
@@ -111,7 +111,7 @@ public class ProgramManagerRole extends Role implements IPendingRole, IPartecipa
             throw new IllegalArgumentException("Program Manager gia presente nel team!");
         if (!this.getCategories().contains(project.getCategory()))
             throw new IllegalArgumentException("L'utente non presenta la categoria: [" + project.getCategory() + "]");
-        PartecipationRequest<ProgramManagerRole> pr = new PartecipationRequest(this, project.getTeam());
+        PartecipationRequest<ProgramManagerRole> pr = new PartecipationRequest(this, project);
         if (this.myPartecipationRequests.contains(pr))
             this.myPartecipationRequests.remove(pr);
         this.myPartecipationRequests.add(pr);

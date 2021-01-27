@@ -33,13 +33,11 @@ public class ProjectProposerService {
         return user.getRolesHandler(tokenUser).getProjectProposerRole().getPartecipationRequestsByProject(project);
     }
 
-    public void acceptPR(Long idUser, Long tokenUser, Long idProgramManagerPR, Long idProject) {
+    public void acceptPR(Long idUser, Long tokenUser, Long idProgramManagerPR) {
         User user = repositoryHandler.getUserRepository().findById(idUser).get();
-        Project project = repositoryHandler.getProjectRepository().findById(idProject).get();
         PartecipationRequest<ProgramManagerRole> pr =
                 repositoryHandler.getPartecipationRequestProgramManagerRepository().findById(idProgramManagerPR).get();
-        ProgramManagerRole programManagerRole = pr.getPendingRole();
-        user.getRolesHandler(tokenUser).getProjectProposerRole().acceptPR(programManagerRole, project);
+        user.getRolesHandler(tokenUser).getProjectProposerRole().acceptPR(pr);
         repositoryHandler.getUserRepository().save(user);
         repositoryHandler.getPartecipationRequestProgramManagerRepository().save(pr);
     }

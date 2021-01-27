@@ -1,6 +1,7 @@
 package it.unicam.cs.ids.DOIT.model.partecipation_request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import it.unicam.cs.ids.DOIT.model.project.Project;
 import it.unicam.cs.ids.DOIT.model.role.DesignerRole;
 import it.unicam.cs.ids.DOIT.model.role.IPendingRole;
 import it.unicam.cs.ids.DOIT.model.role.ProgramManagerRole;
@@ -38,15 +39,15 @@ public class PartecipationRequest<T extends IPendingRole> {
 
     @OneToOne()
     @JoinColumn(name = "ID_Team")
-    @JsonIgnoreProperties({"programManagerRequest", "designerRequest"})
-    private Team team;
+    @JsonIgnoreProperties("team")
+    private Project project;
 
     public PartecipationRequest() {
     }
 
-    public PartecipationRequest(T role, Team team) {
+    public PartecipationRequest(T role, Project project) {
         this.pendingRole = role;
-        this.team = team;
+        this.project = project;
         this.description = "Partecipation request sent...";
         this.state = false;
         this.dateTime = Timestamp.valueOf(LocalDateTime.now());
@@ -65,8 +66,8 @@ public class PartecipationRequest<T extends IPendingRole> {
         return id;
     }
 
-    public Team getTeam() {
-        return team;
+    public Project getProject() {
+        return project;
     }
 
     public String getDescription() {
@@ -90,11 +91,11 @@ public class PartecipationRequest<T extends IPendingRole> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PartecipationRequest that = (PartecipationRequest) o;
-        return Objects.equals(pendingRole, that.pendingRole) && Objects.equals(team, that.team);
+        return Objects.equals(pendingRole, that.pendingRole) && Objects.equals(project, that.project);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(pendingRole, team);
+        return Objects.hash(pendingRole, project);
     }
 }

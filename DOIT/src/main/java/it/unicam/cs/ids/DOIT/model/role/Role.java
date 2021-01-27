@@ -99,31 +99,31 @@ public abstract class Role {
                 .orElseThrow(() -> new IllegalArgumentException("L'utente non presenta la categoria!"));
     }
 
-    protected PartecipationRequest getInnerDesignerRequest(DesignerRole designer, Project projectInput) {
-        PartecipationRequest pr = this.getProjects().stream()
-                .filter(p -> p.equals(projectInput))
+    protected PartecipationRequest<DesignerRole> getInnerDesignerRequest(PartecipationRequest<DesignerRole> prInput) {
+        PartecipationRequest<DesignerRole> pr = this.getProjects().stream()
+                .filter(p -> p.equals(prInput.getProject()))
                 .map(p -> p.getTeam())
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("Non sei in possesso del team con id: [" + projectInput.getId() + "]"))
+                .orElseThrow(() -> new IllegalArgumentException("Non sei in possesso del progetto!"))
                 .getDesignerRequest().stream()
-                .filter(t -> t.getPendingRole().getIdUser().equals(designer.getIdUser()))
+                .filter(t -> t.getPendingRole().equals(prInput.getPendingRole()))
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("Non vi è una request fatta dal ruolo con id: [" + designer.getIdUser() + "]"));
-        getInnerCategory(projectInput.getCategory());
+                .orElseThrow(() -> new IllegalArgumentException("Non vi è una request fatta dal ruolo!"));
+        getInnerCategory(prInput.getProject().getCategory());
         return pr;
     }
 
-    protected PartecipationRequest getInnerProgramManagerRequest(ProgramManagerRole programManager, Project projectInput) {
-        PartecipationRequest pr = this.getProjects().stream()
-                .filter(p -> p.equals(projectInput))
+    protected PartecipationRequest<ProgramManagerRole> getInnerProgramManagerRequest(PartecipationRequest<ProgramManagerRole> prInput) {
+        PartecipationRequest<ProgramManagerRole> pr = this.getProjects().stream()
+                .filter(p -> p.equals(prInput.getProject()))
                 .map(p -> p.getTeam())
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("Non sei in possesso del team con id: [" + projectInput.getId() + "]"))
+                .orElseThrow(() -> new IllegalArgumentException("Non sei in possesso del progetto!"))
                 .getProgramManagerRequest().stream()
-                .filter(t -> t.getPendingRole().getIdUser().equals(programManager.getIdUser()))
+                .filter(t -> t.getPendingRole().equals(prInput.getPendingRole()))
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("Non vi è una request fatta dal ruolo con id: [" + programManager.getIdUser() + "]"));
-        getInnerCategory(projectInput.getCategory());
+                .orElseThrow(() -> new IllegalArgumentException("Non vi è una request fatta dal ruolo!]"));
+        getInnerCategory(prInput.getProject().getCategory());
         return pr;
     }
 

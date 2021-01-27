@@ -39,10 +39,9 @@ public class ProjectProposerController {
     }
 
     @PutMapping(value = "/accept-pr")
-    public String acceptProgramManagerPR(@RequestParam Long iduser, @RequestParam Long tokenuser,
-                                         @RequestParam Long idprogrammanagerpr, @RequestParam Long idproject) {
+    public String acceptProgramManagerPR(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam Long idprogrammanagerpr) {
         try {
-            this.projectProposerService.acceptPR(iduser, tokenuser, idprogrammanagerpr, idproject);
+            this.projectProposerService.acceptPR(iduser, tokenuser, idprogrammanagerpr);
             return "success";
         } catch (Exception e) {
             return e.getMessage();

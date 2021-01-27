@@ -60,7 +60,7 @@ public class DesignerRole extends Role implements IPendingRole {
             throw new IllegalArgumentException("L'utente non presenta la categoria: [" + inputProject.getCategory() + "]");
         if (!inputProject.getTeam().isOpen())
             throw new IllegalArgumentException("Le registrazioni non sono aperte !");
-        PartecipationRequest<DesignerRole> pr = new PartecipationRequest(this, inputProject.getTeam());
+        PartecipationRequest<DesignerRole> pr = new PartecipationRequest(this, inputProject);
         if (this.myPartecipationRequests.contains(pr))
             this.myPartecipationRequests.remove(pr);
         this.myPartecipationRequests.add(pr);

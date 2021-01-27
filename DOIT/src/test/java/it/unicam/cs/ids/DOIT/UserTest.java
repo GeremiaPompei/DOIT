@@ -1,57 +1,42 @@
-/*
-
 package it.unicam.cs.ids.DOIT;
 
-import it.unicam.cs.ids.DOIT.model.category.ICategory;
-import it.unicam.cs.ids.DOIT.model.role.*;
-import it.unicam.cs.ids.DOIT.model.role.ProjectManagerRole;
-import it.unicam.cs.ids.DOIT.model.role.ProjectProposerRole;
-import it.unicam.cs.ids.DOIT.model.role.DesignerRole;
-import it.unicam.cs.ids.DOIT.model.role.ProgramManagerRole;
-import it.unicam.cs.ids.DOIT.service.*;
-import it.unicam.cs.ids.DOIT.model.user.IUser;
+import it.unicam.cs.ids.DOIT.model.category.Category;
+import it.unicam.cs.ids.DOIT.model.role.RolesHandler;
+import it.unicam.cs.ids.DOIT.model.user.TokenHandler;
+import it.unicam.cs.ids.DOIT.model.user.User;
+import it.unicam.cs.ids.DOIT.repository.RepositoryHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserTest {
-    private IUser user1;
-    private IUser user2;
-    private ICategory category;
-    private IFactoryModel factory;
-    private IResourceHandler resourceHandler;
 
-    @BeforeEach
-    private void init() {
-        ServicesHandler.getInstance().getResourceHandler().getRisorse().clear();
-        category = ServicesHandler.getInstance().getFactoryModel().createCategory("Sport", "Descrizione.");
-        user1 = ServicesHandler.getInstance().getFactoryModel().createUser("Saverio", "Tommasi", "1998", "Male");
-        user2 = ServicesHandler.getInstance().getFactoryModel().createUser("Mario", "Fartade", "2000", "Male");
+    Category category;
+    User user1;
+    RolesHandler rh;
+
+    @BeforeEach()
+    void init() {
+        category = new Category("Fisica", "Descrizione");
+        user1 = new User("Saverio", "Tommasi", "1998", "Male", "saveriotommasi@gmail.com", "password");
+        rh = user1.getRolesHandler(user1.tokenHandlerGet().getToken());
     }
 
     @Test
-    void addRole() {
-        assertDoesNotThrow(() -> this.user1.addRole(ProjectProposerRole.class, category.getName()));
-        assertDoesNotThrow(() -> this.user1.addRole(DesignerRole.class, category.getName()));
-        assertDoesNotThrow(() -> this.user1.addRole(ProgramManagerRole.class, category.getName()));
-
+    void checkPassword() {
+        assertThrows(NullPointerException.class, () -> user1.checkPassword("password1"));
+        assertDoesNotThrow(() -> user1.checkPassword("password"));
     }
 
     @Test
-    void getRole() {
-        assertThrows(RoleException.class, () -> this.user1.getRole(ProjectProposerRole.class));
-        assertDoesNotThrow(() -> this.user1.addRole(ProjectProposerRole.class, category.getName()));
-        assertDoesNotThrow(() -> this.user1.getRole(ProjectProposerRole.class));
+    void tokenHandlerGet() {
+        assertNotNull(user1.tokenHandlerGet());
     }
 
     @Test
-    void removeRole() {
-        assertDoesNotThrow(() -> this.user1.addRole(ProjectProposerRole.class, category.getName()));
-        assertDoesNotThrow(() -> this.user1.getRole(ProjectProposerRole.class));
-        assertThrows(RoleException.class, ()->{ user1.getRole(ProjectManagerRole.class); });
-        this.user1.removeRole(ProjectProposerRole.class);
-        assertThrows(RoleException.class, () -> this.user1.getRole(ProjectProposerRole.class));
+    void getRolesHandler() {
+        assertEquals(user1.getRolesHandler(user1.tokenHandlerGet().getToken()), rh);
     }
+
 }
-*/

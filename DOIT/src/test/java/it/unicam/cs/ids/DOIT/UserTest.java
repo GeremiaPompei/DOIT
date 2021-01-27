@@ -2,9 +2,7 @@ package it.unicam.cs.ids.DOIT;
 
 import it.unicam.cs.ids.DOIT.model.category.Category;
 import it.unicam.cs.ids.DOIT.model.role.RolesHandler;
-import it.unicam.cs.ids.DOIT.model.user.TokenHandler;
 import it.unicam.cs.ids.DOIT.model.user.User;
-import it.unicam.cs.ids.DOIT.repository.RepositoryHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

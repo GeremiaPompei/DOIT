@@ -36,6 +36,19 @@ public class User {
         this.tokenHandler = new TokenHandler();
     }
 
+    // Per Test
+    public User(Long id, String name, String surname, String birthDate, String sex, String email, String password) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.birthDate = birthDate;
+        this.sex = sex;
+        this.email = email;
+        this.password = password;
+        this.rolesHandler = new RolesHandler(this);
+        this.tokenHandler = new TokenHandler();
+    }
+
     public User() {
     }
 

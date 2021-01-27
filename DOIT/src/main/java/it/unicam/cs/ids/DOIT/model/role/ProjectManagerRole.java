@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 @Entity
 public class ProjectManagerRole extends Role {
+    public final static String TYPE = "project-manager";
 
     @Id
     @Column(name = "ID_ProjectManager")
@@ -23,6 +24,11 @@ public class ProjectManagerRole extends Role {
 
     public ProjectManagerRole(User user, Category category) {
         super(user, category);
+    }
+
+    @Override
+    public String getType() {
+        return TYPE;
     }
 
     public void upgradeState(Iterator<ProjectState> iterator, Project project) {

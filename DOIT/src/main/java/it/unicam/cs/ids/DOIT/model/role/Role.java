@@ -39,6 +39,8 @@ public abstract class Role {
         this.categories.add(category);
     }
 
+    public abstract String getType();
+
     public Long getIdUser() {
         return this.idUser;
     }

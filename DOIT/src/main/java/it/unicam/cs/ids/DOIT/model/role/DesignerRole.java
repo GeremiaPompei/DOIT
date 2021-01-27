@@ -13,6 +13,8 @@ import java.util.stream.Collectors;
 @Entity
 public class DesignerRole extends Role implements IPendingRole {
 
+    public final static String TYPE = "designer";
+
     @Id
     @Column(name = "ID_Designer")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,6 +39,11 @@ public class DesignerRole extends Role implements IPendingRole {
         this.myPartecipationRequests = new HashSet<>();
         this.curriculumVitae = new HashSet<>();
         this.evaluations = new HashSet<>();
+    }
+
+    @Override
+    public String getType() {
+        return TYPE;
     }
 
     public Set<PartecipationRequest<DesignerRole>> getMyPartecipationRequests() {

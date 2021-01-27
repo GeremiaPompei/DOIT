@@ -15,6 +15,8 @@ import java.util.stream.Collectors;
 @Entity
 public class ProgramManagerRole extends Role implements IPendingRole, IPartecipationRequestHandler<DesignerRole> {
 
+    public final static String TYPE = "program-manager";
+
     @Id
     @Column(name = "ID_ProgramManager")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,9 +34,14 @@ public class ProgramManagerRole extends Role implements IPendingRole, IPartecipa
         this.myPartecipationRequests = new HashSet<>();
     }
 
+    @Override
+    public String getType() {
+        return TYPE;
+    }
+
     public void acceptPR(DesignerRole designer, Project projectInput) {
         PartecipationRequest pr = getInnerDesignerRequest(designer, projectInput);
-        if (!this.getProjects().stream().map(p->p.getTeam()).collect(Collectors.toSet()).contains(pr.getTeam()))
+        if (!this.getProjects().stream().map(p -> p.getTeam()).collect(Collectors.toSet()).contains(pr.getTeam()))
             throw new IllegalArgumentException("Il Program Manager non possiede il team");
         pr.displayed("Congratulations! You are accepted.");
         pr.getTeam().getDesignerRequest().remove(pr);
@@ -44,7 +51,7 @@ public class ProgramManagerRole extends Role implements IPendingRole, IPartecipa
 
     public void removePR(DesignerRole designer, Project projectInput, String description) {
         PartecipationRequest pr = getInnerDesignerRequest(designer, projectInput);
-        if (!this.getProjects().stream().map(p->p.getTeam()).collect(Collectors.toSet()).contains(pr.getTeam()))
+        if (!this.getProjects().stream().map(p -> p.getTeam()).collect(Collectors.toSet()).contains(pr.getTeam()))
             throw new IllegalArgumentException("Il Program Manager non possiede il team]");
         if (description == null || description.equals(""))
             throw new IllegalArgumentException("La descrizione non può essere vuota!");
@@ -73,7 +80,7 @@ public class ProgramManagerRole extends Role implements IPendingRole, IPartecipa
         if (!this.getProjects().contains(project))
             throw new IllegalArgumentException("L'utente non possiede il progetto con id:[" + project.getId() + "]");
         Long token = user.tokenHandlerGet().getToken();
-        user.getRolesHandler(token).addProjectManagerRole(project.getCategory());
+        user.getRolesHandler(token).addRole(ProjectManagerRole.TYPE, project.getCategory());
         ProjectManagerRole pj = user.getRolesHandler(token).getProjectManagerRole();
         project.getTeam().setProjectManager(pj);
         pj.addCategory(project.getCategory());

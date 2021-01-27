@@ -25,12 +25,12 @@ public class UserController {
     }
 
     @PutMapping(value = "/login")
-    public String logIn(@RequestParam String email, @RequestParam String password) {
+    public Credential logIn(@RequestParam String email, @RequestParam String password) {
         try {
             User user = this.userService.logIn(email, password);
-            return user.getId() + " " + user.tokenHandlerGet().getToken();
+            return new Credential(user);
         } catch (Exception e) {
-            return e.getMessage();
+            return null;
         }
     }
 
@@ -125,4 +125,24 @@ public class UserController {
         }
     }
 
+    private class Credential {
+        private Long id;
+        private Long token;
+
+        public Credential(User user) {
+            this.id = user.getId();
+            this.token = user.tokenHandlerGet().getToken();
+        }
+
+        public Credential() {
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public Long getToken() {
+            return token;
+        }
+    }
 }

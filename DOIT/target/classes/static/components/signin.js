@@ -29,8 +29,8 @@ export default Vue.component('signin', {
             if(this.password===this.ripetiPassword) {
                 this.$emit('load',true);
                 var hashPassword = md5(this.password);
-                fetch('/api/user/signin?name='+this.name+'&surname='+this.surname+'&birthDate='+this.birthDate+
-                '&sex='+this.sex+'&email='+this.email+'&password='+this.password, {method: 'POST'})
+                fetch('/api/user/signin?name='+this.name+'&surname='+this.surname+'&birthdate='+this.birthDate+
+                '&sex='+this.sex+'&email='+this.email+'&password='+md5(this.password), {method: 'POST'})
                 .then(res => res.text())
                 .then(res => {
                     this.name = '';

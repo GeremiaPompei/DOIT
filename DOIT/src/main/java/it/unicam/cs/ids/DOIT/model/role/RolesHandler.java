@@ -4,6 +4,8 @@ import it.unicam.cs.ids.DOIT.model.category.Category;
 import it.unicam.cs.ids.DOIT.model.user.User;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class RolesHandler {
@@ -50,52 +52,54 @@ public class RolesHandler {
         return projectManagerRole;
     }
 
-    public void addProjectProposerRole(Category category) {
-        if(isProjectProposer())
-            throw new IllegalArgumentException("L'utente gia possiede il ruolo!");
-        this.projectProposerRole = new ProjectProposerRole(this.user, category);
+    public void addRole(String type, Category category) {
+        switch (type) {
+            case ProjectProposerRole.TYPE:
+                if (isProjectProposer())
+                    throw new IllegalArgumentException("L'utente gia possiede il ruolo!");
+                this.projectProposerRole = new ProjectProposerRole(this.user, category);
+                break;
+            case ProgramManagerRole.TYPE:
+                if (isProgramManager())
+                    throw new IllegalArgumentException("L'utente gia possiede il ruolo!");
+                this.programManagerRole = new ProgramManagerRole(this.user, category);
+                break;
+            case DesignerRole.TYPE:
+                if (isDesigner())
+                    throw new IllegalArgumentException("L'utente gia possiede il ruolo!");
+                this.designerRole = new DesignerRole(this.user, category);
+                break;
+            case ProjectManagerRole.TYPE:
+                if (isProjectManager())
+                    throw new IllegalArgumentException("L'utente gia possiede il ruolo!");
+                this.projectManagerRole = new ProjectManagerRole(this.user, category);
+                break;
+        }
     }
 
-    public void addProgramManagerRole(Category category) {
-        if(isProgramManager())
-            throw new IllegalArgumentException("L'utente gia possiede il ruolo!");
-        this.programManagerRole = new ProgramManagerRole(this.user, category);
-    }
-
-    public void addDesignerRole(Category category) {
-        if(isDesigner())
-            throw new IllegalArgumentException("L'utente gia possiede il ruolo!");
-        this.designerRole = new DesignerRole(this.user, category);
-    }
-
-    public void addProjectManagerRole(Category category) {
-        if(isProjectManager())
-            throw new IllegalArgumentException("L'utente gia possiede il ruolo!");
-        this.projectManagerRole = new ProjectManagerRole(this.user, category);
-    }
-
-    public void removeProjectProposerRole() {
-        if(!this.projectProposerRole.getProjects().isEmpty())
-            throw new IllegalArgumentException("Il ruolo contiene team!");
-        this.projectProposerRole = null;
-    }
-
-    public void removeProgramManagerRole() {
-        if(!this.programManagerRole.getProjects().isEmpty())
-            throw new IllegalArgumentException("Il ruolo contiene team!");
-        this.programManagerRole = null;
-    }
-
-    public void removeDesignerRole() {
-        if(!this.designerRole.getProjects().isEmpty())
-            throw new IllegalArgumentException("Il ruolo contiene team!");
-        this.designerRole = null;
-    }
-
-    public void removeProjectManagerRole() {
-        if(!this.projectManagerRole.getProjects().isEmpty())
-            throw new IllegalArgumentException("Il ruolo contiene team!");
-        this.projectManagerRole = null;
+    public void removeRole(String type) {
+        switch (type) {
+            case ProjectProposerRole.TYPE:
+                if (!this.projectProposerRole.getProjects().isEmpty())
+                    throw new IllegalArgumentException("Il ruolo contiene team!");
+                this.projectProposerRole = null;
+                break;
+            case ProgramManagerRole.TYPE:
+                if (!this.programManagerRole.getProjects().isEmpty())
+                    throw new IllegalArgumentException("Il ruolo contiene team!");
+                this.programManagerRole = null;
+                break;
+            case DesignerRole.TYPE:
+                if (!this.designerRole.getProjects().isEmpty())
+                    throw new IllegalArgumentException("Il ruolo contiene team!");
+                this.designerRole = null;
+                break;
+            case ProjectManagerRole.TYPE:
+                if (!this.projectManagerRole.getProjects().isEmpty())
+                    throw new IllegalArgumentException("Il ruolo contiene team!");
+                this.projectManagerRole = null;
+                break;
+        }
     }
 
     public boolean isProjectProposer() {
@@ -112,5 +116,23 @@ public class RolesHandler {
 
     public boolean isProjectManager() {
         return this.projectManagerRole != null;
+    }
+
+    public List<Role> getRoles() {
+        List<Role> roles = getHandyRoles();
+        if (isProjectManager())
+            roles.add(projectManagerRole);
+        return roles;
+    }
+
+    public List<Role> getHandyRoles() {
+        List<Role> roles = new ArrayList<>();
+        if (isProjectProposer())
+            roles.add(projectProposerRole);
+        if (isProgramManager())
+            roles.add(programManagerRole);
+        if (isDesigner())
+            roles.add(designerRole);
+        return roles;
     }
 }

@@ -13,6 +13,8 @@ import java.util.stream.Collectors;
 @Entity
 public class ProjectProposerRole extends Role implements IPartecipationRequestHandler<ProgramManagerRole> {
 
+    public final static String TYPE = "project-proposer";
+
     @Id
     @Column(name = "ID_ProjectProposer")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,6 +25,11 @@ public class ProjectProposerRole extends Role implements IPartecipationRequestHa
 
     public ProjectProposerRole(User user, Category category) {
         super(user, category);
+    }
+
+    @Override
+    public String getType() {
+        return TYPE;
     }
 
     public void createProject(String name, String description, Category category, ProjectState projectState)

@@ -19,7 +19,7 @@ export default Vue.component('user', {
                 </option>
             </select>
             <ul>
-                <li v-for="(role, index) in roles" key="index" @click="addRole(index)">
+                <li v-for="(role, index) in roles" :key="index" @click="addRole(index)" class="el">
                     <button>{{role}}</button>
                 </li>
             </ul>

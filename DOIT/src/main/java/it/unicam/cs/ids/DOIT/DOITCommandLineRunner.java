@@ -29,12 +29,12 @@ public class DOITCommandLineRunner implements CommandLineRunner {
         categoryRepository.save(new Category("CUCINA", "Description..."));
 
         //TODO da eliminare
-        /*userMVC.signIn("Nome", "cognome", "eta", "sesso", "email@email.com",
+        userMVC.signIn("nome", "cognome", "eta", "sesso", "email@email.com",
                 "password");
         User user = userMVC.logIn("email@email.com", "password");
         userMVC.addRole(user.getId(), user.tokenHandlerGet().getToken(), "project-proposer", "SPORT");
         userMVC.addRole(user.getId(), user.tokenHandlerGet().getToken(), "program-manager", "SPORT");
         userMVC.addRole(user.getId(), user.tokenHandlerGet().getToken(), "designer", "SPORT");
-        System.err.println(user.getId() + " " + user.tokenHandlerGet().getToken());*/
+        System.err.println(user.getId() + " " + user.tokenHandlerGet().getToken());
     }
 }

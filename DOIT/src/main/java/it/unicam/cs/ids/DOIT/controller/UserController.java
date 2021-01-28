@@ -125,6 +125,16 @@ public class UserController {
         }
     }
 
+    @PostMapping(value = "/send-email")
+    public String sendEmail(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam String message) {
+        try {
+            this.userService.sendEmail(iduser, tokenuser, message);
+            return "success";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
     private class Credential {
         private Long id;
         private Long token;

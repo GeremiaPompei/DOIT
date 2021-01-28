@@ -85,6 +85,7 @@ public class ProgramManagerRole extends Role implements IPendingRole, IPartecipa
         project.getTeam().setProjectManager(pj);
         pj.addCategory(project.getCategory());
         pj.enterProject(project);
+        user.getRolesHandler(token).getDesignerRole().exitProject(project);
     }
 
     public Set<PartecipationRequest<DesignerRole>> getPartecipationRequestsByProject(Project projectInput) {

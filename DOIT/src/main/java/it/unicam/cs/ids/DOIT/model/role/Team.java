@@ -42,7 +42,7 @@ public class Team {
     @JsonIgnoreProperties({"teams", "projects"})
     private Set<PartecipationRequest<ProgramManagerRole>> programManagerRequest;
 
-    public Team(Project project, ProjectProposerRole projectProposer) {
+    public Team(ProjectProposerRole projectProposer) {
         this.open = false;
         this.projectProposer = projectProposer;
         this.designers = new HashSet<>();

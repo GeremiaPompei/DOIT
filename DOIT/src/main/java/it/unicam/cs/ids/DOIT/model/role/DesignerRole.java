@@ -56,6 +56,9 @@ public class DesignerRole extends Role implements IPendingRole {
             throw new IllegalArgumentException("Partecipation request gia presente nel team!");
         if (inputProject.getTeam().getDesigners().contains(this))
             throw new IllegalArgumentException("Designer gia presente nel team!");
+        if (inputProject.getTeam().getProjectManager() != null &&
+                inputProject.getTeam().getProjectManager().getIdUser().equals(this.id))
+            throw new IllegalArgumentException("Designer gia presente nel team come Project Manager!");
         if (!this.getCategories().contains(inputProject.getCategory()))
             throw new IllegalArgumentException("L'utente non presenta la categoria: [" + inputProject.getCategory() + "]");
         if (!inputProject.getTeam().isOpen())

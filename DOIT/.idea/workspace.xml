@@ -6,55 +6,25 @@
   <component name="ChangeListManager">
     <list default="true" id="105c9ce0-a212-48e3-8c58-7af54d403e37" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DOIT.iml" beforeDir="false" afterPath="$PROJECT_DIR$/DOIT.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/App.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/DOITCommandLineRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/DOITCommandLineRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/controller/RedirectController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/model/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/model/user/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/category-list.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/cerca.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/create_project.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/designer.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/login.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/program-manager.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/project-manager.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/project-proposer.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/role.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/signin.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/user.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/icon192.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/icon512.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/manifest.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/router.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/style.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/sw.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/unicam/cs/ids/DOIT/CategoryTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/unicam/cs/ids/DOIT/DoitApplicationTests.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/unicam/cs/ids/DOIT/FactoryModelTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/unicam/cs/ids/DOIT/PartecipationRequestTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/unicam/cs/ids/DOIT/ProgramManagerRoleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/unicam/cs/ids/DOIT/ProgramManagerRoleTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/model/role/CVUnit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/model/role/CVUnit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/model/role/DesignerRole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/model/role/DesignerRole.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/model/role/ProgramManagerRole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/model/role/ProgramManagerRole.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/model/role/ProjectProposerRole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/model/role/ProjectProposerRole.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/model/role/Team.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/model/role/Team.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/service/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/it/unicam/cs/ids/DOIT/ProjectManagerRoleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/unicam/cs/ids/DOIT/ProjectManagerRoleTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/unicam/cs/ids/DOIT/ProjectProposerRoleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/unicam/cs/ids/DOIT/ProjectProposerRoleTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/unicam/cs/ids/DOIT/ProjectTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/unicam/cs/ids/DOIT/ResourceHandlerTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/unicam/cs/ids/DOIT/TeamTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/unicam/cs/ids/DOIT/UserHandlerTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/unicam/cs/ids/DOIT/UserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/unicam/cs/ids/DOIT/UserTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/it/unicam/cs/ids/DOIT/DOITCommandLineRunner.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/it/unicam/cs/ids/DOIT/DOITCommandLineRunner.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/it/unicam/cs/ids/DOIT/model/role/CVUnit.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/it/unicam/cs/ids/DOIT/model/role/CVUnit.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/it/unicam/cs/ids/DOIT/model/role/DesignerRole.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/it/unicam/cs/ids/DOIT/model/role/DesignerRole.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/it/unicam/cs/ids/DOIT/model/role/ProgramManagerRole.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/it/unicam/cs/ids/DOIT/model/role/ProgramManagerRole.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/it/unicam/cs/ids/DOIT/model/role/ProjectProposerRole.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/it/unicam/cs/ids/DOIT/model/role/ProjectProposerRole.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/it/unicam/cs/ids/DOIT/model/role/Team.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/it/unicam/cs/ids/DOIT/model/role/Team.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Visual Paradigm/DOIT.vpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Visual Paradigm/DOIT.vpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Visual Paradigm/DOIT.vpp.bak_000f" beforeDir="false" afterPath="$PROJECT_DIR$/../Visual Paradigm/DOIT.vpp.bak_000f" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Visual Paradigm/DOIT.vpp.bak_001d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Visual Paradigm/DOIT.vpp.bak_002d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Visual Paradigm/DOIT.vpp.bak_003d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Visual Paradigm/DOIT.vpp.bak_004d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Visual Paradigm/DOIT.vpp.bak_005d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Visual Paradigm/DOIT.vpp.bak_006d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Visual Paradigm/DOIT.vpp.bak_007d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Visual Paradigm/DOIT.vpp.bak_008d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Visual Paradigm/DOIT.vpp.bak_009d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Visual Paradigm/DOIT.vpp.bak_010d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Visual Paradigm/DOIT.vpp.bak_011d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Visual Paradigm/DOIT.vpp.bak_012d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Visual Paradigm/DOIT.vpp.bak_013d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Visual Paradigm/DOIT.vpp.bak_014d" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +70,7 @@
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.48255813" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="settings.github" />
+    <property name="settings.editor.selected.configurable" value="reference.settings.project.maven.repository.indices" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
@@ -155,7 +125,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RolesHandlerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ProjectManagerRoleTest.exitAll" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="DOIT" />
       <extension name="coverage">
         <pattern>
@@ -164,8 +134,25 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="it.unicam.cs.ids.DOIT" />
-      <option name="MAIN_CLASS_NAME" value="it.unicam.cs.ids.DOIT.RolesHandlerTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="MAIN_CLASS_NAME" value="it.unicam.cs.ids.DOIT.ProjectManagerRoleTest" />
+      <option name="METHOD_NAME" value="exitAll" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ProjectManagerRoleTest.getType" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="DOIT" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.unicam.cs.ids.DOIT.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="it.unicam.cs.ids.DOIT" />
+      <option name="MAIN_CLASS_NAME" value="it.unicam.cs.ids.DOIT.ProjectManagerRoleTest" />
+      <option name="METHOD_NAME" value="getType" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -213,17 +200,19 @@
     </configuration>
     <list>
       <item itemvalue="Application.App" />
-      <item itemvalue="JUnit.RolesHandlerTest" />
       <item itemvalue="JUnit.it.unicam.cs.ids.DOIT in DOIT" />
       <item itemvalue="JUnit.DesignerRoleTest.testCreatePartecipationRequest" />
       <item itemvalue="Maven.DOIT [clean,package,exec:java]" />
+      <item itemvalue="JUnit.ProjectManagerRoleTest.exitAll" />
+      <item itemvalue="JUnit.ProjectManagerRoleTest.getType" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.App" />
         <item itemvalue="JUnit.it.unicam.cs.ids.DOIT in DOIT" />
+        <item itemvalue="JUnit.ProjectManagerRoleTest.getType" />
+        <item itemvalue="JUnit.ProjectManagerRoleTest.exitAll" />
         <item itemvalue="JUnit.DesignerRoleTest.testCreatePartecipationRequest" />
-        <item itemvalue="JUnit.RolesHandlerTest" />
       </list>
     </recent_temporary>
   </component>
@@ -252,6 +241,13 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="it.unicam.cs.ids.DOIT.model.role.DesignerRole" memberName="projects" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/DOIT$App.ic" NAME="App Coverage Results" MODIFIED="1611218783138" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">

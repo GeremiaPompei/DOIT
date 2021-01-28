@@ -8,7 +8,6 @@ import it.unicam.cs.ids.DOIT.model.user.User;
 
 import javax.persistence.*;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Entity
 public class ProjectProposerRole extends Role implements IPartecipationRequestHandler<ProgramManagerRole> {
@@ -35,8 +34,7 @@ public class ProjectProposerRole extends Role implements IPartecipationRequestHa
     public void createProject(String name, String description, Category category, ProjectState projectState)
             throws IllegalArgumentException {
         Project project = new Project(name, description, getInnerCategory(category), projectState);
-        Team team = new Team(project, this);
-        project.setTeam(team);
+        project.setTeam(new Team(this));
         this.getProjects().add(project);
     }
 

@@ -8,6 +8,12 @@ import it.unicam.cs.ids.DOIT.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -103,5 +109,29 @@ public class UserService {
         roles.add(DesignerRole.TYPE);
         roles.add(ProjectManagerRole.TYPE);
         return roles;
+    }
+
+    public void sendEmail(Long idUser, Long tokenUser, String mex) throws MessagingException {
+        User user = repositoryHandler.getUserRepository().findById(idUser).get();
+        user.tokenHandlerGet().checkToken(tokenUser);
+        Properties properties = new Properties();
+        String myEmail = "doit.unicam@gmail.com";
+        properties.put("mail.smtp.host", "smtp.gmail.com");
+        properties.put("mail.smtp.port", "587");
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.user", myEmail);
+        Session session = Session.getDefaultInstance(properties);
+        Message msg = new MimeMessage(session);
+        msg.setFrom(new InternetAddress(myEmail));
+        InternetAddress[] toAddresses = {new InternetAddress(myEmail)};
+        msg.setRecipients(Message.RecipientType.TO, toAddresses);
+        msg.setSubject("DOIT request");
+        msg.setSentDate(new Date());
+        msg.setText("by " + user.getName() + " " + user.getSurname() + ": " + user.getEmail() + "\n\n" + mex);
+        Transport t = session.getTransport("smtp");
+        t.connect(myEmail, "ollarethegang30");
+        t.sendMessage(msg, msg.getAllRecipients());
+        t.close();
     }
 }

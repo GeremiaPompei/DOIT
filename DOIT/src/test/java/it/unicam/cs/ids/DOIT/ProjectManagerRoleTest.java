@@ -23,9 +23,11 @@ class ProjectManagerRoleTest {
     User user1;
     User user2;
     User user3;
+    User user4;
     RolesHandler rh1;
     RolesHandler rh2;
     RolesHandler rh3;
+    RolesHandler rh4;
     ProjectState a;
     ProjectState b;
     ProjectState c;
@@ -45,12 +47,15 @@ class ProjectManagerRoleTest {
         user1 = new User("Saverio", "Tommasi", "1998", "Male", "saveriotommasi@gmail.com", "password");
         user2 = new User("Giacomo", "Pier", "1998", "Male", "giacomopier@gmail.com", "password");
         user3 = new User(0L,"Daniele", "Baio", "1998", "Male", "danielebaio@gmail.com", "password");
+        user4 = new User(1L,"Giacomo", "Piergi", "1998", "Male", "giacomopiergi@gmail.com", "password");
         rh1 = user1.getRolesHandler(user1.tokenHandlerGet().getToken());
         rh1.addRole(ProjectProposerRole.TYPE, category);
         rh2 = user2.getRolesHandler(user2.tokenHandlerGet().getToken());
         rh2.addRole(ProgramManagerRole.TYPE, category);
         rh3 = user3.getRolesHandler(user3.tokenHandlerGet().getToken());
         rh3.addRole(DesignerRole.TYPE, category);
+        rh4 = user4.getRolesHandler(user4.tokenHandlerGet().getToken());
+        rh4.addRole(DesignerRole.TYPE, category);
         rh1.getProjectProposerRole().createProject("project", "description", category, a);
         project = rh1.getProjectProposerRole().getProjects().stream().findFirst().orElse(null);
         rh2.getProgramManagerRole().createPartecipationRequest(project);
@@ -58,8 +63,11 @@ class ProjectManagerRoleTest {
         rh1.getProjectProposerRole().acceptPR(pmPR);
         rh2.getProgramManagerRole().openRegistrations(project);
         rh3.getDesignerRole().createPartecipationRequest(project);
-        PartecipationRequest<DesignerRole> pr = rh3.getDesignerRole().getMyPartecipationRequests().stream().findFirst().orElse(null);
-        rh2.getProgramManagerRole().acceptPR(pr);
+        rh4.getDesignerRole().createPartecipationRequest(project);
+        PartecipationRequest<DesignerRole> pr1 = rh3.getDesignerRole().getMyPartecipationRequests().stream().findFirst().orElse(null);
+        rh2.getProgramManagerRole().acceptPR(pr1);
+        PartecipationRequest<DesignerRole> pr2 = rh4.getDesignerRole().getMyPartecipationRequests().stream().findFirst().orElse(null);
+        rh2.getProgramManagerRole().acceptPR(pr2);
         rh2.getProgramManagerRole().setProjectManager(user3, project);
     }
 
@@ -90,8 +98,8 @@ class ProjectManagerRoleTest {
 
     @Test
     void insertEvaluation() {
-        rh3.getProjectManagerRole().insertEvaluation(user3, project, 3);
-        assertEquals(rh3.getDesignerRole().getEvaluations().stream().findFirst().orElse(null).getEvaluate(), 3);
+        rh3.getProjectManagerRole().insertEvaluation(user4, project, 3);
+        assertEquals(rh4.getDesignerRole().getEvaluations().stream().findFirst().orElse(null).getEvaluate(), 3);
     }
 
     @Test
@@ -102,7 +110,7 @@ class ProjectManagerRoleTest {
     @Test
     void exitAll() {
         assertThrows(IllegalArgumentException.class, () -> rh3.getProjectManagerRole().exitAll(project));
-        rh3.getProjectManagerRole().insertEvaluation(user3, project, 3);
+        rh3.getProjectManagerRole().insertEvaluation(user4, project, 3);
         assertDoesNotThrow(() -> rh3.getProjectManagerRole().exitAll(project));
         assertTrue(rh1.getProjectProposerRole().getProjects().isEmpty());
         assertTrue(rh2.getProgramManagerRole().getProjects().isEmpty());

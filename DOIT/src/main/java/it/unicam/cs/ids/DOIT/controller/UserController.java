@@ -85,6 +85,15 @@ public class UserController {
         }
     }
 
+    @GetMapping(value = "/handy-roles-type")
+    public List<String> getHandyRolesType() {
+        try {
+            return this.userService.getHandyRolesType();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     @GetMapping(value = "/roles-type")
     public List<String> getRolesType() {
         try {

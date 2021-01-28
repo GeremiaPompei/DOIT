@@ -2,7 +2,6 @@ package it.unicam.cs.ids.DOIT.service;
 
 import it.unicam.cs.ids.DOIT.model.category.Category;
 import it.unicam.cs.ids.DOIT.model.role.*;
-import it.unicam.cs.ids.DOIT.model.user.TokenHandler;
 import it.unicam.cs.ids.DOIT.repository.RepositoryHandler;
 import it.unicam.cs.ids.DOIT.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +63,7 @@ public class UserService {
         User user = this.getUser(idUser, tokenUser);
         Category category = repositoryHandler.getCategoryRepository().findById(idCategory).get();
         RolesHandler rh = repositoryHandler.getUserRepository().findById(idUser).get().getRolesHandler(tokenUser);
-        if(rh.getHandyRoles().contains(idRole))
+        if (!getHandyRolesType().contains(idRole))
             throw new IllegalArgumentException("Non può essere aggiunto questo ruolo!");
         rh.addRole(idRole, category);
         repositoryHandler.getUserRepository().save(user);
@@ -102,11 +101,16 @@ public class UserService {
         return repositoryHandler.getUserRepository().findById(idUser).get().getRolesHandler(tokenUser);
     }
 
-    public List<String> getRolesType() {
+    public List<String> getHandyRolesType() {
         List<String> roles = new ArrayList<>();
         roles.add(ProjectProposerRole.TYPE);
         roles.add(ProgramManagerRole.TYPE);
         roles.add(DesignerRole.TYPE);
+        return roles;
+    }
+
+    public List<String> getRolesType() {
+        List<String> roles = getHandyRolesType();
         roles.add(ProjectManagerRole.TYPE);
         return roles;
     }

@@ -36,6 +36,9 @@ public class ProjectManagerRole extends Role {
         if (ps == null)
             throw new IllegalArgumentException("Stato progetto terminale, non si può procedere oltre!");
         project.setProjectState(ps);
+        ProjectState nextps = findProjectState(iterator, project.getProjectState().getId() + 1);
+        if (nextps == null)
+            project.getTeam().closeRegistrations();
     }
 
     public void downgradeState(Iterator<ProjectState> iterator, Project project) {
@@ -74,6 +77,8 @@ public class ProjectManagerRole extends Role {
         for (DesignerRole d : project.getTeam().getDesigners())
             if (d.getProjects().contains(project))
                 throw new IllegalArgumentException("Prima di chiudere il progetto finisci di valutare i designer!");
+        project.getTeam().getProgramManagerRequest().removeAll(project.getTeam().getProgramManagerRequest());
+        project.getTeam().getDesignerRequest().removeAll(project.getTeam().getDesignerRequest());
         project.getTeam().getProjectProposer().exitProject(project);
         project.getTeam().getProgramManager().exitProject(project);
         project.getTeam().getProjectManager().exitProject(project);

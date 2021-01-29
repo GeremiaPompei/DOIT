@@ -90,6 +90,10 @@ public class User {
         return rolesHandler;
     }
 
+    public RolesHandler rolesHandlerGet() {
+        return rolesHandler;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

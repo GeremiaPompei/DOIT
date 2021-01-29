@@ -11,18 +11,27 @@ export default Vue.component('user-main', {
             <h3 class="el">{{user.sex}}</h3>
             <p>Email</p>
             <h3 class="el">{{user.email}}</h3>
-            <p>Roles</p>
-            <select @change="onChange($event)">
-                <option key="-1">---</option>
-                <option v-for="(category, index) in categories" :value="index" :key="index">
-                    {{category.name}}
-                </option>
-            </select>
-            <ul>
-                <li v-for="(role, index) in roles" :key="index" @click="addRole(index)" class="el">
-                    <button>{{role}}</button>
-                </li>
-            </ul>
+            <p>Add roles</p>
+            <div>
+                <select @change="onChange($event)">
+                    <option key="-1" value="-1">---</option>
+                    <option v-for="(category, index) in categories" :value="index" :key="index">
+                        {{category.name}}
+                    </option>
+                </select>
+                <ul>
+                    <li v-for="(role, index) in roles" :key="index" @click="addRole(index)" class="el">
+                        <button>{{role}}</button>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <p>Contact us:</p>
+                <form @submit.prevent="send()">
+                    <input type="text" placeholder="Inserisci messaggio..." v-model="message"></input>
+                    <input type="submit" value="Send">
+                </form>
+            </div>
             <button @click="logout">Logout</button>
         </div>
         `,
@@ -31,7 +40,8 @@ export default Vue.component('user-main', {
                 user: {},
                 roles: [],
                 categories: [],
-                categoryIndex: -1
+                categoryIndex: -1,
+                message: ''
             }
         },
         async created() {
@@ -76,6 +86,18 @@ export default Vue.component('user-main', {
             },
             onChange(event) {
                 this.categoryIndex = event.target.value;
+            },
+            async send() {
+                if(this.message!='') {
+                    var credential = JSON.parse(localStorage.getItem(key));
+                    this.$emit('load',true);
+                    var res = await (await fetch('/api/user/send-email?iduser='+credential.id+'&tokenuser='+credential.token+'&message='+this.message, {method: 'POST'})).text();
+                    this.$emit('load',false);
+                    this.message = '';
+                    alert(res);
+                } else {
+                    alert("Inserisci messaggio!");
+                }
             }
         }
 });

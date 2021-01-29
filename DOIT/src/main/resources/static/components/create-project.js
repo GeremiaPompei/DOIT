@@ -9,7 +9,7 @@ export default Vue.component('create-project', {
             <input placeholder="Project description..." type="text" v-model="description">
             <p>Category</p>
             <select @change="onChange($event)">
-                <option key="-1">---</option>
+                <option key="-1" value="-1">---</option>
                 <option v-for="(category, index) in categories" :value="index" :key="index">
                     {{category.name}}
                 </option>

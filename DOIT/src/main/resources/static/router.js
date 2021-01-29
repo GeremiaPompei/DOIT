@@ -16,6 +16,7 @@ const routes = [
   {path: '/list-projects/:role', component: () => import('./components/list-projects.js')},
   {path: '/history/:role', component: () => import('./components/history.js')},
   {path: '/list-categories/:role', component: () => import('./components/list-categories.js')},
+  {path: '/manage-category/:role', component: () => import('./components/manage-category.js')},
   {path: '/user/:id', component: () => import('./components/user.js')},
   {path: '/', redirect: '/login'}
 ];

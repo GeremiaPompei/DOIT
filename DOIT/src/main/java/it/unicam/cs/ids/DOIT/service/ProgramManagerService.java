@@ -42,6 +42,8 @@ public class ProgramManagerService {
     public void openRegistrations(Long idUser, Long tokenUser, Long idProject) {
         User user = repositoryHandler.getUserRepository().findById(idUser).get();
         Project project = repositoryHandler.getProjectRepository().findById(idProject).get();
+        if(project.getProjectState().getId().equals(repositoryHandler.getProjectStateRepository().count()-1))
+            throw new IllegalArgumentException("Non può essere aperta la cordata se lo stato è terminale!");
         user.getRolesHandler(tokenUser).getProgramManagerRole().openRegistrations(project);
         repositoryHandler.getProjectRepository().save(project);
     }

@@ -6,7 +6,7 @@ export default Vue.component('cerca', {
             <button class="el" @click="select('projects')">Projects</button>
             <ul>
                 <li v-for="(element, index) in elements" :key="index" class="el">
-                    <button>{{element.name}}</button>
+                    <button @click="show(element.id)">{{element.name}}</button>
                 </li>
             </ul>
         </div>
@@ -31,6 +31,14 @@ export default Vue.component('cerca', {
         select(type) {
             this.type = type;
             this.search();
+        },
+        show(id) {
+            if(this.type=='projects') {
+                this.$router.push({path: '/project/'+id});
+            }
+            if(this.type=='users') {
+                this.$router.push({path: '/user/'+id});
+            }
         }
     }
 });

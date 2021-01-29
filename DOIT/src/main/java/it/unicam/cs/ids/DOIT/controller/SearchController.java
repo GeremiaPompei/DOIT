@@ -18,9 +18,24 @@ public class SearchController {
     @Autowired
     private SearchService searchService;
 
+    @GetMapping(value = "/category-by-id")
+    public Category getCategoryById(@RequestParam String id) {
+        return searchService.getCategoryById(id);
+    }
+
     @GetMapping(value = "/categories")
     public List<Category> getCategories() {
         return List.copyOf(searchService.getAllCategories());
+    }
+
+    @GetMapping(value = "/user-by-id")
+    public User getUserById(@RequestParam Long id) {
+        return searchService.getUserById(id);
+    }
+
+    @GetMapping(value = "/project-by-id")
+    public Project getProjectById(@RequestParam Long id) {
+        return searchService.getProjectById(id);
     }
 
     @GetMapping(value = "/users-by-key")

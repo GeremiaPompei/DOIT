@@ -1,19 +1,26 @@
 export default Vue.component('project-manager', {
     template: `
     <div class='container'>
-        <role :role="role"></role>
+        <role role="project-manager"></role>
+        <ul>
+            <li v-for="(el, index) in list" :key="index">
+                <div @click="go(index)">
+                    <button>{{el.name}}</button>
+                </div>
+            </li>
+        </ul>
     </div>
     `,
     data() {
         return {
-            role: undefined
+            list: [
+                {name: 'Upgrade state', path: {path: '/upgrade-state'}}
+            ]
         }
     },
-    created() {
-        this.$emit('load',true);
-        fetch('/api/role/'+this.$route.params.user+'/project-manager').then(res=>res.json()).then(res=>{
-            this.role = res;
-            this.$emit('load',false);
-        });
-    },
+    methods: {
+        go(i) {
+            this.$router.push(this.list[i].path);
+        }
+    }
 });

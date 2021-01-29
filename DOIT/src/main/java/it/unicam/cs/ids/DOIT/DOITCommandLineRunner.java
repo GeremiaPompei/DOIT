@@ -29,8 +29,7 @@ public class DOITCommandLineRunner implements CommandLineRunner {
         categoryRepository.save(new Category("CUCINA", "Description..."));
 
         //TODO da eliminare
-        userMVC.signIn("nome", "cognome", "eta", "sesso", "email@email.com",
-                "password");
+        userMVC.signIn("nome", "cognome", "eta", "sesso", "email@email.com", "password");
         User user = userMVC.logIn("email@email.com", "password");
         userMVC.addRole(user.getId(), user.tokenHandlerGet().getToken(), "project-proposer", "SPORT");
         userMVC.addRole(user.getId(), user.tokenHandlerGet().getToken(), "program-manager", "SPORT");

@@ -25,24 +25,22 @@ export default Vue.component('signin', {
         }
     },
     methods: {
-        signin() {
+        async signin() {
             if(this.password===this.ripetiPassword) {
                 this.$emit('load',true);
                 var hashPassword = md5(this.password);
-                fetch('/api/user/signin?name='+this.name+'&surname='+this.surname+'&birthdate='+this.birthDate+
-                '&sex='+this.sex+'&email='+this.email+'&password='+md5(this.password), {method: 'POST'})
-                .then(res => res.text())
-                .then(res => {
-                    this.name = '';
-                    this.surname= '';
-                    this.birthDate= '';
-                    this.sex= '';
-                    this.email= '';
-                    this.password= '';
-                    this.ripetiPassword= '';
-                    this.$emit('load',false);
-                    this.$router.replace({path: '/login'});
-                });
+                var res = await (await fetch('/api/user/signin?name='+this.name+'&surname='+this.surname+'&birthdate='+this.birthDate+
+                '&sex='+this.sex+'&email='+this.email+'&password='+md5(this.password), {method: 'POST'})).text();
+                this.name = '';
+                this.surname= '';
+                this.birthDate= '';
+                this.sex= '';
+                this.email= '';
+                this.password= '';
+                this.ripetiPassword= '';
+                this.$emit('load',false);
+                alert(res);
+                this.$router.replace({path: '/login'});
             } else {
                 alert('Le password non coincidono!')
             }

@@ -19,10 +19,22 @@ public class SearchService {
     @Autowired
     private RepositoryHandler repositoryHandler;
 
+    public Category getCategoryById(String id) {
+        return categoryRepository.findById(id).get();
+    }
+
     public Set<Category> getAllCategories() {
         Set<Category> categories = new HashSet<>();
         categoryRepository.findAll().forEach(c -> categories.add(c));
         return categories;
+    }
+
+    public User getUserById(Long id) {
+        return repositoryHandler.getUserRepository().findById(id).get();
+    }
+
+    public Project getProjectById(Long id) {
+        return repositoryHandler.getProjectRepository().findById(id).get();
     }
 
     public Set<User> getUserByKey(String key) {

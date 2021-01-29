@@ -1,10 +1,11 @@
 export default Vue.component('project-proposer', {
     template: `
     <div class='container'>
+        <role role="project-proposer"></role>
         <ul>
             <li v-for="(el, index) in list" :key="index">
                 <div @click="go(index)">
-                    <button>Create project</button>
+                    <button>{{el.name}}</button>
                 </div>
             </li>
         </ul>
@@ -12,23 +13,14 @@ export default Vue.component('project-proposer', {
     `,
     data() {
         return {
-            role: undefined,
             list: [
-                {path: '/create-project/'}
+                {name: 'Create project', path: {path: '/create-project'}}
             ]
         }
     },
-    created() {
-        this.$emit('load',true);
-        var credential = JSON.parse(localStorage.getItem(key));
-        fetch('/api/user/handy-roles-type?iduser='+credential.id+'&tokenuser='+credential.token).then(res=>res.json()).then(res=>{
-            this.role = res.projectProposer;
-            this.$emit('load',false);
-        });
-    },
     methods: {
         go(i) {
-            this.$router.push(this.list[i]);
+            this.$router.push(this.list[i].path);
         }
     }
 });

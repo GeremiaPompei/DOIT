@@ -15,20 +15,17 @@ export default Vue.component('login', {
         }
     },
     methods: {
-        login() {
+        async login() {
             this.$emit('load',true);
-            fetch('/api/user/login?email='+this.email+'&password='+md5(this.password), {method: 'PUT'})
-            .then(res => res.json())
-            .then(res => {
-                if(res) {
-                    var stringify = JSON.stringify(res);
-                    localStorage.setItem(key, stringify);
-                    this.$router.replace({path: '/user'});
-                }
-                this.email = '';
-                this.password = '';
-                this.$emit('load',false);
-            });
+            var res = await (await fetch('/api/user/login?email='+this.email+'&password='+md5(this.password), {method: 'PUT'})).json();
+            if(res) {
+                var stringify = JSON.stringify(res);
+                localStorage.setItem(key, stringify);
+                this.$router.replace({path: '/user-main'});
+            }
+            this.email = '';
+            this.password = '';
+            this.$emit('load',false);
         }
     }
 });

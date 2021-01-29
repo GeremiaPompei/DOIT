@@ -31,7 +31,7 @@
             <router-link v-show="user" v-for="(role, index) in roles" v-show="role" :to="'/'+role.type" :key="index">
                 <a>{{role.type}}</a>
             </router-link>
-            <router-link v-show="user" to="/user">
+            <router-link v-show="user" to="/user-main">
                 <a>USER</a>
             </router-link>
             <router-link v-show="!user" to="/login">

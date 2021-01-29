@@ -35,14 +35,18 @@ export default Vue.component('create-project', {
     },
     methods: {
         async createProject() {
-            this.$emit('load',true);
-            var credential = JSON.parse(localStorage.getItem(key));
-            var res = await (await fetch('/api/project-proposer/create-project?iduser='+credential.id+'&tokenuser='+credential.token+
-            '&name='+this.name+'&description='+this.description+'&idcategory='+this.categories[this.categoryIndex].name, {
-            method: 'POST'})).text();
-            if(res!="success")
+            if(this.categoryIndex<0) {
+                alert("Seleziona una categoria!");
+            } else {
+                this.$emit('load',true);
+                var credential = JSON.parse(localStorage.getItem(key));
+                var res = await (await fetch('/api/project-proposer/create-project?iduser='+credential.id+'&tokenuser='+credential.token+
+                '&name='+this.name+'&description='+this.description+'&idcategory='+this.categories[this.categoryIndex].name, {
+                method: 'POST'})).text();
+                this.$emit('load',false);
                 alert(res);
-            this.$emit('load',false);
+                this.$router.go(-1);
+            }
         },
         back() {
             this.$router.go(-1);

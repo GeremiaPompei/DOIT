@@ -12,55 +12,53 @@
     <link rel="apple-touch-icon" href="icon192.png">
     <link rel="icon" href="icon192.png" sizes="192x192"/>
     <link rel="icon" href="icon512.png" sizes="512x512"/>
-    <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
     <script> if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js'); </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
+    <!--link rel="stylesheet" href="https://bootswatch.com/4/minty/bootstrap.css"-->
 </head>
 <body>
     <div id='app'>
-        <div v-if="loading" class="container-first-level"><div class="loader"></div></div>
-        <div class="topnav" id="myTopnav" onclick="itemTap()">
-            <router-link to="/cerca">
-                <a>CERCA</a>
-            </router-link>
-            <router-link v-show="user" v-for="(role, index) in roles" v-show="role" :to="'/'+role.type" :key="index">
-                <a>{{role.type}}</a>
-            </router-link>
-            <router-link v-show="user" to="/user-main">
-                <a>USER</a>
-            </router-link>
-            <router-link v-show="!user" to="/login">
-                <a>Login</a>
-            </router-link>
-            <router-link v-show="!user" to="/signin">
-                <a>Signin</a>
-            </router-link>
-            <a href="javascript:void(0);" class="icon" onclick="iconTap()">
-                <i class="fa fa-bars"></i>
-            </a>
+        <div v-if="loading" class="progress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%;"></div>
         </div>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <a class="navbar-brand">DOIT</a>
+            <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse" id="navbarColor01">
+              <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <router-link class="nav-link" to="/cerca">
+                            cerca
+                        </router-link>
+                    </li>
+                    <li class="nav-item" v-show="user" v-for="(role, index) in roles" v-show="role" :key="index">
+                        <router-link class="nav-link" :to="'/'+role.type">
+                            {{role.type}}
+                        </router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link class="nav-link" v-show="user" to="/user-main">
+                            user
+                        </router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link class="nav-link" v-show="!user" to="/login">
+                            login
+                        </router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link class="nav-link" v-show="!user" to="/signin">
+                            signin
+                        </router-link>
+                    </li>
+                </ul>
+            </div>
+        </nav>
         <router-view @load="load"></router-view>
     </div>
     <script src="router.js"></script>
-    <script>
-        var flag = false;
-        function itemTap() {
-            flag=!flag;
-            var x = document.getElementById("myTopnav");
-            if(x.className.includes(" responsive") && flag) {
-                x.className = "topnav";
-            }
-        }
-        function iconTap() {
-            var x = document.getElementById("myTopnav");
-            if (x.className === "topnav") {
-                x.className += " responsive";
-                flag = true;
-            } else {
-                x.className = "topnav";
-            }
-        }
-    </script>
 </body>
 </html>

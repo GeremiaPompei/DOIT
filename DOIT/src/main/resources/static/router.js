@@ -18,6 +18,10 @@ const routes = [
   {path: '/list-categories/:role', component: () => import('./components/list-categories.js')},
   {path: '/manage-category/:role', component: () => import('./components/manage-category.js')},
   {path: '/user/:id', component: () => import('./components/user.js')},
+  {path: '/send-pr/:role', component: () => import('./components/send-pr.js')},
+  {path: '/manage-pr/:role', component: () => import('./components/manage-pr.js')},
+  {path: '/team-rec', component: () => import('./components/team-rec.js')},
+  {path: '/set-project-manager', component: () => import('./components/set-project-manager.js')},
   {path: '/', redirect: '/login'}
 ];
 

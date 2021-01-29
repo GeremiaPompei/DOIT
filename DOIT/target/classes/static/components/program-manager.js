@@ -14,7 +14,10 @@ export default Vue.component('program-manager', {
     data() {
         return {
             list: [
-                {name: 'Send partecipation request', path: {path: '/send-pr'}}
+                {name: 'Send partecipation request to project proposer', path: {path: '/send-pr/program-manager'}},
+                {name: 'Manage partecipation request designers', path: {path: '/manage-pr/program-manager'}},
+                {name: 'Manage team registrations', path: {path: '/team-rec'}},
+                {name: 'Set project manager', path: {path: '/set-project-manager'}},
             ]
         }
     },

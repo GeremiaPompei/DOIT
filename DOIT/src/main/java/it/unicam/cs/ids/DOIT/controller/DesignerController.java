@@ -38,7 +38,7 @@ public class DesignerController {
         }
     }
 
-    @GetMapping(value = "/list-pr")
+    @GetMapping(value = "/list-my-pr")
     public List<PartecipationRequest<DesignerRole>> listPR(@RequestParam Long iduser, @RequestParam Long tokenuser) {
         try {
             return List.copyOf(this.designerService.listPR(iduser, tokenuser));

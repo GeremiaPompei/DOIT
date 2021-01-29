@@ -14,7 +14,7 @@ export default Vue.component('designer', {
     data() {
         return {
             list: [
-                {name: 'Send partecipation request', path: {path: '/send-pr'}}
+                {name: 'Send partecipation request to program manager', path: {path: '/send-pr/designer'}},
             ]
         }
     },

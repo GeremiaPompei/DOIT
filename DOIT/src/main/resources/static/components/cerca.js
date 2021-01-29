@@ -1,11 +1,17 @@
 export default Vue.component('cerca', {
     template: `
         <div class='container'>
-            <input placeholder="Inserisci parola..." type="text" v-model="input" class="el" @input="search()">
-            <button class="el" @click="select('users')">Users</button>
-            <button class="el" @click="select('projects')">Projects</button>
+            <input placeholder="Inserisci parola..." type="text" v-model="input" @input="search()">
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-primary" :class="{'active': this.type=='users'}">
+                    <input type="radio" name="options" id="option1" autocomplete="off" checked="" @click="select('users')"> users
+                </label>
+                <label class="btn btn-primary" :class="{'active': this.type=='projects'}">
+                    <input type="radio" name="options" id="option2" autocomplete="off" @click="select('projects')"> projects
+                </label>
+            </div>
             <ul>
-                <li v-for="(element, index) in elements" :key="index" class="el">
+                <li v-for="(element, index) in elements" :key="index">
                     <button @click="show(element.id)">{{element.name}}</button>
                 </li>
             </ul>

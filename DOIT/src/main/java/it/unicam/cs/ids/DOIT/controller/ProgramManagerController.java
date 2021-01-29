@@ -38,7 +38,7 @@ public class ProgramManagerController {
         }
     }
 
-    @GetMapping(value = "/list-pr")
+    @GetMapping(value = "/list-my-pr")
     public List<PartecipationRequest<ProgramManagerRole>> listPR(@RequestParam Long iduser, @RequestParam Long tokenuser) {
         try {
             return List.copyOf(this.programManagerService.listPR(iduser, tokenuser));
@@ -67,7 +67,7 @@ public class ProgramManagerController {
         }
     }
 
-    @GetMapping(value = "/list-designer-pr")
+    @GetMapping(value = "/list-other-pr")
     public List<PartecipationRequest<DesignerRole>> listDesignerPR(@RequestParam Long iduser, @RequestParam Long tokenuser,
                                                                    @RequestParam Long idproject) {
         try {
@@ -77,21 +77,21 @@ public class ProgramManagerController {
         }
     }
 
-    @PutMapping(value = "/accept-designer-pr")
-    public String addDesigner(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam Long iddesignerpr) {
+    @PutMapping(value = "/accept-pr")
+    public String addDesigner(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam Long idpr) {
         try {
-            this.programManagerService.acceptDesignerPR(iduser, tokenuser, iddesignerpr);
+            this.programManagerService.acceptDesignerPR(iduser, tokenuser, idpr);
             return "success";
         } catch (Exception e) {
             return e.getMessage();
         }
     }
 
-    @DeleteMapping(value = "/remove-designer-pr")
-    public String removePr(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam Long iddesignerpr,
+    @DeleteMapping(value = "/remove-pr")
+    public String removePr(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam Long idpr,
                            @RequestParam String reason) {
         try {
-            this.programManagerService.removeDesignerPR(iduser, tokenuser, iddesignerpr, reason);
+            this.programManagerService.removeDesignerPR(iduser, tokenuser, idpr, reason);
             return "success";
         } catch (Exception e) {
             return e.getMessage();

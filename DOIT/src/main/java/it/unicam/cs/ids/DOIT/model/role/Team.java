@@ -36,10 +36,10 @@ public class Team {
     @JsonIgnoreProperties("projects")
     private Set<DesignerRole> designers;
     @OneToMany
-    @JsonIgnoreProperties({"teams", "projects"})
+    @JsonIgnoreProperties({"project", "pendingRole"})
     private Set<PartecipationRequest<DesignerRole>> designerRequest;
     @OneToMany
-    @JsonIgnoreProperties({"teams", "projects"})
+    @JsonIgnoreProperties({"project", "pendingRole"})
     private Set<PartecipationRequest<ProgramManagerRole>> programManagerRequest;
 
     public Team(ProjectProposerRole projectProposer) {

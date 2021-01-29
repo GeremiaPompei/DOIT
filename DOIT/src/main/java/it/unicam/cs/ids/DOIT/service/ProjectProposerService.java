@@ -22,8 +22,7 @@ public class ProjectProposerService {
         User user = repositoryHandler.getUserRepository().findById(idUser).get();
         Category category = repositoryHandler.getCategoryRepository().findById(idCategory).get();
         ProjectState projectState = repositoryHandler.getProjectStateRepository().findById(0L).get();
-        user.getRolesHandler(tokenUser).getProjectProposerRole()
-                .createProject(name, description, category, projectState);
+        user.getRolesHandler(tokenUser).getProjectProposerRole().createProject(name, description, category, projectState);
         repositoryHandler.getUserRepository().save(user);
     }
 
@@ -38,6 +37,15 @@ public class ProjectProposerService {
         PartecipationRequest<ProgramManagerRole> pr =
                 repositoryHandler.getPartecipationRequestProgramManagerRepository().findById(idProgramManagerPR).get();
         user.getRolesHandler(tokenUser).getProjectProposerRole().acceptPR(pr);
+        repositoryHandler.getUserRepository().save(user);
+        repositoryHandler.getPartecipationRequestProgramManagerRepository().save(pr);
+    }
+
+    public void removePR(Long idUser, Long tokenUser, Long idProgramManagerPR, String reason) {
+        User user = repositoryHandler.getUserRepository().findById(idUser).get();
+        PartecipationRequest<ProgramManagerRole> pr =
+                repositoryHandler.getPartecipationRequestProgramManagerRepository().findById(idProgramManagerPR).get();
+        user.getRolesHandler(tokenUser).getProjectProposerRole().removePR(pr, reason);
         repositoryHandler.getUserRepository().save(user);
         repositoryHandler.getPartecipationRequestProgramManagerRepository().save(pr);
     }

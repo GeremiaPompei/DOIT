@@ -14,7 +14,8 @@ export default Vue.component('project-proposer', {
     data() {
         return {
             list: [
-                {name: 'Create project', path: {path: '/create-project'}}
+                {name: 'Create project', path: {path: '/create-project'}},
+                {name: 'Manage partecipation request program managar', path: {path: '/manage-pr/project-proposer'}}
             ]
         }
     },

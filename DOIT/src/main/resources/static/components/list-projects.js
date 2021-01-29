@@ -2,7 +2,7 @@ export default Vue.component('list-projects', {
     template: `
     <div class='container'>
         <ul>
-            <button @click="back()" class="back"><i style="font-size:24px" class="fa">&#xf104;</i></button>
+        <button @click="back()" type="button" class="btn btn-outline-primary">back</button>
             <li v-for="(project, index) in projects" :key="index">
                 <div @click="go(index)">
                     <button>{{project.name}}</button>

@@ -1,7 +1,7 @@
 export default Vue.component('user', {
     template: `
         <div class='container'>
-            <button @click="back()" class="back"><i style="font-size:24px" class="fa">&#xf104;</i></button>
+        <button @click="back()" type="button" class="btn btn-outline-primary">back</button>
             <p>Name</p>
             <h3 class="el">{{user.name}}</h3>
             <p>Surname</p>

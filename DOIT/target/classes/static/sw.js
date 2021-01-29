@@ -4,14 +4,16 @@ self.addEventListener('install', function(event) {
             return cache.addAll([
                 'https://unpkg.com/vue/dist/vue.min.js',
                 'https://unpkg.com/vue-router/dist/vue-router.min.js',
-                /*'/',
+                /*
+                'https://bootswatch.com/4/minty/bootstrap.css',
+                '/',
                 '/index.html',
                 '/manifest.json',
-                '/style.css',
                 '/router.js',
                 '/sw.js',
                 '/icon192.png',
-                '/icon512.png'*/
+                '/icon512.png'
+                */
             ]);
         })
     );

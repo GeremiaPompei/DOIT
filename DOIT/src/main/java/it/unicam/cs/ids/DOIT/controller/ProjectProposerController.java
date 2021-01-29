@@ -27,7 +27,7 @@ public class ProjectProposerController {
         }
     }
 
-    @GetMapping(value = "/list-pr")
+    @GetMapping(value = "/list-other-pr")
     public List<PartecipationRequest<ProgramManagerRole>> listProgramManagerPR(@RequestParam Long iduser,
                                                                                @RequestParam Long tokenuser,
                                                                                @RequestParam Long idproject) {
@@ -39,9 +39,20 @@ public class ProjectProposerController {
     }
 
     @PutMapping(value = "/accept-pr")
-    public String acceptProgramManagerPR(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam Long idprogrammanagerpr) {
+    public String acceptProgramManagerPR(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam Long idpr) {
         try {
-            this.projectProposerService.acceptPR(iduser, tokenuser, idprogrammanagerpr);
+            this.projectProposerService.acceptPR(iduser, tokenuser, idpr);
+            return "success";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    @DeleteMapping(value = "/remove-pr")
+    public String removeProgramManagerPR(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam Long idpr
+            , @RequestParam String reason) {
+        try {
+            this.projectProposerService.removePR(iduser, tokenuser, idpr, reason);
             return "success";
         } catch (Exception e) {
             return e.getMessage();

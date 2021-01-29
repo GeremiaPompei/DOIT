@@ -21,8 +21,6 @@ public class Project {
     private ProjectState projectState;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ID_Team")
-    @JsonIgnoreProperties({"projectProposer", "programManager", "designers", "projectManager", "designerRequest",
-            "programManagerRequest"})
     private Team team;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ID_Category")

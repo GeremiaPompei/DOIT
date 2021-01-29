@@ -1,17 +1,17 @@
 export default Vue.component('project', {
     template: `
         <div class='container'>
-            <button @click="back()" class="back"><i style="font-size:24px" class="fa">&#xf104;</i></button>
+        <button @click="back()" type="button" class="btn btn-outline-primary">back</button>
             <p>Name</p>
             <h3 class="el">{{project.name}}</h3>
             <p>Description</p>
             <h3 class="el">{{project.description}}</h3>
             <p>Category</p>
-            <h3 class="el">{{project.category.name}}</h3>
+            <h3 class="el">{{project.category}}</h3>
             <p>State</p>
-            <h3 class="el">{{project.projectState.name}}</h3>
+            <h3 class="el">{{project.projectState}}</h3>
             <p>Team</p>
-            <h3 class="el">{{project.team.open}}</h3>
+            <h3 class="el">{{project.team}}</h3>
         </div>
         `,
         data() {

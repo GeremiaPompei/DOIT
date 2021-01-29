@@ -1,7 +1,7 @@
 export default Vue.component('manage-category', {
     template: `
     <div class='container'>
-        <button @click="back()" class="back"><i style="font-size:24px" class="fa">&#xf104;</i></button>
+    <button @click="back()" type="button" class="btn btn-outline-primary">back</button>
         <p>My category</p>
         <ul>
             <li v-for="(category, index) in myCategories" :key="index">

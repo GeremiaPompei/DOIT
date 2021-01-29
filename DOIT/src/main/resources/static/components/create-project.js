@@ -1,7 +1,7 @@
 export default Vue.component('create-project', {
     template: `
     <div class='container'>
-        <button @click="back()" class="back"><i style="font-size:24px" class="fa">&#xf104;</i></button>
+        <button @click="back()" type="button" class="btn btn-outline-primary">back</button>
         <form @submit.prevent="createProject()">
             <p>Name</p>
             <input placeholder="Project name..." type="text" v-model="name">

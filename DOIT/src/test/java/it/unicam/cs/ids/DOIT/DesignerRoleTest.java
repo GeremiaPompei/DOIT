@@ -87,4 +87,20 @@ class DesignerRoleTest {
     public void getCurriculumVitae() {
         assertTrue(rh3.getDesignerRole().getCurriculumVitae().isEmpty());
     }
+
+    @Test
+    public void removeProject(){
+        user3.rolesHandlerGet().getDesignerRole().createPartecipationRequest(project);
+        PartecipationRequest<DesignerRole> pr = project.getTeam().getDesignerRequest().stream().findFirst().orElse(null);
+        rh2.getProgramManagerRole().acceptPR(pr);
+        rh3.getDesignerRole().removeProject(project);
+        assertFalse(project.getTeam().getDesigners().contains(rh3.getDesignerRole()));
+        assertFalse(rh3.getDesignerRole().getProjects().contains(project));
+    }
+
+    @Test
+    public void insertPregressExperience(){
+        rh3.getDesignerRole().insertPregressExperience("lavoro in fabbrica", LocalDate.parse("2001-10-04"),LocalDate.parse("2002-01-30"));
+        assertFalse(rh3.getDesignerRole().getCurriculumVitae().isEmpty());
+    }
 }

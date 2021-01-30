@@ -14,7 +14,8 @@ export default Vue.component('project-manager', {
     data() {
         return {
             list: [
-                {name: 'Upgrade state', path: {path: '/upgrade-state'}}
+                {name: 'Manage project state', path: {path: '/manage-project-state'}},
+                {name: 'Evaluate designers', path: {path: '/evaluate'}}
             ]
         }
     },

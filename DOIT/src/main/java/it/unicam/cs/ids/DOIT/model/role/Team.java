@@ -19,21 +19,21 @@ public class Team {
 
     @JoinColumn(name = "ID_ProjectProposer")
     @OneToOne
-    @JsonIgnoreProperties("projects")
+    @JsonIgnoreProperties({"projects", "history"})
     private ProjectProposerRole projectProposer;
 
     @JoinColumn(name = "ID_ProjectManager")
     @OneToOne
-    @JsonIgnoreProperties("projects")
+    @JsonIgnoreProperties({"projects", "history"})
     private ProjectManagerRole projectManager;
 
     @JoinColumn(name = "ID_ProgramManager")
     @OneToOne
-    @JsonIgnoreProperties("projects")
+    @JsonIgnoreProperties({"projects", "history"})
     private ProgramManagerRole programManager;
 
     @OneToMany
-    @JsonIgnoreProperties("projects")
+    @JsonIgnoreProperties({"projects", "history"})
     private Set<DesignerRole> designers;
     @OneToMany
     @JsonIgnoreProperties({"project", "pendingRole"})

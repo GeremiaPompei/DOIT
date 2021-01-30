@@ -79,10 +79,13 @@ public class ProgramManagerRole extends Role implements IPendingRole, IPartecipa
         getInnerDesignerInTeam(user, projectInput);
         if (!this.getProjects().contains(project))
             throw new IllegalArgumentException("L'utente non possiede il progetto con id:[" + project.getId() + "]");
+        if (project.getTeam().getProjectManager() != null)
+            throw new IllegalArgumentException("Il progetto ha gia un project manager!");
         user.rolesHandlerGet().addRole(ProjectManagerRole.TYPE, project.getCategory());
         ProjectManagerRole pj = user.rolesHandlerGet().getProjectManagerRole();
         project.getTeam().setProjectManager(pj);
         pj.enterProject(project);
+        project.getTeam().getDesigners().remove(user.rolesHandlerGet().getDesignerRole());
         user.rolesHandlerGet().getDesignerRole().getProjects().remove(project);
     }
 

@@ -22,6 +22,8 @@ const routes = [
   {path: '/manage-pr/:role', component: () => import('./components/manage-pr.js')},
   {path: '/team-rec', component: () => import('./components/team-rec.js')},
   {path: '/set-project-manager', component: () => import('./components/set-project-manager.js')},
+  {path: '/manage-project-state', component: () => import('./components/manage-project-state.js')},
+  {path: '/evaluate', component: () => import('./components/evaluate.js')},
   {path: '/', redirect: '/login'}
 ];
 

@@ -8,14 +8,12 @@ export default Vue.component('accept-pr', {
                 {{project.name}}
             </option>
         </select>
-        <ul>
-            <li v-for="(element, index) in users" :key="index">
-                <button @click="show(element.id)">{{element.name}}</button>
-                <button type="button" class="btn btn-outline-primary" @click="acceptPr(element.id)">accept</button>
-                <input type="text" v-model="reason" placeholder="Reason...">
-                <button type="button" class="btn btn-outline-secondary" @click="removePr(element.id)">remove</button>
-            </li>
-        </ul>
+        <div v-for="(element, index) in users" :key="index">
+            <button @click="show(element.id)">{{element.name}}</button>
+            <button type="button" class="btn btn-outline-primary" @click="acceptPr(element.id)">accept</button>
+            <input type="text" v-model="reason" placeholder="Reason...">
+            <button type="button" class="btn btn-outline-secondary" @click="removePr(element.id)">remove</button>
+        </div>
     </div>
     `,
     data() {

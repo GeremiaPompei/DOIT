@@ -39,6 +39,7 @@ public class ProjectManagerRole extends Role {
         ProjectState nextps = findProjectState(iterator, project.getProjectState().getId() + 1);
         if (nextps == null)
             project.getTeam().closeRegistrations();
+        notifyAll("Upgrade state: [" + ps.getName() + "] of project: [" + project.getName() + "]", project);
     }
 
     public void downgradeState(Iterator<ProjectState> iterator, Project project) {
@@ -46,6 +47,7 @@ public class ProjectManagerRole extends Role {
         if (ps == null)
             throw new IllegalArgumentException("Stato progetto iniziale, non si può procedere oltre!");
         project.setProjectState(ps);
+        notifyAll("Downgrade state: [" + ps.getName() + "] of project: [" + project.getName() + "]", project);
     }
 
     private ProjectState findProjectState(Iterator<ProjectState> iterator, Long id) {
@@ -64,6 +66,7 @@ public class ProjectManagerRole extends Role {
             throw new IllegalArgumentException("La valutazione deve essere compresa tra 0 e 5!");
         Evaluation ev = new Evaluation(project.getId(), evaluation);
         designerFound.getEvaluations().add(ev);
+        designerFound.notify("Evaluate: [" + evaluation + "] and exit project: [" + project.getName() + "]");
         designerFound.exitProject(project);
         return ev;
     }
@@ -77,6 +80,7 @@ public class ProjectManagerRole extends Role {
         for (DesignerRole d : project.getTeam().getDesigners())
             if (d.getProjects().contains(project))
                 throw new IllegalArgumentException("Prima di chiudere il progetto finisci di valutare i designer!");
+        notifyAll("Chiusura progetto: [" + project.getName() + "]", project);
         project.getTeam().getProgramManagerRequest().removeAll(project.getTeam().getProgramManagerRequest());
         project.getTeam().getDesignerRequest().removeAll(project.getTeam().getDesignerRequest());
         project.getTeam().getProjectProposer().exitProject(project);
@@ -87,5 +91,11 @@ public class ProjectManagerRole extends Role {
 
     public ProjectState getProjectState(Project projectInput) {
         return this.getProjects().stream().filter(t -> t.equals(projectInput)).findAny().orElse(null).getProjectState();
+    }
+
+    private void notifyAll(String notification, Project project) {
+        project.getTeam().getProjectProposer().notify(notification);
+        project.getTeam().getProgramManager().notify(notification);
+        project.getTeam().getDesigners().forEach(d -> d.notify(notification));
     }
 }

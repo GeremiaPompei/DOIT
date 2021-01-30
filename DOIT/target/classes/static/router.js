@@ -15,6 +15,7 @@ const routes = [
   {path: '/project/:id', component: () => import('./components/project.js')},
   {path: '/list-projects/:role', component: () => import('./components/list-projects.js')},
   {path: '/history/:role', component: () => import('./components/history.js')},
+  {path: '/list-notifications/:role', component: () => import('./components/list-notifications.js')},
   {path: '/list-categories/:role', component: () => import('./components/list-categories.js')},
   {path: '/manage-category/:role', component: () => import('./components/manage-category.js')},
   {path: '/user/:id', component: () => import('./components/user.js')},

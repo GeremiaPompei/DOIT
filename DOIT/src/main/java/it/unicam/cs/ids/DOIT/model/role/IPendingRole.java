@@ -7,7 +7,7 @@ import it.unicam.cs.ids.DOIT.model.project.Project;
 import java.util.Iterator;
 import java.util.Set;
 
-public interface IPendingRole {
+public interface IPendingRole extends ISubscriber {
     <T extends IPendingRole> PartecipationRequest<T> createPartecipationRequest(Project project);
 
     <T extends IPendingRole> Set<PartecipationRequest<T>> getMyPartecipationRequests();

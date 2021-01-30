@@ -38,9 +38,9 @@ class ProgramManagerRoleTest {
         b = new ProjectState((long) 1, "SVILUPPO", "Stato di sviluppo.");
         c = new ProjectState((long) 2, "TERMINALE", "Stato terminale.");
         category = new Category("Fisica", "Descrizione");
-        user1 = new User("Saverio", "Tommasi", "1998", "Male", "saveriotommasi@gmail.com", "password");
-        user2 = new User("Giacomo", "Pier", "1998", "Male", "giacomopier@gmail.com", "password");
-        user3 = new User("Daniele", "Baio", "1998", "Male", "danielebaio@gmail.com", "password");
+        user1 = new User(1L, "Saverio", "Tommasi", "1998", "Male", "saveriotommasi@gmail.com", "password");
+        user2 = new User(2L, "Giacomo", "Pier", "1998", "Male", "giacomopier@gmail.com", "password");
+        user3 = new User(3L, "Daniele", "Baio", "1998", "Male", "danielebaio@gmail.com", "password");
         rh1 = user1.getRolesHandler(user1.tokenHandlerGet().getToken());
         rh1.addRole(ProjectProposerRole.TYPE, category);
         rh2 = user2.getRolesHandler(user2.tokenHandlerGet().getToken());
@@ -121,5 +121,31 @@ class ProgramManagerRoleTest {
     @Test
     void getMyPartecipationRequests() {
         assertNotNull(rh2.getProgramManagerRole().getMyPartecipationRequests());
+    }
+
+    @Test
+    void getIdDesigners() {
+        PartecipationRequest<DesignerRole> pr = rh3.getDesignerRole().getMyPartecipationRequests().stream().findFirst().orElse(null);
+        rh2.getProgramManagerRole().acceptPR(pr);
+        assertEquals(rh2.getProgramManagerRole().getIdDesigners(project).stream().findFirst().orElse(null), 3);
+    }
+
+    @Test
+    void removeDesigner() {
+        PartecipationRequest<DesignerRole> pr = rh3.getDesignerRole().getMyPartecipationRequests().stream().findFirst().orElse(null);
+        rh2.getProgramManagerRole().acceptPR(pr);
+        assertTrue(rh1.getProjectProposerRole().getProjects().stream().findFirst().orElse(null).getTeam().getDesigners().contains(rh3.getDesignerRole()));
+        rh2.getProgramManagerRole().removeDesigner(user3, project);
+        assertFalse(rh1.getProjectProposerRole().getProjects().stream().findFirst().orElse(null).getTeam().getDesigners().contains(rh3.getDesignerRole()));
+
+    }
+
+    @Test
+    void setProjectManager() {
+        PartecipationRequest<DesignerRole> pr = rh3.getDesignerRole().getMyPartecipationRequests().stream().findFirst().orElse(null);
+        rh2.getProgramManagerRole().acceptPR(pr);
+        assertTrue(rh1.getProjectProposerRole().getProjects().stream().findFirst().orElse(null).getTeam().getDesigners().contains(rh3.getDesignerRole()));
+        rh2.getProgramManagerRole().setProjectManager(user3, project);
+        assertFalse(rh1.getProjectProposerRole().getProjects().stream().findFirst().orElse(null).getTeam().getDesigners().contains(rh3.getDesignerRole()));
     }
 }

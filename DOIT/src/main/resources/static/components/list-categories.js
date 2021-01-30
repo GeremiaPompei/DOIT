@@ -13,12 +13,13 @@ export default Vue.component('list-categories', {
     `,
     data() {
         return {
-            categories: []
+            categories: [],
+            role: this.$route.params.role
         }
     },
     async created() {
         var credential = JSON.parse(localStorage.getItem(key));
-        this.categories = await (await fetch('/api/'+this.$route.params.role+'/list-categories?iduser='+credential.id+'&tokenuser='+credential.token)).json();
+        this.categories = await (await fetch('/api/user/list-categories?iduser='+credential.id+'&tokenuser='+credential.token+'&idrole='+this.role)).json();
     },
     methods: {
         go(i) {

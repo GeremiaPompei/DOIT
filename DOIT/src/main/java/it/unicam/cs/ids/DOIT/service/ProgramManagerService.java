@@ -42,7 +42,7 @@ public class ProgramManagerService {
     public void openRegistrations(Long idUser, Long tokenUser, Long idProject) {
         User user = repositoryHandler.getUserRepository().findById(idUser).get();
         Project project = repositoryHandler.getProjectRepository().findById(idProject).get();
-        if(project.getProjectState().getId().equals(repositoryHandler.getProjectStateRepository().count()-1))
+        if (project.getProjectState().getId().equals(repositoryHandler.getProjectStateRepository().count() - 1))
             throw new IllegalArgumentException("Non può essere aperta la cordata se lo stato è terminale!");
         user.getRolesHandler(tokenUser).getProgramManagerRole().openRegistrations(project);
         repositoryHandler.getProjectRepository().save(project);
@@ -99,24 +99,11 @@ public class ProgramManagerService {
         User user = repositoryHandler.getUserRepository().findById(idUser).get();
         Project project = repositoryHandler.getProjectRepository().findById(idProject).get();
         User userD = repositoryHandler.getUserRepository().findById(idDesigner).get();
+        if (project.getTeam().getProjectManager() != null)
+            throw new IllegalArgumentException("Il progetto ha gia un project manager!");
         user.getRolesHandler(tokenUser).getProgramManagerRole().setProjectManager(userD, project);
         repositoryHandler.getProjectManagerRepository().save(project.getTeam().getProjectManager());
         repositoryHandler.getUserRepository().save(user);
         repositoryHandler.getUserRepository().save(userD);
-    }
-
-    public Set<Project> listHistory(Long idUser, Long tokenUser) {
-        User user = repositoryHandler.getUserRepository().findById(idUser).get();
-        return user.getRolesHandler(tokenUser).getProgramManagerRole().getHistory();
-    }
-
-    public Set<Project> listProjects(Long idUser, Long tokenUser) {
-        User user = repositoryHandler.getUserRepository().findById(idUser).get();
-        return user.getRolesHandler(tokenUser).getProgramManagerRole().getProjects();
-    }
-
-    public Set<Category> listCategories(Long idUser, Long tokenUser) {
-        User user = repositoryHandler.getUserRepository().findById(idUser).get();
-        return user.getRolesHandler(tokenUser).getProgramManagerRole().getCategories();
     }
 }

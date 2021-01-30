@@ -13,12 +13,13 @@ export default Vue.component('list-projects', {
     `,
     data() {
         return {
-            projects: []
+            projects: [],
+            role: this.$route.params.role
         }
     },
     async created() {
         var credential = JSON.parse(localStorage.getItem(key));
-        this.projects = await (await fetch('/api/'+this.$route.params.role+'/list-projects?iduser='+credential.id+'&tokenuser='+credential.token)).json();
+        this.projects = await (await fetch('/api/user/list-projects?iduser='+credential.id+'&tokenuser='+credential.token+'&idrole='+this.role)).json();
     },
     methods: {
         go(i) {

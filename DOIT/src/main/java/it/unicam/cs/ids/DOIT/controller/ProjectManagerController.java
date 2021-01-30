@@ -82,31 +82,4 @@ public class ProjectManagerController {
             return null;
         }
     }
-
-    @GetMapping(value = "/list-history")
-    public List<Project> listHistory(@RequestParam Long iduser, @RequestParam Long tokenuser) {
-        try {
-            return List.copyOf(this.projectManagerService.listHistory(iduser, tokenuser));
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    @GetMapping(value = "/list-projects")
-    public List<Project> listProjects(@RequestParam Long iduser, @RequestParam Long tokenuser) {
-        try {
-            return List.copyOf(this.projectManagerService.listProjects(iduser, tokenuser));
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    @GetMapping(value = "/list-categories")
-    public List<Category> listCategories(@RequestParam Long iduser, @RequestParam Long tokenuser) {
-        try {
-            return List.copyOf(this.projectManagerService.listCategories(iduser, tokenuser));
-        } catch (Exception e) {
-            return null;
-        }
-    }
 }

@@ -70,6 +70,7 @@ public class DesignerRole extends Role implements IPendingRole {
         if (inputProject.getTeam().getDesignerRequest().contains(pr))
             inputProject.getTeam().getDesignerRequest().remove(pr);
         inputProject.getTeam().getDesignerRequest().add(pr);
+        inputProject.getTeam().getProgramManager().notify(pr.getDescription());
         return pr;
     }
 

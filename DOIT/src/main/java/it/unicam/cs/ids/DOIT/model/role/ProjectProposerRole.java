@@ -50,6 +50,7 @@ public class ProjectProposerRole extends Role implements IPartecipationRequestHa
         pr.getProject().getTeam().getProgramManagerRequest().stream()
                 .filter(p -> !p.equals(pr))
                 .forEach(p -> removePR(pr, "I'm sorry! You are rejected."));
+        pr.getPendingRole().notify(pr.getDescription());
     }
 
     @Override
@@ -61,6 +62,7 @@ public class ProjectProposerRole extends Role implements IPartecipationRequestHa
             throw new IllegalArgumentException("La descrizione non può essere vuota!");
         pr.displayed(description);
         pr.getProject().getTeam().getProgramManagerRequest().remove(pr);
+        pr.getPendingRole().notify(pr.getDescription());
     }
 
     public Set<PartecipationRequest<ProgramManagerRole>> getPartecipationRequestsByProject(Project inputProject) {

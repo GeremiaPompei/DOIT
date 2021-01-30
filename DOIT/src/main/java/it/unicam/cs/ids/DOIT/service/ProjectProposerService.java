@@ -49,20 +49,4 @@ public class ProjectProposerService {
         repositoryHandler.getUserRepository().save(user);
         repositoryHandler.getPartecipationRequestProgramManagerRepository().save(pr);
     }
-
-    public Set<Project> listHistory(Long idUser, Long tokenUser) {
-        User user = repositoryHandler.getUserRepository().findById(idUser).get();
-        return user.getRolesHandler(tokenUser).getProjectProposerRole().getHistory();
-    }
-
-    public Set<Project> listProjects(Long idUser, Long tokenUser) {
-        User user = repositoryHandler.getUserRepository().findById(idUser).get();
-        return user.getRolesHandler(tokenUser).getProjectProposerRole().getProjects();
-    }
-
-    public Set<Category> listCategories(Long idUser, Long tokenUser) {
-        User user = repositoryHandler.getUserRepository().findById(idUser).get();
-        return user.getRolesHandler(tokenUser).getProjectProposerRole().getCategories();
-    }
-
 }

@@ -30,7 +30,7 @@ export default Vue.component('send-pr', {
         async init() {
             this.$emit('load',true);
             var credential = JSON.parse(localStorage.getItem(key));
-            this.categories = await (await fetch('/api/'+this.role+'/list-categories?iduser='+credential.id+'&tokenuser='+credential.token)).json();
+            this.categories = await (await fetch('/api/user/list-categories?iduser='+credential.id+'&tokenuser='+credential.token+'&idrole='+this.role)).json();
             this.$emit('load',false);
         },
         async sendPr(index) {

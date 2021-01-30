@@ -32,7 +32,7 @@ export default Vue.component('accept-pr', {
         async init() {
             this.$emit('load',true);
             var credential = JSON.parse(localStorage.getItem(key));
-            this.projects = await (await fetch('/api/'+this.role+'/list-projects?iduser='+credential.id+'&tokenuser='+credential.token)).json();
+            this.projects = await (await fetch('/api/user/list-projects?iduser='+credential.id+'&tokenuser='+credential.token+'&idrole='+this.role)).json();
             this.$emit('load',false);
         },
         async acceptPr(index) {

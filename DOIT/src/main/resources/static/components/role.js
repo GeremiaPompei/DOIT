@@ -25,6 +25,7 @@ export default Vue.component('role', {
                 {name: 'List projects', path: {path: '/list-projects/'+this.role}},
                 {name: 'History', path: {path: '/history/'+this.role}},
                 {name: 'List categories', path: {path: '/list-categories/'+this.role}},
+                {name: 'List notifications', path: {path: '/list-notifications/'+this.role}},
                 {name: 'Manage category', path: {path: '/manage-category/'+this.role}}
             ]
         }

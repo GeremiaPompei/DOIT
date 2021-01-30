@@ -1,5 +1,8 @@
 package it.unicam.cs.ids.DOIT.controller;
 
+import it.unicam.cs.ids.DOIT.model.category.Category;
+import it.unicam.cs.ids.DOIT.model.project.Project;
+import it.unicam.cs.ids.DOIT.model.role.Notification;
 import it.unicam.cs.ids.DOIT.model.role.RolesHandler;
 import it.unicam.cs.ids.DOIT.service.UserService;
 import it.unicam.cs.ids.DOIT.model.user.User;
@@ -131,6 +134,42 @@ public class UserController {
             return "success";
         } catch (Exception e) {
             return e.getMessage();
+        }
+    }
+
+    @GetMapping(value = "/list-history")
+    public List<Project> listHistory(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam String idrole) {
+        try {
+            return List.copyOf(this.userService.listHistory(iduser, tokenuser, idrole));
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @GetMapping(value = "/list-projects")
+    public List<Project> listProjects(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam String idrole) {
+        try {
+            return List.copyOf(this.userService.listProjects(iduser, tokenuser, idrole));
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @GetMapping(value = "/list-categories")
+    public List<Category> listCategories(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam String idrole) {
+        try {
+            return List.copyOf(this.userService.listCategories(iduser, tokenuser, idrole));
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @GetMapping(value = "/list-notifications")
+    public List<Notification> listNotifications(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam String idrole) {
+        try {
+            return this.userService.listNotifications(iduser, tokenuser, idrole);
+        } catch (Exception e) {
+            return null;
         }
     }
 

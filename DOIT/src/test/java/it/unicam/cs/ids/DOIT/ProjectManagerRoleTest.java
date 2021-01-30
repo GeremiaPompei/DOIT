@@ -83,6 +83,7 @@ class ProjectManagerRoleTest {
         rh3.getProjectManagerRole().upgradeState(states.iterator(), project);
         assertEquals(project.getProjectState().getId(), 1);
         rh3.getProjectManagerRole().upgradeState(states.iterator(), project);
+        assertFalse(rh2.getProgramManagerRole().getProjects().stream().findFirst().orElse(null).getTeam().isOpen());
         assertThrows(IllegalArgumentException.class, () -> rh3.getProjectManagerRole().upgradeState(states.iterator(), project));
     }
 
@@ -104,7 +105,7 @@ class ProjectManagerRoleTest {
 
     @Test
     void getDesigners() {
-        assertTrue(rh3.getProjectManagerRole().getDesigners(project).contains(rh3.getDesignerRole().getIdUser()));
+        assertTrue(rh3.getProjectManagerRole().getDesigners(project).contains(rh4.getDesignerRole().getIdUser()));
     }
 
     @Test

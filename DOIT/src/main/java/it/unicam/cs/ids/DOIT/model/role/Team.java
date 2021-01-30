@@ -2,12 +2,9 @@ package it.unicam.cs.ids.DOIT.model.role;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import it.unicam.cs.ids.DOIT.model.partecipation_request.PartecipationRequest;
-import it.unicam.cs.ids.DOIT.model.project.Project;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Team {
@@ -48,9 +45,13 @@ public class Team {
         this.designers = new HashSet<>();
         this.designerRequest = new HashSet<>();
         this.programManagerRequest = new HashSet<>();
+
     }
 
     public Team() {
+        this.designers = new HashSet<>();
+        this.designerRequest = new HashSet<>();
+        this.programManagerRequest = new HashSet<>();
     }
 
     public boolean isOpen() {

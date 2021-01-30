@@ -31,7 +31,7 @@ export default Vue.component('evaluate', {
         async init() {
             this.$emit('load',true);
             var credential = JSON.parse(localStorage.getItem(key));
-            this.projects = await (await fetch('/api/project-manager/list-projects?iduser='+credential.id+'&tokenuser='+credential.token)).json();
+            this.projects = await (await fetch('/api/user/list-projects?iduser='+credential.id+'&tokenuser='+credential.token+'&idrole=project-manager')).json();
             this.$emit('load',false);
         },
         async evaluateDesigner(index) {

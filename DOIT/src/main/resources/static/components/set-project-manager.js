@@ -30,7 +30,7 @@ export default Vue.component('set-project-manager', {
         async init() {
             this.$emit('load',true);
             var credential = JSON.parse(localStorage.getItem(key));
-            this.projects = await (await fetch('/api/program-manager/list-projects?iduser='+credential.id+'&tokenuser='+credential.token)).json();
+            this.projects = await (await fetch('/api/user/list-projects?iduser='+credential.id+'&tokenuser='+credential.token+'&idrole=program-manager')).json();
             this.$emit('load',false);
         },
         async setPjm(index) {

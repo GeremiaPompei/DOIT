@@ -23,7 +23,8 @@ export default Vue.component('manage-category', {
     data() {
         return {
             myCategories: [],
-            otherCategories: []
+            otherCategories: [],
+            role: this.$route.params.role
         }
     },
     created() {
@@ -33,7 +34,7 @@ export default Vue.component('manage-category', {
         async init() {
             this.otherCategories = [];
             var credential = JSON.parse(localStorage.getItem(key));
-            this.myCategories = await (await fetch('/api/'+this.$route.params.role+'/list-categories?iduser='+credential.id+'&tokenuser='+credential.token)).json();
+            this.myCategories = await (await fetch('/api/user/list-categories?iduser='+credential.id+'&tokenuser='+credential.token+'&idrole='+this.role)).json();
             var allCategories = await (await fetch('/api/search/categories')).json();
             allCategories.forEach(c => {
                 if(!this.myCategories.map(cat => cat.name).includes(c.name))

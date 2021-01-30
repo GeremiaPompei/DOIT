@@ -64,19 +64,4 @@ public class ProjectManagerService {
         Project project = repositoryHandler.getProjectRepository().findById(projectId).get();
         return user.getRolesHandler(tokenUser).getProjectManagerRole().getProjectState(project);
     }
-
-    public Set<Project> listHistory(Long idUser, Long tokenUser) {
-        User user = repositoryHandler.getUserRepository().findById(idUser).get();
-        return user.getRolesHandler(tokenUser).getProjectManagerRole().getHistory();
-    }
-
-    public Set<Project> listProjects(Long idUser, Long tokenUser) {
-        User user = repositoryHandler.getUserRepository().findById(idUser).get();
-        return user.getRolesHandler(tokenUser).getProjectManagerRole().getProjects();
-    }
-
-    public Set<Category> listCategories(Long idUser, Long tokenUser) {
-        User user = repositoryHandler.getUserRepository().findById(idUser).get();
-        return user.getRolesHandler(tokenUser).getProjectManagerRole().getCategories();
-    }
 }

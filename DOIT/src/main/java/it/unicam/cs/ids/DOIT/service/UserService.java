@@ -1,6 +1,7 @@
 package it.unicam.cs.ids.DOIT.service;
 
 import it.unicam.cs.ids.DOIT.model.category.Category;
+import it.unicam.cs.ids.DOIT.model.project.Project;
 import it.unicam.cs.ids.DOIT.model.role.*;
 import it.unicam.cs.ids.DOIT.repository.RepositoryHandler;
 import it.unicam.cs.ids.DOIT.model.user.User;
@@ -89,6 +90,26 @@ public class UserService {
         repositoryHandler.getUserRepository().findById(idUser).get().getRolesHandler(tokenUser).getHandyRoles()
                 .stream().filter(r -> r.getType().equals(idRole)).findAny().get().removeCategory(category);
         repositoryHandler.getUserRepository().save(user);
+    }
+
+    public Set<Project> listHistory(Long idUser, Long tokenUser, String idRole) {
+        return repositoryHandler.getUserRepository().findById(idUser).get().getRolesHandler(tokenUser).getRoles()
+                .stream().filter(r -> r.getType().equals(idRole)).findAny().get().getHistory();
+    }
+
+    public Set<Project> listProjects(Long idUser, Long tokenUser, String idRole) {
+        return repositoryHandler.getUserRepository().findById(idUser).get().getRolesHandler(tokenUser).getRoles()
+                .stream().filter(r -> r.getType().equals(idRole)).findAny().get().getProjects();
+    }
+
+    public Set<Category> listCategories(Long idUser, Long tokenUser, String idRole) {
+        return repositoryHandler.getUserRepository().findById(idUser).get().getRolesHandler(tokenUser).getRoles()
+                .stream().filter(r -> r.getType().equals(idRole)).findAny().get().getCategories();
+    }
+
+    public List<Notification> listNotifications(Long idUser, Long tokenUser, String idRole) {
+        return repositoryHandler.getUserRepository().findById(idUser).get().getRolesHandler(tokenUser).getRoles()
+                .stream().filter(r -> r.getType().equals(idRole)).findAny().get().getNotications();
     }
 
     public List<String> getMyRolesType(Long idUser, Long tokenUser) {

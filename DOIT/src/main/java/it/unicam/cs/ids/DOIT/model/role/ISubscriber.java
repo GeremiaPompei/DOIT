@@ -1,0 +1,11 @@
+package it.unicam.cs.ids.DOIT.model.role;
+
+import java.util.List;
+
+public interface ISubscriber {
+    void notify(String notification);
+
+    void removeNotifications();
+
+    List<Notification> getNotications();
+}

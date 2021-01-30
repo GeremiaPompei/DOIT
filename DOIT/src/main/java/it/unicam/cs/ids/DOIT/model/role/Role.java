@@ -6,13 +6,11 @@ import it.unicam.cs.ids.DOIT.model.project.Project;
 import it.unicam.cs.ids.DOIT.model.user.User;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Role {
+public abstract class Role implements ISubscriber {
 
     @Id
     @Column(name = "ID_Role")
@@ -27,6 +25,8 @@ public abstract class Role {
     private Set<Project> history;
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<Category> categories;
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<Notification> notications;
 
     public Role() {
     }
@@ -37,6 +37,7 @@ public abstract class Role {
         categories = new HashSet<>();
         history = new HashSet<>();
         this.categories.add(category);
+        this.notications = new ArrayList<>();
     }
 
     public abstract String getType();
@@ -77,6 +78,18 @@ public abstract class Role {
         if (this.projects.stream().filter(p -> p.getCategory().equals(category)).findAny().orElse(null) != null)
             throw new IllegalArgumentException("Non puo essere eliminata una categoria in uso su uno dei progetti appartenenti al ruolo!");
         this.categories.remove(category);
+    }
+
+    public void notify(String notification) {
+        this.notications.add(new Notification(notification));
+    }
+
+    public void removeNotifications() {
+        this.notications.removeIf(s -> true);
+    }
+
+    public List<Notification> getNotications() {
+        return notications;
     }
 
     @Override

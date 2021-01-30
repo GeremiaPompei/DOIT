@@ -50,19 +50,4 @@ public class DesignerService {
         return user.getRolesHandler(tokenUser).getDesignerRole().getCurriculumVitae();
     }
 
-    public Set<Project> listHistory(Long idUser, Long tokenUser) {
-        User user = repositoryHandler.getUserRepository().findById(idUser).get();
-        return user.getRolesHandler(tokenUser).getDesignerRole().getHistory();
-    }
-
-    public Set<Project> listProjects(Long idUser, Long tokenUser) {
-        User user = repositoryHandler.getUserRepository().findById(idUser).get();
-        return user.getRolesHandler(tokenUser).getDesignerRole().getProjects();
-    }
-
-    public Set<Category> listCategories(Long idUser, Long tokenUser) {
-        User user = repositoryHandler.getUserRepository().findById(idUser).get();
-        return user.getRolesHandler(tokenUser).getDesignerRole().getCategories();
-    }
-
 }

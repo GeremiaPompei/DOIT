@@ -47,6 +47,7 @@ public class ProgramManagerRole extends Role implements IPendingRole, IPartecipa
         pr.getProject().getTeam().getDesignerRequest().remove(pr);
         designerPR.getPendingRole().enterProject(designerPR.getProject());
         pr.getProject().getTeam().addDesigner(designerPR.getPendingRole());
+        pr.getPendingRole().notify(pr.getDescription());
     }
 
     public void removePR(PartecipationRequest<DesignerRole> designerPR, String description) {
@@ -57,6 +58,7 @@ public class ProgramManagerRole extends Role implements IPendingRole, IPartecipa
             throw new IllegalArgumentException("La descrizione non può essere vuota!");
         pr.displayed(description);
         pr.getProject().getTeam().getDesignerRequest().remove(pr);
+        pr.getPendingRole().notify(pr.getDescription());
     }
 
     public Set<Long> getIdDesigners(Project projectInput) {
@@ -79,14 +81,13 @@ public class ProgramManagerRole extends Role implements IPendingRole, IPartecipa
         getInnerDesignerInTeam(user, projectInput);
         if (!this.getProjects().contains(project))
             throw new IllegalArgumentException("L'utente non possiede il progetto con id:[" + project.getId() + "]");
-        if (project.getTeam().getProjectManager() != null)
-            throw new IllegalArgumentException("Il progetto ha gia un project manager!");
         user.rolesHandlerGet().addRole(ProjectManagerRole.TYPE, project.getCategory());
         ProjectManagerRole pj = user.rolesHandlerGet().getProjectManagerRole();
         project.getTeam().setProjectManager(pj);
         pj.enterProject(project);
         project.getTeam().getDesigners().remove(user.rolesHandlerGet().getDesignerRole());
         user.rolesHandlerGet().getDesignerRole().getProjects().remove(project);
+        user.rolesHandlerGet().getProjectManagerRole().notify("You are project manager of: [" + project.getName() + "]");
     }
 
     public Set<PartecipationRequest<DesignerRole>> getPartecipationRequestsByProject(Project projectInput) {
@@ -120,6 +121,7 @@ public class ProgramManagerRole extends Role implements IPendingRole, IPartecipa
         if (project.getTeam().getProgramManagerRequest().contains(pr))
             project.getTeam().getProgramManagerRequest().remove(pr);
         project.getTeam().getProgramManagerRequest().add(pr);
+        project.getTeam().getProjectProposer().notify(pr.getDescription());
         return pr;
     }
 

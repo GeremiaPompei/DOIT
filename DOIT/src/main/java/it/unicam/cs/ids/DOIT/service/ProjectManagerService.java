@@ -64,4 +64,15 @@ public class ProjectManagerService {
         Project project = repositoryHandler.getProjectRepository().findById(projectId).get();
         return user.getRolesHandler(tokenUser).getProjectManagerRole().getProjectState(project);
     }
+
+    public void removeProject(Long iduser, Long tokenuser, Long idnextprojectmanager, Long idproject) {
+        User thisUser = repositoryHandler.getUserRepository().findById(iduser).get();
+        Project project = repositoryHandler.getProjectRepository().findById(idproject).get();
+        User nextprojectmanageruser = repositoryHandler.getUserRepository().findById(idnextprojectmanager).get();
+        thisUser.getRolesHandler(tokenuser).getProjectManagerRole().removeProject(thisUser, nextprojectmanageruser, project);
+        repositoryHandler.getProjectManagerRepository().save(nextprojectmanageruser.rolesHandlerGet().getProjectManagerRole());
+        repositoryHandler.getUserRepository().save(thisUser);
+        repositoryHandler.getUserRepository().save(nextprojectmanageruser);
+        repositoryHandler.getProjectRepository().save(project);
+    }
 }

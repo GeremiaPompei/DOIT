@@ -12,7 +12,10 @@ import it.unicam.cs.ids.DOIT.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class DesignerService {
@@ -48,6 +51,27 @@ public class DesignerService {
     public Set<CVUnit> listCV(Long idUser, Long tokenUser) {
         User user = repositoryHandler.getUserRepository().findById(idUser).get();
         return user.getRolesHandler(tokenUser).getDesignerRole().getCurriculumVitae();
+    }
+
+    public void removeProject(Long iduser, Long tokenuser, Long idproject) {
+        User user = repositoryHandler.getUserRepository().findById(iduser).get();
+        Project project = repositoryHandler.getProjectRepository().findById(idproject).get();
+        user.getRolesHandler(tokenuser).getDesignerRole().removeProject(project);
+        project.getTeam().getProgramManager().notify("Il designer: [" + user.getName() + "] si è eliminato dal team.");
+        repositoryHandler.getUserRepository().save(user);
+    }
+
+    public void insertPregressExperience(Long iduser, Long tokenuser, String pregressExperience, String dateStart, String dateFinish) {
+        LocalDate dateStartLocalDate = LocalDate.parse(dateStart);
+        LocalDate dateFinishLocalDate = LocalDate.parse(dateFinish);
+        User user = repositoryHandler.getUserRepository().findById(iduser).get();
+        user.getRolesHandler(tokenuser).getDesignerRole().insertPregressExperience(pregressExperience, dateStartLocalDate, dateFinishLocalDate);
+        repositoryHandler.getUserRepository().save(user);
+    }
+
+    public List<CVUnit> visualizePregressExperiences(Long iduser, Long tokenuser) {
+        User user = repositoryHandler.getUserRepository().findById(iduser).get();
+        return user.getRolesHandler(tokenuser).getDesignerRole().getCurriculumVitae().stream().collect(Collectors.toList());
     }
 
 }

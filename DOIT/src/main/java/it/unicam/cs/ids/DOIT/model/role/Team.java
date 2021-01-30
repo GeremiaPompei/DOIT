@@ -106,6 +106,13 @@ public class Team {
         this.open = false;
     }
 
+    public void clearInitTeam() {
+        this.projectProposer = null;
+        this.programManagerRequest.forEach(pr -> pr.getPendingRole().notify("Il progetto [" +
+                pr.getProject().getName() + "] è stato eliminato!"));
+        this.programManagerRequest.clear();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -118,4 +125,5 @@ public class Team {
     public int hashCode() {
         return Objects.hash(id);
     }
+
 }

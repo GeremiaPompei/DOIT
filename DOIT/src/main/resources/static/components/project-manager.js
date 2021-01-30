@@ -15,7 +15,8 @@ export default Vue.component('project-manager', {
         return {
             list: [
                 {name: 'Manage project state', path: {path: '/manage-project-state'}},
-                {name: 'Evaluate designers', path: {path: '/evaluate'}}
+                {name: 'Evaluate designers', path: {path: '/evaluate'}},
+                {name: 'Remove project', path: {path: '/remove-project-pjm'}},
             ]
         }
     },

@@ -12,6 +12,7 @@ import it.unicam.cs.ids.DOIT.model.user.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -38,9 +39,9 @@ class ProgramManagerRoleTest {
         b = new ProjectState((long) 1, "SVILUPPO", "Stato di sviluppo.");
         c = new ProjectState((long) 2, "TERMINALE", "Stato terminale.");
         category = new Category("Fisica", "Descrizione");
-        user1 = new User(1L, "Saverio", "Tommasi", "1998", "Male", "saveriotommasi@gmail.com", "password");
-        user2 = new User(2L, "Giacomo", "Pier", "1998", "Male", "giacomopier@gmail.com", "password");
-        user3 = new User(3L, "Daniele", "Baio", "1998", "Male", "danielebaio@gmail.com", "password");
+        user1 = new User(1L, "Saverio", "Tommasi", LocalDate.of(1999,9,9), "Male", "saveriotommasi@gmail.com", "password");
+        user2 = new User(2L, "Giacomo", "Pier", LocalDate.of(1999,9,9), "Male", "giacomopier@gmail.com", "password");
+        user3 = new User(3L, "Daniele", "Baio", LocalDate.of(1999,9,9), "Male", "danielebaio@gmail.com", "password");
         rh1 = user1.getRolesHandler(user1.tokenHandlerGet().getToken());
         rh1.addRole(ProjectProposerRole.TYPE, category);
         rh2 = user2.getRolesHandler(user2.tokenHandlerGet().getToken());
@@ -88,7 +89,7 @@ class ProgramManagerRoleTest {
 
     @Test
     void openRegistrations() {
-        User user4 = new User("Geremia", "Pom", "1998", "Male", "geremiapom@gmail.com", "password");
+        User user4 = new User("Geremia", "Pom", LocalDate.of(1999,9,9), "Male", "geremiapom@gmail.com", "password");
         RolesHandler rh4 = user4.getRolesHandler(user4.tokenHandlerGet().getToken());
         rh4.addRole(DesignerRole.TYPE, category);
         project.getTeam().getDesignerRequest().removeAll(project.getTeam().getDesignerRequest());
@@ -102,7 +103,7 @@ class ProgramManagerRoleTest {
 
     @Test
     void closeRegistrations() {
-        User user4 = new User("Geremia", "Pom", "1998", "Male", "geremiapom@gmail.com", "password");
+        User user4 = new User("Geremia", "Pom", LocalDate.of(1999,9,9), "Male", "geremiapom@gmail.com", "password");
         RolesHandler rh4 = user4.getRolesHandler(user4.tokenHandlerGet().getToken());
         rh4.addRole(DesignerRole.TYPE, category);
         project.getTeam().getDesignerRequest().removeAll(project.getTeam().getDesignerRequest());

@@ -14,6 +14,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -45,7 +46,8 @@ public class UserService {
         User user = findByEmail(email);
         if (user != null)
             throw new IllegalArgumentException("Email gia usata!");
-        repositoryHandler.getUserRepository().save(new User(name, surname, birthDate, sex, email, password));
+        LocalDate date = LocalDate.parse(birthDate);
+        repositoryHandler.getUserRepository().save(new User(name, surname, date, sex, email, password));
     }
 
     public void logOut(Long idUser, Long token) {

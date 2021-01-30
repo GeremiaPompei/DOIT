@@ -71,4 +71,13 @@ public class ProjectProposerRole extends Role implements IPartecipationRequestHa
             throw new IllegalArgumentException("Project non posseduto: [" + project.getId() + "]");
         return project.getTeam().getProgramManagerRequest();
     }
+
+    public void removeProject(Project project) {
+        if(project.getTeam().getProgramManager()!=null)
+            throw new IllegalArgumentException("Il progetto non è eliminabile, in quanto ha già assegnato un program manager" +
+                    "con id ["+ project.getTeam().getProgramManager().getIdUser()+"]");
+        Project myProject = getInnerProject(project);
+        getProjects().remove(myProject);
+        project.clearInitProject();
+    }
 }

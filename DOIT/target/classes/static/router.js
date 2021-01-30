@@ -25,6 +25,9 @@ const routes = [
   {path: '/set-project-manager', component: () => import('./components/set-project-manager.js')},
   {path: '/manage-project-state', component: () => import('./components/manage-project-state.js')},
   {path: '/evaluate', component: () => import('./components/evaluate.js')},
+  {path: '/manage-experience', component: () => import('./components/manage-experience.js')},
+  {path: '/remove-project/:role', component: () => import('./components/remove-project.js')},
+  {path: '/remove-project-pjm', component: () => import('./components/remove-project-pjm.js')},
   {path: '/', redirect: '/login'}
 ];
 

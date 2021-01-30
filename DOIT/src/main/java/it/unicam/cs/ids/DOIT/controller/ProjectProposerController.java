@@ -58,4 +58,17 @@ public class ProjectProposerController {
             return e.getMessage();
         }
     }
+
+    @DeleteMapping(value = "/remove-project")
+    public String removeProject(@RequestParam Long iduser, @RequestParam Long tokenuser,
+                                @RequestParam Long idproject){
+        try {
+            this.projectProposerService.removeProject(iduser, tokenuser, idproject);
+            return "success";
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return e.getMessage();
+        }
+    }
 }

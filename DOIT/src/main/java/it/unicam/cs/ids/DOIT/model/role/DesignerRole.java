@@ -7,6 +7,7 @@ import it.unicam.cs.ids.DOIT.model.project.Project;
 import it.unicam.cs.ids.DOIT.model.user.User;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -28,7 +29,7 @@ public class DesignerRole extends Role implements IPendingRole {
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<Evaluation> evaluations;
     @JoinColumn(name = "ID_CVUnit")
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     private Set<CVUnit> curriculumVitae;
 
     public DesignerRole() {
@@ -82,6 +83,17 @@ public class DesignerRole extends Role implements IPendingRole {
                 projects.add(project);
         }
         return projects;
+    }
+
+    public void removeProject(Project project) {
+        Project myProject = getInnerProject(project);
+        this.getProjects().remove(myProject);
+        project.getTeam().getDesigners().remove(this);
+    }
+
+    public void insertPregressExperience(String pregressExperience, LocalDate dateStart, LocalDate dateFinish) {
+        CVUnit newCVUnit = new CVUnit(dateStart, dateFinish, pregressExperience);
+        curriculumVitae.add(newCVUnit);
     }
 
     public Set<Evaluation> getEvaluations() {

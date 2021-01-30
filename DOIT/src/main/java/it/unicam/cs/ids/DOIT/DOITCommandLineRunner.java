@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+
 @Component
 public class DOITCommandLineRunner implements CommandLineRunner {
     @Autowired
@@ -29,8 +31,9 @@ public class DOITCommandLineRunner implements CommandLineRunner {
         categoryRepository.save(new Category("CUCINA", "Description..."));
 
         //TODO da eliminare
-        userMVC.signIn("nome", "cognome", "eta", "sesso", "email@email.com", "password");
-        User user = userMVC.logIn("email@email.com", "password");
+        userMVC.signIn("nome", "cognome", "1999-09-09", "sesso", "a",
+                "0cc175b9c0f1b6a831c399e269772661");
+        User user = userMVC.logIn("a", "0cc175b9c0f1b6a831c399e269772661");
         userMVC.addRole(user.getId(), user.tokenHandlerGet().getToken(), "project-proposer", "SPORT");
         userMVC.addRole(user.getId(), user.tokenHandlerGet().getToken(), "program-manager", "SPORT");
         userMVC.addRole(user.getId(), user.tokenHandlerGet().getToken(), "designer", "SPORT");

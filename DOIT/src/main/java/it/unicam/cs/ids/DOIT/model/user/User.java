@@ -3,6 +3,8 @@ package it.unicam.cs.ids.DOIT.model.user;
 import it.unicam.cs.ids.DOIT.model.role.*;
 
 import javax.persistence.*;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -14,7 +16,7 @@ public class User {
     private Long id;
     private String name;
     private String surname;
-    private String birthDate;
+    private Date birthDate;
     private String sex;
     private String email;
     private String password;
@@ -25,10 +27,10 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     private TokenHandler tokenHandler;
 
-    public User(String name, String surname, String birthDate, String sex, String email, String password) {
+    public User(String name, String surname, LocalDate birthDate, String sex, String email, String password) {
         this.name = name;
         this.surname = surname;
-        this.birthDate = birthDate;
+        this.birthDate = Date.valueOf(birthDate);
         this.sex = sex;
         this.email = email;
         this.password = password;
@@ -37,11 +39,11 @@ public class User {
     }
 
     // Per Test
-    public User(Long id, String name, String surname, String birthDate, String sex, String email, String password) {
+    public User(Long id, String name, String surname, LocalDate birthDate, String sex, String email, String password) {
         this.id = id;
         this.name = name;
         this.surname = surname;
-        this.birthDate = birthDate;
+        this.birthDate = Date.valueOf(birthDate);
         this.sex = sex;
         this.email = email;
         this.password = password;
@@ -64,8 +66,8 @@ public class User {
         return surname;
     }
 
-    public String getBirthDate() {
-        return birthDate;
+    public LocalDate getBirthDate() {
+        return birthDate.toLocalDate();
     }
 
     public String getSex() {

@@ -6,6 +6,8 @@ import it.unicam.cs.ids.DOIT.model.user.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserTest {
@@ -17,7 +19,7 @@ class UserTest {
     @BeforeEach()
     void init() {
         category = new Category("Fisica", "Descrizione");
-        user1 = new User("Saverio", "Tommasi", "1998", "Male", "saveriotommasi@gmail.com", "password");
+        user1 = new User("Saverio", "Tommasi", LocalDate.of(1999, 9, 9), "Male", "saveriotommasi@gmail.com", "password");
         rh = user1.getRolesHandler(user1.tokenHandlerGet().getToken());
     }
 

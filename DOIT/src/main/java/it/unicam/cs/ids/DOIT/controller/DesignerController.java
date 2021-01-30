@@ -10,6 +10,7 @@ import it.unicam.cs.ids.DOIT.model.role.Evaluation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -62,6 +63,37 @@ public class DesignerController {
             return List.copyOf(this.designerService.listCV(iduser, tokenuser));
         } catch (Exception e) {
             return null;
+        }
+    }
+
+    @DeleteMapping(value = "/remove-project")
+    public String removeProject(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam Long idproject){
+        try{
+            designerService.removeProject(iduser,tokenuser,idproject);
+            return "success";
+        }catch (Exception e){
+            return e.getMessage();
+        }
+    }
+
+    @GetMapping(value = "/visualize-pregress-experiences")
+    public List<CVUnit> visualizePregressExperiences(@RequestParam Long iduser, @RequestParam Long tokenuser){
+        try{
+            return designerService.visualizePregressExperiences(iduser, tokenuser);
+        } catch (Exception e){
+            return null;
+        }
+    }
+
+    @PostMapping(value = "/insert-pregress-experience")
+    public String insertPregressExperience(@RequestParam Long iduser, @RequestParam Long tokenuser,
+                                           @RequestParam String experience, @RequestParam String datestart,
+                                           @RequestParam String datefinish){
+        try{
+            designerService.insertPregressExperience(iduser,tokenuser,experience, datestart, datefinish);
+            return "success";
+        }catch (Exception e){
+            return e.getMessage();
         }
     }
 }

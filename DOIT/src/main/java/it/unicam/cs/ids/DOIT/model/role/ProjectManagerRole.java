@@ -98,4 +98,26 @@ public class ProjectManagerRole extends Role {
         project.getTeam().getProgramManager().notify(notification);
         project.getTeam().getDesigners().forEach(d -> d.notify(notification));
     }
+
+    public void removeProject(User thisUser, User nextprojectmanageruser, Project project) {
+        if (!project.getTeam().getDesigners().contains(nextprojectmanageruser.rolesHandlerGet().getDesignerRole()))
+            throw new IllegalArgumentException("Il progetto non ha il designer passato [" + nextprojectmanageruser.getId() + "] al suo interno");
+        if (!(project.getTeam().getProjectManager().equals(thisUser.rolesHandlerGet().getProjectManagerRole())))
+            throw new IllegalArgumentException("Il project manager del team non corrisponde a quello passato [" + thisUser.getId() + "]");
+        Team team = project.getTeam();
+        this.getProjects().remove(project);
+        DesignerRole newDesigner = thisUser.rolesHandlerGet().getDesignerRole();
+        DesignerRole oldDesigner = nextprojectmanageruser.rolesHandlerGet().getDesignerRole();
+        newDesigner.enterProject(project);
+        team.getDesigners().add(newDesigner);
+        oldDesigner.getProjects().remove(project);
+        team.getDesigners().remove(oldDesigner);
+        Category category = project.getCategory();
+        if (!nextprojectmanageruser.rolesHandlerGet().isProjectManager())
+            nextprojectmanageruser.rolesHandlerGet().addRole(ProjectManagerRole.TYPE, category);
+        ProjectManagerRole newProjectManager = nextprojectmanageruser.rolesHandlerGet().getProjectManagerRole();
+        newProjectManager.enterProject(project);
+        team.setProjectManager(newProjectManager);
+        newProjectManager.notify("Sei stato scelto come project manager da: [" + thisUser.getName() + "]");
+    }
 }

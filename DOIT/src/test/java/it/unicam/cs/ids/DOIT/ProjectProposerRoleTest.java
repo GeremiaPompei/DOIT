@@ -11,6 +11,9 @@ import it.unicam.cs.ids.DOIT.model.role.RolesHandler;
 import it.unicam.cs.ids.DOIT.model.user.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProjectProposerRoleTest {
@@ -30,8 +33,8 @@ class ProjectProposerRoleTest {
         b = new ProjectState((long) 1, "SVILUPPO", "Stato di sviluppo.");
         c = new ProjectState((long) 2, "TERMINALE", "Stato terminale.");
         category = new Category("Fisica", "Descrizione");
-        user1 = new User("Saverio", "Tommasi", "1998", "Male", "saveriotommasi@gmail.com", "password");
-        user2 = new User("Giacomo", "Pier", "1998", "Male", "giacomopier@gmail.com", "password");
+        user1 = new User("Saverio", "Tommasi", LocalDate.of(1999,9,9), "Male", "saveriotommasi@gmail.com", "password");
+        user2 = new User("Giacomo", "Pier", LocalDate.of(1999,9,9), "Male", "giacomopier@gmail.com", "password");
         rh1 = user1.getRolesHandler(user1.tokenHandlerGet().getToken());
         rh1.addRole(ProjectProposerRole.TYPE, category);
         rh2 = user2.getRolesHandler(user2.tokenHandlerGet().getToken());

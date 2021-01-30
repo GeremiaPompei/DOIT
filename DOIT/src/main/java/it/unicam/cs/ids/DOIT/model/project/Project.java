@@ -69,6 +69,12 @@ public class Project {
         return category;
     }
 
+    public void clearInitProject() {
+        this.category = null;
+        this.projectState = null;
+        this.getTeam().clearInitTeam();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

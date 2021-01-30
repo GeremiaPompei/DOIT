@@ -1,8 +1,6 @@
 package it.unicam.cs.ids.DOIT.controller;
 
-import it.unicam.cs.ids.DOIT.model.category.Category;
 import it.unicam.cs.ids.DOIT.service.ProjectManagerService;
-import it.unicam.cs.ids.DOIT.model.project.Project;
 import it.unicam.cs.ids.DOIT.model.project.ProjectState;
 import it.unicam.cs.ids.DOIT.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,6 +78,17 @@ public class ProjectManagerController {
             return this.projectManagerService.visualizeState(iduser, tokenuser, idproject);
         } catch (Exception e) {
             return null;
+        }
+    }
+
+    @DeleteMapping(value = "/remove-project")
+    public String removeProject(@RequestParam Long iduser, @RequestParam Long tokenuser,
+                                @RequestParam Long idnextprojectmanager, Long idproject){
+        try{
+            projectManagerService.removeProject(iduser, tokenuser, idnextprojectmanager, idproject);
+            return "success";
+        }catch (Exception e){
+            return e.getMessage();
         }
     }
 }

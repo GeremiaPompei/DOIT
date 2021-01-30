@@ -49,4 +49,13 @@ public class ProjectProposerService {
         repositoryHandler.getUserRepository().save(user);
         repositoryHandler.getPartecipationRequestProgramManagerRepository().save(pr);
     }
+
+    public void removeProject(Long iduser, Long tokenuser, Long idproject) {
+        User user =  repositoryHandler.getUserRepository().findById(iduser).get();
+        Project project = repositoryHandler.getProjectRepository().findById(idproject).get();
+        user.getRolesHandler(tokenuser).getProjectProposerRole().removeProject(project);
+        repositoryHandler.getProjectRepository().delete(project);
+        repositoryHandler.getUserRepository().save(user);
+    }
+
 }

@@ -3,11 +3,10 @@ export default Vue.component('list-notifications', {
     <div class='container'>
         <ul>
         <button @click="back()" type="button" class="btn btn-outline-primary">back</button>
-            <li v-for="(notification, index) in notifications" :key="index">
-                <div>
-                    <button>{{notification}}</button>
-                </div>
-            </li>
+            <div v-for="(notification, index) in notifications" :key="index">
+                <p>{{notification.localDateTime}}</p>
+                <h3>{{notification.notification}}</h3>
+            </div>
         </ul>
     </div>
     `,
@@ -18,8 +17,11 @@ export default Vue.component('list-notifications', {
         }
     },
     async created() {
+        this.$emit('load', true);
         var credential = JSON.parse(localStorage.getItem(key));
         this.notifications = await (await fetch('/api/user/list-notifications?iduser='+credential.id+'&tokenuser='+credential.token+'&idrole='+this.role)).json();
+        var res = await (await fetch('/api/user/remove-notifications?iduser='+credential.id+'&tokenuser='+credential.token+'&idrole='+this.role, {method: "DELETE"})).text();
+        this.$emit('load', false);
     },
     methods: {
         back() {

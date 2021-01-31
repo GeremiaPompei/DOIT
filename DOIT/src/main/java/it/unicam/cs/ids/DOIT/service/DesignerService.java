@@ -1,7 +1,6 @@
 package it.unicam.cs.ids.DOIT.service;
 
 import it.unicam.cs.ids.DOIT.model.category.Category;
-import it.unicam.cs.ids.DOIT.model.role.ProgramManagerRole;
 import it.unicam.cs.ids.DOIT.repository.*;
 import it.unicam.cs.ids.DOIT.model.partecipation_request.PartecipationRequest;
 import it.unicam.cs.ids.DOIT.model.project.Project;
@@ -57,7 +56,6 @@ public class DesignerService {
         User user = repositoryHandler.getUserRepository().findById(iduser).get();
         Project project = repositoryHandler.getProjectRepository().findById(idproject).get();
         user.getRolesHandler(tokenuser).getDesignerRole().removeProject(project);
-        project.getTeam().getProgramManager().notify("Il designer: [" + user.getName() + "] si è eliminato dal team.");
         repositoryHandler.getUserRepository().save(user);
     }
 

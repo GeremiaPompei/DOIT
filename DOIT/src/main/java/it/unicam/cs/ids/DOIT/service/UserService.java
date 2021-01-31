@@ -109,6 +109,16 @@ public class UserService {
                 .stream().filter(r -> r.getType().equals(idRole)).findAny().get().getCategories();
     }
 
+    public void removeNotifications(Long idUser, Long tokenUser, String idRole) {
+        User user = repositoryHandler.getUserRepository().findById(idUser).get();
+        Role role = user.getRolesHandler(tokenUser).getRoles()
+                .stream().filter(r -> r.getType().equals(idRole)).findAny().get();
+        role.getNotications().forEach(n -> this.repositoryHandler.getNotificationRepository().delete(n));
+        repositoryHandler.getUserRepository().findById(idUser).get().getRolesHandler(tokenUser).getRoles()
+                .stream().filter(r -> r.getType().equals(idRole)).findAny().get().removeNotifications();
+        repositoryHandler.getUserRepository().save(user);
+    }
+
     public List<Notification> listNotifications(Long idUser, Long tokenUser, String idRole) {
         return repositoryHandler.getUserRepository().findById(idUser).get().getRolesHandler(tokenUser).getRoles()
                 .stream().filter(r -> r.getType().equals(idRole)).findAny().get().getNotications();

@@ -164,6 +164,16 @@ public class UserController {
         }
     }
 
+    @DeleteMapping(value = "/remove-notifications")
+    public String removeNotifications(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam String idrole) {
+        try {
+            this.userService.removeNotifications(iduser, tokenuser, idrole);
+            return "success";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
     @GetMapping(value = "/list-notifications")
     public List<Notification> listNotifications(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam String idrole) {
         try {

@@ -72,6 +72,8 @@ public class DesignerRole extends Role implements IPendingRole {
             inputProject.getTeam().getDesignerRequest().remove(pr);
         inputProject.getTeam().getDesignerRequest().add(pr);
         inputProject.getTeam().getProgramManager().notify(pr.getDescription());
+        inputProject.getTeam().getProgramManager().notify("Qualcuno vuole partecipare al progetto: [" +
+                inputProject.getName() + "]");
         return pr;
     }
 
@@ -89,6 +91,7 @@ public class DesignerRole extends Role implements IPendingRole {
         Project myProject = getInnerProject(project);
         this.getProjects().remove(myProject);
         project.getTeam().getDesigners().remove(this);
+        project.getTeam().getProgramManager().notify("Un designer si è eliminato dal team.");
     }
 
     public void insertPregressExperience(String pregressExperience, LocalDate dateStart, LocalDate dateFinish) {

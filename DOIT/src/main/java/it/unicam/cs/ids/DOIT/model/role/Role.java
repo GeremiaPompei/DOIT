@@ -85,7 +85,7 @@ public abstract class Role implements ISubscriber {
     }
 
     public void removeNotifications() {
-        this.notications.removeIf(s -> true);
+        this.notications.removeAll(this.notications);
     }
 
     public List<Notification> getNotications() {

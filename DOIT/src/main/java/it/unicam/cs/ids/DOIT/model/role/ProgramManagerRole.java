@@ -121,7 +121,8 @@ public class ProgramManagerRole extends Role implements IPendingRole, IPartecipa
         if (project.getTeam().getProgramManagerRequest().contains(pr))
             project.getTeam().getProgramManagerRequest().remove(pr);
         project.getTeam().getProgramManagerRequest().add(pr);
-        project.getTeam().getProjectProposer().notify(pr.getDescription());
+        project.getTeam().getProjectProposer().notify("Qualcuno vuole partecipare al progetto: [" +
+                project.getName() + "]");
         return pr;
     }
 

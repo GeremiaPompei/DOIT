@@ -11,19 +11,19 @@ public class Notification {
     @Column(name = "ID_Role")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String notificate;
+    private String notification;
     private Timestamp localDateTime;
 
     public Notification() {
     }
 
-    public Notification(String notificate) {
-        this.notificate = notificate;
+    public Notification(String notification) {
+        this.notification = notification;
         localDateTime = Timestamp.valueOf(LocalDateTime.now());
     }
 
-    public String getNotificate() {
-        return notificate;
+    public String getNotification() {
+        return notification;
     }
 
     public LocalDateTime getLocalDateTime() {

@@ -49,9 +49,6 @@ public class Team {
     }
 
     public Team() {
-        this.designers = new HashSet<>();
-        this.designerRequest = new HashSet<>();
-        this.programManagerRequest = new HashSet<>();
     }
 
     public boolean isOpen() {

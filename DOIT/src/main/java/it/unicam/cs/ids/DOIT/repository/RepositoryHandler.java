@@ -8,6 +8,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class RepositoryHandler {
 
+    private static RepositoryHandler repositoryHandler;
+
+    public static RepositoryHandler getInstance() {
+        if (repositoryHandler == null)
+            repositoryHandler = new RepositoryHandler();
+        return repositoryHandler;
+    }
+
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -24,6 +32,8 @@ public class RepositoryHandler {
     private ProjectManagerRepository projectManagerRepository;
     @Autowired
     private EvaluationRepository evaluationRepository;
+    @Autowired
+    private NotificationRepository notificationRepository;
 
     public UserRepository getUserRepository() {
         return userRepository;
@@ -55,5 +65,9 @@ public class RepositoryHandler {
 
     public EvaluationRepository getEvaluationRepository() {
         return evaluationRepository;
+    }
+
+    public NotificationRepository getNotificationRepository() {
+        return notificationRepository;
     }
 }

@@ -18,6 +18,7 @@ export default Vue.component('program-manager', {
                 {name: 'Manage partecipation request designers', path: {path: '/manage-pr/program-manager'}},
                 {name: 'Manage team registrations', path: {path: '/team-rec'}},
                 {name: 'Set project manager', path: {path: '/set-project-manager'}},
+                {name: 'List my partecipation rquest', path: {path: '/list-my-pr/program-manager'}},
             ]
         }
     },

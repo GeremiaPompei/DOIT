@@ -96,4 +96,14 @@ public class DesignerController {
             return e.getMessage();
         }
     }
+
+    @DeleteMapping(value = "/remove-my-pr")
+    public String removePR(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam Long idpr) {
+        try {
+            this.designerService.removePR(iduser, tokenuser, idpr);
+            return "success";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
 }

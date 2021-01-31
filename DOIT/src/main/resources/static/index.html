@@ -30,11 +30,11 @@
                 aria-controls="navbarColor01" :aria-expanded="menu" aria-label="Toggle navigation" @click="toggleMenu">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="navbar-collapse collapse" :class="{'show': menu}" id="navbarColor01">
+            <div class="navbar-collapse collapse" :class="{'show': menu}" id="navbarColor01" @click="choosen">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
                         <router-link class="nav-link" to="/cerca">
-                            SEARCH
+                            search
                         </router-link>
                     </li>
                     <li class="nav-item" v-show="user" v-for="(role, index) in roles" v-show="role" :key="index">

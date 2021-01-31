@@ -47,6 +47,16 @@ public class ProgramManagerController {
         }
     }
 
+    @DeleteMapping(value = "/remove-my-pr")
+    public String removePR(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam Long idpr) {
+        try {
+            this.programManagerService.removePR(iduser, tokenuser, idpr);
+            return "success";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
     @PutMapping(value = "/open-registrations")
     public String openRegistrations(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam Long idproject) {
         try {

@@ -7,10 +7,12 @@ import it.unicam.cs.ids.DOIT.model.project.Project;
 import java.util.Iterator;
 import java.util.Set;
 
-public interface IPendingRole extends ISubscriber {
-    <T extends IPendingRole> PartecipationRequest<T> createPartecipationRequest(Project project);
+public interface IPendingRole <T extends IPendingRole>  extends ISubscriber {
+    PartecipationRequest<T> createPartecipationRequest(Project project);
 
-    <T extends IPendingRole> Set<PartecipationRequest<T>> getMyPartecipationRequests();
+    Set<PartecipationRequest<T>> getMyPartecipationRequests();
+
+    void removeMyPr(PartecipationRequest<T> pr);
 
     Set<Project> getProjectsByCategory(Iterator<Project> iterator, Category category);
 }

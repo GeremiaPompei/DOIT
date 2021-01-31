@@ -106,4 +106,14 @@ public class ProgramManagerService {
         repositoryHandler.getUserRepository().save(user);
         repositoryHandler.getUserRepository().save(userD);
     }
+
+    public void removePR(Long idUser, Long tokenUser, Long idPr) {
+        User user = repositoryHandler.getUserRepository().findById(idUser).get();
+        PartecipationRequest<ProgramManagerRole> pr = repositoryHandler.getPartecipationRequestProgramManagerRepository()
+                .findById(idPr).get();
+        user.getRolesHandler(tokenUser).getProgramManagerRole().removeMyPr(pr);
+        repositoryHandler.getPartecipationRequestProgramManagerRepository().delete(pr);
+        repositoryHandler.getProjectRepository().save(pr.getProject());
+        repositoryHandler.getUserRepository().save(user);
+    }
 }

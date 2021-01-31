@@ -17,6 +17,7 @@ export default Vue.component('designer', {
                 {name: 'Send partecipation request to program manager', path: {path: '/send-pr/designer'}},
                 {name: 'Manage pregress experience designer', path: {path: '/manage-experience'}},
                 {name: 'Remove project', path: {path: '/remove-project/designer'}},
+                {name: 'List my partecipation rquest', path: {path: '/list-my-pr/designer'}},
             ]
         }
     },

@@ -29,6 +29,7 @@ const routes = [
   {path: '/manage-experience', component: () => import('./components/manage-experience.js')},
   {path: '/remove-project/:role', component: () => import('./components/remove-project.js')},
   {path: '/remove-project-pjm', component: () => import('./components/remove-project-pjm.js')},
+  {path: '/list-my-pr/:role', component: () => import('./components/list-my-pr.js')},
   {path: '/', redirect: '/home'}
 ];
 
@@ -66,7 +67,10 @@ const app = new Vue({
       this.init();
     },
     toggleMenu() {
-      this.menu=!this.menu;
+      this.menu = !this.menu;
+    },
+    choosen() {
+      this.menu = false;
     }
   }
 }).$mount('#app');

@@ -13,7 +13,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
-public class ProgramManagerRole extends Role implements IPendingRole, IPartecipationRequestHandler<DesignerRole> {
+public class ProgramManagerRole extends Role implements IPendingRole<ProgramManagerRole>, IPartecipationRequestHandler<DesignerRole> {
 
     public final static String TYPE = "program-manager";
 
@@ -124,6 +124,12 @@ public class ProgramManagerRole extends Role implements IPendingRole, IPartecipa
         project.getTeam().getProjectProposer().notify("Qualcuno vuole partecipare al progetto: [" +
                 project.getName() + "]");
         return pr;
+    }
+
+    @Override
+    public void removeMyPr(PartecipationRequest<ProgramManagerRole> pr) {
+        this.myPartecipationRequests.remove(pr);
+        pr.getProject().getTeam().getProgramManagerRequest().remove(pr);
     }
 
     public Set<Project> getProjectsByCategory(Iterator<Project> iterator, Category category) {

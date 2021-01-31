@@ -40,7 +40,8 @@ export default Vue.component('role', {
             var res = await (await fetch('/api/user/remove-role?iduser='+credential.id+'&tokenuser='+credential.token+'&idrole='+this.role, {method: "DELETE"})).text();
             this.$emit('load',false);
             alert(res);
-            this.$router.replace({path: '/user-main'});
+            if(res=="success")
+                this.$router.replace({path: '/user-main'});
         }
     }
 });

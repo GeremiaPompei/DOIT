@@ -72,4 +72,14 @@ public class DesignerService {
         return user.getRolesHandler(tokenuser).getDesignerRole().getCurriculumVitae().stream().collect(Collectors.toList());
     }
 
+    public void removePR(Long idUser, Long tokenUser, Long idPr) {
+        User user = repositoryHandler.getUserRepository().findById(idUser).get();
+        PartecipationRequest<DesignerRole> pr = repositoryHandler.getPartecipationRequestDesignerRepository()
+                .findById(idPr).get();
+        user.getRolesHandler(tokenUser).getDesignerRole().removeMyPr(pr);
+        repositoryHandler.getPartecipationRequestDesignerRepository().delete(pr);
+        repositoryHandler.getProjectRepository().save(pr.getProject());
+        repositoryHandler.getUserRepository().save(user);
+    }
+
 }

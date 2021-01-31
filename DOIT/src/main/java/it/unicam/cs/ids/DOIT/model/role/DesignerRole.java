@@ -12,7 +12,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
-public class DesignerRole extends Role implements IPendingRole {
+public class DesignerRole extends Role implements IPendingRole<DesignerRole> {
 
     public final static String TYPE = "designer";
 
@@ -49,6 +49,11 @@ public class DesignerRole extends Role implements IPendingRole {
 
     public Set<PartecipationRequest<DesignerRole>> getMyPartecipationRequests() {
         return myPartecipationRequests;
+    }
+
+    public void removeMyPr(PartecipationRequest<DesignerRole> pr) {
+        this.myPartecipationRequests.remove(pr);
+        pr.getProject().getTeam().getDesignerRequest().remove(pr);
     }
 
     public PartecipationRequest<DesignerRole> createPartecipationRequest(Project inputProject) {

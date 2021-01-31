@@ -1,6 +1,6 @@
 export default Vue.component('signin', {
     template: `
-    <div class='container'>
+    <div>
         <form @submit.prevent="signin">
             <input type="text" v-model="name" placeholder="Name">
             <input type="text" v-model="surname" placeholder="Surname">

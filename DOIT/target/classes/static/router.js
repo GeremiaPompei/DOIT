@@ -38,7 +38,8 @@ const app = new Vue({
     return {
       user: {},
       roles: [],
-      loading: false
+      loading: false,
+      menu: false
     }
   },
   created() {
@@ -63,6 +64,9 @@ const app = new Vue({
     load(val) {
       this.loading = val;
       this.init();
+    },
+    toggleMenu() {
+      this.menu=!this.menu;
     }
   }
 }).$mount('#app');

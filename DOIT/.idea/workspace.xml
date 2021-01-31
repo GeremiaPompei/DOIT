@@ -5,19 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="105c9ce0-a212-48e3-8c58-7af54d403e37" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/components/home.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/router.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/unicam/cs/ids/DOIT/DesignerRoleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/unicam/cs/ids/DOIT/DesignerRoleTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/unicam/cs/ids/DOIT/ProjectManagerRoleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/unicam/cs/ids/DOIT/ProjectManagerRoleTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/unicam/cs/ids/DOIT/ProjectProposerRoleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/unicam/cs/ids/DOIT/ProjectProposerRoleTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/it/unicam/cs/ids/DOIT/repository/RepositoryHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/it/unicam/cs/ids/DOIT/repository/RepositoryHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/router.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/it/unicam/cs/ids/DOIT/DesignerRoleTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/it/unicam/cs/ids/DOIT/DesignerRoleTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/it/unicam/cs/ids/DOIT/ProjectManagerRoleTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/it/unicam/cs/ids/DOIT/ProjectManagerRoleTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/it/unicam/cs/ids/DOIT/ProjectProposerRoleTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/it/unicam/cs/ids/DOIT/ProjectProposerRoleTest.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

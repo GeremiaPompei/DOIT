@@ -36,9 +36,9 @@ export default Vue.component('remove-project-pjm', {
             var credential = JSON.parse(localStorage.getItem(key));
             var res = await (await fetch('/api/project-manager/remove-project?iduser='+credential.id+'&tokenuser='+credential.token+'&idnextprojectmanager='+index+
                 '&idproject='+this.projects[this.indexProject].id, {method: 'DELETE'})).text();
+            await this.init();
             this.$emit('load',false);
-            alert(res);
-            this.init();
+            this.$emit('push', res);
         },
         back() {
             this.$router.go(-1);

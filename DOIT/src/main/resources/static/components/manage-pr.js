@@ -40,22 +40,22 @@ export default Vue.component('accept-pr', {
             var credential = JSON.parse(localStorage.getItem(key));
             var idPr = this.prs.find(pr => pr.pendingRole.idUser==index).id;
             var res = await (await fetch('/api/'+this.role+'/accept-pr?iduser='+credential.id+'&tokenuser='+credential.token+'&idpr='+idPr, {method: 'PUT'})).text();
-            this.$emit('load',false);
-            alert(res);
-            this.init();
             this.users = [];
             this.prs = [];
+            await this.init();
+            this.$emit('load',false);
+            this.$emit('push', res);
         },
         async removePr(index) {
             this.$emit('load',true);
             var credential = JSON.parse(localStorage.getItem(key));
             var idPr = this.prs.find(pr => pr.pendingRole.idUser==index).id;
             var res = await (await fetch('/api/'+this.role+'/remove-pr?iduser='+credential.id+'&tokenuser='+credential.token+'&idpr='+idPr+'&reason='+this.reason, {method: 'DELETE'})).text();
-            this.$emit('load',false);
-            alert(res);
-            this.init();
             this.users = [];
             this.prs = [];
+            await this.init();
+            this.$emit('load',false);
+            this.$emit('push', res);
         },
         back() {
             this.$router.go(-1);

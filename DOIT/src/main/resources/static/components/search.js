@@ -1,4 +1,4 @@
-export default Vue.component('cerca', {
+export default Vue.component('search', {
     template: `
         <div class='container'>
             <input placeholder="Inserisci parola..." type="text" v-model="input" @input="search()">

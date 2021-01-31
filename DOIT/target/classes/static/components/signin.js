@@ -38,7 +38,7 @@ export default Vue.component('signin', {
                 this.password= '';
                 this.ripetiPassword= '';
                 this.$emit('load',false);
-                alert(res);
+                this.$emit('push', res);
             } else {
                 alert('Le password non coincidono!')
             }

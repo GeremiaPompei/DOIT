@@ -3,7 +3,7 @@ const key = "DOIT-key";
 
 const routes = [
   {path: '/home', component: () => import('./components/home.js')},
-  {path: '/cerca', component: () => import('./components/cerca.js')},
+  {path: '/search', component: () => import('./components/search.js')},
   {path: '/login', component: () => import('./components/login.js')},
   {path: '/signin', component: () => import('./components/signin.js')},
   {path: '/project-proposer', component: () => import('./components/project-proposer.js')},
@@ -40,7 +40,8 @@ const app = new Vue({
       user: {},
       roles: [],
       loading: false,
-      menu: false
+      menu: false,
+      alert: false
     }
   },
   created() {
@@ -61,6 +62,13 @@ const app = new Vue({
           localStorage.removeItem(key);
         }
         }
+    },
+    push(val) {
+      this.alert = val;
+      setTimeout(() => this.alert = false, 3000);
+    },
+    removeAlert() {
+      this.alert = false;
     },
     load(val) {
       this.loading = val;

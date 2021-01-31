@@ -62,14 +62,14 @@ export default Vue.component('user-main', {
         methods: {
             async addRole(index) {
                 if(this.categoryIndex<0) {
-                    alert("Seleziona una categoria!");
+                    this.$emit('push',"Seleziona una categoria!");
                 } else {
                     this.$emit('load',true);
                     var credential = JSON.parse(localStorage.getItem(key));
                     var res = await (await fetch('/api/user/add-role?iduser='+credential.id+'&tokenuser='+credential.token+
                         '&idrole='+this.roles[index]+'&idcategory='+this.categories[this.categoryIndex].name, {method: 'POST'})).text();
                     this.$emit('load',false);
-                    alert(res);
+                    this.$emit('push', res);
                     this.$router.replace({path: '/'+this.roles[index]});
                 }
             },
@@ -81,7 +81,7 @@ export default Vue.component('user-main', {
                 this.roles = [];
                 localStorage.removeItem(key);
                 this.$emit('load',false);
-                alert(res);
+                this.$emit('push', res);
                 this.$router.replace({path: '/login'});
             },
             onChange(event) {
@@ -94,9 +94,9 @@ export default Vue.component('user-main', {
                     var res = await (await fetch('/api/user/send-email?iduser='+credential.id+'&tokenuser='+credential.token+'&message='+this.message, {method: 'POST'})).text();
                     this.$emit('load',false);
                     this.message = '';
-                    alert(res);
+                    this.$emit('push', res);
                 } else {
-                    alert("Inserisci messaggio!");
+                    this.$emit('push', "Inserisci messaggio!");
                 }
             }
         }

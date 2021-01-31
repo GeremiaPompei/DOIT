@@ -25,7 +25,7 @@ export default Vue.component('login', {
                     this.$router.replace({path: '/user-main'});
                 }
             } catch(e) {
-                alert(e);
+                this.$emit('push', e);
             }
             this.email = '';
             this.password = '';

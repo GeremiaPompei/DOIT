@@ -39,9 +39,9 @@ export default Vue.component('evaluate', {
             var credential = JSON.parse(localStorage.getItem(key));
             var res = await (await fetch('/api/project-manager/evaluate?iduser='+credential.id+'&tokenuser='+credential.token+'&iddesigner='+index+
                 '&idproject='+this.projects[this.indexProject].id+'&evaluation='+this.evaluate, {method: 'PUT'})).text();
-            this.$emit('load',false);
-            alert(res);
             this.init();
+            this.$emit('load',false);
+            this.$emit('push', res);
         },
         async exitProject(index) {
             if(this.indexProject<0) {
@@ -50,9 +50,9 @@ export default Vue.component('evaluate', {
                 this.$emit('load',true);
                 var credential = JSON.parse(localStorage.getItem(key));
                 var res = await (await fetch('/api/project-manager/exit-all?iduser='+credential.id+'&tokenuser='+credential.token+'&idproject='+this.projects[this.indexProject].id, {method: 'PUT'})).text();
+                await this.init();
                 this.$emit('load',false);
-                alert(res);
-                this.init();
+                this.$emit('push', res);
             }
             
         },

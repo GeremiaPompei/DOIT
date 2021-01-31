@@ -45,17 +45,17 @@ export default Vue.component('manage-category', {
             this.$emit('load', true);
             var credential = JSON.parse(localStorage.getItem(key));
             var res = await (await fetch('/api/user/add-category-to-role?iduser='+credential.id+'&tokenuser='+credential.token+'&idrole='+this.$route.params.role+'&idcategory='+this.otherCategories[i].name, {method: "PUT"})).text();
-            this.init();
-            this.$emit('load', false);
-            alert(res);
+            await this.init();
+            this.$emit('load',false);
+            this.$emit('push', res);
         },
         async remove(i) {
             this.$emit('load', true);
             var credential = JSON.parse(localStorage.getItem(key));
             var res = await (await fetch('/api/user/remove-category-to-role?iduser='+credential.id+'&tokenuser='+credential.token+'&idrole='+this.$route.params.role+'&idcategory='+this.myCategories[i].name, {method: "DELETE"})).text();
-            this.init();
-            this.$emit('load', false);
-            alert(res);
+            await this.init();
+            this.$emit('load',false);
+            this.$emit('push', res);
         },
         back() {
             this.$router.go(-1);

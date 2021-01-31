@@ -37,9 +37,9 @@ export default Vue.component('send-pr', {
             this.$emit('load',true);
             var credential = JSON.parse(localStorage.getItem(key));
             var res = await (await fetch('/api/'+this.role+'/send-pr?iduser='+credential.id+'&tokenuser='+credential.token+'&idproject='+index, {method: 'POST'})).text();
+            await this.init();
             this.$emit('load',false);
-            alert(res);
-            this.init();
+            this.$emit('push', res);
         },
         back() {
             this.$router.go(-1);

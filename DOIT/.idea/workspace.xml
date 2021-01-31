@@ -5,31 +5,36 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="105c9ce0-a212-48e3-8c58-7af54d403e37" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/components/list-my-pr.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/components/search.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/controller/DesignerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/controller/DesignerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/controller/ProgramManagerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/controller/ProgramManagerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/model/role/DesignerRole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/model/role/DesignerRole.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/model/role/IPendingRole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/model/role/IPendingRole.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/model/role/ProgramManagerRole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/model/role/ProgramManagerRole.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/service/DesignerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/service/DesignerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/service/ProgramManagerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/service/ProgramManagerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/designer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/components/designer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/components/home.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/program-manager.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/components/program-manager.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/cerca.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/create-project.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/components/create-project.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/evaluate.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/components/evaluate.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/list-my-pr.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/components/list-my-pr.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/list-notifications.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/components/list-notifications.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/components/login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/manage-category.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/components/manage-category.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/manage-experience.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/components/manage-experience.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/manage-pr.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/components/manage-pr.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/manage-project-state.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/components/manage-project-state.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/remove-project-pjm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/components/remove-project-pjm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/remove-project.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/components/remove-project.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/role.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/components/role.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/send-pr.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/components/send-pr.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/set-project-manager.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/components/set-project-manager.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/signin.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/components/signin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/team-rec.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/components/team-rec.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/user-main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/components/user-main.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/router.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/it/unicam/cs/ids/DOIT/controller/DesignerController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/it/unicam/cs/ids/DOIT/controller/DesignerController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/it/unicam/cs/ids/DOIT/controller/ProgramManagerController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/it/unicam/cs/ids/DOIT/controller/ProgramManagerController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/it/unicam/cs/ids/DOIT/model/role/DesignerRole.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/it/unicam/cs/ids/DOIT/model/role/DesignerRole.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/it/unicam/cs/ids/DOIT/model/role/IPendingRole.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/it/unicam/cs/ids/DOIT/model/role/IPendingRole.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/it/unicam/cs/ids/DOIT/model/role/ProgramManagerRole.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/it/unicam/cs/ids/DOIT/model/role/ProgramManagerRole.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/it/unicam/cs/ids/DOIT/service/DesignerService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/it/unicam/cs/ids/DOIT/service/DesignerService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/it/unicam/cs/ids/DOIT/service/ProgramManagerService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/it/unicam/cs/ids/DOIT/service/ProgramManagerService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/components/designer.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/components/designer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/components/program-manager.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/components/program-manager.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/components/cerca.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/components/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/components/login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/components/role.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/components/role.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/components/signin.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/components/signin.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/static/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/router.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

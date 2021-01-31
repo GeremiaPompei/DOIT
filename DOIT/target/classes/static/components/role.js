@@ -38,9 +38,11 @@ export default Vue.component('role', {
             this.$emit('load',true);
             var credential = JSON.parse(localStorage.getItem(key));
             var res = await (await fetch('/api/user/remove-role?iduser='+credential.id+'&tokenuser='+credential.token+'&idrole='+this.role, {method: "DELETE"})).text();
+            await this.init();
             this.$emit('load',false);
-            alert(res);
-            this.$router.replace({path: '/user-main'});
+            this.$emit('push', res);
+            if(res=="success")
+                this.$router.replace({path: '/user-main'});
         }
     }
 });

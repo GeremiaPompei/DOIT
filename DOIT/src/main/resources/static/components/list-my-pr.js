@@ -31,7 +31,7 @@ export default Vue.component('list-my-pr', {
             var res = await (await fetch('/api/'+this.role+'/remove-my-pr?iduser='+credential.id+'&tokenuser='+credential.token+'&idpr='+id, {method: "DELETE"})).text();
             await this.init();
             this.$emit('load',false);
-            alert(res);
+            this.$emit('push', res);
         },
         back() {
             this.$router.go(-1);

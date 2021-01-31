@@ -33,16 +33,16 @@ export default Vue.component('manage-project-state', {
             var credential = JSON.parse(localStorage.getItem(key));
             var res = await (await fetch('/api/project-manager/downgrade-state?iduser='+credential.id+'&tokenuser='+credential.token+'&idproject='+id, {method: "PUT"})).text();
             await this.init();
-            this.$emit('load', false);
-            alert(res);
+            this.$emit('load',false);
+            this.$emit('push', res);
         },
         async upgrade(id) {
             this.$emit('load', true);
             var credential = JSON.parse(localStorage.getItem(key));
             var res = await (await fetch('/api/project-manager/upgrade-state?iduser='+credential.id+'&tokenuser='+credential.token+'&idproject='+id, {method: "PUT"})).text();
             await this.init();
-            this.$emit('load', false);
-            alert(res);
+            this.$emit('load',false);
+            this.$emit('push', res);
         },
         go(i) {
             this.$router.push({path: '/project/'+this.projects[i].id});

@@ -35,9 +35,9 @@ export default Vue.component('team-rec', {
                 res = await (await fetch('/api/program-manager/close-registrations?iduser='+credential.id+'&tokenuser='+credential.token+'&idproject='+project.id, {method: 'PUT'})).text();
             else
                 res = await (await fetch('/api/program-manager/open-registrations?iduser='+credential.id+'&tokenuser='+credential.token+'&idproject='+project.id, {method: 'PUT'})).text();
+            await this.init();
             this.$emit('load',false);
-            alert(res);
-            this.init();
+            this.$emit('push', res);
         },
         go(i) {
             this.$router.push({path: '/project/'+this.projects[i].id});

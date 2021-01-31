@@ -15,12 +15,12 @@
     <link rel="manifest" href="manifest.json">
     <script> if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js'); </script>
     <link rel="stylesheet" href="style.css">
-    <!--link rel="stylesheet" href="https://bootswatch.com/4/minty/bootstrap.css"-->
+    <link rel="stylesheet" href="https://bootswatch.com/4/minty/bootstrap.css">
 </head>
 <body>
     <div id='app'>
-        <div v-if="loading" class="progress">
-            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%;"></div>
+        <div v-if="loading" class="container-first-level">
+            <div class="loader"></div>
         </div>
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <router-link class="navbar-brand" to="/home">
@@ -33,7 +33,7 @@
             <div class="navbar-collapse collapse" :class="{'show': menu}" id="navbarColor01" @click="choosen">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <router-link class="nav-link" to="/cerca">
+                        <router-link class="nav-link" to="/search">
                             search
                         </router-link>
                     </li>
@@ -65,7 +65,13 @@
                 </div>
             </div>
         </nav>
-        <router-view @load="load"></router-view>
+        <div v-show="alert" class="alert">
+            <div class="alert alert-dismissible alert-danger">
+                <button type="button" class="close" data-dismiss="alert" @click="removeAlert()">&times;</button>
+                {{alert}}
+            </div>
+        </div>
+        <router-view @load="load" @push="push"></router-view>
     </div>
     <script src="router.js"></script>
 </body>

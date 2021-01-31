@@ -34,8 +34,8 @@ export default Vue.component('remove-project', {
             var credential = JSON.parse(localStorage.getItem(key));
             var res = await (await fetch('/api/'+this.role+'/remove-project?iduser='+credential.id+'&tokenuser='+credential.token+'&idproject='+id, {method: "DELETE"})).text();
             await this.init();
-            this.$emit('load', false);
-            alert(res);
+            this.$emit('load',false);
+            this.$emit('push', res);
         },
         back() {
             this.$router.go(-1);

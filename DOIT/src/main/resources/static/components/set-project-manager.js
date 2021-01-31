@@ -39,9 +39,9 @@ export default Vue.component('set-project-manager', {
             var res = await (await fetch('/api/program-manager/set-project-manager?iduser='+credential.id+'&tokenuser='+credential.token+'&iddesigner='+index+'&idproject='+this.projects[this.indexProject].id, 
                 {method: 'PUT'})).text();
             this.$emit('load',false);
-            alert(res);
-            this.init();
-            this.users = [];
+            await this.init();
+            this.$emit('load',false);
+            this.$emit('push', res);
         },
         back() {
             this.$router.go(-1);

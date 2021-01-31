@@ -21,7 +21,8 @@ export default Vue.component('list-notifications', {
         var credential = JSON.parse(localStorage.getItem(key));
         this.notifications = await (await fetch('/api/user/list-notifications?iduser='+credential.id+'&tokenuser='+credential.token+'&idrole='+this.role)).json();
         var res = await (await fetch('/api/user/remove-notifications?iduser='+credential.id+'&tokenuser='+credential.token+'&idrole='+this.role, {method: "DELETE"})).text();
-        this.$emit('load', false);
+        this.$emit('load',false);
+        this.$emit('push', res);
     },
     methods: {
         back() {

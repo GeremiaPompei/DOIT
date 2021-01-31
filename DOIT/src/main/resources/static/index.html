@@ -23,12 +23,18 @@
             <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%;"></div>
         </div>
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-            <a class="navbar-brand">DOIT</a>
-            <div>
-              <ul class="navbar-nav mr-auto">
+            <router-link class="navbar-brand" to="/home">
+                DOIT
+            </router-link>
+            <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarColor01"
+                aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse" id="navbarColor01">
+                <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
                         <router-link class="nav-link" to="/cerca">
-                            cerca
+                            SEARCH
                         </router-link>
                     </li>
                     <li class="nav-item" v-show="user" v-for="(role, index) in roles" v-show="role" :key="index">
@@ -41,17 +47,22 @@
                             user
                         </router-link>
                     </li>
-                    <li class="nav-item">
-                        <router-link class="nav-link" v-show="!user" to="/login">
-                            login
-                        </router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link class="nav-link" v-show="!user" to="/signin">
-                            signin
-                        </router-link>
-                    </li>
+
                 </ul>
+                <div class="form-inline my-2 my-lg-0" id="navbarColor01">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <router-link class="nav-link" v-show="!user" to="/login">
+                                login
+                            </router-link>
+                        </li>
+                        <li class="nav-item">
+                            <router-link class="btn btn-secondary my-2 my-sm-0" v-show="!user" to="/signin">
+                                GET STARTED
+                            </router-link>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </nav>
         <router-view @load="load"></router-view>

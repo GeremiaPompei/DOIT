@@ -125,4 +125,15 @@ class ProjectManagerRoleTest {
         rh3.getProjectManagerRole().upgradeState(states.iterator(), project);
         assertEquals(rh3.getProjectManagerRole().getProjectState(project).getId(), 1);
     }
+
+    @Test
+    void  removeProject(){
+        rh3.getProjectManagerRole().removeProject(user3, user4,project);
+        assertTrue(rh3.getDesignerRole().getProjects().contains(project));
+        assertFalse(rh3.getProjectManagerRole().getProjects().contains(project));
+        assertTrue(rh4.getProjectManagerRole().getProjects().contains(project));
+        assertFalse(rh4.getDesignerRole().getProjects().contains(project));
+        assertNotEquals(rh3.getProjectManagerRole(), project.getTeam().getProjectManager());
+        assertEquals(rh4.getProjectManagerRole(), project.getTeam().getProjectManager());
+    }
 }

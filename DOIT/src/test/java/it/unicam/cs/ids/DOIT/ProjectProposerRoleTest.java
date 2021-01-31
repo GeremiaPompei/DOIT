@@ -84,4 +84,23 @@ class ProjectProposerRoleTest {
         PartecipationRequest<ProgramManagerRole> pr = rh2.getProgramManagerRole().getMyPartecipationRequests().stream().findFirst().orElse(null);
         assertEquals(pr, rh1.getProjectProposerRole().getPartecipationRequestsByProject(project).stream().findFirst().orElse(null));
     }
+
+    @Test
+    void removeProject(){
+        rh1.getProjectProposerRole().createProject("esperimento sulla relatività "," studio sperimentale del fenomeno",category,a);
+        Project project = rh1.getProjectProposerRole().getProjects().stream().findFirst().orElse(null);
+        rh2.getProgramManagerRole().createPartecipationRequest(project);
+        PartecipationRequest<ProgramManagerRole> pr = project.getTeam().getProgramManagerRequest().stream().findFirst().orElse(null);
+        rh1.getProjectProposerRole().removeProject(project);
+        assertFalse(project.getTeam().getProgramManagerRequest().contains(pr));
+        assertFalse(rh1.getProjectProposerRole().getProjects().contains(project));
+        rh1.getProjectProposerRole().createProject("esperimento sulla forza di gravità"," studio sperimentale del fenomeno",category,a);
+        Project project2 = rh1.getProjectProposerRole().getProjects().stream().findFirst().orElse(null);
+        rh2.getProgramManagerRole().createPartecipationRequest(project2);
+        PartecipationRequest<ProgramManagerRole> pr1 = project2.getTeam().getProgramManagerRequest().stream().findFirst().orElse(null);
+        rh1.getProjectProposerRole().acceptPR(pr1);
+        assertThrows(IllegalArgumentException.class,()->{
+            rh1.getProjectProposerRole().removeProject(project2);
+        });
+    }
 }

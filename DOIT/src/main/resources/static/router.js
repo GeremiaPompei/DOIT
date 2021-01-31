@@ -2,6 +2,7 @@ import('./components/role.js');
 const key = "DOIT-key";
 
 const routes = [
+  {path: '/home', component: () => import('./components/home.js')},
   {path: '/cerca', component: () => import('./components/cerca.js')},
   {path: '/login', component: () => import('./components/login.js')},
   {path: '/signin', component: () => import('./components/signin.js')},
@@ -28,7 +29,7 @@ const routes = [
   {path: '/manage-experience', component: () => import('./components/manage-experience.js')},
   {path: '/remove-project/:role', component: () => import('./components/remove-project.js')},
   {path: '/remove-project-pjm', component: () => import('./components/remove-project-pjm.js')},
-  {path: '/', redirect: '/login'}
+  {path: '/', redirect: '/home'}
 ];
 
 const app = new Vue({

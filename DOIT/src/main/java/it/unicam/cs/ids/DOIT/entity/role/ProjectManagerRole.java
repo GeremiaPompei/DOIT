@@ -34,7 +34,7 @@ public class ProjectManagerRole extends Role {
     public void upgradeState(Iterator<ProjectState> iterator, Project project) {
         ProjectState ps = findProjectState(iterator, project.getProjectState().getId() + 1);
         if (ps == null)
-            throw new IllegalArgumentException("Stato progetto terminale, non si può procedere oltre!");
+            throw new IllegalArgumentException("This is the last state of the project!");
         project.setProjectState(ps);
         ProjectState nextps = findProjectState(iterator, project.getProjectState().getId() + 1);
         if (nextps == null)
@@ -45,7 +45,7 @@ public class ProjectManagerRole extends Role {
     public void downgradeState(Iterator<ProjectState> iterator, Project project) {
         ProjectState ps = findProjectState(iterator, project.getProjectState().getId() - 1);
         if (ps == null)
-            throw new IllegalArgumentException("Stato progetto iniziale, non si può procedere oltre!");
+            throw new IllegalArgumentException("This is the first state of the project!");
         project.setProjectState(ps);
         notifyAll("Downgrade state: [" + ps.getName() + "] of project: [" + project.getName() + "]", project);
     }
@@ -63,7 +63,7 @@ public class ProjectManagerRole extends Role {
         Project project = getInnerProject(projectInput);
         DesignerRole designerFound = getInnerDesignerInTeam(user, project);
         if (evaluation < 0 || evaluation > 5)
-            throw new IllegalArgumentException("La valutazione deve essere compresa tra 0 e 5!");
+            throw new IllegalArgumentException("The evaluation must be between 0 and 5!");
         Evaluation ev = new Evaluation(project.getId(), evaluation);
         designerFound.getEvaluations().add(ev);
         designerFound.notify("Evaluate: [" + evaluation + "] and exit project: [" + project.getName() + "]");
@@ -79,8 +79,8 @@ public class ProjectManagerRole extends Role {
         Project project = getInnerProject(projectInput);
         for (DesignerRole d : project.getTeam().getDesigners())
             if (d.getProjects().contains(project))
-                throw new IllegalArgumentException("Prima di chiudere il progetto finisci di valutare i designer!");
-        notifyAll("Chiusura progetto: [" + project.getName() + "]", project);
+                throw new IllegalArgumentException("Before closing the project u must evaluate all the designers!");
+        notifyAll("Clossing project: [" + project.getName() + "]", project);
         project.getTeam().getProgramManagerRequest().removeAll(project.getTeam().getProgramManagerRequest());
         project.getTeam().getDesignerRequest().removeAll(project.getTeam().getDesignerRequest());
         project.getTeam().getProjectProposer().exitProject(project);
@@ -101,9 +101,9 @@ public class ProjectManagerRole extends Role {
 
     public void removeProject(User thisUser, User nextprojectmanageruser, Project project) {
         if (!project.getTeam().getDesigners().contains(nextprojectmanageruser.getRolesHandler().getDesignerRole()))
-            throw new IllegalArgumentException("Il progetto non ha il designer passato [" + nextprojectmanageruser.getId() + "] al suo interno");
+            throw new IllegalArgumentException("This project doesn't have  [" + nextprojectmanageruser.getId() + "]");
         if (!(project.getTeam().getProjectManager().equals(thisUser.getRolesHandler().getProjectManagerRole())))
-            throw new IllegalArgumentException("Il project manager del team non corrisponde a quello passato [" + thisUser.getId() + "]");
+            throw new IllegalArgumentException("The team doesn't have the same project manager[" + thisUser.getId() + "]");
         Team team = project.getTeam();
         this.getProjects().remove(project);
         DesignerRole newDesigner = thisUser.getRolesHandler().getDesignerRole();
@@ -118,6 +118,6 @@ public class ProjectManagerRole extends Role {
         ProjectManagerRole newProjectManager = nextprojectmanageruser.getRolesHandler().getProjectManagerRole();
         newProjectManager.enterProject(project);
         team.setProjectManager(newProjectManager);
-        newProjectManager.notify("Sei stato scelto come project manager da: [" + thisUser.getName() + "]");
+        newProjectManager.notify("You have been chosen as a project manager by: [" + thisUser.getName() + "]");
     }
 }

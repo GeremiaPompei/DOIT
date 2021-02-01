@@ -59,16 +59,16 @@ public class DesignerRole extends Role implements IPendingRole<DesignerRole> {
     public PartecipationRequest<DesignerRole> createPartecipationRequest(Project inputProject) {
         getInnerCategory(inputProject.getCategory());
         if (inputProject.getTeam().getDesignerRequest().stream().map(p -> p.getPendingRole()).collect(Collectors.toSet()).contains(this))
-            throw new IllegalArgumentException("Partecipation request gia presente nel team!");
+            throw new IllegalArgumentException("You already sent a partecipation request to this team");
         if (inputProject.getTeam().getDesigners().contains(this))
-            throw new IllegalArgumentException("Designer gia presente nel team!");
+            throw new IllegalArgumentException("This designer is already in the team");
         if (inputProject.getTeam().getProjectManager() != null &&
                 inputProject.getTeam().getProjectManager().getIdUser().equals(this.id))
-            throw new IllegalArgumentException("Designer gia presente nel team come Project Manager!");
+            throw new IllegalArgumentException("This designer is alrady in the team as a project manager");
         if (!this.getCategories().contains(inputProject.getCategory()))
-            throw new IllegalArgumentException("L'utente non presenta la categoria: [" + inputProject.getCategory() + "]");
+            throw new IllegalArgumentException("This user doesnt have the category: [" + inputProject.getCategory() + "]");
         if (!inputProject.getTeam().isOpen())
-            throw new IllegalArgumentException("Le registrazioni non sono aperte !");
+            throw new IllegalArgumentException("Registrations are still not open!");
         PartecipationRequest<DesignerRole> pr = new PartecipationRequest(this, inputProject);
         if (this.myPartecipationRequests.contains(pr))
             this.myPartecipationRequests.remove(pr);
@@ -77,7 +77,7 @@ public class DesignerRole extends Role implements IPendingRole<DesignerRole> {
             inputProject.getTeam().getDesignerRequest().remove(pr);
         inputProject.getTeam().getDesignerRequest().add(pr);
         inputProject.getTeam().getProgramManager().notify(pr.getDescription());
-        inputProject.getTeam().getProgramManager().notify("Qualcuno vuole partecipare al progetto: [" +
+        inputProject.getTeam().getProgramManager().notify("Someone sent a partecipation request: [" +
                 inputProject.getName() + "]");
         return pr;
     }
@@ -100,14 +100,14 @@ public class DesignerRole extends Role implements IPendingRole<DesignerRole> {
         Project myProject = getInnerProject(project);
         this.getProjects().remove(myProject);
         project.getTeam().getDesigners().remove(this);
-        project.getTeam().getProgramManager().notify("Un designer si è eliminato dal team.");
+        project.getTeam().getProgramManager().notify("A designer left the team");
     }
 
     public void insertPregressExperience(String pregressExperience, LocalDate dateStart, LocalDate dateFinish) {
         if (pregressExperience == "")
-            throw new IllegalArgumentException("Immettere un'esperienza pregressa!");
+            throw new IllegalArgumentException("Insert previous experience!");
         if (dateStart.isAfter(dateFinish))
-            throw new IllegalArgumentException("La data di fine è precedente a quella di inizio!");
+            throw new IllegalArgumentException("The end date can't be before the start date!");
         CVUnit newCVUnit = new CVUnit(dateStart, dateFinish, pregressExperience);
         curriculumVitae.add(newCVUnit);
     }

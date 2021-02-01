@@ -80,7 +80,7 @@ public class User {
 
     public void checkPassword(String password) {
         if (!this.password.equals(password))
-            throw new NullPointerException("Password errata!");
+            throw new NullPointerException("Wrong password!");
     }
 
     public TokenHandler tokenHandlerGet() {

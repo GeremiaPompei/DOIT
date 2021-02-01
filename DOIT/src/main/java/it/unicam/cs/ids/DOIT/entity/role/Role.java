@@ -74,9 +74,9 @@ public abstract class Role implements ISubscriber {
 
     public void removeCategory(Category category) {
         if (this.categories.size() == 1)
-            throw new IllegalArgumentException("Non si puo eliminare una categoria quando ne rimane solo una!");
+            throw new IllegalArgumentException("Can't remove a category if you only have one!");
         if (this.projects.stream().filter(p -> p.getCategory().equals(category)).findAny().orElse(null) != null)
-            throw new IllegalArgumentException("Non puo essere eliminata una categoria in uso su uno dei progetti appartenenti al ruolo!");
+            throw new IllegalArgumentException("Can't remove a category if you already have a project with that category!");
         this.categories.remove(category);
     }
 
@@ -109,7 +109,7 @@ public abstract class Role implements ISubscriber {
         return this.getCategories().stream()
                 .filter(c -> c.equals(category))
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("L'utente non presenta la categoria!"));
+                .orElseThrow(() -> new IllegalArgumentException("This user doesn't own the category!"));
     }
 
     protected PartecipationRequest<DesignerRole> getInnerDesignerRequest(PartecipationRequest<DesignerRole> prInput) {
@@ -117,11 +117,11 @@ public abstract class Role implements ISubscriber {
                 .filter(p -> p.equals(prInput.getProject()))
                 .map(p -> p.getTeam())
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("Non sei in possesso del progetto!"))
+                .orElseThrow(() -> new IllegalArgumentException("You don't own the project!"))
                 .getDesignerRequest().stream()
                 .filter(t -> t.getPendingRole().equals(prInput.getPendingRole()))
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("Non vi è una request fatta dal ruolo!"));
+                .orElseThrow(() -> new IllegalArgumentException("There is no request by this role!"));
         getInnerCategory(prInput.getProject().getCategory());
         return pr;
     }
@@ -131,24 +131,24 @@ public abstract class Role implements ISubscriber {
                 .filter(p -> p.equals(prInput.getProject()))
                 .map(p -> p.getTeam())
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("Non sei in possesso del progetto!"))
+                .orElseThrow(() -> new IllegalArgumentException("You don't own the project!"))
                 .getProgramManagerRequest().stream()
                 .filter(t -> t.getPendingRole().equals(prInput.getPendingRole()))
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("Non vi è una request fatta dal ruolo!]"));
+                .orElseThrow(() -> new IllegalArgumentException("There is no request by this role!"));
         getInnerCategory(prInput.getProject().getCategory());
         return pr;
     }
 
     protected Project getInnerProject(Project projectInput) {
         Project project = this.getProjects().stream().filter(t -> t.equals(projectInput)).findAny().orElseThrow(() ->
-                new IllegalArgumentException("Il ruolo non ha il progetto con id: [" + projectInput.getId() + "]"));
+                new IllegalArgumentException("This role doesn't have the project whose id is: [" + projectInput.getId() + "]"));
         getInnerCategory(project.getCategory());
         return project;
     }
 
     protected DesignerRole getInnerDesignerInTeam(User user, Project projectInput) {
         return getInnerProject(projectInput).getTeam().getDesigners().stream().filter(d -> d.getIdUser().equals(user.getId())).findAny().orElseThrow(() ->
-                new IllegalArgumentException("Il progetto: [" + projectInput.getId() + "] non possiede l'utente: [" + user.getId() + "]"));
+                new IllegalArgumentException("The project: [" + projectInput.getId() + "] doesn't own the user: [" + user.getId() + "]"));
     }
 }

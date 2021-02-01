@@ -43,7 +43,7 @@ public class ProgramManagerService {
         User user = repositoryHandler.getUserRepository().findById(idUser).get();
         Project project = repositoryHandler.getProjectRepository().findById(idProject).get();
         if (project.getProjectState().getId().equals(repositoryHandler.getProjectStateRepository().count() - 1))
-            throw new IllegalArgumentException("Non può essere aperta la cordata se lo stato è terminale!");
+            throw new IllegalArgumentException("Can't open the registrations if the project is in a terminal state");
         user.getRolesHandler(tokenUser).getProgramManagerRole().openRegistrations(project);
         repositoryHandler.getProjectRepository().save(project);
     }
@@ -100,7 +100,7 @@ public class ProgramManagerService {
         Project project = repositoryHandler.getProjectRepository().findById(idProject).get();
         User userD = repositoryHandler.getUserRepository().findById(idDesigner).get();
         if (project.getTeam().getProjectManager() != null)
-            throw new IllegalArgumentException("Il progetto ha gia un project manager!");
+            throw new IllegalArgumentException("The project already has a project manager!");
         user.getRolesHandler(tokenUser).getProgramManagerRole().setProjectManager(userD, project);
         repositoryHandler.getProjectManagerRepository().save(project.getTeam().getProjectManager());
         repositoryHandler.getUserRepository().save(user);

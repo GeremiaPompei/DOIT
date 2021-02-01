@@ -4,7 +4,7 @@ export default Vue.component('login', {
     <div style="margin: 10px; padding: 10%; padding-top: 1%">
         <form @submit.prevent="login">
             <div class="form-group">
-                <input type="text" class="form-control" v-model="email" placeholder="Email">
+                <input type="email" class="form-control" v-model="email" placeholder="Email">
             </div>
             <div class="form-group">
                 <input type="password" class="form-control" v-model="password" placeholder="Password">

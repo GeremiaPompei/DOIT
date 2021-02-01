@@ -1,14 +1,14 @@
 package it.unicam.cs.ids.DOIT;
 
-import it.unicam.cs.ids.DOIT.model.category.Category;
-import it.unicam.cs.ids.DOIT.model.partecipation_request.PartecipationRequest;
-import it.unicam.cs.ids.DOIT.model.project.Project;
-import it.unicam.cs.ids.DOIT.model.project.ProjectState;
-import it.unicam.cs.ids.DOIT.model.role.DesignerRole;
-import it.unicam.cs.ids.DOIT.model.role.ProgramManagerRole;
-import it.unicam.cs.ids.DOIT.model.role.ProjectProposerRole;
-import it.unicam.cs.ids.DOIT.model.role.RolesHandler;
-import it.unicam.cs.ids.DOIT.model.user.User;
+import it.unicam.cs.ids.DOIT.entity.Category;
+import it.unicam.cs.ids.DOIT.entity.PartecipationRequest;
+import it.unicam.cs.ids.DOIT.entity.project.Project;
+import it.unicam.cs.ids.DOIT.entity.project.ProjectState;
+import it.unicam.cs.ids.DOIT.entity.role.DesignerRole;
+import it.unicam.cs.ids.DOIT.entity.role.ProgramManagerRole;
+import it.unicam.cs.ids.DOIT.entity.role.ProjectProposerRole;
+import it.unicam.cs.ids.DOIT.entity.role.RolesHandler;
+import it.unicam.cs.ids.DOIT.entity.user.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,8 +1,8 @@
 package it.unicam.cs.ids.DOIT;
 
-import it.unicam.cs.ids.DOIT.model.category.Category;
-import it.unicam.cs.ids.DOIT.model.role.*;
-import it.unicam.cs.ids.DOIT.model.user.User;
+import it.unicam.cs.ids.DOIT.entity.Category;
+import it.unicam.cs.ids.DOIT.entity.role.*;
+import it.unicam.cs.ids.DOIT.entity.user.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

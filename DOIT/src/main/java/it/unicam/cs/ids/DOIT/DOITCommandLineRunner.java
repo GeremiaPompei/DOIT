@@ -1,16 +1,14 @@
 package it.unicam.cs.ids.DOIT;
 
-import it.unicam.cs.ids.DOIT.model.category.Category;
-import it.unicam.cs.ids.DOIT.model.user.User;
-import it.unicam.cs.ids.DOIT.service.UserService;
-import it.unicam.cs.ids.DOIT.model.project.ProjectState;
+import it.unicam.cs.ids.DOIT.entity.Category;
+import it.unicam.cs.ids.DOIT.entity.user.User;
+import it.unicam.cs.ids.DOIT.user.UserService;
+import it.unicam.cs.ids.DOIT.entity.project.ProjectState;
 import it.unicam.cs.ids.DOIT.repository.CategoryRepository;
 import it.unicam.cs.ids.DOIT.repository.ProjectStateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDate;
 
 @Component
 public class DOITCommandLineRunner implements CommandLineRunner {

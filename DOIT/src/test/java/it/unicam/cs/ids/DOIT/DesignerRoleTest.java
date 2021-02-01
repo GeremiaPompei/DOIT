@@ -1,18 +1,17 @@
 package it.unicam.cs.ids.DOIT;
 
-import it.unicam.cs.ids.DOIT.model.category.Category;
-import it.unicam.cs.ids.DOIT.model.partecipation_request.PartecipationRequest;
-import it.unicam.cs.ids.DOIT.model.project.Project;
-import it.unicam.cs.ids.DOIT.model.project.ProjectState;
-import it.unicam.cs.ids.DOIT.model.role.*;
-import it.unicam.cs.ids.DOIT.model.user.User;
+import it.unicam.cs.ids.DOIT.entity.Category;
+import it.unicam.cs.ids.DOIT.entity.PartecipationRequest;
+import it.unicam.cs.ids.DOIT.entity.project.Project;
+import it.unicam.cs.ids.DOIT.entity.project.ProjectState;
+import it.unicam.cs.ids.DOIT.entity.role.*;
+import it.unicam.cs.ids.DOIT.entity.user.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -90,7 +89,7 @@ class DesignerRoleTest {
 
     @Test
     public void removeProject(){
-        user3.rolesHandlerGet().getDesignerRole().createPartecipationRequest(project);
+        user3.getRolesHandler().getDesignerRole().createPartecipationRequest(project);
         PartecipationRequest<DesignerRole> pr = project.getTeam().getDesignerRequest().stream().findFirst().orElse(null);
         rh2.getProgramManagerRole().acceptPR(pr);
         rh3.getDesignerRole().removeProject(project);

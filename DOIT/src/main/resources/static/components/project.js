@@ -12,16 +12,19 @@ export default Vue.component('project', {
                 <p class="card-text">{{project.description}}</p>
               </div>
               <div class="card-body">
-                <h5 class="card-title">Category</h5>
-                <p class="card-text">{{project.category}}</p>
+                <h5 class="card-title" @click="goCategory(project.category.name)">{{project.category.name}}</h5>
               </div>
               <div class="card-body">
-                <h5 class="card-title">Project state</h5>
-                <p class="card-text">{{project.projectState}}</p>
+                <h5 class="card-title">{{project.projectState.name}}</h5>
+                <p class="card-text">{{project.projectState.description}}</p>
               </div>
               <div class="card-body">
                 <h5 class="card-title">Team</h5>
-                <p class="card-text">{{project.team}}</p>
+                <p class="card-text">{{project.team.open?"open":"close"}}</p>
+                <p class="card-text" @click="goUser(project.team.projectProposer.idUser)">project proposer</p>
+                <p v-show="project.team.programManager" class="card-text" @click="goUser(project.team.programManager.idUser)">program manager</p>
+                <p v-show="project.team.projectManager" class="card-text" @click="goUser(project.team.projectManager.idUser)">project manager</p>
+                <p v-for="(el, index) in project.team.designers" :key="index" class="card-text" @click="goUser(el.idUser)">Designer {{index}}</p>
               </div>
             </div>
         </div>
@@ -37,8 +40,14 @@ export default Vue.component('project', {
             this.$emit('load',false);
         },
         methods: {
-            back() {
-                this.$router.go(-1);
-            }
+          goUser(id) {
+            this.$router.push('/user/'+id);
+          },
+          goCategory(id) {
+            this.$router.push('/category/'+id);
+          },
+          back() {
+              this.$router.go(-1);
+          }
         }
 });

@@ -1,7 +1,7 @@
 package it.unicam.cs.ids.DOIT.repository;
 
-import it.unicam.cs.ids.DOIT.model.role.DesignerRole;
-import it.unicam.cs.ids.DOIT.model.role.ProgramManagerRole;
+import it.unicam.cs.ids.DOIT.entity.role.DesignerRole;
+import it.unicam.cs.ids.DOIT.entity.role.ProgramManagerRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

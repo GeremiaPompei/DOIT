@@ -1,6 +1,6 @@
 package it.unicam.cs.ids.DOIT;
 
-import it.unicam.cs.ids.DOIT.model.user.TokenHandler;
+import it.unicam.cs.ids.DOIT.entity.user.TokenHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

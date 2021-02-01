@@ -2,21 +2,25 @@ export default Vue.component('set-project-manager', {
     template: 
     /*html*/`
     <div class='' style="margin: 10px; padding: 10%; padding-top: 1%">
-    <button @click="back()" type="button" class="bbtn btn-primary btn-lg btn-block" style="padding-bottom: 10px; display: flex; align-items: center; justify-content: center;">back</button>
-        <div class="form-group" style="margin-top: 10px">    
-            <select @change="onChange($event)" class="form-controll">
+        <button @click="back()" type="button" class="bbtn btn-primary btn-lg btn-block" style="padding-bottom: 10px; display: flex; align-items: center; justify-content: center;">back</button>
+        <div class="form-group" style="margin-top: 10px">
+            <select @change="onChange($event)" class="form-control">
                 <option key="-1" value="-1">---</option>
                 <option v-for="(project, index) in projects" :value="index" :key="index">
                     {{project.name}}
                 </option>
             </select>
+        </div>
+        <div v-for="(element, index) in users" :key="index">
+            <div class="card border-primary mb-3" style="margin-top: 10px">
+                <div class="card-header" style="text-align: center">
+                    <button class="btn btn-outline-info" style="width: 100%; margin-bottom: 5px"@click="show(element.id)">{{element.name}}</button>
+                </div>
+                <div class="card-body">
+                    <button type="button" class="btn btn-outline-primary" style="width: 100%; margin-bottom: 10px" @click="setPjm(element.id)">choose</button>
+                </div>
             </div>
-        <ul style="list-style-type: none;">
-            <li v-for="(element, index) in users" :key="index">
-                <button class="btn btn-outline-info" style="width: 100%; @click="show(element.id)">{{element.name}}</button>
-                <button type="button" class="btn btn-outline-primary" style="width: 100%" @click="setPjm(element.id)">accept</button>
-            </li>
-        </ul>
+        </div>    
     </div>
     `,
     data() {

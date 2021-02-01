@@ -1,8 +1,7 @@
 
 package it.unicam.cs.ids.DOIT;
 
-import it.unicam.cs.ids.DOIT.model.project.ProjectState;
-import it.unicam.cs.ids.DOIT.repository.RepositoryHandler;
+import it.unicam.cs.ids.DOIT.entity.project.ProjectState;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

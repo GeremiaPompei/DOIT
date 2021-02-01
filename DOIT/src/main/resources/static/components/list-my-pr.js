@@ -1,12 +1,21 @@
 export default Vue.component('list-my-pr', {
-    template: `
-    <div class='container'>
-        <button @click="back()" type="button" class="btn btn-outline-primary">back</button>
+    template: 
+    /*html*/`
+    <div class='' style="margin: 10px; padding: 10%; padding-top: 1%">
+        <button @click="back()" type="button" class="bbtn btn-primary btn-lg btn-block" style="padding-bottom: 10px; display: flex; align-items: center; justify-content: center;">back</button>
         <div v-for="(element, index) in prs" :key="index">
-            <button @click="show(element.project.id)">{{element.project.name}}</button>
-            <p>{{element.description}}</p>
-            <button @click="remove(element.id)">remove</button>
-        </div>
+            <div class="card border-info mb-3" style="margin-top: 10px">
+                <div class="card-header" style="text-align: center">
+                    <button class="btn btn-outline-info" style="width: 100%; margin-bottom: 5px"@click="show(element.project.id)">{{element.project.name}}</button>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{element.description}}</p>
+                </div>
+                <div class="card-body">
+                    <button class="btn btn-outline-danger" style="width: 100%" @click="remove(element.id)">remove</button>
+                </div>
+            </div>
+        </div>    
     </div>
     `,
     data() {

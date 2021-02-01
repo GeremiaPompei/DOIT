@@ -1,11 +1,16 @@
 export default Vue.component('category', {
-    template: `
-        <div class='container'>
-        <button @click="back()" type="button" class="btn btn-outline-primary">back</button>
-            <p>Name</p>
-            <h3 class="el">{{category.name}}</h3>
-            <p>Description</p>
-            <h3 class="el">{{category.description}}</h3>
+    template: 
+    /*html*/`
+        <div style="margin: 10px; padding: 10%; padding-top: 1%; flex-direction: column; align-items: center; justify-content: center;" >
+            <div>
+                <button @click="back()" type="button" class="bbtn btn-primary btn-lg btn-block" style="display: flex; align-items: center; justify-content: center;">back</button>
+            </div>
+            <div class="card border-info mb-3" style="margin-top: 10px">
+              <div class="card-header" style="text-align: center">{{category.name}}</div>
+              <div class="card-body">
+                <p class="card-text">{{category.description}}</p>
+              </div>
+            </div>
         </div>
         `,
         data() {

@@ -35,13 +35,17 @@ export default Vue.component('manage-experience', {
             this.$emit('load', false);
         },
         async insert() {
-            this.$emit('load', true);
-            var credential = JSON.parse(localStorage.getItem(key));
-            var res = await (await fetch('/api/designer/insert-pregress-experience?iduser='+credential.id+'&tokenuser='+credential.token+'&experience='+this.input
-                +'&datestart='+this.dateStart+'&datefinish='+this.dateStop, {method: "POST"})).text();
+            if(this.input=='')
+                this.$emit('push', 'Filds missed!');
+            else {
+                this.$emit('load', true);
+                var credential = JSON.parse(localStorage.getItem(key));
+                var res = await (await fetch('/api/designer/insert-pregress-experience?iduser='+credential.id+'&tokenuser='+credential.token+'&experience='+this.input
+                    +'&datestart='+this.dateStart+'&datefinish='+this.dateStop, {method: "POST"})).text();
                 await this.init();
                 this.$emit('load',false);
                 this.$emit('push', res);
+            }
         },
         back() {
             this.$router.go(-1);

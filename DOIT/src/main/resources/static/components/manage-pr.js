@@ -1,19 +1,30 @@
 export default Vue.component('accept-pr', {
-    template: `
-    <div class='container'>
-        <button @click="back()" type="button" class="btn btn-outline-primary">back</button>
-        <select @change="onChange($event)">
-            <option key="-1" value="-1">---</option>
-            <option v-for="(project, index) in projects" :value="index" :key="index">
-                {{project.name}}
-            </option>
-        </select>
-        <div v-for="(element, index) in users" :key="index">
-            <button @click="show(element.id)">{{element.name}}</button>
-            <button type="button" class="btn btn-outline-primary" @click="acceptPr(element.id)">accept</button>
-            <input type="text" v-model="reason" placeholder="Reason...">
-            <button type="button" class="btn btn-outline-secondary" @click="removePr(element.id)">remove</button>
+    template: 
+    /*html*/`
+    <div class='' style="margin: 10px; padding: 10%; padding-top: 1%">
+        <button @click="back()" type="button" class="bbtn btn-primary btn-lg btn-block" style="padding-bottom: 10px; display: flex; align-items: center; justify-content: center;">back</button>
+        <div class="form-group" style="margin-top: 10px">
+            <select @change="onChange($event)" class="form-control">
+                <option key="-1" value="-1">---</option>
+                <option v-for="(project, index) in projects" :value="index" :key="index">
+                    {{project.name}}
+                </option>
+            </select>
         </div>
+        <div v-for="(element, index) in users" :key="index">
+            <div class="card border-primary mb-3" style="margin-top: 10px">
+                <div class="card-header" style="text-align: center">
+                    <button class="btn btn-outline-info" style="width: 100%; margin-bottom: 5px"@click="show(element.id)">{{element.name}}</button>
+                </div>
+                <div class="card-body">
+                    <button type="button" class="btn btn-outline-primary" style="width: 100%; margin-bottom: 10px" @click="acceptPr(element.id)">accept</button>
+                </div>
+                <div class="card-body">
+                    <input class="form-control" type="text" v-model="reason" placeholder="Insert the reason why this program manager is not going to be selected">
+                    <button type="button" class="btn btn-outline-danger" style="width: 100%; margin-bottom: 10px" @click="removePr(element.id)">remove</button>
+                </div>
+            </div>
+        </div>    
     </div>
     `,
     data() {
@@ -47,15 +58,19 @@ export default Vue.component('accept-pr', {
             this.$emit('push', res);
         },
         async removePr(index) {
-            this.$emit('load',true);
-            var credential = JSON.parse(localStorage.getItem(key));
-            var idPr = this.prs.find(pr => pr.pendingRole.idUser==index).id;
-            var res = await (await fetch('/api/'+this.role+'/remove-pr?iduser='+credential.id+'&tokenuser='+credential.token+'&idpr='+idPr+'&reason='+this.reason, {method: 'DELETE'})).text();
-            this.users = [];
-            this.prs = [];
-            await this.init();
-            this.$emit('load',false);
-            this.$emit('push', res);
+            if(this.reason=='')
+                this.$emit('push', 'Filds missed!');
+            else {
+                this.$emit('load',true);
+                var credential = JSON.parse(localStorage.getItem(key));
+                var idPr = this.prs.find(pr => pr.pendingRole.idUser==index).id;
+                var res = await (await fetch('/api/'+this.role+'/remove-pr?iduser='+credential.id+'&tokenuser='+credential.token+'&idpr='+idPr+'&reason='+this.reason, {method: 'DELETE'})).text();
+                this.users = [];
+                this.prs = [];
+                await this.init();
+                this.$emit('load',false);
+                this.$emit('push', res);
+            }
         },
         back() {
             this.$router.go(-1);
@@ -64,15 +79,18 @@ export default Vue.component('accept-pr', {
             this.$router.push({path: '/user/'+id});
         },
         async onChange(event) {
-            this.$emit('load',true);
-            var project = this.projects[event.target.value];
-            var credential = JSON.parse(localStorage.getItem(key));
-            this.prs = await (await fetch('/api/'+this.role+'/list-other-pr?iduser='+credential.id+'&tokenuser='+credential.token+'&idproject='+project.id)).json();
-            this.users = [];
-            for(var i in this.prs) {
-                this.users.push(await (await fetch('/api/search/user-by-id?id='+this.prs[i].pendingRole.idUser)).json());
+            var index = event.target.value;
+            if(index>=0) {
+                this.$emit('load',true);
+                var project = this.projects[index];
+                var credential = JSON.parse(localStorage.getItem(key));
+                this.prs = await (await fetch('/api/'+this.role+'/list-other-pr?iduser='+credential.id+'&tokenuser='+credential.token+'&idproject='+project.id)).json();
+                this.users = [];
+                for(var i in this.prs) {
+                    this.users.push(await (await fetch('/api/search/user-by-id?id='+this.prs[i].pendingRole.idUser)).json());
+                }
+                this.$emit('load',false);
             }
-            this.$emit('load',false);
         }
     }
 });

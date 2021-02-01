@@ -1,23 +1,33 @@
 export default Vue.component('manage-category', {
-    template: `
-    <div class='container'>
-    <button @click="back()" type="button" class="btn btn-outline-primary">back</button>
-        <p>My category</p>
-        <ul>
-            <li v-for="(category, index) in myCategories" :key="index">
-                <div @click="remove(index)">
-                    <button>{{category.name}}</button>
-                </div>
-            </li>
-        </ul>
-        <p>Other category</p>
-        <ul>
-            <li v-for="(category, index) in otherCategories" :key="index">
-                <div @click="add(index)">
-                    <button>{{category.name}}</button>
-                </div>
-            </li>
-        </ul>
+    template: 
+    /*html*/`
+    <div class='' style="margin: 10px; padding: 10%; padding-top: 1%; flex-direction: column; align-items: center; justify-content: center;">
+        <button @click="back()" type="button" class="bbtn btn-primary btn-lg btn-block" style="padding-bottom: 10px; display: flex; align-items: center; justify-content: center;">back</button>
+        <div class="card border-primary mb-3" style="margin-top: 10px">
+            <div class="card-header">My categories</div>
+            <div class="card-body">
+                <ul style="list-style-type: none;">
+                    <li v-for="(category, index) in myCategories" :key="index" style="padding-top: 20px">
+                        <div @click="remove(index)">
+                            <button class="btn btn-outline-info" style="width: 100%;">{{category.name}}</button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card border-primary mb-3">
+            <div class="card-header">Other categories</div>
+            <div class="card-body">
+                <ul style="list-style-type: none;">
+                    <li v-for="(category, index) in otherCategories" :key="index" style="padding-top: 10px">
+                        <div @click="add(index)">
+                            <button class="btn btn-outline-info" style="width: 100%;">{{category.name}}</button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
     `,
     data() {

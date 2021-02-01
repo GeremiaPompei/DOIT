@@ -86,7 +86,11 @@ public class DesignerRole extends Role implements IPendingRole<DesignerRole> {
         Set<Project> projects = new HashSet<>();
         while (iterator.hasNext()) {
             Project project = iterator.next();
-            if (project.getCategory().equals(getInnerCategory(category)) && project.getTeam().isOpen())
+            if (project.getCategory().equals(getInnerCategory(category)) && project.getTeam().isOpen() &&
+                    !project.getTeam().getDesignerRequest().stream().map(r -> r.getPendingRole())
+                            .collect(Collectors.toSet()).contains(this) &&
+                    !project.getTeam().getDesigners().contains(this) && (project.getTeam().getProjectManager() == null
+                    || project.getTeam().getProjectManager() != null && !project.getTeam().getProjectManager().getIdUser().equals(this.getIdUser())))
                 projects.add(project);
         }
         return projects;

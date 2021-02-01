@@ -1,17 +1,29 @@
 export default Vue.component('project', {
-    template: `
-        <div class='container'>
-        <button @click="back()" type="button" class="btn btn-outline-primary">back</button>
-            <p>Name</p>
-            <h3 class="el">{{project.name}}</h3>
-            <p>Description</p>
-            <h3 class="el">{{project.description}}</h3>
-            <p>Category</p>
-            <h3 class="el">{{project.category}}</h3>
-            <p>State</p>
-            <h3 class="el">{{project.projectState}}</h3>
-            <p>Team</p>
-            <h3 class="el">{{project.team}}</h3>
+    template: 
+    /*html*/`
+    <div class='' style="margin: 10px; padding: 10%; padding-top: 1%">
+        <div>
+            <button @click="back()" type="button" class="bbtn btn-primary btn-lg btn-block" style="padding-bottom: 10px; display: flex; align-items: center; justify-content: center;">back</button>
+        </div>
+        <div class="card border-info mb-3" style="margin-top: 10px">
+              <div class="card-header" style="text-align: center">{{project.name}}</div>
+              <div class="card-body">
+                <h5 class="card-title">Description</h5>
+                <p class="card-text">{{project.description}}</p>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Category</h5>
+                <p class="card-text">{{project.category}}</p>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Project state</h5>
+                <p class="card-text">{{project.projectState}}</p>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Team</h5>
+                <p class="card-text">{{project.team}}</p>
+              </div>
+            </div>
         </div>
         `,
         data() {

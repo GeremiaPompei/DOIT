@@ -3,6 +3,7 @@ package it.unicam.cs.ids.DOIT.model.role;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 public class Notification {
@@ -26,7 +27,7 @@ public class Notification {
         return notification;
     }
 
-    public LocalDateTime getLocalDateTime() {
-        return localDateTime.toLocalDateTime();
+    public String getLocalDateTime() {
+        return localDateTime.toLocalDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }
 }

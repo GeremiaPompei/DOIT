@@ -136,7 +136,8 @@ public class ProgramManagerRole extends Role implements IPendingRole<ProgramMana
         Set<Project> projects = new HashSet<>();
         while (iterator.hasNext()) {
             Project project = iterator.next();
-            if (project.getCategory().equals(category) && project.getTeam().getProgramManager() == null)
+            if (project.getCategory().equals(category) && project.getTeam().getProgramManager() == null &&
+                    !project.getTeam().getProgramManagerRequest().stream().map(r -> r.getPendingRole()).collect(Collectors.toSet()).contains(this))
                 projects.add(project);
         }
         return projects;

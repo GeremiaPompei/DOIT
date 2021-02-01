@@ -1,18 +1,23 @@
 export default Vue.component('user', {
-    template: `
-        <div class='container'>
-        <button @click="back()" type="button" class="btn btn-outline-primary">back</button>
-            <p>Name</p>
-            <h3 class="el">{{user.name}}</h3>
-            <p>Surname</p>
-            <h3 class="el">{{user.surname}}</h3>
-            <p>Birth date</p>
-            <h3 class="el">{{user.birthDate}}</h3>
-            <p>Sex</p>
-            <h3 class="el">{{user.sex}}</h3>
-            <p>Email</p>
-            <h3 class="el">{{user.email}}</h3>
+    template: 
+    /*html*/`
+    <div style="margin: 10px; padding: 10%; padding-top: 1%; flex-direction: column; align-items: center; justify-content: center;" >
+        <div class='card mb-3'>
+            <h3 class="card-header" style="text-align: center">{{user.name}} {{user.surname}}</h3>
+            <div class="card-body">
+                <h5 class="card-title">Birth Date</h5>
+                <h6 class="card-subtitle text-muted">{{user.birthDate}}</h6>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Sex</h5>
+                <h6 class="card-subtitle text-muted">{{user.sex}}</h6>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Email</h5>
+                <h6 class="card-subtitle text-muted">{{user.email}}</h6>
+            </div>
         </div>
+    </div>
         `,
         data() {
             return {

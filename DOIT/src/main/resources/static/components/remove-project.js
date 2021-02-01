@@ -1,11 +1,12 @@
 export default Vue.component('remove-project', {
-    template: `
-    <div class='container'>
-        <ul>
-        <button @click="back()" type="button" class="btn btn-outline-primary">back</button>
-            <li v-for="(project, index) in projects" :key="index">
-                <button @click="go(index)">{{project.name}}</button>
-                <button @click="remove(project.id)">remove</button>
+    template: 
+    /*html*/`
+    <div class='' style="margin: 10px; padding: 10%; padding-top: 1%">
+        <ul style="list-style-type: none;">
+            <button @click="back()" type="button" class="bbtn btn-primary btn-lg btn-block" style="padding-bottom: 10px; display: flex; align-items: center; justify-content: center;">back</button>
+            <li v-for="(project, index) in projects" :key="index" style="margin-top: 30px">
+                <button class="btn btn-outline-info" style="width: 100%; margin-bottom: 5px" @click="go(index)">{{project.name}}</button>
+                <button class="btn btn-outline-danger" style="width: 100%;" @click="remove(project.id)">remove</button>
             </li>
         </ul>
     </div>

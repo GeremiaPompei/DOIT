@@ -1,39 +1,47 @@
 export default Vue.component('user-main', {
-    template: `
-        <div class='container'>
-            <p>Name</p>
-            <h3 class="el">{{user.name}}</h3>
-            <p>Surname</p>
-            <h3 class="el">{{user.surname}}</h3>
-            <p>Birth date</p>
-            <h3 class="el">{{user.birthDate}}</h3>
-            <p>Sex</p>
-            <h3 class="el">{{user.sex}}</h3>
-            <p>Email</p>
-            <h3 class="el">{{user.email}}</h3>
-            <p>Add roles</p>
-            <div>
-                <select @change="onChange($event)">
-                    <option key="-1" value="-1">---</option>
-                    <option v-for="(category, index) in categories" :value="index" :key="index">
-                        {{category.name}}
-                    </option>
-                </select>
-                <ul>
-                    <li v-for="(role, index) in roles" :key="index" @click="addRole(index)" class="el">
-                        <button>{{role}}</button>
-                    </li>
-                </ul>
+    template: 
+    /*html*/`
+    <div style="margin: 10px; padding: 10%; padding-top: 1%; flex-direction: column; align-items: center; justify-content: center;" >
+        <div class='card mb-3'>
+            <h3 class="card-header" style="text-align: center">{{user.name}} {{user.surname}}</h3>
+            <div class="card-body">
+                <h5 class="card-title">Birth Date</h5>
+                <h6 class="card-subtitle text-muted">{{user.birthDate}}</h6>
             </div>
-            <div>
-                <p>Contact us:</p>
+            <div class="card-body">
+                <h5 class="card-title">Sex</h5>
+                <h6 class="card-subtitle text-muted">{{user.sex}}</h6>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Email</h5>
+                <h6 class="card-subtitle text-muted">{{user.email}}</h6>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Add roles</h5>
+                <div class="form-group">
+                    <select @change="onChange($event)" class="form-control">
+                        <option key="-1" value="-1">---</option>
+                        <option v-for="(category, index) in categories" :value="index" :key="index">
+                            {{category.name}}
+                        </option>
+                    </select>
+                    <ul>
+                        <li v-for="(role, index) in roles" :key="index" @click="addRole(index)" class="el" style="list-style-type: none; padding-top: 15px">
+                            <button class="btn btn-outline-primary" style="width: 100%">{{role}}</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Contact Us</h5>
                 <form @submit.prevent="send()">
-                    <input type="text" placeholder="Inserisci messaggio..." v-model="message"></input>
-                    <input type="submit" value="Send">
+                    <input type="text" placeholder="Inserisci messaggio..." v-model="message" class="form-control"></input>
+                    <input type="submit" value="Send" class="btn btn-outline-primary" style="margin-top: 10px; width: 100%;">
                 </form>
             </div>
-            <button @click="logout">Logout</button>
         </div>
+        <button class="btn btn-outline-primary" style="width: 100%" @click="logout">Logout</button>
+    </div>
         `,
         data() {
             return {
@@ -96,7 +104,7 @@ export default Vue.component('user-main', {
                     this.message = '';
                     this.$emit('push', res);
                 } else {
-                    this.$emit('push', "Inserisci messaggio!");
+                    this.$emit('push', 'Fild missed!');
                 }
             }
         }

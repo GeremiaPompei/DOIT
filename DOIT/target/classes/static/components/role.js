@@ -5,17 +5,20 @@ export default Vue.component('role', {
             required: true
         }
     },
-    template: `
-    <div class='container'>
-        <ul>
-            <li v-for="(el, index) in list" :key="index">
-                <button @click="go(index)">
+    template: 
+    /*html*/`
+    <div class=''>
+        <ul style="list-style-type: none;">
+            <li v-for="(el, index) in list" :key="index" style="padding-top: 10px">
+                <button @click="go(index)" class="btn btn-outline-primary" style="width: 100%">
                     {{el.name}}
                 </button>
+            </li >
+            <li style="padding-top: 10px">
+                <button @click="removeRole()" class="btn btn-outline-primary" style="width: 100%">
+                    Remove role
+                </button>
             </li>
-            <button @click="removeRole()">
-                Remove role
-            </button>
         </ul>
     </div>
     `,
@@ -38,11 +41,10 @@ export default Vue.component('role', {
             this.$emit('load',true);
             var credential = JSON.parse(localStorage.getItem(key));
             var res = await (await fetch('/api/user/remove-role?iduser='+credential.id+'&tokenuser='+credential.token+'&idrole='+this.role, {method: "DELETE"})).text();
-            await this.init();
             this.$emit('load',false);
-            this.$emit('push', res);
             if(res=="success")
                 this.$router.replace({path: '/user-main'});
+            this.$emit('push', res);
         }
     }
 });

@@ -5,7 +5,7 @@
 
 .container-first-level {
     position: fixed;
-    z-index: 1;
+    z-index: 2;
     background-color: #fff;
     display: grid;
     justify-content: center;
@@ -30,6 +30,7 @@
   float: right;
   width: 200px;
 }
+
   
 @keyframes spin {
   0% { transform: rotate(0deg); }

@@ -60,6 +60,7 @@ const app = new Vue({
             }
         }catch(e) {
           localStorage.removeItem(key);
+          this.user = null;
         }
         }
     },

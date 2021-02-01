@@ -47,12 +47,15 @@ export default Vue.component('remove-project-pjm', {
             this.$router.push({path: '/user/'+id});
         },
         async onChange(event) {
-            this.$emit('load',true);
-            this.indexProject = event.target.value;
-            var project = this.projects[this.indexProject];
-            var credential = JSON.parse(localStorage.getItem(key));
-            this.users = await (await fetch('/api/project-manager/list-designers?iduser='+credential.id+'&tokenuser='+credential.token+'&idproject='+project.id)).json();
-            this.$emit('load',false);
+            var index = event.target.value;
+            if(index>=0) {
+                this.$emit('load',true);
+                this.indexProject = index;
+                var project = this.projects[this.indexProject];
+                var credential = JSON.parse(localStorage.getItem(key));
+                this.users = await (await fetch('/api/project-manager/list-designers?iduser='+credential.id+'&tokenuser='+credential.token+'&idproject='+project.id)).json();
+                this.$emit('load',false);
+            }
         }
     }
 });

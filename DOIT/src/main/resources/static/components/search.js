@@ -1,18 +1,25 @@
 export default Vue.component('search', {
-    template: `
-        <div class='container'>
-            <input placeholder="Inserisci parola..." type="text" v-model="input" @input="search()">
-            <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn btn-primary" :class="{'active': this.type=='users'}">
+    template: 
+    /*html*/`
+        <div style="margin: 10px; padding: 10%; padding-top: 1%">
+            <div class="form-group">
+                <input placeholder="Inserisci parola..." type="text" v-model="input" @input="search()" class="form-control">
+            </div>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons" style="display: flex">
+                <label class="btn btn-primary" :class="{'active': this.type=='users'}" style="flex: 1;">
                     <input type="radio" name="options" id="option1" autocomplete="off" checked="" @click="select('users')"> users
                 </label>
-                <label class="btn btn-primary" :class="{'active': this.type=='projects'}">
+                <label class="btn btn-primary" :class="{'active': this.type=='projects'}" style="flex: 1;">
                     <input type="radio" name="options" id="option2" autocomplete="off" @click="select('projects')"> projects
                 </label>
             </div>
-            <ul>
-                <li v-for="(element, index) in elements" :key="index">
-                    <button @click="show(element.id)">{{element.name}}</button>
+            <ul style="list-style-type: none;">
+                <li v-for="(element, index) in elements" :key="index" style="padding-top: 10px">
+                    <div @click="show(element.id)">
+                        <button class="btn btn-outline-primary" style="width: 100%;">
+                            {{element.name}}
+                        </button>
+                    </div>
                 </li>
             </ul>
         </div>

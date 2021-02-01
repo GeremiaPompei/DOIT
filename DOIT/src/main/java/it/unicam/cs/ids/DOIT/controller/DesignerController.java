@@ -57,15 +57,6 @@ public class DesignerController {
         }
     }
 
-    @GetMapping("/list-cvunit")
-    public List<CVUnit> listCVUnit(@RequestParam Long iduser, @RequestParam Long tokenuser) {
-        try {
-            return List.copyOf(this.designerService.listCV(iduser, tokenuser));
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
     @DeleteMapping(value = "/remove-project")
     public String removeProject(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam Long idproject){
         try{

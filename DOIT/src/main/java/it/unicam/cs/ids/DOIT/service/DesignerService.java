@@ -47,11 +47,6 @@ public class DesignerService {
         return user.getRolesHandler(tokenUser).getDesignerRole().getEvaluations();
     }
 
-    public Set<CVUnit> listCV(Long idUser, Long tokenUser) {
-        User user = repositoryHandler.getUserRepository().findById(idUser).get();
-        return user.getRolesHandler(tokenUser).getDesignerRole().getCurriculumVitae();
-    }
-
     public void removeProject(Long iduser, Long tokenuser, Long idproject) {
         User user = repositoryHandler.getUserRepository().findById(iduser).get();
         Project project = repositoryHandler.getProjectRepository().findById(idproject).get();

@@ -1,15 +1,18 @@
 export default Vue.component('team-rec', {
-    template: `
-    <div class='container'>
-        <ul>
-        <button @click="back()" type="button" class="btn btn-outline-primary">back</button>
-            <li v-for="(project, index) in projects" :key="index">
-                <div>
-                    <button @click="go(index)">{{project.name}}</button>
-                    <button type="button" class="btn btn-outline-primary" @click="manageRec(project)">{{project.team.open?"close":"open"}}</button>
+    template: 
+    /*html*/`
+    <div class='' style="margin: 10px; padding: 10%; padding-top: 1%; flex-direction: column; align-items: center; justify-content: center;">
+        <button @click="back()" type="button" class="bbtn btn-primary btn-lg btn-block" style="display: flex; align-items: center; justify-content: center;">back</button>
+        <div v-for="(project, index) in projects" :key="index">
+            <div class="card border-primary mb-3" style="margin-top: 10px">
+                <div class="card-header" style="text-align: center">
+                    <button class="btn btn-outline-info" style="width: 100%;" @click="go(index)">{{project.name}}</button>
                 </div>
-            </li>
-        </ul>
+                <div class="card-body">
+                    <button type="button" class="btn btn-outline-primary" style="width: 100%;" @click="manageRec(project)">{{project.team.open?"close":"open"}}</button>
+                </div>
+            </div>
+        </div>    
     </div>
     `,
     data() {

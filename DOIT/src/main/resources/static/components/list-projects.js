@@ -1,10 +1,11 @@
 export default Vue.component('list-projects', {
-    template: `
-    <div class='container'>
-        <ul>
-        <button @click="back()" type="button" class="btn btn-outline-primary">back</button>
-            <li v-for="(project, index) in projects" :key="index">
-                <button @click="go(index)">{{project.name}}</button>
+    template: 
+    /*html*/`
+    <div class='' style="margin: 10px; padding: 10%; padding-top: 1%; flex-direction: column; align-items: center; justify-content: center;">
+        <ul style="list-style-type: none;">
+            <button @click="back()" type="button" class="bbtn btn-primary btn-lg btn-block" style="display: flex; align-items: center; justify-content: center;">back</button>
+            <li v-for="(project, index) in projects" :key="index" style="padding-top: 10px">
+                <button class="btn btn-outline-info" style="width: 100%;" @click="go(index)">{{project.name}}</button>
             </li>
         </ul>
     </div>

@@ -1,16 +1,21 @@
 export default Vue.component('remove-project-pjm', {
-    template: `
-    <div class='container'>
-        <button @click="back()" type="button" class="btn btn-outline-primary">back</button>
-        <select @change="onChange($event)">
+    template:
+    /*html*/`
+    <div class='' style="margin: 10px; padding: 10%; padding-top: 1%; flex-direction: column; align-items: center; justify-content: center;">
+        <button @click="back()" type="button" class="bbtn btn-primary btn-lg btn-block" style="display: flex; align-items: center; justify-content: center;">back</button>
+        <select @change="onChange($event)" class="form-control" style="margin-top: 10px">
             <option key="-1" value="-1">---</option>
             <option v-for="(project, index) in projects" :value="index" :key="index">
                 {{project.name}}
             </option>
         </select>
-        <div v-for="(element, index) in users" :key="index">
-            <button @click="show(element.id)">{{element.name}}</button>
-            <button type="button" class="btn btn-outline-primary" @click="choosePjm(element.id)">choose</button>
+        <div class="card border-info mb-3" style="margin-top: 10px" v-for="(element, index) in users" :key="index">
+            <div class="card-header" @click="go(index)" style="text-align: center">
+                <button class="btn btn-outline-info" style="width: 100%; margin-bottom: 5px"@click="show(element.id)">{{element.name}}</button>
+            </div>
+            <div class="card-body">
+                <button type="button" class="btn btn-outline-primary" style="width: 100%;" @click="choosePjm(element.id)">choose</button>    
+            </div>
         </div>
     </div>
     `,

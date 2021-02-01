@@ -1,4 +1,5 @@
 import('./components/role.js');
+import('./components/user-role.js')
 const key = "DOIT-key";
 
 const routes = [

@@ -30,7 +30,7 @@ public class DesignerRole extends Role implements IPendingRole<DesignerRole> {
     private Set<Evaluation> evaluations;
     @JoinColumn(name = "ID_CVUnit")
     @ManyToMany(cascade = CascadeType.ALL)
-    private Set<CVUnit> curriculumVitae;
+    private List<CVUnit> curriculumVitae;
 
     public DesignerRole() {
     }
@@ -38,7 +38,7 @@ public class DesignerRole extends Role implements IPendingRole<DesignerRole> {
     public DesignerRole(User user, Category category) {
         super(user, category);
         this.myPartecipationRequests = new HashSet<>();
-        this.curriculumVitae = new HashSet<>();
+        this.curriculumVitae = new ArrayList<>();
         this.evaluations = new HashSet<>();
     }
 
@@ -104,6 +104,10 @@ public class DesignerRole extends Role implements IPendingRole<DesignerRole> {
     }
 
     public void insertPregressExperience(String pregressExperience, LocalDate dateStart, LocalDate dateFinish) {
+        if (pregressExperience == "")
+            throw new IllegalArgumentException("Immettere un'esperienza pregressa!");
+        if (dateStart.isAfter(dateFinish))
+            throw new IllegalArgumentException("La data di fine è precedente a quella di inizio!");
         CVUnit newCVUnit = new CVUnit(dateStart, dateFinish, pregressExperience);
         curriculumVitae.add(newCVUnit);
     }
@@ -112,7 +116,7 @@ public class DesignerRole extends Role implements IPendingRole<DesignerRole> {
         return evaluations;
     }
 
-    public Set<CVUnit> getCurriculumVitae() {
+    public List<CVUnit> getCurriculumVitae() {
         return curriculumVitae;
     }
 }

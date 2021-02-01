@@ -1,13 +1,22 @@
 export default Vue.component('manage-project-state', {
-    template: `
-    <div class='container'>
-        <ul>
-        <button @click="back()" type="button" class="btn btn-outline-primary">back</button>
+    template: 
+    /*html*/`
+    <div class='' style="margin: 10px; padding: 10%; padding-top: 1%; flex-direction: column; align-items: center; justify-content: center;">
+        <ul style="list-style-type: none;">
+            <button @click="back()" type="button" class="bbtn btn-primary btn-lg btn-block" style="display: flex; align-items: center; justify-content: center;">back</button>
             <li v-for="(project, index) in projects" :key="index">
-                <div>
-                    <button type="button" class="btn btn-outline-primary" @click="downgrade(project.id)"><</button>
-                    <button @click="go(index)">{{project.name+" : "+project.projectState.name}}</button>
-                    <button type="button" class="btn btn-outline-primary" @click="upgrade(project.id)">></button>
+                <div class="card border-info mb-3" style="margin-top: 10px">
+                    <div class="card-header" @click="go(index)" style="text-align: center">{{project.name+" : "+project.projectState.name}}</div>
+                    <div class="card-body">
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons" style="display: flex">
+                            <label class="btn btn-primary" :class="{'active': this.type=='users'}" style="flex: 1;">
+                                <input type="radio" name="options" id="option1" autocomplete="off" @click="downgrade(project.id)"> <<<
+                            </label>
+                            <label class="btn btn-primary" :class="{'active': this.type=='projects'}" style="flex: 1;">
+                                <input type="radio" name="options" id="option2" autocomplete="off" @click="upgrade(project.id)"> >>>
+                            </label>
+                        </div>
+                    </div>
                 </div>
             </li>
         </ul>

@@ -42,7 +42,7 @@ public class ProgramManagerRole extends Role implements IPendingRole<ProgramMana
     public void acceptPR(PartecipationRequest<DesignerRole> designerPR) {
         PartecipationRequest<DesignerRole> pr = getInnerDesignerRequest(designerPR);
         if (!this.getProjects().contains(pr.getProject()))
-            throw new IllegalArgumentException("Il Program Manager non possiede il team");
+            throw new IllegalArgumentException("Il Program Manager non possiede il team!");
         pr.displayed("Congratulations! You are accepted.");
         pr.getProject().getTeam().getDesignerRequest().remove(pr);
         designerPR.getPendingRole().enterProject(designerPR.getProject());
@@ -53,7 +53,7 @@ public class ProgramManagerRole extends Role implements IPendingRole<ProgramMana
     public void removePR(PartecipationRequest<DesignerRole> designerPR, String description) {
         PartecipationRequest<DesignerRole> pr = getInnerDesignerRequest(designerPR);
         if (!this.getProjects().contains(pr.getProject()))
-            throw new IllegalArgumentException("Il Program Manager non possiede il team]");
+            throw new IllegalArgumentException("Il Program Manager non possiede il team.");
         if (description == null || description.equals(""))
             throw new IllegalArgumentException("La descrizione non può essere vuota!");
         pr.displayed(description);

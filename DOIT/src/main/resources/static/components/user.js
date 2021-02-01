@@ -19,8 +19,15 @@ export default Vue.component('user', {
               <h5 class="card-title">Email</h5>
               <h6 class="card-subtitle text-muted">{{user.email}}</h6>
           </div>
+          <div v-show="user.rolesHandler.roles.length!=0" class="card-body">
+            <h5 class="card-title">Roles</h5>
+            <user-role v-show="user.rolesHandler.projectProposerRole" :role="user.rolesHandler.projectProposerRole"></user-role>
+            <user-role v-show="user.rolesHandler.programManagerRole" :role="user.rolesHandler.programManagerRole"></user-role>
+            <user-role v-show="user.rolesHandler.designerRole" :role="user.rolesHandler.designerRole"></user-role>
+            <user-role v-show="user.rolesHandler.projectManagerRole" :role="user.rolesHandler.projectManagerRole"></user-role>
+          </div>
         </div>
-    </div>
+        </div>
         `,
         data() {
             return {
@@ -33,6 +40,12 @@ export default Vue.component('user', {
             this.$emit('load',false);
         },
         methods: {
+            goProject(id) {
+                this.$router.push('/project/'+id);
+            },
+            goCategory(id) {
+                this.$router.push('/category/'+id);
+            },
             back() {
                 this.$router.go(-1);
             }

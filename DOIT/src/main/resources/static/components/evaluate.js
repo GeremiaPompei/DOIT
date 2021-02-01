@@ -1,19 +1,27 @@
 export default Vue.component('evaluate', {
-    template: `
-    <div class='container'>
-        <button @click="back()" type="button" class="btn btn-outline-primary">back</button>
-        <select @change="onChange($event)">
+    template: 
+    /*html*/`
+    <div class='' style="margin: 10px; padding: 10%; padding-top: 1%; flex-direction: column; align-items: center; justify-content: center;">
+        <button @click="back()" type="button" class="bbtn btn-primary btn-lg btn-block" style="display: flex; align-items: center; justify-content: center;">back</button>
+        <select @change="onChange($event)" class="form-control" style="margin-top: 10px, margin-bottom: 5px">
             <option key="-1" value="-1">---</option>
             <option v-for="(project, index) in projects" :value="index" :key="index">
                 {{project.name}}
             </option>
         </select>
+
         <div v-for="(element, index) in users" :key="index">
-            <button @click="show(element.id)">{{element.name}}</button>
-            <input type="text" v-model="evaluate" placeholder="Evaluation...">
-            <button type="button" class="btn btn-outline-primary" @click="evaluateDesigner(element.id)">evaluate</button>
+            <div class="card border-info mb-3" style="margin-top: 10px">
+                <div class="card-header" style="text-align: center">
+                    <button class="btn btn-outline-info" style="width: 100%; margin-bottom: 1px"@click="show(element.id)">{{element.name}}</button>
+                </div>
+                <div class="card-body" style="margin-bottom: 10px">
+                    <input type="text" class="form-control" v-model="evaluate" placeholder="Evaluation...">
+                    <button type="button" class="btn btn-outline-primary" style="width: 100%; margin-top: 5px" @click="evaluateDesigner(element.id)">evaluate</button>
+                </div>
+            </div>
         </div>
-        <button type="button" class="btn btn-outline-primary" @click="exitProject()">exit project</button>
+        <button type="button" class="btn btn-outline-danger" style="width: 100%" @click="exitProject()">exit project</button>
     </div>
     `,
     data() {

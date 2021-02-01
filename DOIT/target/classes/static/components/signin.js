@@ -41,7 +41,7 @@ export default Vue.component('signin', {
             <div class="form-group">
                 <input type="password" class="form-control" v-model="ripetiPassword" placeholder="Ripeti password">
             </div>
-            <input type="submit" value="Signin">
+            <input class="bbtn btn-secondary btn-lg btn-block" type="submit" value="Signin">
         </form>
     </div>
     `,

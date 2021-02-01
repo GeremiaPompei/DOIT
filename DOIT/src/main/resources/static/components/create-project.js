@@ -18,7 +18,7 @@ export default Vue.component('create-project', {
                     </option>
                 </select>
             </div>   
-            <input class="btn btn-outline-primary" style="width: 100%" type="submit" value="Crea Progetto">
+            <input class="btn btn-outline-primary" style="width: 100%" type="submit" value="Create">
         </form>
     </div>
     `,

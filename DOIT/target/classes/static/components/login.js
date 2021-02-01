@@ -10,7 +10,7 @@ export default Vue.component('login', {
                 <input type="password" class="form-control" v-model="password" placeholder="Password">
             </div>
             <div class="form-group">
-                <input type="submit" value="Login">
+                <input class="bbtn btn-secondary btn-lg btn-block" type="submit" value="Login">
             </div>
         </form>
     </div>

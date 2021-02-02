@@ -32,14 +32,14 @@ public class DesignerService {
 
     public Set<PartecipationRequest<DesignerRole>> listPR(Long idUser, Long tokenUser) {
         User user = repositoryHandler.getUserRepository().findById(idUser).get();
-        return user.getRolesHandler(tokenUser).getDesignerRole().getMyPartecipationRequests();
+        return user.getRolesHandler(tokenUser).getDesignerRole().myPartecipationRequests();
     }
 
     public Set<Project> listProjectsByCategory(Long idUser, Long tokenUser, String idCategory) {
         User user = repositoryHandler.getUserRepository().findById(idUser).get();
         Category category = repositoryHandler.getCategoryRepository().findById(idCategory).get();
         return user.getRolesHandler(tokenUser).getDesignerRole()
-                .getProjectsByCategory(repositoryHandler.getProjectRepository().findAll().iterator(), category);
+                .projectsByCategory(repositoryHandler.getProjectRepository().findAll().iterator(), category);
     }
 
     public Set<Evaluation> listEvaluations(Long idUser, Long tokenUser) {

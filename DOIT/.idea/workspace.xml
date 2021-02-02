@@ -5,27 +5,38 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="105c9ce0-a212-48e3-8c58-7af54d403e37" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/components/user-role.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/DOITCommandLineRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/DOITCommandLineRunner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/designer/DesignerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/designer/DesignerService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/entity/role/DesignerRole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/entity/role/DesignerRole.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/entity/role/Evaluation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/entity/role/Evaluation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/entity/role/IPendingRole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/entity/role/IPendingRole.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/entity/role/ProgramManagerRole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/entity/role/ProgramManagerRole.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/create-project.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/components/create-project.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/entity/role/ProjectManagerRole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/entity/role/ProjectManagerRole.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/entity/role/ProjectProposerRole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/entity/role/ProjectProposerRole.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/entity/role/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/entity/role/Role.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/entity/role/RolesHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/entity/role/RolesHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/entity/role/Team.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/entity/role/Team.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/entity/user/TokenHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/entity/user/TokenHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/entity/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/entity/user/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/program_manager/ProgramManagerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/program_manager/ProgramManagerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/project_manager/ProjectManagerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/project_manager/ProjectManagerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/user/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unicam/cs/ids/DOIT/user/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/evaluate.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/components/evaluate.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/components/login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/manage-experience.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/components/manage-experience.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/manage-project-state.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/components/manage-project-state.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/project.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/components/project.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/remove-project-pjm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/components/remove-project-pjm.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/signin.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/components/signin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/components/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/components/user-role.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/components/user-role.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/manifest.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/router.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/components/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/components/login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/components/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/components/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/sw.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/sw.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/unicam/cs/ids/DOIT/DesignerRoleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/unicam/cs/ids/DOIT/DesignerRoleTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/unicam/cs/ids/DOIT/ProgramManagerRoleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/unicam/cs/ids/DOIT/ProgramManagerRoleTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/unicam/cs/ids/DOIT/ProjectManagerRoleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/unicam/cs/ids/DOIT/ProjectManagerRoleTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/unicam/cs/ids/DOIT/ProjectProposerRoleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/unicam/cs/ids/DOIT/ProjectProposerRoleTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/static/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/router.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/test-classes/it/unicam/cs/ids/DOIT/DesignerRoleTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/it/unicam/cs/ids/DOIT/DesignerRoleTest.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -53,6 +64,13 @@
       <facet id="DOIT/invalid/Web" />
     </ignored-facets>
   </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="$USER_HOME$/.m2/wrapper/dists/apache-maven-3.6.3-bin/1iopthnavndlasol9gbrbg6bf2/apache-maven-3.6.3" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
   <component name="ProjectId" id="1nEsHjG8Gci3Oz1KH85CIx2H9jR" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -65,10 +83,12 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="android.sdk.path" value="$USER_HOME$/Library/Android/sdk" />
+    <property name="aspect.path.notification.shown" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.48255813" />
     <property name="restartRequiresConfirmation" value="false" />
@@ -226,8 +246,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1610966508583</updated>
+      <workItem from="1612214297637" duration="2287000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">

@@ -42,14 +42,14 @@ public class ProjectProposerRole extends Role implements IPartecipationRequestHa
     public void acceptPR(PartecipationRequest<ProgramManagerRole> programManagerPR) {
         PartecipationRequest<ProgramManagerRole> pr = getInnerProgramManagerRequest(programManagerPR);
         if (!this.getProjects().contains(pr.getProject()))
-            throw new IllegalArgumentException("Il Project Proposer non possiede il progetto");
+            throw new IllegalArgumentException("This project proposer doesn't own the project");
         pr.displayed("Congratulations! You are accepted.");
         pr.getProject().getTeam().getProgramManagerRequest().remove(pr);
         pr.getProject().getTeam().setProgramManager(pr.getPendingRole());
         pr.getPendingRole().enterProject(pr.getProject());
         pr.getProject().getTeam().getProgramManagerRequest().stream()
                 .filter(p -> !p.equals(pr))
-                .forEach(p -> removePR(pr, "I'm sorry! You are rejected."));
+                .forEach(p -> removePR(pr, "I'm sorry! You have been rejected."));
         pr.getPendingRole().notify(pr.getDescription());
     }
 
@@ -57,9 +57,9 @@ public class ProjectProposerRole extends Role implements IPartecipationRequestHa
     public void removePR(PartecipationRequest<ProgramManagerRole> programManagerPR, String description) {
         PartecipationRequest pr = getInnerProgramManagerRequest(programManagerPR);
         if (!this.getProjects().contains(pr.getProject()))
-            throw new IllegalArgumentException("Il Project Proposer non possiede il progetto");
+            throw new IllegalArgumentException("This project proposer doesn't own the project");
         if (description == null || description.equals(""))
-            throw new IllegalArgumentException("La descrizione non può essere vuota!");
+            throw new IllegalArgumentException("The description can't be empty!");
         pr.displayed(description);
         pr.getProject().getTeam().getProgramManagerRequest().remove(pr);
         pr.getPendingRole().notify(pr.getDescription());
@@ -68,14 +68,14 @@ public class ProjectProposerRole extends Role implements IPartecipationRequestHa
     public Set<PartecipationRequest<ProgramManagerRole>> getPartecipationRequestsByProject(Project inputProject) {
         Project project = getInnerProject(inputProject);
         if (!getProjects().contains(project))
-            throw new IllegalArgumentException("Project non posseduto: [" + project.getId() + "]");
+            throw new IllegalArgumentException("This project is not owned: [" + project.getId() + "]");
         return project.getTeam().getProgramManagerRequest();
     }
 
     public void removeProject(Project project) {
         if(project.getTeam().getProgramManager()!=null)
-            throw new IllegalArgumentException("Il progetto non è eliminabile, in quanto ha già assegnato un program manager" +
-                    "con id ["+ project.getTeam().getProgramManager().getIdUser()+"]");
+            throw new IllegalArgumentException("Can't remove the project because it already has a program manager" +
+                    "whose id is: ["+ project.getTeam().getProgramManager().getIdUser()+"]");
         Project myProject = getInnerProject(project);
         getProjects().remove(myProject);
         project.clearInitProject();

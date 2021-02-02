@@ -10,9 +10,9 @@ import java.util.Set;
 public interface IPendingRole <T extends IPendingRole>  extends ISubscriber {
     PartecipationRequest<T> createPartecipationRequest(Project project);
 
-    Set<PartecipationRequest<T>> getMyPartecipationRequests();
+    Set<PartecipationRequest<T>> myPartecipationRequests();
 
     void removeMyPr(PartecipationRequest<T> pr);
 
-    Set<Project> getProjectsByCategory(Iterator<Project> iterator, Category category);
+    Set<Project> projectsByCategory(Iterator<Project> iterator, Category category);
 }

@@ -50,7 +50,7 @@ class ProgramManagerRoleTest {
         rh1.getProjectProposerRole().createProject("project", "description", category, a);
         project = rh1.getProjectProposerRole().getProjects().stream().findFirst().orElse(null);
         rh2.getProgramManagerRole().createPartecipationRequest(project);
-        PartecipationRequest<ProgramManagerRole> pmPR = rh2.getProgramManagerRole().getMyPartecipationRequests().stream().findFirst().orElse(null);
+        PartecipationRequest<ProgramManagerRole> pmPR = rh2.getProgramManagerRole().myPartecipationRequests().stream().findFirst().orElse(null);
         rh1.getProjectProposerRole().acceptPR(pmPR);
         rh2.getProgramManagerRole().openRegistrations(project);
         rh3.getDesignerRole().createPartecipationRequest(project);
@@ -66,7 +66,7 @@ class ProgramManagerRoleTest {
     void acceptPR() {
         assertFalse(project.getTeam().getDesignerRequest().isEmpty());
         assertTrue(project.getTeam().getDesigners().isEmpty());
-        PartecipationRequest<DesignerRole> pr = rh3.getDesignerRole().getMyPartecipationRequests().stream().findFirst().orElse(null);
+        PartecipationRequest<DesignerRole> pr = rh3.getDesignerRole().myPartecipationRequests().stream().findFirst().orElse(null);
         rh2.getProgramManagerRole().acceptPR(pr);
         assertTrue(project.getTeam().getDesignerRequest().isEmpty());
         assertFalse(project.getTeam().getDesigners().isEmpty());
@@ -75,7 +75,7 @@ class ProgramManagerRoleTest {
     @Test
     void removePR() {
         assertFalse(project.getTeam().getDesignerRequest().isEmpty());
-        PartecipationRequest<DesignerRole> pr = rh3.getDesignerRole().getMyPartecipationRequests().stream().findFirst().orElse(null);
+        PartecipationRequest<DesignerRole> pr = rh3.getDesignerRole().myPartecipationRequests().stream().findFirst().orElse(null);
         rh2.getProgramManagerRole().acceptPR(pr);
         assertTrue(project.getTeam().getDesignerRequest().isEmpty());
 
@@ -96,7 +96,7 @@ class ProgramManagerRoleTest {
         assertThrows(IllegalArgumentException.class, () -> rh4.getDesignerRole().createPartecipationRequest(project));
         rh2.getProgramManagerRole().openRegistrations(project);
         assertDoesNotThrow(() -> rh4.getDesignerRole().createPartecipationRequest(project));
-        PartecipationRequest<DesignerRole> pr = rh4.getDesignerRole().getMyPartecipationRequests().stream().findFirst().orElse(null);
+        PartecipationRequest<DesignerRole> pr = rh4.getDesignerRole().myPartecipationRequests().stream().findFirst().orElse(null);
         assertTrue(project.getTeam().getDesignerRequest().contains(pr));
     }
 
@@ -115,24 +115,24 @@ class ProgramManagerRoleTest {
     void getProjectsByCategory() {
         List<Project> list = new ArrayList<>();
         list.add(project);
-        assertFalse(rh2.getProgramManagerRole().getProjectsByCategory(list.iterator(), category).contains(project));
+        assertFalse(rh2.getProgramManagerRole().projectsByCategory(list.iterator(), category).contains(project));
     }
 
     @Test
     void getMyPartecipationRequests() {
-        assertNotNull(rh2.getProgramManagerRole().getMyPartecipationRequests());
+        assertNotNull(rh2.getProgramManagerRole().myPartecipationRequests());
     }
 
     @Test
     void getIdDesigners() {
-        PartecipationRequest<DesignerRole> pr = rh3.getDesignerRole().getMyPartecipationRequests().stream().findFirst().orElse(null);
+        PartecipationRequest<DesignerRole> pr = rh3.getDesignerRole().myPartecipationRequests().stream().findFirst().orElse(null);
         rh2.getProgramManagerRole().acceptPR(pr);
         assertEquals(rh2.getProgramManagerRole().getIdDesigners(project).stream().findFirst().orElse(null), 3);
     }
 
     @Test
     void removeDesigner() {
-        PartecipationRequest<DesignerRole> pr = rh3.getDesignerRole().getMyPartecipationRequests().stream().findFirst().orElse(null);
+        PartecipationRequest<DesignerRole> pr = rh3.getDesignerRole().myPartecipationRequests().stream().findFirst().orElse(null);
         rh2.getProgramManagerRole().acceptPR(pr);
         assertTrue(rh1.getProjectProposerRole().getProjects().stream().findFirst().orElse(null).getTeam().getDesigners().contains(rh3.getDesignerRole()));
         rh2.getProgramManagerRole().removeDesigner(user3, project);
@@ -142,7 +142,7 @@ class ProgramManagerRoleTest {
 
     @Test
     void setProjectManager() {
-        PartecipationRequest<DesignerRole> pr = rh3.getDesignerRole().getMyPartecipationRequests().stream().findFirst().orElse(null);
+        PartecipationRequest<DesignerRole> pr = rh3.getDesignerRole().myPartecipationRequests().stream().findFirst().orElse(null);
         rh2.getProgramManagerRole().acceptPR(pr);
         assertTrue(rh1.getProjectProposerRole().getProjects().stream().findFirst().orElse(null).getTeam().getDesigners().contains(rh3.getDesignerRole()));
         rh2.getProgramManagerRole().setProjectManager(user3, project);

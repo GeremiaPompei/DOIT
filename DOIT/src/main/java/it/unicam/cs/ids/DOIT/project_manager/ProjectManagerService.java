@@ -44,6 +44,8 @@ public class ProjectManagerService {
         User user = repositoryHandler.getUserRepository().findById(idUser).get();
         Project project = repositoryHandler.getProjectRepository().findById(projectId).get();
         User userD = repositoryHandler.getUserRepository().findById(idDesigner).get();
+        if (repositoryHandler.getProjectStateRepository().findById(project.getProjectState().getId() + 1).orElse(null) != null)
+            throw new IllegalArgumentException("You can't close a project if it is not in a terminal state!");
         Evaluation ev = user.getRolesHandler(tokenUser).getProjectManagerRole().insertEvaluation(userD, project, evaluation);
         repositoryHandler.getEvaluationRepository().save(ev);
         repositoryHandler.getUserRepository().save(user);
@@ -53,6 +55,8 @@ public class ProjectManagerService {
     public void exitAll(Long idUser, Long tokenUser, Long projectId) {
         User user = repositoryHandler.getUserRepository().findById(idUser).get();
         Project project = repositoryHandler.getProjectRepository().findById(projectId).get();
+        if (repositoryHandler.getProjectStateRepository().findById(project.getProjectState().getId() + 1).orElse(null) != null)
+            throw new IllegalArgumentException("You can't close a project if it is not in a terminal state!");
         user.getRolesHandler(tokenUser).getProjectManagerRole().exitAll(project);
         repositoryHandler.getUserRepository().save(user);
         repositoryHandler.getProjectRepository().save(project);

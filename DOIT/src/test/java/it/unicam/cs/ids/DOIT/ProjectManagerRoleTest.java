@@ -60,14 +60,14 @@ class ProjectManagerRoleTest {
         rh1.getProjectProposerRole().createProject("project", "description", category, a);
         project = rh1.getProjectProposerRole().getProjects().stream().findFirst().orElse(null);
         rh2.getProgramManagerRole().createPartecipationRequest(project);
-        PartecipationRequest<ProgramManagerRole> pmPR = rh2.getProgramManagerRole().getMyPartecipationRequests().stream().findFirst().orElse(null);
+        PartecipationRequest<ProgramManagerRole> pmPR = rh2.getProgramManagerRole().myPartecipationRequests().stream().findFirst().orElse(null);
         rh1.getProjectProposerRole().acceptPR(pmPR);
         rh2.getProgramManagerRole().openRegistrations(project);
         rh3.getDesignerRole().createPartecipationRequest(project);
         rh4.getDesignerRole().createPartecipationRequest(project);
-        PartecipationRequest<DesignerRole> pr1 = rh3.getDesignerRole().getMyPartecipationRequests().stream().findFirst().orElse(null);
+        PartecipationRequest<DesignerRole> pr1 = rh3.getDesignerRole().myPartecipationRequests().stream().findFirst().orElse(null);
         rh2.getProgramManagerRole().acceptPR(pr1);
-        PartecipationRequest<DesignerRole> pr2 = rh4.getDesignerRole().getMyPartecipationRequests().stream().findFirst().orElse(null);
+        PartecipationRequest<DesignerRole> pr2 = rh4.getDesignerRole().myPartecipationRequests().stream().findFirst().orElse(null);
         rh2.getProgramManagerRole().acceptPR(pr2);
         rh2.getProgramManagerRole().setProjectManager(user3, project);
     }
@@ -101,7 +101,7 @@ class ProjectManagerRoleTest {
     @Test
     void insertEvaluation() {
         rh3.getProjectManagerRole().insertEvaluation(user4, project, 3);
-        assertEquals(rh4.getDesignerRole().getEvaluations().stream().findFirst().orElse(null).getEvaluate(), 3);
+        assertEquals(rh4.getDesignerRole().getEvaluations().stream().findFirst().orElse(null).getEvaluation(), 3);
     }
 
     @Test

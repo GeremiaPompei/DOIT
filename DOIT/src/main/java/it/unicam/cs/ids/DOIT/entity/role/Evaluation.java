@@ -9,11 +9,11 @@ public class Evaluation {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Long projectId;
-    private Integer evaluate;
+    private Integer evaluation;
 
     public Evaluation(Long projectId, Integer evaluate) {
         this.projectId = projectId;
-        this.evaluate = evaluate;
+        this.evaluation = evaluate;
     }
 
     public Evaluation() {
@@ -23,7 +23,7 @@ public class Evaluation {
         return projectId;
     }
 
-    public Integer getEvaluate() {
-        return evaluate;
+    public Integer getEvaluation() {
+        return evaluation;
     }
 }

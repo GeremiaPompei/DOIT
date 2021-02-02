@@ -25,7 +25,10 @@ export default Vue.component('user-role', {
             <div style="padding: 1rem;" v-show="role.history.length!=0">
                 <p class="card-subtitle">history</p>
                 <div v-for="(project, index) in role.history" :key="index" style="padding-top: 10px">
-                    <button @click="goProject(project.id)" class="btn btn-outline-info" style="width: 100%;">{{project.name}}</button>
+                    <button @click="goProject(project.id)" class="btn btn-outline-info" style="width: 100%;">
+                    <p style="flex: 1;">{{project.name}}</p>
+                    <p v-show="role.type=='designer' && role.evaluations!=undefined && role.evaluations.length!=0" class="card-subtitle">rating: {{getEvaluation(project.id)}}</p>
+                    </button>
                 </div>
             </div>
             <div style="padding: 1rem;" v-show="role.type=='designer' && role.curriculumVitae.length!=0">
@@ -53,6 +56,12 @@ export default Vue.component('user-role', {
             },
             back() {
                 this.$router.go(-1);
+            },
+            getEvaluation(id) {
+                if(this.role.type=='designer') {
+                    var res = this.role.evaluations.find(e => e.projectId == id);
+                    return res?res.evaluation:'';
+                }
             }
         }
 });

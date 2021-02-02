@@ -23,8 +23,8 @@ export default Vue.component('project', {
               <h5 class="card-title">Team</h5>
               <p class="card-text">Registrations: {{project.team.open?"open":"close"}}</p>
               <button class="btn btn-outline-info" style="width: 100%; margin-bottom: 10px" @click="goUser(project.team.projectProposer.idUser)">project proposer</button>
-              <button class="btn btn-outline-info" style="width: 100%; margin-bottom: 10px" @click="goUser(project.team.programManager.idUser)">program manager</button>
-              <button class="btn btn-outline-info" style="width: 100%; margin-bottom: 10px" @click="goUser(project.team.projectManager.idUser)">project manager</button>
+              <button v-show="project.team.programManager" class="btn btn-outline-info" style="width: 100%; margin-bottom: 10px" @click="goUser(project.team.programManager.idUser)">program manager</button>
+              <button v-show="project.team.projectManager" class="btn btn-outline-info" style="width: 100%; margin-bottom: 10px" @click="goUser(project.team.projectManager.idUser)">project manager</button>
               <button class="btn btn-outline-info" style="width: 100%; margin-bottom: 5px" v-for="(el, index) in project.team.designers" :key="index" @click="goUser(el.idUser)">designer {{index}}</button>
             </div>
           </div>

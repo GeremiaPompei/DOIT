@@ -45,7 +45,7 @@ public class UserService {
     public void signIn(String name, String surname, String birthDate, String sex, String email, String password) {
         User user = findByEmail(email);
         if (user != null)
-            throw new IllegalArgumentException("Email gia usata!");
+            throw new IllegalArgumentException("This email has already been used!");
         LocalDate date = LocalDate.parse(birthDate);
         repositoryHandler.getUserRepository().save(new User(name, surname, date, sex, email, password));
     }
@@ -67,7 +67,7 @@ public class UserService {
         Category category = repositoryHandler.getCategoryRepository().findById(idCategory).get();
         RolesHandler rh = repositoryHandler.getUserRepository().findById(idUser).get().getRolesHandler(tokenUser);
         if (!getHandyRolesType().contains(idRole))
-            throw new IllegalArgumentException("Non può essere aggiunto questo ruolo!");
+            throw new IllegalArgumentException("This role can't be added!");
         rh.addRole(idRole, category);
         repositoryHandler.getUserRepository().save(user);
     }

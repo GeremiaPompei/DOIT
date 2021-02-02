@@ -61,18 +61,23 @@ export default Vue.component('signin', {
             if(this.name=='' || this.surname=='' || this.birthDate=='' || this.sex=='' || this.email=='' || this.password=='')
                 this.$emit('push', 'Filds missed!');
             else if(this.password===this.ripetiPassword) {
-                this.$emit('load',true);
-                var res = await (await fetch('/api/user/signin?name='+this.name+'&surname='+this.surname+'&birthdate='+this.birthDate+
-                '&sex='+this.sex+'&email='+this.email+'&password='+md5(this.password), {method: 'POST'})).text();
-                this.name = '';
-                this.surname= '';
-                this.birthDate= '';
-                this.sex= '';
-                this.email= '';
-                this.password= '';
-                this.ripetiPassword= '';
-                this.$emit('load',false);
-                this.$emit('push', res);
+                try {
+                    this.$emit('load',true);
+                    var res = await (await fetch('/api/user/signin?name='+this.name+'&surname='+this.surname+'&birthdate='+this.birthDate+
+                    '&sex='+this.sex+'&email='+this.email+'&password='+md5(this.password), {method: 'POST'})).text();
+                    this.name = '';
+                    this.surname= '';
+                    this.birthDate= '';
+                    this.sex= '';
+                    this.email= '';
+                    this.password= '';
+                    this.ripetiPassword= '';
+                    this.$emit('load',false);
+                    this.$emit('push', res);
+                    this.$router.push('/login');
+                } catch(e) {
+                    this.$emit('push', e);
+                }
             } else {
                 alert('Le password non coincidono!')
             }

@@ -46,7 +46,7 @@ class DesignerRoleTest {
         rh1.getProjectProposerRole().createProject("project", "description", category, a);
         project = rh1.getProjectProposerRole().getProjects().stream().findFirst().orElse(null);
         rh2.getProgramManagerRole().createPartecipationRequest(project);
-        PartecipationRequest<ProgramManagerRole> pmPR = rh2.getProgramManagerRole().getMyPartecipationRequests().stream().findFirst().orElse(null);
+        PartecipationRequest<ProgramManagerRole> pmPR = rh2.getProgramManagerRole().myPartecipationRequests().stream().findFirst().orElse(null);
         rh1.getProjectProposerRole().acceptPR(pmPR);
         rh2.getProgramManagerRole().openRegistrations(project);
     }
@@ -62,7 +62,7 @@ class DesignerRoleTest {
     void testGetProjectsByCategory() {
         List<Project> projects = new ArrayList<>();
         projects.add(project);
-        Project p2 = rh3.getDesignerRole().getProjectsByCategory(projects.iterator(), category).stream().findFirst().get();
+        Project p2 = rh3.getDesignerRole().projectsByCategory(projects.iterator(), category).stream().findFirst().get();
         assertEquals(p2, project);
     }
 
@@ -74,7 +74,7 @@ class DesignerRoleTest {
     @Test
     void getMyPartecipationRequests() {
         PartecipationRequest<DesignerRole> pr = rh3.getDesignerRole().createPartecipationRequest(project);
-        assertEquals(rh3.getDesignerRole().getMyPartecipationRequests().stream().findFirst().get(), pr);
+        assertEquals(rh3.getDesignerRole().myPartecipationRequests().stream().findFirst().get(), pr);
     }
 
     @Test

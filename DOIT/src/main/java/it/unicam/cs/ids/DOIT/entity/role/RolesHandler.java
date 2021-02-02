@@ -56,22 +56,22 @@ public class RolesHandler {
         switch (type) {
             case ProjectProposerRole.TYPE:
                 if (isProjectProposer())
-                    throw new IllegalArgumentException("L'utente gia possiede il ruolo!");
+                    throw new IllegalArgumentException("The user already has this role!");
                 this.projectProposerRole = new ProjectProposerRole(this.user, category);
                 break;
             case ProgramManagerRole.TYPE:
                 if (isProgramManager())
-                    throw new IllegalArgumentException("L'utente gia possiede il ruolo!");
+                    throw new IllegalArgumentException("The user already has this role!");
                 this.programManagerRole = new ProgramManagerRole(this.user, category);
                 break;
             case DesignerRole.TYPE:
                 if (isDesigner())
-                    throw new IllegalArgumentException("L'utente gia possiede il ruolo!");
+                    throw new IllegalArgumentException("The user already has this role!");
                 this.designerRole = new DesignerRole(this.user, category);
                 break;
             case ProjectManagerRole.TYPE:
                 if (isProjectManager())
-                    throw new IllegalArgumentException("L'utente gia possiede il ruolo!");
+                    throw new IllegalArgumentException("The user already has this role!");
                 this.projectManagerRole = new ProjectManagerRole(this.user, category);
                 break;
         }
@@ -81,22 +81,22 @@ public class RolesHandler {
         switch (type) {
             case ProjectProposerRole.TYPE:
                 if (!this.projectProposerRole.getProjects().isEmpty())
-                    throw new IllegalArgumentException("Il ruolo contiene team!");
+                    throw new IllegalArgumentException("This role owns the team!");
                 this.projectProposerRole = null;
                 break;
             case ProgramManagerRole.TYPE:
                 if (!this.programManagerRole.getProjects().isEmpty())
-                    throw new IllegalArgumentException("Il ruolo contiene team!");
+                    throw new IllegalArgumentException("This role owns the team!");
                 this.programManagerRole = null;
                 break;
             case DesignerRole.TYPE:
                 if (!this.designerRole.getProjects().isEmpty())
-                    throw new IllegalArgumentException("Il ruolo contiene team!");
+                    throw new IllegalArgumentException("This role owns the team!");
                 this.designerRole = null;
                 break;
             case ProjectManagerRole.TYPE:
                 if (!this.projectManagerRole.getProjects().isEmpty())
-                    throw new IllegalArgumentException("Il ruolo contiene team!");
+                    throw new IllegalArgumentException("This role owns the team!");
                 this.projectManagerRole = null;
                 break;
         }

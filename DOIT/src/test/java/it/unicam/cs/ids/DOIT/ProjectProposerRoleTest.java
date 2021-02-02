@@ -58,7 +58,7 @@ class ProjectProposerRoleTest {
         rh1.getProjectProposerRole().createProject("project", "description", category, a);
         Project project = rh1.getProjectProposerRole().getProjects().stream().findFirst().orElse(null);
         rh2.getProgramManagerRole().createPartecipationRequest(project);
-        PartecipationRequest<ProgramManagerRole> pr = rh2.getProgramManagerRole().getMyPartecipationRequests().stream().findFirst().orElse(null);
+        PartecipationRequest<ProgramManagerRole> pr = rh2.getProgramManagerRole().myPartecipationRequests().stream().findFirst().orElse(null);
         rh1.getProjectProposerRole().acceptPR(pr);
         assertTrue(project.getTeam().getProgramManager().equals(rh2.getProgramManagerRole()));
     }
@@ -69,7 +69,7 @@ class ProjectProposerRoleTest {
         rh1.getProjectProposerRole().createProject("project", "description", category, a);
         Project project = rh1.getProjectProposerRole().getProjects().stream().findFirst().orElse(null);
         rh2.getProgramManagerRole().createPartecipationRequest(project);
-        PartecipationRequest<ProgramManagerRole> pr = rh2.getProgramManagerRole().getMyPartecipationRequests().stream().findFirst().orElse(null);
+        PartecipationRequest<ProgramManagerRole> pr = rh2.getProgramManagerRole().myPartecipationRequests().stream().findFirst().orElse(null);
         rh1.getProjectProposerRole().removePR(pr, "si");
         assertTrue(project.getTeam().getProgramManagerRequest().isEmpty());
     }
@@ -80,7 +80,7 @@ class ProjectProposerRoleTest {
         rh1.getProjectProposerRole().createProject("project", "description", category, a);
         Project project = rh1.getProjectProposerRole().getProjects().stream().findFirst().orElse(null);
         rh2.getProgramManagerRole().createPartecipationRequest(project);
-        PartecipationRequest<ProgramManagerRole> pr = rh2.getProgramManagerRole().getMyPartecipationRequests().stream().findFirst().orElse(null);
+        PartecipationRequest<ProgramManagerRole> pr = rh2.getProgramManagerRole().myPartecipationRequests().stream().findFirst().orElse(null);
         assertEquals(pr, rh1.getProjectProposerRole().getPartecipationRequestsByProject(project).stream().findFirst().orElse(null));
     }
 

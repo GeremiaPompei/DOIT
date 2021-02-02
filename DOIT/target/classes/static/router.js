@@ -31,6 +31,7 @@ const routes = [
   {path: '/remove-project/:role', component: () => import('./components/remove-project.js')},
   {path: '/remove-project-pjm', component: () => import('./components/remove-project-pjm.js')},
   {path: '/list-my-pr/:role', component: () => import('./components/list-my-pr.js')},
+  {path: '/*', redirect: '/home'},
   {path: '/', redirect: '/home'}
 ];
 

@@ -25,9 +25,9 @@ public class TokenHandler {
 
     public void checkToken(Long token) {
         if (!this.token.equals(token))
-            throw new IllegalArgumentException("Token errato, riautenticati!");
+            throw new IllegalArgumentException("Wrong token, re-authenticate!");
         if (LocalDateTime.now().isAfter(dateTime.toLocalDateTime().plusDays(1)))
-            throw new IllegalArgumentException("Token scaduto, riautenticati!");
+            throw new IllegalArgumentException("Expired token, re-authenticate!");
     }
 
     public Long generateToken() {

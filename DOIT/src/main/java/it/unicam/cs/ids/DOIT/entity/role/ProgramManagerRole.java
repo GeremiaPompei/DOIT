@@ -42,7 +42,7 @@ public class ProgramManagerRole extends Role implements IPendingRole<ProgramMana
     public void acceptPR(PartecipationRequest<DesignerRole> designerPR) {
         PartecipationRequest<DesignerRole> pr = getInnerDesignerRequest(designerPR);
         if (!this.getProjects().contains(pr.getProject()))
-            throw new IllegalArgumentException("Il Program Manager non possiede il team!");
+            throw new IllegalArgumentException("This program manager doesn't own the team!");
         pr.displayed("Congratulations! You are accepted.");
         pr.getProject().getTeam().getDesignerRequest().remove(pr);
         designerPR.getPendingRole().enterProject(designerPR.getProject());
@@ -53,9 +53,9 @@ public class ProgramManagerRole extends Role implements IPendingRole<ProgramMana
     public void removePR(PartecipationRequest<DesignerRole> designerPR, String description) {
         PartecipationRequest<DesignerRole> pr = getInnerDesignerRequest(designerPR);
         if (!this.getProjects().contains(pr.getProject()))
-            throw new IllegalArgumentException("Il Program Manager non possiede il team.");
+            throw new IllegalArgumentException("This program manager doesn't own the team");
         if (description == null || description.equals(""))
-            throw new IllegalArgumentException("La descrizione non può essere vuota!");
+            throw new IllegalArgumentException("The desccription can't be empty!");
         pr.displayed(description);
         pr.getProject().getTeam().getDesignerRequest().remove(pr);
         pr.getPendingRole().notify(pr.getDescription());
@@ -69,9 +69,9 @@ public class ProgramManagerRole extends Role implements IPendingRole<ProgramMana
         Project project = getInnerProject(projectInput);
         DesignerRole designer = getInnerDesignerInTeam(user, project);
         if (!project.getTeam().getDesigners().contains(designer))
-            throw new IllegalArgumentException("Il Program Manager non è interno al team: [" + project.getId() + "]");
+            throw new IllegalArgumentException("This program manager is not in the team: [" + project.getId() + "]");
         if (project.getTeam().getProjectManager() != null && designer.getIdUser().equals(project.getTeam().getProjectManager().getIdUser()))
-            throw new IllegalArgumentException("Non può essere eliminato il designer che è project manager!");
+            throw new IllegalArgumentException("A designer that has the project manager role can't be removed!");
         project.getTeam().removeDesigner(designer);
         designer.getProjects().remove(project);
     }
@@ -80,20 +80,21 @@ public class ProgramManagerRole extends Role implements IPendingRole<ProgramMana
         Project project = getInnerProject(projectInput);
         getInnerDesignerInTeam(user, projectInput);
         if (!this.getProjects().contains(project))
-            throw new IllegalArgumentException("L'utente non possiede il progetto con id:[" + project.getId() + "]");
-        user.getRolesHandler().addRole(ProjectManagerRole.TYPE, project.getCategory());
+            throw new IllegalArgumentException("This user doesn't own the project: [" + project.getId() + "]");
+        if (!user.getRolesHandler().isProjectManager())
+            user.getRolesHandler().addRole(ProjectManagerRole.TYPE, project.getCategory());
         ProjectManagerRole pj = user.getRolesHandler().getProjectManagerRole();
         project.getTeam().setProjectManager(pj);
         pj.enterProject(project);
         project.getTeam().getDesigners().remove(user.getRolesHandler().getDesignerRole());
         user.getRolesHandler().getDesignerRole().getProjects().remove(project);
-        user.getRolesHandler().getProjectManagerRole().notify("You are project manager of: [" + project.getName() + "]");
+        user.getRolesHandler().getProjectManagerRole().notify("You are the project manager of: [" + project.getName() + "]");
     }
 
     public Set<PartecipationRequest<DesignerRole>> getPartecipationRequestsByProject(Project projectInput) {
         Project project = getInnerProject(projectInput);
         if (!getProjects().contains(project))
-            throw new IllegalArgumentException("Team non posseduto: [" + project.getId() + "]");
+            throw new IllegalArgumentException("This team is not owned by: [" + project.getId() + "]");
         return project.getTeam().getDesignerRequest();
     }
 
@@ -109,11 +110,11 @@ public class ProgramManagerRole extends Role implements IPendingRole<ProgramMana
     public PartecipationRequest<ProgramManagerRole> createPartecipationRequest(Project project) {
         getInnerCategory(project.getCategory());
         if (project.getTeam().getProgramManagerRequest().stream().map(p -> p.getPendingRole()).collect(Collectors.toSet()).contains(this))
-            throw new IllegalArgumentException("Partecipation request gia presente nel team!");
+            throw new IllegalArgumentException("You already sent a partecipation request to this team!");
         if (project.getTeam().getProgramManager() != null)
-            throw new IllegalArgumentException("Program Manager gia presente nel team!");
+            throw new IllegalArgumentException("This program manager is already in the team!");
         if (!this.getCategories().contains(project.getCategory()))
-            throw new IllegalArgumentException("L'utente non presenta la categoria: [" + project.getCategory() + "]");
+            throw new IllegalArgumentException("This user doesn't have the category: [" + project.getCategory() + "]");
         PartecipationRequest<ProgramManagerRole> pr = new PartecipationRequest(this, project);
         if (this.myPartecipationRequests.contains(pr))
             this.myPartecipationRequests.remove(pr);
@@ -121,7 +122,7 @@ public class ProgramManagerRole extends Role implements IPendingRole<ProgramMana
         if (project.getTeam().getProgramManagerRequest().contains(pr))
             project.getTeam().getProgramManagerRequest().remove(pr);
         project.getTeam().getProgramManagerRequest().add(pr);
-        project.getTeam().getProjectProposer().notify("Qualcuno vuole partecipare al progetto: [" +
+        project.getTeam().getProjectProposer().notify("Someone sent a partecipation request: [" +
                 project.getName() + "]");
         return pr;
     }
@@ -132,7 +133,7 @@ public class ProgramManagerRole extends Role implements IPendingRole<ProgramMana
         pr.getProject().getTeam().getProgramManagerRequest().remove(pr);
     }
 
-    public Set<Project> getProjectsByCategory(Iterator<Project> iterator, Category category) {
+    public Set<Project> projectsByCategory(Iterator<Project> iterator, Category category) {
         Set<Project> projects = new HashSet<>();
         while (iterator.hasNext()) {
             Project project = iterator.next();
@@ -143,7 +144,7 @@ public class ProgramManagerRole extends Role implements IPendingRole<ProgramMana
         return projects;
     }
 
-    public Set<PartecipationRequest<ProgramManagerRole>> getMyPartecipationRequests() {
+    public Set<PartecipationRequest<ProgramManagerRole>> myPartecipationRequests() {
         return this.myPartecipationRequests;
     }
 

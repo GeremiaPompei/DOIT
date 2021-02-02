@@ -27,14 +27,5 @@ public class DOITCommandLineRunner implements CommandLineRunner {
         categoryRepository.save(new Category("SPORT", "Description..."));
         categoryRepository.save(new Category("INFORMATICA", "Description..."));
         categoryRepository.save(new Category("CUCINA", "Description..."));
-
-        //TODO da eliminare
-        userMVC.signIn("nome", "cognome", "1999-09-09", "sesso", "a@gmail.com",
-                "0cc175b9c0f1b6a831c399e269772661");
-        User user = userMVC.logIn("a@gmail.com", "0cc175b9c0f1b6a831c399e269772661");
-        userMVC.addRole(user.getId(), user.tokenHandlerGet().getToken(), "project-proposer", "SPORT");
-        userMVC.addRole(user.getId(), user.tokenHandlerGet().getToken(), "program-manager", "SPORT");
-        userMVC.addRole(user.getId(), user.tokenHandlerGet().getToken(), "designer", "SPORT");
-        System.err.println(user.getId() + " " + user.tokenHandlerGet().getToken());/**/
     }
 }

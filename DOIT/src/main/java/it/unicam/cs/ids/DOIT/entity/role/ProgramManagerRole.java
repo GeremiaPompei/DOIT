@@ -74,6 +74,7 @@ public class ProgramManagerRole extends Role implements IPendingRole<ProgramMana
             throw new IllegalArgumentException("A designer that has the project manager role can't be removed!");
         project.getTeam().removeDesigner(designer);
         designer.getProjects().remove(project);
+        designer.notify("You are kicked out from project: ["+project.getName()+"]");
     }
 
     public void setProjectManager(User user, Project projectInput) {

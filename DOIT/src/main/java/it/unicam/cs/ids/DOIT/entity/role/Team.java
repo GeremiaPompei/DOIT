@@ -105,7 +105,7 @@ public class Team {
 
     public void clearInitTeam() {
         this.projectProposer = null;
-        this.programManagerRequest.forEach(pr -> pr.getPendingRole().notify("The projct [" +
+        this.programManagerRequest.forEach(pr -> pr.getPendingRole().notify("The project [" +
                 pr.getProject().getName() + "] has been deleted!"));
         this.programManagerRequest.clear();
     }

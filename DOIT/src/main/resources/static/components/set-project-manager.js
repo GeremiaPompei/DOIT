@@ -19,6 +19,9 @@ export default Vue.component('set-project-manager', {
                 <div class="card-body">
                     <button type="button" class="btn btn-outline-primary" style="width: 100%; margin-bottom: 10px" @click="setPjm(element.id)">choose</button>
                 </div>
+                <div class="card-body">
+                    <button type="button" class="btn btn-outline-danger" style="width: 100%; margin-bottom: 10px" @click="removeDesigner(element.id)">remove</button>
+                </div>
             </div>
         </div>    
     </div>
@@ -36,6 +39,8 @@ export default Vue.component('set-project-manager', {
     methods: {
         async init() {
             this.$emit('load',true);
+            this.users = [];
+            this.indexProject = -1;
             var credential = JSON.parse(localStorage.getItem(key));
             this.projects = await (await fetch('/api/user/list-projects?iduser='+credential.id+'&tokenuser='+credential.token+'&idrole=program-manager')).json();
             this.$emit('load',false);
@@ -45,6 +50,16 @@ export default Vue.component('set-project-manager', {
             var credential = JSON.parse(localStorage.getItem(key));
             var res = await (await fetch('/api/program-manager/set-project-manager?iduser='+credential.id+'&tokenuser='+credential.token+'&iddesigner='+index+'&idproject='+this.projects[this.indexProject].id, 
                 {method: 'PUT'})).text();
+            this.$emit('load',false);
+            await this.init();
+            this.$emit('load',false);
+            this.$emit('push', res);
+        },
+        async removeDesigner(index) {
+            this.$emit('load',true);
+            var credential = JSON.parse(localStorage.getItem(key));
+            var res = await (await fetch('/api/program-manager/remove-designer?iduser='+credential.id+'&tokenuser='+credential.token+'&iddesigner='+index+'&idproject='+this.projects[this.indexProject].id, 
+                {method: 'DELETE'})).text();
             this.$emit('load',false);
             await this.init();
             this.$emit('load',false);

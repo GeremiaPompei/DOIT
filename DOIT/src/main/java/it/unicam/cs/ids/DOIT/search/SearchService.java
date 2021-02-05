@@ -1,7 +1,6 @@
 package it.unicam.cs.ids.DOIT.search;
 
 import it.unicam.cs.ids.DOIT.entity.Category;
-import it.unicam.cs.ids.DOIT.repository.CategoryRepository;
 import it.unicam.cs.ids.DOIT.entity.project.Project;
 import it.unicam.cs.ids.DOIT.repository.RepositoryHandler;
 import it.unicam.cs.ids.DOIT.entity.user.User;
@@ -15,17 +14,15 @@ import java.util.stream.Collectors;
 @Service
 public class SearchService {
     @Autowired
-    private CategoryRepository categoryRepository;
-    @Autowired
     private RepositoryHandler repositoryHandler;
 
     public Category getCategoryById(String id) {
-        return categoryRepository.findById(id).get();
+        return repositoryHandler.getCategoryRepository().findById(id).get();
     }
 
     public Set<Category> getAllCategories() {
         Set<Category> categories = new HashSet<>();
-        categoryRepository.findAll().forEach(c -> categories.add(c));
+        repositoryHandler.getCategoryRepository().findAll().forEach(c -> categories.add(c));
         return categories;
     }
 

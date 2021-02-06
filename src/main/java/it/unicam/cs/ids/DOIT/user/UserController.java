@@ -1,14 +1,16 @@
 package it.unicam.cs.ids.DOIT.user;
 
 import it.unicam.cs.ids.DOIT.entity.Category;
+import it.unicam.cs.ids.DOIT.entity.PartecipationRequest;
 import it.unicam.cs.ids.DOIT.entity.project.Project;
 import it.unicam.cs.ids.DOIT.entity.role.Notification;
+import it.unicam.cs.ids.DOIT.entity.role.ProgramManagerRole;
 import it.unicam.cs.ids.DOIT.entity.role.RolesHandler;
 import it.unicam.cs.ids.DOIT.entity.user.User;
-import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -140,7 +142,9 @@ public class UserController {
     @GetMapping(value = "/list-history")
     public List<Project> listHistory(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam String idrole) {
         try {
-            return Lists.newArrayList(this.userService.listHistory(iduser, tokenuser, idrole));
+            List<Project> list = new ArrayList<>();
+            this.userService.listHistory(iduser, tokenuser, idrole).forEach(p -> list.add(p));
+            return list;
         } catch (Exception e) {
             return null;
         }
@@ -149,7 +153,9 @@ public class UserController {
     @GetMapping(value = "/list-projects")
     public List<Project> listProjects(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam String idrole) {
         try {
-            return Lists.newArrayList(this.userService.listProjects(iduser, tokenuser, idrole));
+            List<Project> list = new ArrayList<>();
+            this.userService.listProjects(iduser, tokenuser, idrole).forEach(p -> list.add(p));
+            return list;
         } catch (Exception e) {
             return null;
         }
@@ -158,7 +164,9 @@ public class UserController {
     @GetMapping(value = "/list-categories")
     public List<Category> listCategories(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam String idrole) {
         try {
-            return Lists.newArrayList(this.userService.listCategories(iduser, tokenuser, idrole));
+            List<Category> list = new ArrayList<>();
+            this.userService.listCategories(iduser, tokenuser, idrole).forEach(p -> list.add(p));
+            return list;
         } catch (Exception e) {
             return null;
         }

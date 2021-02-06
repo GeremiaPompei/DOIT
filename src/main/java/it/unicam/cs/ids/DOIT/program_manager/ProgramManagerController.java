@@ -5,10 +5,10 @@ import it.unicam.cs.ids.DOIT.entity.project.Project;
 import it.unicam.cs.ids.DOIT.entity.role.DesignerRole;
 import it.unicam.cs.ids.DOIT.entity.role.ProgramManagerRole;
 import it.unicam.cs.ids.DOIT.entity.user.User;
-import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -21,7 +21,9 @@ public class ProgramManagerController {
     public List<Project> listProjectsByCategory(@RequestParam Long iduser, @RequestParam Long tokenuser,
                                                 @RequestParam String idcategory) {
         try {
-            return Lists.newArrayList(this.programManagerService.listProjectsByCategory(iduser, tokenuser, idcategory));
+            List<Project> projects = new ArrayList<>();
+            this.programManagerService.listProjectsByCategory(iduser, tokenuser, idcategory).forEach(p->projects.add(p));
+            return projects;
         } catch (Exception e) {
             return null;
         }
@@ -40,7 +42,9 @@ public class ProgramManagerController {
     @GetMapping(value = "/list-my-pr")
     public List<PartecipationRequest<ProgramManagerRole>> listPR(@RequestParam Long iduser, @RequestParam Long tokenuser) {
         try {
-            return Lists.newArrayList(this.programManagerService.listPR(iduser, tokenuser));
+            List<PartecipationRequest<ProgramManagerRole>> pr = new ArrayList<>();
+            this.programManagerService.listPR(iduser, tokenuser).forEach(p->pr.add(p));
+            return pr;
         } catch (Exception e) {
             return null;
         }
@@ -80,7 +84,9 @@ public class ProgramManagerController {
     public List<PartecipationRequest<DesignerRole>> listDesignerPR(@RequestParam Long iduser, @RequestParam Long tokenuser,
                                                                    @RequestParam Long idproject) {
         try {
-            return Lists.newArrayList(this.programManagerService.listDesignerPR(iduser, tokenuser, idproject));
+            List<PartecipationRequest<DesignerRole>> pr = new ArrayList<>();
+            this.programManagerService.listDesignerPR(iduser, tokenuser, idproject).forEach(p->pr.add(p));
+            return pr;
         } catch (Exception e) {
             return null;
         }
@@ -122,7 +128,9 @@ public class ProgramManagerController {
     public List<User> getDesigners(@RequestParam Long iduser, @RequestParam Long tokenuser,
                                    @RequestParam Long idproject) {
         try {
-            return Lists.newArrayList(this.programManagerService.listDesigners(iduser, tokenuser, idproject));
+            List<User> list = new ArrayList<>();
+            this.programManagerService.listDesigners(iduser, tokenuser, idproject).forEach(p->list.add(p));
+            return list;
         } catch (Exception e) {
             return null;
         }

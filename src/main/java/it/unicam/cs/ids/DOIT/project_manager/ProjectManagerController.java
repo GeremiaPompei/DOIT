@@ -1,11 +1,12 @@
 package it.unicam.cs.ids.DOIT.project_manager;
 
+import it.unicam.cs.ids.DOIT.entity.project.Project;
 import it.unicam.cs.ids.DOIT.entity.project.ProjectState;
 import it.unicam.cs.ids.DOIT.entity.user.User;
-import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -42,7 +43,9 @@ public class ProjectManagerController {
     public List<User> listDesigners(@RequestParam Long iduser, @RequestParam Long tokenuser,
                                     @RequestParam Long idproject) {
         try {
-            return Lists.newArrayList(this.projectManagerService.listDesigners(iduser, tokenuser, idproject));
+            List<User> list = new ArrayList<>();
+            this.projectManagerService.listDesigners(iduser, tokenuser, idproject).forEach(p -> list.add(p));
+            return list;
         } catch (Exception e) {
             return null;
         }

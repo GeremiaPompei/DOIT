@@ -5,10 +5,11 @@ import it.unicam.cs.ids.DOIT.entity.role.DesignerRole;
 import it.unicam.cs.ids.DOIT.entity.project.Project;
 import it.unicam.cs.ids.DOIT.entity.role.CVUnit;
 import it.unicam.cs.ids.DOIT.entity.role.Evaluation;
-import org.assertj.core.util.Lists;
+import it.unicam.cs.ids.DOIT.entity.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -21,7 +22,9 @@ public class DesignerController {
     public List<Project> listProjectsByCategory(@RequestParam Long iduser, @RequestParam Long tokenuser,
                                                 @RequestParam String idcategory) {
         try {
-            return Lists.newArrayList(this.designerService.listProjectsByCategory(iduser, tokenuser, idcategory));
+            List<Project> list = new ArrayList<>();
+            this.designerService.listProjectsByCategory(iduser, tokenuser, idcategory).forEach(p -> list.add(p));
+            return list;
         } catch (Exception e) {
             return null;
         }
@@ -40,7 +43,9 @@ public class DesignerController {
     @GetMapping(value = "/list-my-pr")
     public List<PartecipationRequest<DesignerRole>> listPR(@RequestParam Long iduser, @RequestParam Long tokenuser) {
         try {
-            return Lists.newArrayList(this.designerService.listPR(iduser, tokenuser));
+            List<PartecipationRequest<DesignerRole>> list = new ArrayList<>();
+            this.designerService.listPR(iduser, tokenuser).forEach(p -> list.add(p));
+            return list;
         } catch (Exception e) {
             return null;
         }
@@ -49,27 +54,29 @@ public class DesignerController {
     @GetMapping("/list-evaluations")
     public List<Evaluation> listEvaluations(@RequestParam Long iduser, @RequestParam Long tokenuser) {
         try {
-            return Lists.newArrayList(this.designerService.listEvaluations(iduser, tokenuser));
+            List<Evaluation> list = new ArrayList<>();
+            this.designerService.listEvaluations(iduser, tokenuser).forEach(p -> list.add(p));
+            return list;
         } catch (Exception e) {
             return null;
         }
     }
 
     @DeleteMapping(value = "/remove-project")
-    public String removeProject(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam Long idproject){
-        try{
-            designerService.removeProject(iduser,tokenuser,idproject);
+    public String removeProject(@RequestParam Long iduser, @RequestParam Long tokenuser, @RequestParam Long idproject) {
+        try {
+            designerService.removeProject(iduser, tokenuser, idproject);
             return "success";
-        }catch (Exception e){
+        } catch (Exception e) {
             return e.getMessage();
         }
     }
 
     @GetMapping(value = "/visualize-pregress-experiences")
-    public List<CVUnit> visualizePregressExperiences(@RequestParam Long iduser, @RequestParam Long tokenuser){
-        try{
+    public List<CVUnit> visualizePregressExperiences(@RequestParam Long iduser, @RequestParam Long tokenuser) {
+        try {
             return designerService.visualizePregressExperiences(iduser, tokenuser);
-        } catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
@@ -77,11 +84,11 @@ public class DesignerController {
     @PostMapping(value = "/insert-pregress-experience")
     public String insertPregressExperience(@RequestParam Long iduser, @RequestParam Long tokenuser,
                                            @RequestParam String experience, @RequestParam String datestart,
-                                           @RequestParam String datefinish){
-        try{
-            designerService.insertPregressExperience(iduser,tokenuser,experience, datestart, datefinish);
+                                           @RequestParam String datefinish) {
+        try {
+            designerService.insertPregressExperience(iduser, tokenuser, experience, datestart, datefinish);
             return "success";
-        }catch (Exception e){
+        } catch (Exception e) {
             return e.getMessage();
         }
     }

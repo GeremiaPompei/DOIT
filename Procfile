@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -cp target/classes:target/dependency/* it.unicam.cs.ids.DOIT.App
+web: java -jar target/java-getting-started-1.0.jar

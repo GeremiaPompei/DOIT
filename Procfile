@@ -1,1 +1,0 @@
-web: java -jar target/DOIT-1.0.jar

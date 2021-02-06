@@ -5,6 +5,7 @@ import it.unicam.cs.ids.DOIT.entity.project.Project;
 import it.unicam.cs.ids.DOIT.entity.role.DesignerRole;
 import it.unicam.cs.ids.DOIT.entity.role.ProgramManagerRole;
 import it.unicam.cs.ids.DOIT.entity.user.User;
+import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ public class ProgramManagerController {
     public List<Project> listProjectsByCategory(@RequestParam Long iduser, @RequestParam Long tokenuser,
                                                 @RequestParam String idcategory) {
         try {
-            return List.copyOf(this.programManagerService.listProjectsByCategory(iduser, tokenuser, idcategory));
+            return Lists.newArrayList(this.programManagerService.listProjectsByCategory(iduser, tokenuser, idcategory));
         } catch (Exception e) {
             return null;
         }
@@ -39,7 +40,7 @@ public class ProgramManagerController {
     @GetMapping(value = "/list-my-pr")
     public List<PartecipationRequest<ProgramManagerRole>> listPR(@RequestParam Long iduser, @RequestParam Long tokenuser) {
         try {
-            return List.copyOf(this.programManagerService.listPR(iduser, tokenuser));
+            return Lists.newArrayList(this.programManagerService.listPR(iduser, tokenuser));
         } catch (Exception e) {
             return null;
         }
@@ -79,7 +80,7 @@ public class ProgramManagerController {
     public List<PartecipationRequest<DesignerRole>> listDesignerPR(@RequestParam Long iduser, @RequestParam Long tokenuser,
                                                                    @RequestParam Long idproject) {
         try {
-            return List.copyOf(this.programManagerService.listDesignerPR(iduser, tokenuser, idproject));
+            return Lists.newArrayList(this.programManagerService.listDesignerPR(iduser, tokenuser, idproject));
         } catch (Exception e) {
             return null;
         }
@@ -121,7 +122,7 @@ public class ProgramManagerController {
     public List<User> getDesigners(@RequestParam Long iduser, @RequestParam Long tokenuser,
                                    @RequestParam Long idproject) {
         try {
-            return List.copyOf(this.programManagerService.listDesigners(iduser, tokenuser, idproject));
+            return Lists.newArrayList(this.programManagerService.listDesigners(iduser, tokenuser, idproject));
         } catch (Exception e) {
             return null;
         }

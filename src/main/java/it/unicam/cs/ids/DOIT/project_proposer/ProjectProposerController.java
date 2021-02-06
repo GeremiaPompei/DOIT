@@ -2,6 +2,7 @@ package it.unicam.cs.ids.DOIT.project_proposer;
 
 import it.unicam.cs.ids.DOIT.entity.PartecipationRequest;
 import it.unicam.cs.ids.DOIT.entity.role.ProgramManagerRole;
+import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +30,7 @@ public class ProjectProposerController {
                                                                                @RequestParam Long tokenuser,
                                                                                @RequestParam Long idproject) {
         try {
-            return List.copyOf(this.projectProposerService.listPR(iduser, tokenuser, idproject));
+            return Lists.newArrayList(this.projectProposerService.listPR(iduser, tokenuser, idproject));
         } catch (Exception e) {
             return null;
         }

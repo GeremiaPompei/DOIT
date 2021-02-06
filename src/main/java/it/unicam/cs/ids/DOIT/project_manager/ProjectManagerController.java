@@ -2,6 +2,7 @@ package it.unicam.cs.ids.DOIT.project_manager;
 
 import it.unicam.cs.ids.DOIT.entity.project.ProjectState;
 import it.unicam.cs.ids.DOIT.entity.user.User;
+import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,7 +42,7 @@ public class ProjectManagerController {
     public List<User> listDesigners(@RequestParam Long iduser, @RequestParam Long tokenuser,
                                     @RequestParam Long idproject) {
         try {
-            return List.copyOf(this.projectManagerService.listDesigners(iduser, tokenuser, idproject));
+            return Lists.newArrayList(this.projectManagerService.listDesigners(iduser, tokenuser, idproject));
         } catch (Exception e) {
             return null;
         }

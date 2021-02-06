@@ -5,6 +5,7 @@ import it.unicam.cs.ids.DOIT.entity.role.DesignerRole;
 import it.unicam.cs.ids.DOIT.entity.project.Project;
 import it.unicam.cs.ids.DOIT.entity.role.CVUnit;
 import it.unicam.cs.ids.DOIT.entity.role.Evaluation;
+import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ public class DesignerController {
     public List<Project> listProjectsByCategory(@RequestParam Long iduser, @RequestParam Long tokenuser,
                                                 @RequestParam String idcategory) {
         try {
-            return List.copyOf(this.designerService.listProjectsByCategory(iduser, tokenuser, idcategory));
+            return Lists.newArrayList(this.designerService.listProjectsByCategory(iduser, tokenuser, idcategory));
         } catch (Exception e) {
             return null;
         }
@@ -39,7 +40,7 @@ public class DesignerController {
     @GetMapping(value = "/list-my-pr")
     public List<PartecipationRequest<DesignerRole>> listPR(@RequestParam Long iduser, @RequestParam Long tokenuser) {
         try {
-            return List.copyOf(this.designerService.listPR(iduser, tokenuser));
+            return Lists.newArrayList(this.designerService.listPR(iduser, tokenuser));
         } catch (Exception e) {
             return null;
         }
@@ -48,7 +49,7 @@ public class DesignerController {
     @GetMapping("/list-evaluations")
     public List<Evaluation> listEvaluations(@RequestParam Long iduser, @RequestParam Long tokenuser) {
         try {
-            return List.copyOf(this.designerService.listEvaluations(iduser, tokenuser));
+            return Lists.newArrayList(this.designerService.listEvaluations(iduser, tokenuser));
         } catch (Exception e) {
             return null;
         }

@@ -3,6 +3,7 @@ package it.unicam.cs.ids.DOIT.search;
 import it.unicam.cs.ids.DOIT.entity.Category;
 import it.unicam.cs.ids.DOIT.entity.project.Project;
 import it.unicam.cs.ids.DOIT.entity.user.User;
+import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +25,7 @@ public class SearchController {
 
     @GetMapping(value = "/categories")
     public List<Category> getCategories() {
-        return List.copyOf(searchService.getAllCategories());
+        return Lists.newArrayList(searchService.getAllCategories());
     }
 
     @GetMapping(value = "/user-by-id")
@@ -39,11 +40,11 @@ public class SearchController {
 
     @GetMapping(value = "/users-by-key")
     public List<User> getUserByKey(@RequestParam String key) {
-        return List.copyOf(searchService.getUserByKey(key));
+        return Lists.newArrayList(searchService.getUserByKey(key));
     }
 
     @GetMapping(value = "/projects-by-key")
     public List<Project> getProjectsByKey(@RequestParam String key) {
-        return List.copyOf(searchService.getProjectByKey(key));
+        return Lists.newArrayList(searchService.getProjectByKey(key));
     }
 }

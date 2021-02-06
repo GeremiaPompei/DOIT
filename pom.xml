@@ -14,9 +14,6 @@
     <name>DOIT</name>
     <description>Progetto per l&apos;esame di Ingegneria del Software.</description>
 
-    <properties>
-        <java.version>11</java.version>
-    </properties>
 
     <dependencies>
         <dependency>

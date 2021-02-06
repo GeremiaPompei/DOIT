@@ -3,13 +3,13 @@ package it.unicam.cs.ids.DOIT.search;
 import it.unicam.cs.ids.DOIT.entity.Category;
 import it.unicam.cs.ids.DOIT.entity.project.Project;
 import it.unicam.cs.ids.DOIT.entity.user.User;
-import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -25,7 +25,9 @@ public class SearchController {
 
     @GetMapping(value = "/categories")
     public List<Category> getCategories() {
-        return Lists.newArrayList(searchService.getAllCategories());
+        List<Category> list = new ArrayList<>();
+        searchService.getAllCategories().forEach(p -> list.add(p));
+        return list;
     }
 
     @GetMapping(value = "/user-by-id")
@@ -40,11 +42,15 @@ public class SearchController {
 
     @GetMapping(value = "/users-by-key")
     public List<User> getUserByKey(@RequestParam String key) {
-        return Lists.newArrayList(searchService.getUserByKey(key));
+        List<User> list = new ArrayList<>();
+        searchService.getUserByKey(key).forEach(p -> list.add(p));
+        return list;
     }
 
     @GetMapping(value = "/projects-by-key")
     public List<Project> getProjectsByKey(@RequestParam String key) {
-        return Lists.newArrayList(searchService.getProjectByKey(key));
+        List<Project> list = new ArrayList<>();
+        searchService.getProjectByKey(key).forEach(p -> list.add(p));
+        return list;
     }
 }

@@ -19,7 +19,7 @@ export default Vue.component('set-project-manager', {
                 <div class="card-body">
                     <button type="button" class="btn btn-outline-primary" style="width: 100%; margin-bottom: 10px" @click="setPjm(element.id)">choose</button>
                 </div>
-                <div>
+                <div class="card-body">
                     <button type="button" class="btn btn-outline-danger" style="width: 100%; margin-bottom: 10px" @click="removeDesigner(element.id)">remove</button>
                 </div>
             </div>
@@ -39,6 +39,8 @@ export default Vue.component('set-project-manager', {
     methods: {
         async init() {
             this.$emit('load',true);
+            this.users = [];
+            this.indexProject = -1;
             var credential = JSON.parse(localStorage.getItem(key));
             this.projects = await (await fetch('/api/user/list-projects?iduser='+credential.id+'&tokenuser='+credential.token+'&idrole=program-manager')).json();
             this.$emit('load',false);

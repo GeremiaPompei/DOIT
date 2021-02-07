@@ -5,8 +5,7 @@ self.addEventListener('install', function(event) {
                 'https://unpkg.com/vue/dist/vue.min.js',
                 'https://unpkg.com/vue-router/dist/vue-router.min.js',
                 'https://bootswatch.com/4/minty/bootstrap.css',
-                'https://ielts.com.au/wp-content/uploads/2018/09/3_3200x2133.jpg',
-                /*'/',
+                '/',
                 '/index.html',
                 '/style.css',
                 '/manifest.json',
@@ -43,7 +42,7 @@ self.addEventListener('install', function(event) {
                 '/components/team-rec.js',
                 '/components/user-main.js',
                 '/components/user-role.js',
-                '/components/user.js'*/
+                '/components/user.js'
             ]);
         })
     );

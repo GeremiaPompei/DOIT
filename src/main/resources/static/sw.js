@@ -1,6 +1,6 @@
 self.addEventListener('install', function(event) {
     event.waitUntil(
-        caches.open('offline-media').then(function(cache) {
+        caches.open('offline-media-doit').then(function(cache) {
             return cache.addAll([
                 'https://unpkg.com/vue/dist/vue.min.js',
                 'https://unpkg.com/vue-router/dist/vue-router.min.js',
@@ -8,11 +8,7 @@ self.addEventListener('install', function(event) {
                 '/',
                 '/index.html',
                 '/style.css',
-                '/manifest.json',
                 '/router.js',
-                '/sw.js',
-                '/icon192.png',
-                '/icon512.png',
                 '/components/category.js',
                 '/components/create-project',
                 '/components/designer.js',

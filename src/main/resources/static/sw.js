@@ -2,14 +2,14 @@ self.addEventListener('install', function(event) {
     event.waitUntil(
         caches.open('offline-media').then(function(cache) {
             return cache.addAll([
-                /*'https://unpkg.com/vue/dist/vue.min.js',
+                'https://unpkg.com/vue/dist/vue.min.js',
                 'https://unpkg.com/vue-router/dist/vue-router.min.js',
                 'https://bootswatch.com/4/minty/bootstrap.css',
                 'https://ielts.com.au/wp-content/uploads/2018/09/3_3200x2133.jpg',
                 '/style.css',
                 '/',
                 '/index.html',
-                '/manifest.json',
+                /*'/manifest.json',
                 '/router.js',
                 '/sw.js',
                 '/icon192.png',

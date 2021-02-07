@@ -3,7 +3,7 @@ export default Vue.component('home', {
     /*html*/`
     <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center;">
         <div style="width: 500px; margin: 1rem;">
-            <img class="image" style="width: 100%; border: 1px solid #999" src="https://ielts.com.au/wp-content/uploads/2018/09/3_3200x2133.jpg">
+            <img class="image" style="width: 100%; border: 1px solid #999" src="img.jpg">
         </div>
         <div style="width: 500px; margin: 3rem;">
             <h1>DOIT</h1>

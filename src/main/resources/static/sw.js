@@ -1,16 +1,22 @@
 self.addEventListener('install', function(event) {
     event.waitUntil(
-        caches.open('offline-media-doit').then(function(cache) {
+        caches.open('offline-media').then(function(cache) {
             return cache.addAll([
                 'https://unpkg.com/vue/dist/vue.min.js',
                 'https://unpkg.com/vue-router/dist/vue-router.min.js',
                 'https://bootswatch.com/4/minty/bootstrap.css',
-                /*'/',
-                '/index.html',
+                'https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.18.0/js/md5.min.js',
+                '/img.jpg'
                 '/style.css',
+                '/',
+                '/index.html',
+                '/manifest.json',
                 '/router.js',
+                '/sw.js',
+                '/icon192.png',
+                '/icon512.png',
                 '/components/category.js',
-                '/components/create-project',
+                '/components/create-project.js',
                 '/components/designer.js',
                 '/components/evaluate.js',
                 '/components/history.js',
@@ -38,7 +44,7 @@ self.addEventListener('install', function(event) {
                 '/components/team-rec.js',
                 '/components/user-main.js',
                 '/components/user-role.js',
-                '/components/user.js'*/
+                '/components/user.js'
             ]);
         })
     );

@@ -5,7 +5,8 @@ self.addEventListener('install', function(event) {
                 'https://unpkg.com/vue/dist/vue.min.js',
                 'https://unpkg.com/vue-router/dist/vue-router.min.js',
                 'https://bootswatch.com/4/minty/bootstrap.css',
-                '/img.jpg'
+                'https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.18.0/js/md5.min.js',
+                '/img.jpg',
                 '/style.css',
                 '/',
                 '/index.html',

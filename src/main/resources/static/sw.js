@@ -4,8 +4,8 @@ self.addEventListener('install', function(event) {
             return cache.addAll([
                 'https://unpkg.com/vue/dist/vue.min.js',
                 'https://unpkg.com/vue-router/dist/vue-router.min.js',
-                //'https://bootswatch.com/4/minty/bootstrap.css',
-                '/',
+                'https://bootswatch.com/4/minty/bootstrap.css',
+                /*'/',
                 '/index.html',
                 '/style.css',
                 '/router.js',
@@ -38,7 +38,7 @@ self.addEventListener('install', function(event) {
                 '/components/team-rec.js',
                 '/components/user-main.js',
                 '/components/user-role.js',
-                '/components/user.js'
+                '/components/user.js'*/
             ]);
         })
     );

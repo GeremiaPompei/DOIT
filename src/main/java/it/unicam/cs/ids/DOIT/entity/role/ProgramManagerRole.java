@@ -18,7 +18,7 @@ public class ProgramManagerRole extends Role implements IPendingRole<ProgramMana
     public final static String TYPE = "program-manager";
 
     @Id
-    @Column(name = "ID_ProgramManager")
+    @Column(name = "id_program_manager")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 

@@ -10,19 +10,19 @@ import java.util.Objects;
 public class Project {
 
     @Id
-    @Column(name = "ID_Project")
+    @Column(name = "id_project")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     private String description;
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "ID_ProjectState")
+    @JoinColumn(name = "id_project_state")
     private ProjectState projectState;
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "ID_Team")
+    @JoinColumn(name = "id_team")
     private Team team;
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "ID_Category")
+    @JoinColumn(name = "id_category")
     private Category category;
 
     public Project(String name, String description, Category category, ProjectState projectState) {

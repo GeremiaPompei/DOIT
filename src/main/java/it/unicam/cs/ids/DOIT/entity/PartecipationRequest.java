@@ -18,14 +18,14 @@ import java.util.Objects;
 public class PartecipationRequest<T extends IPendingRole> {
 
     @Id
-    @Column(name = "ID_PartecipationRequest")
+    @Column(name = "id_partecipation_request")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private boolean state;
     private String description;
     private Timestamp dateTime;
 
-    @Any(metaColumn = @Column(name = "ROLE"))
+    @Any(metaColumn = @Column(name = "role"))
     @AnyMetaDef(
             idType = "long",
             metaType = "string",
@@ -33,11 +33,11 @@ public class PartecipationRequest<T extends IPendingRole> {
                     @MetaValue(value = "DesignerRole", targetEntity = DesignerRole.class),
                     @MetaValue(value = "ProgramManagerRole", targetEntity = ProgramManagerRole.class)
             })
-    @JoinColumn(name = "ID_PendingRole")
+    @JoinColumn(name = "id_pending_role")
     private T pendingRole;
 
     @OneToOne()
-    @JoinColumn(name = "ID_Team")
+    @JoinColumn(name = "id_project")
     @JsonIgnoreProperties("team")
     private Project project;
 

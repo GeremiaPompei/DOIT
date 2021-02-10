@@ -17,7 +17,7 @@ public class DesignerRole extends Role implements IPendingRole<DesignerRole> {
     public final static String TYPE = "designer";
 
     @Id
-    @Column(name = "ID_Designer")
+    @Column(name = "id_designer")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 

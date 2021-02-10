@@ -11,20 +11,20 @@ public class Team {
     private boolean open;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID_Team")
+    @Column(name = "id_team")
     private Long id;
 
-    @JoinColumn(name = "ID_ProjectProposer")
+    @JoinColumn(name = "id_project_proposer")
     @OneToOne
     @JsonIgnoreProperties({"projects", "history"})
     private ProjectProposerRole projectProposer;
 
-    @JoinColumn(name = "ID_ProjectManager")
+    @JoinColumn(name = "id_project_manager")
     @OneToOne
     @JsonIgnoreProperties({"projects", "history"})
     private ProjectManagerRole projectManager;
 
-    @JoinColumn(name = "ID_ProgramManager")
+    @JoinColumn(name = "id_program_manager")
     @OneToOne
     @JsonIgnoreProperties({"projects", "history"})
     private ProgramManagerRole programManager;

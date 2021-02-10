@@ -7,7 +7,7 @@ import java.util.Objects;
 public class Category {
 
     @Id
-    @Column(name = "ID_Category")
+    @Column(name = "id_category")
     private String name;
     private String description;
 

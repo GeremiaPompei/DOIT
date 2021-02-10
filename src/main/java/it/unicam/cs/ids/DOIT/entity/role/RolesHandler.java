@@ -10,22 +10,22 @@ import java.util.List;
 @Entity
 public class RolesHandler {
     @Id
-    @Column(name = "ID_RolesHandler")
+    @Column(name = "id_roles_handler")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @JoinColumn(name = "ID_User")
+    @JoinColumn(name = "id_user")
     @OneToOne
     private User user;
-    @JoinColumn(name = "ID_ProjectProposer")
+    @JoinColumn(name = "id_project_proposer")
     @OneToOne(cascade = CascadeType.ALL)
     private ProjectProposerRole projectProposerRole;
-    @JoinColumn(name = "ID_ProgramManager")
+    @JoinColumn(name = "id_program_manager")
     @OneToOne(cascade = CascadeType.ALL)
     private ProgramManagerRole programManagerRole;
-    @JoinColumn(name = "ID_Designer")
+    @JoinColumn(name = "id_designer")
     @OneToOne(cascade = CascadeType.ALL)
     private DesignerRole designerRole;
-    @JoinColumn(name = "ID_ProjectManager")
+    @JoinColumn(name = "id_project_manager")
     @OneToOne(cascade = CascadeType.ALL)
     private ProjectManagerRole projectManagerRole;
 

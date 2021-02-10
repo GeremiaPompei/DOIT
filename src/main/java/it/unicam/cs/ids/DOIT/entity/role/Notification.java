@@ -9,7 +9,7 @@ import java.time.format.DateTimeFormatter;
 public class Notification {
 
     @Id
-    @Column(name = "ID_Role")
+    @Column(name = "id_notification")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String notification;

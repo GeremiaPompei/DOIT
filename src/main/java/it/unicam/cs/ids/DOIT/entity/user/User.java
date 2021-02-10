@@ -8,9 +8,10 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
+@Table(name = "user_doit")
 public class User {
 
-    @Column(name = "ID_User")
+    @Column(name = "id_user")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -20,10 +21,10 @@ public class User {
     private String sex;
     private String email;
     private String password;
-    @JoinColumn(name = "ID_RolesHandler")
+    @JoinColumn(name = "id_roles_handler")
     @OneToOne(cascade = CascadeType.ALL)
     private RolesHandler rolesHandler;
-    @JoinColumn(name = "ID_TokenHandler")
+    @JoinColumn(name = "id_token_handler")
     @OneToOne(cascade = CascadeType.ALL)
     private TokenHandler tokenHandler;
 

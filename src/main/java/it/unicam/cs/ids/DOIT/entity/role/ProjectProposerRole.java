@@ -15,7 +15,7 @@ public class ProjectProposerRole extends Role implements IPartecipationRequestHa
     public final static String TYPE = "project-proposer";
 
     @Id
-    @Column(name = "ID_ProjectProposer")
+    @Column(name = "id_project_proposer")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 

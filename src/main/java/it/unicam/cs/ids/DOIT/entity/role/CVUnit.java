@@ -8,7 +8,7 @@ import java.time.LocalDate;
 public class CVUnit {
 
     @Id
-    @Column(name = "ID_CVUnit")
+    @Column(name = "id_cv_unit")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Date dateStart;

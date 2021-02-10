@@ -9,7 +9,7 @@ import java.util.Random;
 public class TokenHandler {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID_TokenHandler")
+    @Column(name = "id_token_handler")
     private Long id;
     private Timestamp dateTime;
 
@@ -38,7 +38,7 @@ public class TokenHandler {
 
     public void clearToken() {
         token = -1L;
-        dateTime = Timestamp.valueOf(LocalDateTime.MIN);
+        dateTime = Timestamp.valueOf(LocalDateTime.now().minusMonths(1));
     }
 
     public LocalDateTime getDateTime() {

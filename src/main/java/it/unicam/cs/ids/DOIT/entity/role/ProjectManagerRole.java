@@ -15,7 +15,7 @@ public class ProjectManagerRole extends Role {
     public final static String TYPE = "project-manager";
 
     @Id
-    @Column(name = "ID_ProjectManager")
+    @Column(name = "id_project_manager")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 

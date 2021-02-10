@@ -13,7 +13,7 @@ import java.util.*;
 public abstract class Role implements ISubscriber {
 
     @Id
-    @Column(name = "ID_Role")
+    @Column(name = "id_role")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 

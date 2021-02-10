@@ -3,13 +3,14 @@ package it.unicam.cs.ids.DOIT.entity.project;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Objects;
 
 @Entity
 public class ProjectState {
 
     @Id
-    @Column(name = "ID_ProjectState")
+    @Column(name = "id_project_state")
     private Long id;
     private String name;
     private String description;
